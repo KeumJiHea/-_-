@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.seeot.mybatis.member.MemberMapper">
+
+	<resultMap type="com.kg.seeot.member.dto.MemberDTO" id="member"> 
+		<id property="id" column="member_id"/>
+		<result property="pw" column="member_pw" />
+		<result property="name" column="member_name" />
+		<result property="phone" column="member_phone" />		
+		<result property="email" column="member_email" />
+		<result property="birth" column="member_birth" />
+		<result property="addr1" column="member_addr1" />
+		<result property="addr2" column="member_addr2" />
+		<result property="addr3" column="member_addr3" />
+		<result property="login_Cookie" column="login_cookie" />
+		<result property="verify" column="verify" />
+	</resultMap>
+	
+	<select id="getUser" resultMap="member">
+	    select * from seeot_member where id = #{id}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
