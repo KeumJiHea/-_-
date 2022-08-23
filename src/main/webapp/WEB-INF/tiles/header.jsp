@@ -8,19 +8,19 @@
 		<ul class="category">
 			<li>
 				<a href="product/list?productCategorie=1">
-					<span>티셔츠/후디</span>
+					<span>맨투맨/티셔츠</span>
 				</a>
 				<a href="product/list?productCategorie=2">
-					<span>아우터</span>
+					<span>원피스</span>
 				</a>
 				<a href="product/list?productCategorie=3">
-					<span>니트</span>
+					<span>팬츠</span>
 				</a>
 				<a href="product/list?productCategorie=2">
 					<span>셔츠</span>
 				</a>
 				<a href="product/list?productCategorie=1">
-					<span>팬츠</span>
+					<span>니트</span>
 				</a>
 			</li>
 		</ul>

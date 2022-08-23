@@ -69,6 +69,12 @@ a {
 	display: flex;
 	justify-content: space-between;
 }
+.navbar .left_area{
+	display: flex;
+}
+.navbar .right_area{
+	display: flex;
+}
 
 /* main CSS */
 #main{
