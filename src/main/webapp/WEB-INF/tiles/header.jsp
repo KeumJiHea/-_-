@@ -1,30 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="navbar">
 	<div class="left_area">
-	</div>
-	<a href="#">
+		<a href="#">
 		<img class="logo" src="resources/images/SEEoT_h.png" width="90px" height="50px">
-	</a>
-	
-	<ul class="category">
-		<li>
-			<a href="product/list?productCategorie=1">
-				<span>티셔츠/후디</span>
-			</a>
-			<a href="product/list?productCategorie=2">
-				<span>아우터</span>
-			</a>
-			<a href="product/list?productCategorie=3">
-				<span>니트</span>
-			</a>
-			<a href="product/list?productCategorie=2">
-				<span>셔츠</span>
-			</a>
-			<a href="product/list?productCategorie=1">
-				<span>팬츠</span>
-			</a>
-		</li>
-	</ul>
+		</a>
+		
+		<ul class="category">
+			<li>
+				<a href="product/list?productCategorie=1">
+					<span>티셔츠/후디</span>
+				</a>
+				<a href="product/list?productCategorie=2">
+					<span>아우터</span>
+				</a>
+				<a href="product/list?productCategorie=3">
+					<span>니트</span>
+				</a>
+				<a href="product/list?productCategorie=2">
+					<span>셔츠</span>
+				</a>
+				<a href="product/list?productCategorie=1">
+					<span>팬츠</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
 	<div class="right_area">
 		<div>
 			<input type="text">
