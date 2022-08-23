@@ -25,16 +25,15 @@ public class ProductController {
 	ProductService ps;
 	
 	@GetMapping("list")
-	public String list(Model model, int productCategorie) {
-		ps.list(model, productCategorie);
+	public String list(Model model, @RequestParam(value="productCategorie", required = false, defaultValue = "0")  int productCategorie) {
+		if(productCategorie == 0) {
+			ps.allList(model);
+		}else {
+			ps.list(model, productCategorie);
+		}
 		return "product/list";
 	}
 	
-	@GetMapping("productAllList")
-	public String productAllList(Model model) {
-		ps.productAllList(model);
-		return "product/productAllList";
-	}
 	
 	@GetMapping("download")
 	public void download(@RequestParam("productFile") String productFile, HttpServletResponse response) throws IOException { //넘어오는 값과 받는 값의 변수가 동일하면 @RequestParam 생략 가능
