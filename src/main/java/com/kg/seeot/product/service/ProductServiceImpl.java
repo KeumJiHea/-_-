@@ -12,8 +12,8 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductMapper mapper;
 	
-	public void productAllList(Model model) {
-		model.addAttribute("productList", mapper.productAllList() );
+	public void allList(Model model) {
+		model.addAttribute("list", mapper.allList() );
 	}
 	
 	public void list(Model model, int productCategorie) {

@@ -18,7 +18,7 @@
 		<result property="productColor" column="product_color"/>
 	</resultMap>
        
-	<select id="productAllList" resultMap="product">
+	<select id="allList" resultMap="product">
 		select * from product
 	</select>
 	

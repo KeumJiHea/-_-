@@ -11,7 +11,7 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 		
-	<h2>카테고리 상품</h2>
+	<h2>상품목록</h2>
 	<table border="1">
 		<tr>
 			<th>상품번호</th>
