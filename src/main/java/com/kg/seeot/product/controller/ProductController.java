@@ -24,6 +24,12 @@ public class ProductController {
 	@Autowired
 	ProductService ps;
 	
+	@GetMapping("list")
+	public String list(Model model, int productCategorie) {
+		ps.list(model, productCategorie);
+		return "product/list";
+	}
+	
 	@GetMapping("productAllList")
 	public String productAllList(Model model) {
 		ps.productAllList(model);

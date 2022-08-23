@@ -21,5 +21,9 @@
 	<select id="productAllList" resultMap="product">
 		select * from product
 	</select>
+	
+	<select id="list" resultMap="product">
+		select * from product where product_categorie = #{productCategorie}
+	</select>
        
 </mapper>

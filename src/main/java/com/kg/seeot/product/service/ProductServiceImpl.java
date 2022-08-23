@@ -15,5 +15,9 @@ public class ProductServiceImpl implements ProductService{
 	public void productAllList(Model model) {
 		model.addAttribute("productList", mapper.productAllList() );
 	}
+	
+	public void list(Model model, int productCategorie) {
+		model.addAttribute("list", mapper.list(productCategorie));
+	}
 
 }
