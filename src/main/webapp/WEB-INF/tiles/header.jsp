@@ -8,27 +8,28 @@
 	
 	<ul class="category">
 		<li>
-			<a href="#">
+			<a href="product/list?productCategorie=1">
 				<span>티셔츠/후디</span>
 			</a>
-			<a href="#">
+			<a href="product/list?productCategorie=2">
 				<span>아우터</span>
 			</a>
-			<a href="#">
+			<a href="product/list?productCategorie=3">
 				<span>니트</span>
 			</a>
-			<a href="#">
+			<a href="product/list?productCategorie=2">
 				<span>셔츠</span>
 			</a>
-			<a href="#">
+			<a href="product/list?productCategorie=1">
 				<span>팬츠</span>
 			</a>
 		</li>
 	</ul>
 	<div class="right_area">
-		<a href="#">
-			<span>검색</span>
-		</a>
+		<div>
+			<input type="text">
+			<button>검색</button>
+		</div>
 		<a href="#">
 			<span>찜</span>
 		</a>
