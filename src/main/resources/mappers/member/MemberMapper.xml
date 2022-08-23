@@ -19,8 +19,18 @@
 	</resultMap>
 	
 	<select id="getUser" resultMap="member">
-	    select * from seeot_member where id = #{id}
+	    select * from seeot_member where id=#{id}
 	</select>
+	
+	<update id="keepLogin">
+	    update seeot_member set login_cookie=#{cookieId} where id=#{id}
+	</update>
+	
+	<insert id="register">
+	    insert into seeot_member (member_id,member_pw,member_name,member_phone,
+	    member_email,member_birth,member_addr1,member_addr2,member_addr3) 
+	    values (#{id},#{pw},#{name},#{phone},#{email},#{birth},#{addr1},#{addr2},#{addr3})
+	</insert>
 
 </mapper>
 
