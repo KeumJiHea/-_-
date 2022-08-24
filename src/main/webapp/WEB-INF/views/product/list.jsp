@@ -12,6 +12,9 @@
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 		
 	<h2>상품목록</h2>
+	<hr>
+	<button onclick="location.href='productRegister'">상품 추가</button>
+	<hr>
 	<table border="1">
 		<tr>
 			<th>상품번호</th>
@@ -30,7 +33,7 @@
 		
 		<c:if test="${list.size() == 0 }">
 				<tr>
-					<td colspan="6">등록된 상품이 없습니다</td>
+					<th colspan="12">등록된 상품이 없습니다.</th>
 				</tr>
 		</c:if>
 		
@@ -42,7 +45,7 @@
 				<td>${dto.productPrice }</td>
 				
 				<c:if test="${ dto.productFile == 'nan' }">
-					<td><b>이미지가 없습니다</b></td>
+					<td><b>등록된 이미지가 없습니다.</b></td>
 				</c:if>
 				<c:if test="${ dto.productFile != 'nan' }">
 					<td><img width="200px" height="100px" src="${contextPath}/product/download?productFile=${dto.productFile}"></td>

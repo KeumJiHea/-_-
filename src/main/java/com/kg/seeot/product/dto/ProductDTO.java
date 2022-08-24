@@ -3,7 +3,7 @@ package com.kg.seeot.product.dto;
 public class ProductDTO {
 	
 	private int productNo, productStack, productPrice, productCategorie, reviewCount, productSize;
-	private String productName, productFile, productDate, productColor;
+	private String productName, productFile, productDate, productColor, productContent;
 	private float productRating;
 	
 	public int getProductNo() {
@@ -71,5 +71,11 @@ public class ProductDTO {
 	}
 	public void setProductRating(float productRating) {
 		this.productRating = productRating;
+	}
+	public String getProductContent() {
+		return productContent;
+	}
+	public void setProductContent(String productContent) {
+		this.productContent = productContent;
 	}	
 }

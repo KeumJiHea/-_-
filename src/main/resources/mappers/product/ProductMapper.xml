@@ -16,6 +16,7 @@
 		<result property="productRating" column="product_rating"/>
 		<result property="productSize" column="product_size"/>
 		<result property="productColor" column="product_color"/>
+		<result property="productContent" column="product_content"/>
 	</resultMap>
        
 	<select id="allList" resultMap="product">
@@ -25,5 +26,10 @@
 	<select id="list" resultMap="product">
 		select * from product where product_categorie = #{productCategorie}
 	</select>
+	
+	<insert id="productSave">
+		insert into product(product_no, product_name, product_stack, product_price, product_file, product_categorie, product_date, product_size, product_color, product_content)
+			 values(#{productNo}, #{productName}, #{productStack}, #{productPrice}, #{productFile}, #{productCategorie}, sysdate, #{productSize}, #{productColor}, #{productContent})
+	</insert>
        
 </mapper>
