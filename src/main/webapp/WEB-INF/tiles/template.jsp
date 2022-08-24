@@ -9,18 +9,13 @@
     <title>세상에서 제일 쉬운 옷 쇼핑 시옷</title>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="<c:url value='/resources/css/common.css'/>" >
+	<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>" >
 </head>
 <body>
     <div class="wrapper">
 	    <div id="header"><tiles:insertAttribute name="header" /></div>
 	    <div id="main"><tiles:insertAttribute name="body" /></div>    
 	    <div id="footer"><tiles:insertAttribute name="footer" /></div>
-    </div>
- 
-    <script type="text/javascript">
-        $(function() {
- 
-        });    
-    </script>    
+    </div>   
 </body>
 </html>
