@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="list?product_categorie=${ }"></a>
+	
 </body>
 </html>
