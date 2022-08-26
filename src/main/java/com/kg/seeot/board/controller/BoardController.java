@@ -44,6 +44,37 @@ public String boardWrite() {
 	
 	return "board/boardWrite";
 }
+@GetMapping("boardReply")
+public String boardReply(String memberId, Model model) {
+	bs.boardContentView(memberId, model);
+	return "board/boardReply";
+}
+@GetMapping("boardModifyForm")
+public String boardModifyForm(String memberId, Model model) {
+	bs.boardModifyForm(memberId, model);
+	return "board/boardModifyForm";
+}
+
+@GetMapping("delete")
+public void delete(String memberId, String boardFile,
+					HttpServletResponse response,
+					HttpServletRequest request) throws IOException {
+	String msg = 
+			bs.delete(memberId, boardFile,request);
+	response.setContentType("text/html; charset=utf-8");
+	PrintWriter out = response.getWriter();
+	out.print( msg );
+}
+
+@PostMapping("boardReplySave")
+public void boardReplySave(String memberId, Model model,MultipartHttpServletRequest mul,
+			HttpServletResponse response,HttpServletRequest request) throws IOException {
+	String message = bs.writeSave(mul, request);
+	
+	response.setContentType("text/html;charset=utf-8");
+	PrintWriter out = response.getWriter();
+	out.print( message );
+}
 
 @PostMapping("writeSave")
 public void writeSave(MultipartHttpServletRequest mul,
@@ -56,9 +87,5 @@ public void writeSave(MultipartHttpServletRequest mul,
 	out.print( message );
 }
 
-@GetMapping("boardreply")
-public String boardreply() {
-	
-	return "board/boardreply";
-}
+
 }

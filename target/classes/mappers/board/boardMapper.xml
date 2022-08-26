@@ -29,9 +29,14 @@ select * from seeot_board
 select * from seeot_board where member_id=#{memberId}
 </select>
 
+<delete id="delete">
+	delete from seeot_board where member_id=#{memberId}
+</delete>
+
+
 <insert id="writeSave" >
     insert into seeot_board(board_no,member_id,board_title,board_content,board_file)
-    values(mvc_board_seq.nextval,#{memberId},#{boardTitle},#{boardContent},#{boardFile})
+    values(board_seq.nextval,#{memberId},#{boardTitle},#{boardContent},#{boardFile})
 </insert>
 
 </mapper>

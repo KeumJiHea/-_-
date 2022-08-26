@@ -25,10 +25,40 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("dto", mapper.boardContentView(memberId));
 	}
 	
+	public void boardModifyForm(String memberId, Model model) {
+		model.addAttribute("dto", mapper.boardContentView(memberId));
+	}
+	
+	public String delete(String memberId, String boardFile,
+			HttpServletRequest request) {
+		String result = mapper.delete( memberId );
+		int resultnum=0; 
+		if(result.equals("1")) {
+			 resultnum = 1;
+		}
+		String msg, url;
+		if(resultnum == 1) {
+			bfs.deleteImage( boardFile );
+			msg = "성공적으로 삭제 되었습니다!!!";
+			url = request.getContextPath()+
+					"/board/boardList";
+		}else {
+			msg="삭제 실패!!!";
+			url = request.getContextPath()+
+					"/board/boardContentView?memberId="+memberId;
+		}
+		return bfs.getMessage(msg, url);
+	}
+	
+	
+	
+	
+	
 	public String writeSave(MultipartHttpServletRequest mul,HttpServletRequest request) {
 		BoardDTO dto = new BoardDTO();
-		dto.setBoardTitle( mul.getParameter("title"));
-		dto.setBoardContent( mul.getParameter("content"));
+		dto.setMemberId(mul.getParameter("memberId"));
+		dto.setBoardTitle( mul.getParameter("boardTitle"));
+		dto.setBoardContent( mul.getParameter("boardContent"));
 		//dto.setBoardNo(mul.getParameter("boardno"));
 		
 		MultipartFile file = mul.getFile("boardFile");
@@ -37,6 +67,7 @@ public class BoardServiceImpl implements BoardService {
 		}else {
 			dto.setBoardFile("nan");
 		}
+		
 		int result = 0;
 		result = mapper.writeSave( dto );
 		

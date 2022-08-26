@@ -10,4 +10,7 @@ public interface BoardService {
 	public void boardList(Model model);
 	public void boardContentView(String memberId, Model model);
 	public String writeSave(MultipartHttpServletRequest mul,HttpServletRequest request);
+	public void boardModifyForm(String memberId, Model model);
+	public String delete(String memberId, String boardFile,
+			HttpServletRequest request);
 }

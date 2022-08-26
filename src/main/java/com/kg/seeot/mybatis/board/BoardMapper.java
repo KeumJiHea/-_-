@@ -11,5 +11,6 @@ public List<BoardDTO> boardList();
 public int selectBoardCount();
 public BoardDTO boardContentView(String memberId);
 public int writeSave( BoardDTO dto );
+public String delete( String memberId );
 
 }
