@@ -9,6 +9,6 @@ public interface ProductMapper {
 	public List<ProductDTO> list(int productCategorie);
 	public int productSave(ProductDTO dto);
 	
-	
+	public ProductDTO productView(int productNo);
 
 }

@@ -62,5 +62,9 @@ public class ProductServiceImpl implements ProductService{
 		
 		return  pfs.getMessage(msg, url); //스크립트 생성
 	}
+	
+	public void productView(Model model, int productNo) {
+		model.addAttribute("dto", mapper.productView(productNo));
+	}
 
 }

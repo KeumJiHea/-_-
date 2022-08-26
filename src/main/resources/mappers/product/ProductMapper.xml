@@ -31,5 +31,9 @@
 		insert into product(product_no, product_name, product_stack, product_price, product_file, product_categorie, product_date, product_size, product_color, product_content)
 			 values(#{productNo}, #{productName}, #{productStack}, #{productPrice}, #{productFile}, #{productCategorie}, sysdate, #{productSize}, #{productColor}, #{productContent})
 	</insert>
+	
+	<select id="productView" resultMap="product">
+		select * from product where product_no = #{productNo}
+	</select>
        
 </mapper>

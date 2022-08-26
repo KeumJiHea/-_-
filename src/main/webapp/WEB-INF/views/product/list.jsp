@@ -40,7 +40,7 @@
 		<c:forEach var="dto" items="${list }">
 			<tr>
 				<td>${dto.productNo }</td>
-				<td>${dto.productName }</td>
+				<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }">${dto.productName }</a></td>
 				<td>${dto.productStack }</td>
 				<td>${dto.productPrice }</td>
 				
@@ -57,7 +57,8 @@
 				<td>${dto.productRating }</td>
 				<td>${dto.productSize }</td>
 				<td>${dto.productColor }</td>
-				<td><button onclick="#">찜콩</button></td>
+				<td>
+				<button onclick="#">찜콩</button></td>
 			</tr>
 		</c:forEach>
 		

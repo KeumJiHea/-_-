@@ -65,6 +65,13 @@ public class ProductController {
 		out.print(message);
 	}
 	
+	//상품 상세 정보
+	@GetMapping("productView")
+	public String productView(Model model, int productNo) {
+		ps.productView(model, productNo);
+		return "product/productView";
+	}
+	
 	
 
 }
