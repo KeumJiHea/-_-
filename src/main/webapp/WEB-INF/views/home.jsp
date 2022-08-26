@@ -1,64 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script src="${contextPath }/resources/js/main.js"></script>
 
 <body>
-
-<div class="section">
-	<div class="slidewrap">
-		<ul class="slidelist">
-			<li>
-				<a>
-					<label for="slide03" class="left"></label>
-					<img src="resources/images/slide01.jpg">
-					<label for="slide02" class="right"></label>
-				</a>
-			</li>
-			<li>
-				<a>
-					<label for="slide01" class="left"></label>
-					<img src="resources/images/slide02.jpg">
-					<label for="slide03" class="right"></label>
-				</a>
-			</li>
-			<li>
-				<a>
-					<label for="slide02" class="left"></label>
-					<img src="resources/images/slide03.jpg">
-					<label for="slide01" class="right"></label>
-				</a>
-			</li>
-		</ul>
-	</div>
-
-	<input type="radio" name="slide" id="slide01" checked>
-	<input type="radio" name="slide" id="slide02" >
-	<input type="radio" name="slide" id="slide03" >
+<div class="outer">
+	<img class="left-btn" src="resources/images/left.png">
+	<img class="right-btn" src="resources/images/right.png">
 	
-	<div class="slide-control">
-		<div class="control01">
-			<label for="slide03" class="left"></label>
-			<label for="slide02" class="right"></label>
+	<div class="container">
+		<div class="inner">
+			<img src="resources/images/slide01.jpg">
 		</div>
-		<div class="control02">
-			<label for="slide01" class="left"></label>
-			<label for="slide03" class="right"></label>
+		<div class="inner">
+			<img src="resources/images/slide02.jpg">
 		</div>
-		<div class="control03">
-			<label for="slide02" class="left"></label>
-			<label for="slide01" class="right"></label>
+		<div class="inner">
+			<img src="resources/images/slide03.jpg">
 		</div>
 	</div>
 </div>
 
+<div class="buttons">
+	<input class="btn1" type="radio" name="banner-btn" checked>
+	<input class="btn2" type="radio" name="banner-btn">
+	<input class="btn3" type="radio" name="banner-btn">
+</div>
 
 
-
-
-
-
-
-	
-	<div class="button_list">
-		<button class="button_left">← Left</button>
-		<button class="button_right">Right →</button>
-	</div>
 </body>
