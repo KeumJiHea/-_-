@@ -39,6 +39,8 @@ select * from seeot_board where member_id=#{memberId}
     values(board_seq.nextval,#{memberId},#{boardTitle},#{boardContent},#{boardFile})
 </insert>
 
+
+
 </mapper>
 
 

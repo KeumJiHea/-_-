@@ -38,7 +38,8 @@
 	
 	<tr>
 		<td colspan="4" align="center">
-	<!-- --><c:if test="${ loginUser == dto.memberId }"> </c:if>
+	<!--코드 만들고 수정하기&삭제하기 if문으로 닫기 -->
+	<c:if test="${ loginUser == dto.memberId }"> </c:if>
 			<input type="button" onclick="location.href='delete?boardNo=${dto.memberId}&boardFile=${dto.boardFile}'" value="삭제하기">
 		 	<input type="button" onclick="location.href='boardModifyForm?memberId=${dto.memberId}'" value="수정하기"> 
 			
