@@ -45,4 +45,27 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return 0;
 	}
+	public int idCheck(String id) throws Exception {
+		
+		return mapper.idCheck(id);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

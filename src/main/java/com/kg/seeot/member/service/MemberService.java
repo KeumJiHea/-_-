@@ -8,4 +8,5 @@ public interface MemberService {
      public int login_check( HttpServletRequest request );
      public void keepLogin(String id, String cookieId);
      public int register(MemberDTO dto);
+     public int idCheck(String id) throws Exception ;
 }
