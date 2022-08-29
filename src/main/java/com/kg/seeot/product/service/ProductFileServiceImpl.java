@@ -29,5 +29,10 @@ public class ProductFileServiceImpl implements ProductFileService{
 		}
 		return sysFileName;
 	}
+	
+	public void deleteImage(String fName) {
+		File dFile = new File(IMAGE_REPO + "/" + fName);
+		dFile.delete();
+	}
 
 }

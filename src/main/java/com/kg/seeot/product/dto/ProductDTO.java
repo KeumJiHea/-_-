@@ -2,21 +2,14 @@ package com.kg.seeot.product.dto;
 
 public class ProductDTO {
 	
-	private int productNo, productStack, productPrice, productCategorie, reviewCount, productSize;
-	private String productName, productFile, productDate, productColor, productContent;
+	private int productNo, productPrice, productCategorie, reviewCount;
+	private String productName, productFile, productDate, productContent;
 	private float productRating;
-	
 	public int getProductNo() {
 		return productNo;
 	}
 	public void setProductNo(int productNo) {
 		this.productNo = productNo;
-	}
-	public int getProductStack() {
-		return productStack;
-	}
-	public void setProductStack(int productStack) {
-		this.productStack = productStack;
 	}
 	public int getProductPrice() {
 		return productPrice;
@@ -36,12 +29,6 @@ public class ProductDTO {
 	public void setReviewCount(int reviewCount) {
 		this.reviewCount = reviewCount;
 	}
-	public int getProductSize() {
-		return productSize;
-	}
-	public void setProductSize(int productSize) {
-		this.productSize = productSize;
-	}
 	public String getProductName() {
 		return productName;
 	}
@@ -60,11 +47,11 @@ public class ProductDTO {
 	public void setProductDate(String productDate) {
 		this.productDate = productDate;
 	}
-	public String getProductColor() {
-		return productColor;
+	public String getProductContent() {
+		return productContent;
 	}
-	public void setProductColor(String productColor) {
-		this.productColor = productColor;
+	public void setProductContent(String productContent) {
+		this.productContent = productContent;
 	}
 	public float getProductRating() {
 		return productRating;
@@ -72,10 +59,5 @@ public class ProductDTO {
 	public void setProductRating(float productRating) {
 		this.productRating = productRating;
 	}
-	public String getProductContent() {
-		return productContent;
-	}
-	public void setProductContent(String productContent) {
-		this.productContent = productContent;
-	}	
+	
 }

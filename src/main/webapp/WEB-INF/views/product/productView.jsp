@@ -5,47 +5,55 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-	<style type="text/css">
-		
-	</style>
-
 </head>
 <body>
 
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
+	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
+	<button type="button" onclick="location.href='productUpdate'" >상품 수정</button>
+	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 등록</button>
+	<button type="button" onclick="location.href='proDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	
 	<form action="#" method="post">
 	<table border="1">
 		<tr>
 			<td rowspan="10">
-				<c:if test="${ dto.productFile == 'nan' }">
+				<c:if test="${ pdto.productFile == 'nan' }">
 					<b>등록된 이미지가 없습니다.</b>
 				</c:if>
-				<c:if test="${ dto.productFile != 'nan' }">
-					<img width="300px" height="300px" src="${contextPath}/product/download?productFile=${dto.productFile}">
+				<c:if test="${ pdto.productFile != 'nan' }">
+					<img width="300px" height="300px" src="${contextPath}/product/download?productFile=${pdto.productFile}">
 				</c:if>
 			</td>
-			<th>상품 이름</th><td colspan="2">${dto.productName }</td>
+			<th>상품 이름</th><td colspan="2">${pdto.productName }</td>
 		</tr>
 		<tr>
-			<th>가격</th><td colspan="2">${dto.productPrice }</td>
+			<th>가격</th><td colspan="2">${pdto.productPrice }</td>
 		</tr>
 		<tr>
-			<td colspan="3">리뷰 수 : ${dto.reviewCount } / 별점 : ${dto.productRating }</td>
+			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : ${pdto.productRating }</td>
 		</tr>
 		<tr>
 			<th colspan="3">컬러</th>
 		</tr>
 		<tr>
-			<td colspan="3"><button>${dto.productColor }</button></td>
+			<td colspan="3">
+				<c:forEach var="mdto" items="${mlist }">
+					<button>${mdto.productColor }</button>
+				</c:forEach>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">사이즈</th>
 		</tr>
 		<tr>
-			<td colspan="3"><button>${dto.productSize }</button></td>
+			<td colspan="3">
+				<c:forEach var="mdto" items="${mlist }">
+					<button>${mdto.productSize }</button>
+				</c:forEach>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">구매 갯수</th>
@@ -69,7 +77,7 @@
 	<div id="proContent">
 	<h2>상품 상세 정보</h2>
 	<hr>
-	${dto.productContent }
+	${pdto.productContent }
 	</div><br><br>
 	
 	<div id="proReview">
