@@ -3,10 +3,10 @@
 .outer{
 	position: relative;
 	overflow: hidden;
+	justify-content: center;
 }
 .container {
 	width: 240vw;
-	transition: transform 0.5s;
 }
 .inner {
 	width: 80vw;
@@ -19,6 +19,21 @@
 	display: flex;
 	justify-content: center;
 }
+input[type='radio'],
+input[type='radio']:checked {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
+
+input[type='radio'] {
+  background-color: #CCCCCC;
+}
+input[type='radio']:checked {
+  background-color: #666666;
+}
+
 .left-btn{
 	position: absolute;
 	z-index: 10;
@@ -33,4 +48,31 @@
 	right: 0px;
 	cursor: pointer;
 	width: 50px;
+}
+
+.item{
+	text-align: center;
+}
+.section-name{
+	margin-top: 30px;
+	margin-bottom: 10px;
+	font-size: large;
+	font-weight: border;
+}
+.items{
+	display: flex;
+	justify-content: center;
+}
+.items img{
+	width: 200px;
+	margin: 50px 50px 50px;
+}
+
+.banners{
+	margin: 80px auto 50px;
+	width: 1200px;
+}
+hr{
+	width: 60vw;
+	margin: 30px, auto, 10px;;
 }

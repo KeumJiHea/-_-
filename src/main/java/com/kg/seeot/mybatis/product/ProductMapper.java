@@ -7,5 +7,8 @@ import com.kg.seeot.product.dto.ProductDTO;
 public interface ProductMapper {
 	public List<ProductDTO> allList();
 	public List<ProductDTO> list(int productCategorie);
+	public int productSave(ProductDTO dto);
+	
+	public ProductDTO productView(int productNo);
 
 }
