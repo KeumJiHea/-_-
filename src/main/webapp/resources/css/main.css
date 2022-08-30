@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+body{
+	font-family: "Do hyeon", sans-serif;
+}
+
 .outer{
 	position: relative;
 	overflow: hidden;
@@ -56,8 +60,7 @@ input[type='radio']:checked {
 .section-name{
 	margin-top: 30px;
 	margin-bottom: 10px;
-	font-size: large;
-	font-weight: border;
+	font-size: 2rem;
 }
 .items{
 	display: flex;

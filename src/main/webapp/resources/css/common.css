@@ -29,14 +29,13 @@ ul {
 a {
     margin:0;
     padding:0;
-    font-size:100%;
     vertical-align:baseline;
     background:transparent;
 	text-decoration: none;
-	font-family:sans-serif;
+	font-family: "Do hyeon", sans-serif;
 }
 a:visited{
-	font-color: black;
+	color: #3e3c3c;
 }
 
 /* 프로젝트 기본 CSS 설정 */
@@ -54,34 +53,64 @@ a:visited{
 	background-color: white;
 }
 #header .navbar{
-	display: flex;
+	display: grid;
+	grid-template-areas:
+	". . login"
+	"left left right";
 	justify-content: space-between;
-	padding: 38px;
-	font-size:large;
-	font-weight:bold;
-	font-color: black;
-}
-.navbar .left_area{
-	padding: 10px 0 10px;
-	display: flex;
-}
-.navbar .right_area{
-	display: flex;
-	padding: 20px 0 10px;
-}
-.right_area a{
-	padding: 0 5px 0;
+	padding: 20px 38px 38px 38px;
+	font-size: 1.2rem;
 }
 
+.navbar .login-menu{
+	grid-area: login;
+}
+.login-menu li{
+	display: inline-block;
+}
+
+.navbar .left_area{
+	grid-area: left;
+	display: flex;
+}
 .category li{
-	padding: 10px 0 10px;
+	padding: 5px 0 10px;
+	display: inline-block;
 }
 .category li a{
 	padding: 21px 20px; 27px;
 }
 .category li a span{
-	padding: 21px 0 27px;
+	padding: 21px 0 5px;
 }
+
+.navbar .right_area{
+	display: flex;
+	padding: 10px 0 10px;
+	grid-area: right;
+	justify-content: end;
+}
+.right_area a{
+	padding: 0 5px 0;
+}
+.right_area i{
+	font-size: 20px;
+	padding: 0 5px;
+	cursor: pointer;
+}
+.right_area li{
+	display: inline-block;
+}
+
+.underline{
+	position: absolute;
+	width: 0;
+	background-color: skyblue;
+	height: 4px;
+	transition: 0.2s;
+	border-radius: 1rem;
+}
+
 /* main CSS */
 #main{
 	margin: auto;
@@ -100,4 +129,42 @@ a:visited{
 }
 .footer_menu ul{
 	display: flex;
+}
+
+/* side menu CSS */
+#side-menu{
+	background-color: #e9eef0;
+	width: 100px;
+	right: 15px;
+	top: 50%;
+	position: fixed;
+	padding: 10px;
+	border: 1px solid gray;
+	border-radius: 1rem;
+	cursor: pointer;
+}
+.side-menu{
+	text-align: center;
+}
+.recentBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+.cartBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+.likeBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+.topBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+.recentBtn:hover, .topBtn:hover, .likeBtn:hover, .cartBtn:hover{
+	background-color: #c7cbcd;
+}
+.side-menu i{
+	font-size: 20pt;
 }

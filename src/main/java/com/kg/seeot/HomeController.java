@@ -3,6 +3,7 @@ package com.kg.seeot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,12 +34,9 @@ public class HomeController {
         return "test.page";
     }
     
-    /**
-     * Tiles를 사용(header, footer 제외)
-     */    
-    @RequestMapping("/testPart")
-    public String testPart() {
-        return "test.part";
-    } 
+    @GetMapping("/home")
+    public String home2() {
+    	return "home.page";
+    }
 	
 }
