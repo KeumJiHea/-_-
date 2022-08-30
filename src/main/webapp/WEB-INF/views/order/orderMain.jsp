@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주문 페이지</title>
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- iamport.payment.js -->
@@ -29,7 +29,7 @@ function requestPay() {
     	if ( rsp.success ) {
     		 // jQuery로 HTTP 요청
             jQuery.ajax({
-                url: "test", 
+                url: "orderchk", 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 data: {
