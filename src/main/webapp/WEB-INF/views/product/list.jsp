@@ -13,22 +13,13 @@
 		
 	<h2>상품목록</h2>
 	<hr>
-	<button onclick="location.href='productRegister'">상품 추가</button>
-	<hr>
 	<table border="1">
 		<tr>
-			<th>상품번호</th>
-			<th>이름</th>
-			<th>재고수량</th>
-			<th>상품가격</th>
 			<th>상품이미지</th>
-			<th>상품카테고리</th>
-			<th>상품등록일</th>
+			<th>이름</th>
+			<th>상품가격</th>
 			<th>리뷰수</th>
 			<th>상품별점</th>
-			<th>상품사이즈</th>
-			<th>상품색</th>
-			<th>찜하기</th>
 		</tr>
 		
 		<c:if test="${list.size() == 0 }">
@@ -39,29 +30,21 @@
 		
 		<c:forEach var="dto" items="${list }">
 			<tr>
-				<td>${dto.productNo }</td>
-				<td>${dto.productName }</td>
-				<td>${dto.productStack }</td>
-				<td>${dto.productPrice }</td>
-				
 				<c:if test="${ dto.productFile == 'nan' }">
-					<td><b>등록된 이미지가 없습니다.</b></td>
+					<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }"><b>등록된 이미지가 없습니다.</b></a></td>
 				</c:if>
 				<c:if test="${ dto.productFile != 'nan' }">
-					<td><img width="200px" height="100px" src="${contextPath}/product/download?productFile=${dto.productFile}"></td>
+					<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }"><img width="200px" height="100px" src="${contextPath}/product/download?productFile=${dto.productFile}"></a></td>
 				</c:if>
-				
-				<td>${dto.productCategorie }</td>
-				<td>${dto.productDate }</td>
+				<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }">${dto.productName }</a></td>
+				<td>${dto.productPrice }</td>
 				<td>${dto.reviewCount }</td>
 				<td>${dto.productRating }</td>
-				<td>${dto.productSize }</td>
-				<td>${dto.productColor }</td>
-				<td><button onclick="#">찜콩</button></td>
 			</tr>
 		</c:forEach>
 		
 	</table>
+	<button onclick="location.href='productRegister'">상품 추가</button>
 	
 </body>
 </html>

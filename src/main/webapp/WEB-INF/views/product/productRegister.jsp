@@ -30,11 +30,26 @@
 		
 		function chkData() {
 			if (document.getElementById('productNo').value == "") {
-				alert("상품번호를 입력해주세요")
+				alert("상품 번호를 입력해주세요")
 				productNo.focus()
 			} else if (document.getElementById('productCategorie').value == "") {
-				alert("카테고리를 선택 해주세요");
+				alert("상품 카테고리를 선택 해주세요");
 				productCategorie.focus()
+			} else if (document.getElementById('productName').value == "") {
+				alert("상품 이름을 입력 해주세요");
+				productName.focus()
+			} else if (document.getElementById('productSize').value == "") {
+				alert("상품 사이즈 입력 해주세요");
+				productSize.focus()
+			} else if (document.getElementById('productColor').value == "") {
+				alert("상품 색을 입력 해주세요");
+				productColor.focus()
+			} else if (document.getElementById('productPrice').value == "") {
+				alert("상품 가격을 입력 해주세요");
+				productPrice.focus()
+			} else if (document.getElementById('productStack').value == "") {
+				alert("상품 재고 수량을 입력 해주세요");
+				productStack.focus()
 			} else {
 				profo.submit();
 			}
@@ -78,7 +93,7 @@
 		<hr>
 		
 		<b>상품 재고 수량</b><br>
-		<input type="text" name="productStack" id="productStack" value="0">
+		<input type="text" name="productStack" id="productStack" placeholder="0">
 		<input type=button value="▲" onClick="javascript:this.form.productStack.value++;">
 		<input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
 		<hr>
@@ -92,7 +107,8 @@
 		<textarea name="productContent" id="productContent"></textarea>
 		
 		<hr>
-		<button type="button" onclick="chkData()">전송</button>
+		<button type="button" onclick="chkData()">상품 등록</button>
+		<button type="button" onclick="location.href='list'">등록 취소</button>
 	</form>
 
 	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>

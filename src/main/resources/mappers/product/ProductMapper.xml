@@ -7,17 +7,22 @@
 	<resultMap type="com.kg.seeot.product.dto.ProductDTO" id="product">
 		<id property="productNo" column="product_no" />
 		<result property="productName" column="product_name"/>
-		<result property="productStack" column="product_stack"/>
 		<result property="productPrice" column="product_price"/>
 		<result property="productFile" column="product_file"/>
 		<result property="productCategorie" column="product_categorie"/>
 		<result property="productDate" column="product_date"/>
 		<result property="reviewCount" column="review_count"/>
 		<result property="productRating" column="product_rating"/>
-		<result property="productSize" column="product_size"/>
-		<result property="productColor" column="product_color"/>
 		<result property="productContent" column="product_content"/>
 	</resultMap>
+	
+	<resultMap type="com.kg.seeot.product.dto.ProductManageDTO" id="product_management">
+		<id property="productNo" column="product_no" />
+		<result property="productStack" column="product_stack"/>
+		<result property="productSize" column="product_size"/>
+		<result property="productColor" column="product_color"/>
+	</resultMap>
+	
        
 	<select id="allList" resultMap="product">
 		select * from product
@@ -27,9 +32,27 @@
 		select * from product where product_categorie = #{productCategorie}
 	</select>
 	
+	<select id="productView" resultMap="product">
+		select * from product where product_no = #{productNo}
+	</select>
+	
+	<select id="productManageView" resultMap="product_management">
+		select * from product_management where product_no = #{productNo}
+	</select>
+	
 	<insert id="productSave">
-		insert into product(product_no, product_name, product_stack, product_price, product_file, product_categorie, product_date, product_size, product_color, product_content)
-			 values(#{productNo}, #{productName}, #{productStack}, #{productPrice}, #{productFile}, #{productCategorie}, sysdate, #{productSize}, #{productColor}, #{productContent})
+		insert into product(product_no, product_name, product_price, product_file, product_categorie, product_date, product_content)
+			 values(#{productNo}, #{productName}, #{productPrice}, #{productFile}, #{productCategorie}, sysdate, #{productContent})
 	</insert>
+	
+	<insert id="productManageSave">
+		insert into product_management(product_no, product_stack, product_size, product_color)
+			 values(#{productNo}, #{productStack}, #{productSize}, #{productColor})
+	</insert>
+	
+	<delete id="productDelete">
+		delete from product where product_no = #{productNo}
+	</delete>
+	
        
 </mapper>
