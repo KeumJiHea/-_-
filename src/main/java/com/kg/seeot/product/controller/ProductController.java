@@ -83,4 +83,20 @@ public class ProductController {
 		out.print(message);
 	}
 	
+	//상품 수정 페이지 연결
+	@GetMapping("productModify_Form")
+	public String productModify_Form(int productNo, Model model) {
+		ps.productModify_Form(productNo, model);
+		return "product/productModify_Form";
+	}
+	
+	//상품 수정
+	@PostMapping("productModify")
+	public void productModify(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = ps.productModify(mul, request);
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+	
 }

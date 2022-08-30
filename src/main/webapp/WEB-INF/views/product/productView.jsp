@@ -12,9 +12,13 @@
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
 	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
-	<button type="button" onclick="location.href='productUpdate'" >상품 수정</button>
+	<b> | 상품 관리 | </b>
+	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
+	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<b> | 재고 관리 | </b>
 	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 등록</button>
-	<button type="button" onclick="location.href='proDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 수정</button>
+	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 삭제</button>
 	
 	<form action="#" method="post">
 	<table border="1">

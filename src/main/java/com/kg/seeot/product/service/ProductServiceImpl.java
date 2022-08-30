@@ -93,5 +93,37 @@ public class ProductServiceImpl implements ProductService{
 		return pfs.getMessage(msg, url);
 	}
 	
+	public void productModify_Form(int productNo, Model model) {
+		model.addAttribute("pdto", mapper.productView(productNo));
+	}
+	
+	public String productModify(MultipartHttpServletRequest mul, HttpServletRequest request) {
+		ProductDTO dto = new ProductDTO();
+		dto.setProductNo(Integer.parseInt(mul.getParameter("productNo")));
+		dto.setProductCategorie(Integer.parseInt(mul.getParameter("productCategorie")));
+		dto.setProductName(mul.getParameter("productName"));
+		dto.setProductPrice(Integer.parseInt(mul.getParameter("productPrice")));
+		dto.setProductContent(mul.getParameter("productContent"));
+		
+		MultipartFile file = mul.getFile("productFile");
+		if( file.getSize() != 0) {
+			dto.setProductFile(pfs.saveFile(file));
+			pfs.deleteImage(mul.getParameter("originProductFile"));
+		} else {
+			dto.setProductFile(mul.getParameter("originProductFile"));
+		}
+		
+		int result = mapper.productModify( dto );
+		String msg, url;
+		
+		if(result == 1) { //저장 성공
+			msg = "성공적으로 상품이 수정되었습니다";
+			url = request.getContextPath() + "/product/productView?productNo=" + dto.getProductNo();
+		}else { //문제 발생
+			msg = "상품 수정에 실패하였습니다...";
+			url = request.getContextPath() + "/product/productModify_Form?productNo=" + dto.getProductNo();
+		}
+		return pfs.getMessage(msg, url);
+	}
 
 }

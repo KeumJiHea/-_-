@@ -14,4 +14,6 @@ public interface ProductMapper {
 	public int productManageSave(ProductManageDTO mdto);
 	public int productDelete(int productNo);
 	
+	public int productModify(ProductDTO dto);
+	
 }
