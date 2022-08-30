@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.seeot.mybatis.order.OrderMapper">
+	<resultMap type="com.kg.seeot.order.dto.OrderDTO" id="order">
+		<id property="orderNo" column="order_no"/>
+		<id property="productNo" column="product_no"/>
+		<id property="member_Id" column="member_id"/>
+		<result property="orderPrice" column="order_price"/>
+		<result property="orderAddr1" column="order_addr1"/>
+		<result property="orderAddr2" column="order_addr2"/>
+		<result property="orderAddr3" column="order_addr3"/>
+		<result property="productName" column="product_name"/>
+		<result property="productFile" column="product_file"/>
+		<result property="orderDate" column="order_date"/>
+		<result property="productPrice" column="product_price"/>
+		<result property="orderStack" column="order_stack"/>
+	</resultMap>
+	
+	
+</mapper>
