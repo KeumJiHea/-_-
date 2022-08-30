@@ -21,7 +21,7 @@ import com.kg.seeot.board.service.ReviewService;
 public class ReviewRepController {
 	@Autowired ReviewService rs;
 	
-    @PostMapping(value = "addReply", produces="application/json;charset=utf8")
+    @PostMapping(value = "addReview", produces="application/json;charset=utf8")
 	public void addReply(@RequestBody Map<String, String>map,
 										HttpSession session) {
 		rs.addReply(map, (String)session.getAttribute( "memberId" ) );
