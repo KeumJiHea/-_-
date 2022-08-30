@@ -2,6 +2,8 @@ package com.kg.seeot.mybatis.product;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
 
@@ -15,5 +17,7 @@ public interface ProductMapper {
 	public int productDelete(int productNo);
 	
 	public int productModify(ProductDTO dto);
-	
+	public int managementDelete(@Param("productNo") int productNo,  @Param("productSize") int productSize, @Param("productColor") String productColor);
+	public ProductManageDTO managementModify_Form(@Param("productNo") int productNo,  @Param("productSize") int productSize, @Param("productColor") String productColor);
+	public int managementModify(@Param("dto") ProductManageDTO dto, @Param("moProductStack") int moProductStack, @Param("moProductColor") String moProductColor, @Param("moProductSize") int moProductSize);
 }

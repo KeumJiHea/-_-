@@ -16,9 +16,7 @@
 	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
 	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
 	<b> | 재고 관리 | </b>
-	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 등록</button>
-	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 수정</button>
-	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 삭제</button>
+	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
 	
 	<form action="#" method="post">
 	<table border="1">

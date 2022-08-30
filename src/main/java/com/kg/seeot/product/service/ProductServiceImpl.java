@@ -117,11 +117,61 @@ public class ProductServiceImpl implements ProductService{
 		String msg, url;
 		
 		if(result == 1) { //저장 성공
-			msg = "성공적으로 상품이 수정되었습니다";
+			msg = "상품 수정에 성공하였습니다.";
 			url = request.getContextPath() + "/product/productView?productNo=" + dto.getProductNo();
 		}else { //문제 발생
-			msg = "상품 수정에 실패하였습니다...";
+			msg = "상품 수정에 실패하였습니다.";
 			url = request.getContextPath() + "/product/productModify_Form?productNo=" + dto.getProductNo();
+		}
+		return pfs.getMessage(msg, url);
+	}
+	
+	public void managementView(int productNo, Model model) {
+		model.addAttribute("list", mapper.productManageView(productNo));
+	}
+	
+	public String managementSave(ProductManageDTO dto, HttpServletRequest request) {
+		int result = mapper.productManageSave(dto);
+		String msg, url;
+		
+		if(result == 1) {
+			msg = "상품 재고 등록을 하였습니다.";
+			url = request.getContextPath() + "/product/managementView?productNo=" + dto.getProductNo();
+		} else {
+			msg = "상품 재고 등록에 실패하였습니다.";
+			url = request.getContextPath() + "/product/managementRegister_form?productNo=" + dto.getProductNo();
+		}
+		return pfs.getMessage(msg, url);
+	}
+	
+	public String managementDelete(int productNo, int productSize, String productColor, HttpServletRequest request) {
+		int result = mapper.managementDelete(productNo, productSize, productColor);
+		
+		String msg, url;
+		if(result == 1) {
+			msg = "상품 재고를 삭제하였습니다.";
+			url = request.getContextPath() + "/product/managementView?productNo=" + productNo;
+		} else {
+			msg = "상품 재고 삭제에 실패하였습니다.";
+			url = request.getContextPath() + "/product/managementView?productNo=" + productNo;
+		}
+		return pfs.getMessage(msg, url);
+	}
+	
+	public void managementModify_Form(int productNo, int productSize, String productColor, Model model) {
+		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
+	}
+	
+	public String managementModify(ProductManageDTO dto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request) {
+		int result = mapper.managementModify(dto, moProductStack, moProductColor, moProductSize);
+		String msg, url;
+		
+		if(result == 1) {
+			msg = "상품 재고 수정을 하였습니다.";
+			url = request.getContextPath() + "/product/managementView?productNo=" + dto.getProductNo();
+		} else {
+			msg = "상품 재고 수정에 실패하였습니다.";
+			url = request.getContextPath() + "/product/managementModify_Form?productNo=" + dto.getProductNo() + "&productSize=" + dto.getProductSize() + "&productColor=" + dto.getProductColor();
 		}
 		return pfs.getMessage(msg, url);
 	}

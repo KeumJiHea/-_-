@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="productManageView" resultMap="product_management">
-		select * from product_management where product_no = #{productNo}
+		select * from product_management where product_no = #{productNo} order by product_size
 	</select>
 	
 	<insert id="productSave">
@@ -57,5 +57,17 @@
 	<update id="productModify">
 		update product set product_name=#{productName}, product_price=#{productPrice}, product_file=#{productFile}, product_categorie=#{productCategorie}, product_content=#{productContent}  where product_no = #{productNo}
 	</update>
-       
+	
+	<delete id="managementDelete">
+		delete from product_management where product_no=#{productNo} and product_size=#{productSize} and product_color=#{productColor}
+	</delete>
+	
+	<select id="managementModify_Form" resultMap="product_management">
+		select * from product_management where product_no=#{productNo} and product_size=#{productSize} and product_color=#{productColor}
+	</select>
+	
+	<update id="managementModify">
+		update product_management set product_stack=#{moProductStack}, product_size=#{moProductSize}, product_color=#{moProductColor} where product_no=#{productNo} and product_stack=#{productStack} and product_size=#{productSize} and product_color=#{productColor}
+	</update>
+	
 </mapper>
