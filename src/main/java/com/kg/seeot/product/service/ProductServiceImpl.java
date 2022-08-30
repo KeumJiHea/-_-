@@ -162,16 +162,16 @@ public class ProductServiceImpl implements ProductService{
 		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
 	}
 	
-	public String managementModify(ProductManageDTO dto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request) {
-		int result = mapper.managementModify(dto, moProductStack, moProductColor, moProductSize);
+	public String managementModify(int productNo, int productStack, String productColor, int productSize, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request) {
+		int result = mapper.managementModify(productNo, productStack, productColor, productSize, moProductStack, moProductColor, moProductSize);
 		String msg, url;
 		
 		if(result == 1) {
 			msg = "상품 재고 수정을 하였습니다.";
-			url = request.getContextPath() + "/product/managementView?productNo=" + dto.getProductNo();
+			url = request.getContextPath() + "/product/managementView?productNo=" +productNo;
 		} else {
 			msg = "상품 재고 수정에 실패하였습니다.";
-			url = request.getContextPath() + "/product/managementModify_Form?productNo=" + dto.getProductNo() + "&productSize=" + dto.getProductSize() + "&productColor=" + dto.getProductColor();
+			url = request.getContextPath() + "/product/managementModify_Form?productNo=" + productNo + "&productSize=" + productSize + "&productColor=" + productColor;
 		}
 		return pfs.getMessage(msg, url);
 	}

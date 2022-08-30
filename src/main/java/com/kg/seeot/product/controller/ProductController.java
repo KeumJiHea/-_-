@@ -142,8 +142,8 @@ public class ProductController {
 	
 	//상품 재고 수정
 	@PostMapping("managementModify")
-	public void managementModify(ProductManageDTO dto, @RequestParam(value="moProductStack") int moProductStack, @RequestParam(value="moProductColor") String moProductColor, @RequestParam(value="moProductSize") int moProductSize, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String message = ps.managementModify(dto, moProductStack, moProductColor, moProductSize, request);
+	public void managementModify(int productNo, int productStack, String productColor, int productSize, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = ps.managementModify(productNo, productStack, productColor, productSize, moProductStack, moProductColor, moProductSize, request);
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();

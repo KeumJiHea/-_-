@@ -20,6 +20,6 @@ public interface ProductService {
 	public String managementSave(ProductManageDTO dto, HttpServletRequest request);
 	public String managementDelete(int productNo, int productSize, String productColor, HttpServletRequest request);
 	public void managementModify_Form(int productNo, int productSize, String productColor, Model model);
-	public String managementModify(ProductManageDTO dto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request);
+	public String managementModify(int productNo, int productStack, String productColor, int productSize, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request);
 
 }
