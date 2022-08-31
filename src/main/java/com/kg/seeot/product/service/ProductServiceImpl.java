@@ -162,7 +162,13 @@ public class ProductServiceImpl implements ProductService{
 		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
 	}
 	
-	public String managementModify(int productNo, int productStack, String productColor, int productSize, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request) {
+	public String managementModify(ProductManageDTO mdto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request) {
+		int productNo = mdto.getProductNo();
+		int productStack = mdto.getProductStack();
+		String productColor = mdto.getProductColor();
+		int productSize = mdto.getProductSize();
+		
+		
 		int result = mapper.managementModify(productNo, productStack, productColor, productSize, moProductStack, moProductColor, moProductSize);
 		String msg, url;
 		
