@@ -1,6 +1,7 @@
 package com.kg.seeot.cart.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,13 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public CartDTO getCart(Model model,String memberId) {
+	public ArrayList<CartDTO> getCart(Model model,String memberId) {
+		ArrayList<CartDTO> list = new ArrayList<CartDTO>();		
 		System.out.println("memberId : "+memberId);
-		CartDTO dto = cm.getCart(memberId);
-		model.addAttribute("cart",dto);
+		list = cm.getCart(memberId);
+		model.addAttribute("cart",list);
 		
-		return dto;
+		return list;
 	}
 	
 	

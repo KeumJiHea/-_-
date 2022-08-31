@@ -29,6 +29,11 @@ public class OrderController {
 		ps.productView(model, productNo);
 		return "/order/orderMain";
 	}
+	@GetMapping("cartorder")
+	public String cartOrder(Model model,String memberId) {
+		
+		return "/order/cartorder";
+	}
 	@PostMapping("orderchk")
 	public String orderchk() {
 		System.out.println("컨트롤러 동작 성공");

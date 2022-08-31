@@ -18,7 +18,7 @@
 		where product_no=(#{product_no})
 	</insert>
 	
-	<select id="getCart">
+	<select id="getCart" resultMap="cart">
 		select * from cart where member_id=#{member_id}
 	</select>
 </mapper>
