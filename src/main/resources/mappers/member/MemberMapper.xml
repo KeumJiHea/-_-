@@ -14,7 +14,7 @@
 		<result property="addr1" column="member_addr1" />
 		<result property="addr2" column="member_addr2" />
 		<result property="addr3" column="member_addr3" />
-		<result property="login_Cookie" column="login_cookie" />
+		<result property="loginCookie" column="login_cookie" />
 		<result property="verify" column="verify" />
 	</resultMap>
 	
@@ -31,8 +31,8 @@
 	    member_email,member_birth,member_addr1,member_addr2,member_addr3) 
 	    values (#{id},#{pw},#{name},#{phone},#{email},#{birth},#{addr1},#{addr2},#{addr3})
 	</insert>
-	<select id="idCheck" resultType="int">
-	    select * from seeot_member where member_id =#{id}
+	<select id="getCookieUser" resultMap="member">
+	    select * from seeot_member where login_cookie=#{cookie}
 	</select>
 
 </mapper>
