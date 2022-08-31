@@ -17,5 +17,8 @@
 		insert into cart(product_no,product_name,product_price,product_file) select product_no,product_name,product_price,product_file from product
 		where product_no=(#{product_no})
 	</insert>
-
+	
+	<select id="getCart">
+		select * from cart where member_id=#{member_id}
+	</select>
 </mapper>

@@ -13,7 +13,19 @@
 <script type="text/javascript">
 var IMP = window.IMP;
 IMP.init("imp11462084"); // 예: imp00000000 
-
+$(document).ready(function(){
+	console.log($('#orderchk1').is(':checked'))
+	$("#orderchk1").change(function(){
+		if($('#orderchk1').is(':checked')){
+			$("#productStack").on("change keyup paste input",function(){
+				const stack = $(this).val();
+				const price = $("tr:eq(1)>td:eq(3)").html();	
+				var sum = price*stack
+				$("#orderPrice").text(sum)					
+			});
+		}
+	});							
+});
 function requestPay() {
 		var rand = ''
 		for (let i = 0; i < 4; i++) {
@@ -24,12 +36,13 @@ function requestPay() {
 		var month = ("0" + (1 + date.getMonth())).slice(-2);
 	    var day = ("0" + date.getDate()).slice(-2);
 	    var num = year+month+day+rand;
+	    let pricet = ${pdto.productPrice }
     IMP.request_pay({ 
         pg: "html5_inicis",
         pay_method: "card",
         merchant_uid: num,   //주문번호
         name: '${pdto.productName}',
-        amount: "1000",                         // '${pdto.productPrice}'숫자타입
+        amount: pricet*$("#productStack").val(),                         // '${pdto.productPrice}' $("tr:eq(1)>td:eq(3)").html()숫자타입
         buyer_email: "users@seeot.com",
         buyer_name: "사용자",
         buyer_tel: "010-1111-2222",
@@ -84,9 +97,6 @@ $(document).ready(function() {
 });
 
 
-$("#testOnchange").on("propertychange change keyup paste input",function(){
-	alert("changed!");
-});
 
 
 
@@ -97,12 +107,18 @@ $("#testOnchange").on("propertychange change keyup paste input",function(){
 	<div>
 		<form action="#" method="post">
 			<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
-			<table border="1">
+			<table id="orderTable" border="1">				
 				<tr>
 					<th><input type='checkbox' name='orderAllCheck' id="orderAllCheck" onclick='checkAll()'/><br>전체 선택</th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>상품가격</th><th>구매수량</th>
 				</tr>
-				<tr>
-					<th><input type="checkbox" name='orderChkbox' id="orderchk1"></th><td>${pdto.productNo }</td>
+<%-- 				<c:if test="${pdto.size==0 }">
+					<tr>
+						<td colspan="6">등록된 장바구니가 없습니다</td>
+					</tr>
+				</c:if> --%>
+				<%-- <c:if test="${pdto.size!=0 }"> --%>
+					<tr>
+						<th><input type="checkbox" name='orderChkbox' id="orderchk1"></th><td>${pdto.productNo }</td>
 					<td>
 						<c:if test="${ pdto.productFile == 'nan' }">
 							<b>등록된 이미지가 없습니다.</b>
@@ -110,15 +126,19 @@ $("#testOnchange").on("propertychange change keyup paste input",function(){
 						<c:if test="${ pdto.productFile != 'nan' }">
 							<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${pdto.productFile}">
 						</c:if>
-				</td><td>${pdto.productName }</td><td>${pdto.productPrice }</td><td><input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
-				<input type="text" name="productStack" id="productStack" placeholder="1">
-				<input type=button value="▲" onClick="javascript:this.form.productStack.value++;"></td>
-				</tr>
+					</td>
+					<td>${pdto.productName }</td>
+					<td>${pdto.productPrice }</td>
+					<td>
+						<input type="number" min="0" max="10" name="productStack" id="productStack" placeholder="1">
+					</td>
+					</tr>
+				<%-- </c:if> --%>
+			
 			</table>
 				<hr>
-				총 금액 <span id="orderPrice"></span><br>
+				총 금액 <span id="orderPrice">0</span>원<br>
 				<button type="button" onclick="requestPay()">결제하기</button>
-				<input id="testOnchange" type="text" value="안녕하세요.">
 		</form>
 	</div>
 </body>

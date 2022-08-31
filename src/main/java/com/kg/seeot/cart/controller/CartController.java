@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,8 +35,9 @@ public class CartController {
 	}
 	
 	@GetMapping("mycart")
-	public String mycart() {
-		
+	public String mycart(String memberId,Model model) {
+		memberId = "seeotuser";
+		cs.getCart(model, memberId);
 		return "cart/mycart";
 	}
 }
