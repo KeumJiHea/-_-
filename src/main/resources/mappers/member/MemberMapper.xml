@@ -5,7 +5,7 @@
 <mapper namespace="com.kg.seeot.mybatis.member.MemberMapper">
 
 	<resultMap type="com.kg.seeot.member.dto.MemberDTO" id="member"> 
-		<id property="id" column="member_id"/>
+		<id property="id" column="member_id" />
 		<result property="pw" column="member_pw" />
 		<result property="name" column="member_name" />
 		<result property="phone" column="member_phone" />		

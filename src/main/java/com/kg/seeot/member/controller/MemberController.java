@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -90,9 +91,16 @@ public class MemberController implements SessionName{
 	@PostMapping("register")
 	public String register(MemberDTO dto) {
 		int result = ms.register(dto);
-		if(result == 1)
+		if(result == 1) {
 			return "redirect:login";
+		}
 			return "redirect:register_form";
+	}
+	@GetMapping("info")
+	public String info(Model model, String id) {
+		ms.getUser(model,id);
+		
+		return "member/info";
 	}
 }
 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.kg.seeot.member.dto.MemberDTO;
 import com.kg.seeot.mybatis.member.MemberMapper;
@@ -47,6 +48,10 @@ public class MemberServiceImpl implements MemberService{
 	}
 	public MemberDTO getCookieUser(String cookie) {
 		return mapper.getCookieUser(cookie);
+	}
+	
+	public void getUser(Model model,String id) {
+		model.addAttribute("info", mapper.getUser(id));
 	}
 }
 

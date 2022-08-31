@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-관리자 페이지
+<b>관리자 페이지</b>
+
+<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+<a href="${pageContext.request.contextPath}/member/infolist">회원 관리</a>
 </body>
 </html>

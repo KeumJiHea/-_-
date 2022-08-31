@@ -26,18 +26,15 @@
 			<nav>
 				<ul>
 <li> <a href="${contextPath }/index">HOME</a> </li>
-<li> 
-	<a href="${contextPath }/member/memberInfo">MEMBER_SHIP</a>
-</li>
-<li> 
-	<a href="${contextPath }/board/boardAllList">BOARD</a>
+<li>
+	<a href="${contextPath }/member/info">마이페이지</a>
 </li>
 <li> 
 	<c:if test="${loginUser == null }">
-		<a href="${contextPath }/member/login">LOGIN</a> 
+		<a href="${contextPath }/member/login">로그인</a> 
 	</c:if>
 	<c:if test="${loginUser != null }">
-		<a href="${contextPath }/member/logout">LOGOUT</a>
+		<a href="${contextPath }/member/logout">로그아웃</a>
 	</c:if>
 </li>
 				</ul>
