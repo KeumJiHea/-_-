@@ -16,13 +16,9 @@
 			<img src="resources/images/slide03.jpg">
 		</div>
 	</div>
+	<ul class="slide_pagination"></ul>
 </div>
 
-<div class="buttons">
-	<input class="btn1" type="radio" name="banner-btn" checked>
-	<input class="btn2" type="radio" name="banner-btn">
-	<input class="btn3" type="radio" name="banner-btn">
-</div>
 
 <div class="item">
 	<div class="section-name best">요즘 잘 나가요</div>
@@ -31,11 +27,11 @@
 		<img src="resources/images/20220823_1_10002.jpg">
 		<img src="resources/images/20220823_1_10003.jpg">
 	</div>
-	<button class="item-link-btn">더보기</button>
+	<button class="item-link-btn" onclick='location.href="product/list?productCategorie=1"'>더보기</button>
 </div>
 <hr>
 <div class="banners">
-	<img class="banner" src="resources/images/slide01.jpg">
+	<img class="banner" src="resources/images/slide03.jpg">
 </div>
 
 <div class="item">
@@ -45,11 +41,11 @@
 		<img src="resources/images/20220823_2_20002.jpg">
 		<img src="resources/images/20220823_2_20003.jpg">
 	</div>
-	<button class="item-link-btn">더보기</button>
+	<button class="item-link-btn" onclick='location.href="product/list?productCategorie=2"'>더보기</button>
 </div>
 <hr>
 <div class="banners">
-	<img class="banner" src="resources/images/slide01.jpg">
+	<img class="banner" src="resources/images/slide02.jpg">
 </div>
 
 <div class="item">
@@ -59,7 +55,7 @@
 		<img src="resources/images/20220823_3_30002.jpg">
 		<img src="resources/images/20220823_3_30003.jpg">
 	</div>
-	<button class="item-link-btn">더보기</button>
+	<button class="item-link-btn" onclick='location.href="product/list?productCategorie=3"'>더보기</button>
 </div>
 </body>
 <script src="resources/js/main.js"></script>

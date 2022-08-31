@@ -19,23 +19,28 @@ body{
 .inner img{
 	width: 100%;
 }
-.buttons{
-	display: flex;
-	justify-content: center;
-}
-input[type='radio'],
-input[type='radio']:checked {
-  appearance: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-}
 
-input[type='radio'] {
-  background-color: #CCCCCC;
+/* ul로 페이지네이션 */
+.slide_pagination {
+  /* layout */
+  display: flex;
+  gap: 5px;
+
+  /* position */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
-input[type='radio']:checked {
-  background-color: #666666;
+.slide_pagination > li {
+  /* 현재 슬라이드가 아닌 것은 투명도 부여 */
+  color: #7fb5ff88;
+  cursor: pointer;
+  font-size: 25px;
+}
+.slide_pagination > li.active {
+  /* 현재 슬라이드 색상은 투명도 없이 */
+  color: #7fb5ff;
 }
 
 .left-btn{
@@ -73,6 +78,9 @@ input[type='radio']:checked {
 
 .banners{
 	margin: 80px auto 50px;
+	width: 1200px;
+}
+.banner{
 	width: 1200px;
 }
 hr{
