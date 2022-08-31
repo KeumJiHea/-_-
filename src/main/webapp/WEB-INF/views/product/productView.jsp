@@ -7,7 +7,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+	function colorAdd() {
+		productSelect()
+	}
+	
+	function sizeAdd() {
+		productSelect()
+	}
+	
+	function productSelect() {
+		
+	}
+	function proOrderAdd() {
+		$("proOrderAdd").hide()
+	}
+	
+	</script>
+	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
@@ -18,7 +37,6 @@
 	<b> | 재고 관리 | </b>
 	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
 	
-	<form action="#" method="post">
 	<table border="1">
 		<tr>
 			<td rowspan="10">
@@ -43,7 +61,7 @@
 		<tr>
 			<td colspan="3">
 				<c:forEach var="mdto" items="${mlist }">
-					<button>${mdto.productColor }</button>
+					<button onclick="colorAdd()">${mdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -53,12 +71,9 @@
 		<tr>
 			<td colspan="3">
 				<c:forEach var="mdto" items="${mlist }">
-					<button>${mdto.productSize }</button>
+					<button onclick="sizeAdd()">${mdto.productSize }</button>
 				</c:forEach>
 			</td>
-		</tr>
-		<tr>
-			<th colspan="3">구매 갯수</th>
 		</tr>
 		<tr>
 			<td colspan="3">
@@ -68,12 +83,21 @@
 			</td>
 		</tr>
 		<tr>
-			<td><button onclick="#">찜♡</button></td>
-			<td><button onclick="#">장바구니</button></td>
-			<td><button onclick="#">구매하기</button></td>
+			<td colspan="3">
+			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="productNo" value="#{pdto.productNo }">
+				<input type="hidden" name="productName" value="#{pdto.productName }">
+				<input type="hidden" name="productFile" value="#{pdto.productFile }">
+				<div id="proOrderAdd"></div>
+			</form>
+			</td>
+		</tr>
+		<tr>
+			<td><button onclick="">찜</button></td>
+			<td><button onclick="">장바구니</button></td>
+			<td><button onclick="productOrder()">구매하기</button></td>
 		</tr>
 	</table>
-	</form>
 	<hr>
 	
 	<div id="proContent">

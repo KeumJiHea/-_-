@@ -8,10 +8,23 @@
 </head>
 <body>
 
+	<script type="text/javascript">
+		
+	</script>
+
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 		
 	<h2>상품목록</h2>
+	<button onclick="">카테고리 필터</button>
+	<button onclick="">정렬</button>
+	
+	<div>
+		<form action="">
+			
+		</form>
+	</div>
+	
 	<hr>
 	<table border="1">
 		<tr>
