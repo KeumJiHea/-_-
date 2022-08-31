@@ -83,12 +83,11 @@
 			</td>
 		</tr>
 		<tr>
-<<<<<<< HEAD
 			<td colspan="3">
 			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="productNo" value="#{pdto.productNo }">
-				<input type="hidden" name="productName" value="#{pdto.productName }">
-				<input type="hidden" name="productFile" value="#{pdto.productFile }">
+				<input type="hidden" name="productNo" value="${pdto.productNo }">
+				<input type="hidden" name="productName" value="${pdto.productName }">
+				<input type="hidden" name="productFile" value="${pdto.productFile }">
 				<div id="proOrderAdd"></div>
 			</form>
 			</td>
@@ -97,11 +96,9 @@
 			<td><button onclick="">찜</button></td>
 			<td><button onclick="">장바구니</button></td>
 			<td><button onclick="productOrder()">구매하기</button></td>
-=======
 			<td><button type="button" onclick="#">찜♡</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
->>>>>>> 6158eac3cf6855ccae5cc02d9e9365c87aa64147
 		</tr>
 	</table>
 	<hr>
