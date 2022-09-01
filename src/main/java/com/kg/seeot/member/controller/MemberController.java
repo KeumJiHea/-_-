@@ -91,6 +91,7 @@ public class MemberController implements SessionName{
 	@PostMapping("register")
 	public String register(MemberDTO dto) {
 		int result = ms.register(dto);
+		System.out.println(result);
 		if(result == 1) {
 			return "redirect:login";
 		}
