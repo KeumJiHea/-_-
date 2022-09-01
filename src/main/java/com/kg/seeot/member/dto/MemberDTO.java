@@ -2,7 +2,9 @@ package com.kg.seeot.member.dto;
 
 public class MemberDTO {
 private String id,pw,name,phone,email,birth,addr1,addr2,addr3,loginCookie;
+
 private int verify;
+
 public String getId() {
 	return id;
 }

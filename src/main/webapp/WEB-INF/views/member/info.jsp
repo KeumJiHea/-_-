@@ -26,7 +26,8 @@ a {
 </div>
 <hr>
 <p>
-<input class="id_info" id="id" name="id" readonly placeholder="${info.id }">
+<input class="id_info" id="id" name="id" readonly placeholder="${info.id }"
+style="border: none;">
 님 환영합니다
 </p>
 <hr>

@@ -25,9 +25,9 @@
 		<div class="wrap">
 			<nav>
 				<ul>
-<li> <a href="${contextPath }/index">HOME</a> </li>
-<li>
-	<a href="${contextPath }/member/info">마이페이지</a>
+<li> 
+    <a href="${contextPath }/index">HOME</a> 
+
 </li>
 <li> 
 	<c:if test="${loginUser == null }">
@@ -35,6 +35,9 @@
 	</c:if>
 	<c:if test="${loginUser != null }">
 		<a href="${contextPath }/member/logout">로그아웃</a>
+	</c:if>
+	<c:if test="${loginUser != null }">
+	    <a href="${contextPath }/member/info?id=${loginUser}">마이페이지</a>
 	</c:if>
 </li>
 				</ul>
