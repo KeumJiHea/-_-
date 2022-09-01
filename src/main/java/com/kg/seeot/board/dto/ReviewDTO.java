@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 public class ReviewDTO {
 private String reviewDate, reviewFile, reviewContent;
 private String memberId;
-private int reviewStar, productNo;
+private int reviewStar=1, productNo;
 public String getReviewDate() {
 	return reviewDate;
 }

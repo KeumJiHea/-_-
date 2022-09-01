@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -25,6 +26,17 @@ public class ReviewServiceImpl implements ReviewService {
 		map.put("memberId", memberId);
 		mapper.addReply( map );
 	}
+	
+	public void addReview(Map<String,Object> map, int reviewStar) {
+		System.out.println("serImpl");  
+		System.out.println((String)map.get("memberId"));
+		System.out.println((String)map.get("reviewContent"));
+		System.out.println(map.get("reviewStar"));
+		mapper.addReview(map,reviewStar);
+	}
+	
+//	
+//	public void add(@RequestParam(value="reviewStar") int reviewStar)
 	/*
 	public String writeSave(MultipartHttpServletRequest mul,
 			HttpServletRequest request) {

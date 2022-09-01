@@ -48,33 +48,36 @@
 <title>Insert title here</title>
 </head>
 
-<body>
+<body >
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 function review(){
 	var queryString = $('reviewForm').serialize();
-	
-	var memberId = $("input[name='memberId']").val()  //회원아이디 입력받게 만들기
+	var memberId = "seeotuser"
+	var productNo = 10001
+	var reviewFile = "nan"
+//	var memberId = $("input[name='memberId']").val()  //회원아이디 입력받게 만들기
 	var reviewContent = $("textarea[name='reviewContent']").val()
-	var reviewStar =$('[name=reviewStar]:checked').val();
+	var reviewStar =$('[name=reviewStar]:checked').val()
 	
-//	var formData = new FormData();
-// formData.append('file', $('#uploadFile')[0].files[0]);
+	//	var formData = new FormData();
+	// formData.append('file', $('#uploadFile')[0].files[0]);
 
-	var reviewFile =$("file[name='reviewFile']").val
-	if(reviewFile == ""){
-		reviewFile == "nan";
-	}
-	var form = {memberId:memberId, reviewContent: reviewContent, reviewStar: reviewStar, reviewFile:reviewFile}
+	//var reviewFile =$("file[name='reviewFile']").val     reviewFile:reviewFile
+	
+	var form = {memberId: memberId, reviewContent: reviewContent, reviewStar: reviewStar
+			,productNo:productNo,reviewFile:reviewFile }
 	console.log(form)
 	// console.log( typeof form)
 	$.ajax({
 	url:"addReview" , type:"post",
-	contentType : "application/json; charset=utf-8",
+	contentType:"application/json; charset=utf-8",
+	data:JSON.stringify(form),
 	dataType:"json",
-	success:console.log("a"),
-	error: function(){alert('문제발생')}
+	success:function(){
+		alert('리뷰등록')
+	},error: function(data){alert('문제발생'), console.log(form)}
 })
 }
 
@@ -90,10 +93,13 @@ function readURL(input) {
        }
    }
 }  
+//댓글불러오기 때  data.length 넣어서 리뷰수 적어주기
  </script>
 
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+
+<!--  
 <c:forEach var="dto" items="${reviewList }">
 작성자: ${dto.memberId }	
 내용: ${dto.reviewContent }	
@@ -101,42 +107,51 @@ function readURL(input) {
 상품: ${dto.productNo }	
 등록일: ${dto.reviewDate }	<br>
 
-</c:forEach>
+</c:forEach>-->
+
+
 <div>
             <div>
                 <span><strong>REVIEW</strong></span> <span id="cCnt"></span><hr>
             </div>
             </div>
 
- 	<form class="mb-3" name="reviewForm" id="reviewForm" method="post"	 enctype="multipart/form-data">
- 	<!--  action="${contextPath}/review/reviwSave" -->
+ 	<form class="mb-3" name="reviewForm" id="reviewForm" >
+ 	<!--  action="${contextPath}/review/reviwSave" method="post" enctype="multipart/form-data"-->
  
 	<fieldset>
-	<input type="hidden" name="memberId" value="${dto.memberId }">
+	<input type="text" name="memberId" value="${dto.memberId }">
 		<span class="text-bold">별점을 선택해주세요</span>
-		<input type="radio" name="reviewStar" value="5" id="rate1"><label
+		<input type="radio" name="reviewStar" value=5 id="rate1"><label
 			for="rate1">★</label>
-		<input type="radio" name="reviewStar" value="4" id="rate2"><label
+		<input type="radio" name="reviewStar" value=4 id="rate2"><label
 			for="rate2">★</label>
-		<input type="radio" name="reviewStar" value="3" id="rate3"><label
+		<input type="radio" name="reviewStar" value=3 id="rate3"><label
 			for="rate3">★</label>
-		<input type="radio" name="reviewStar" value="2" id="rate4"><label
+		<input type="radio" name="reviewStar" value=2 id="rate4"><label
 			for="rate4">★</label>
-		<input type="radio" name="reviewStar" value="1" id="rate5"><label
+		<input type="radio" name="reviewStar" value=1 id="rate5"><label
 			for="rate5">★</label>
 	</fieldset>
 	<div>
-	<!-- 
 	
+	<!-- 
 	<input type="hidden" id="reviewDate" value="${dto.reviewDate }">
 	<input type="hidden" id="productNo" value="${dto.productNo }"> -->
 		<textarea class="reviewContent" type="text" id="reviewContent" name="reviewContent"
 				  placeholder="리뷰작성"></textarea>
-				  <label for="reviewFile">파일 업로드</label>
+				  <!-- 
+	<c:if test="${ dto.reviewFile == '' }"> <b>이미지가 없습니다</b> </c:if>
+	<c:if test="${ dto.reviewFile != 'nan' }">			
 	<input type="file" name="reviewFile" id="reviewFile" onchange="readURL(this);" /> 
+	</c:if>
+	 -->
+	<form>
+	
+	</form>
 	<input type="button" onclick="review()" value="후기등록">
-	<button type="button" onclick="reviewDelete()">취소</button>
-	<label id="label"></label>
+	
+	<div id=review></div>
 	</div>
 </form>	
 </body>

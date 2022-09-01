@@ -12,4 +12,5 @@ public interface ReviewService {
 	//public String writeSave(MultipartHttpServletRequest mul,
 	//		HttpServletRequest request);
 	public void addReply(Map<String, String>map, String memberId);
+	public void addReview(Map<String,Object> map, int reviewStar);
 }
