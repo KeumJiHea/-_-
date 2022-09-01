@@ -10,19 +10,36 @@
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
-	function colorAdd() {
-		productSelect()
+	var pc, ps
+	var cnt = 1
+	function colorAdd(productColor) {
+		console.log(productColor)
+		pc = productColor
 	}
 	
-	function sizeAdd() {
+	function sizeAdd(proSize) {
+		console.log(proSize)
+		ps = proSize
 		productSelect()
 	}
 	
 	function productSelect() {
 		
+		if(pc != '' & ps != '') {
+			$("#proOrderAdd").append("<div id='"+cnt+"'>"+ pc + " / " + ps
+				+ "<input type='button' value='▼' onClick='javascript:this.form.productStack.value--;'>"
+				+ "<input type='text' name='productStack' id='productStack' placeholder='0'>"
+				+ "<input type='button' value='▲' onClick='javascript:this.form.productStack.value++;'>"
+					+" </div>")
+			cnt++
+		}
+		pc = ''
+		ps = ''
+		
 	}
+	
 	function proOrderAdd() {
-		$("proOrderAdd").hide()
+		$("#proOrderAdd").hide()
 	}
 	
 	</script>
@@ -61,7 +78,7 @@
 		<tr>
 			<td colspan="3">
 				<c:forEach var="mcdto" items="${mclist }">
-					<button onclick="colorAdd()">${mcdto.productColor }</button>
+					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }"">${mcdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -71,16 +88,11 @@
 		<tr>
 			<td colspan="3">
 				<c:forEach var="msdto" items="${mslist }">
-					<button onclick="sizeAdd()">${msdto.productSize }</button>
+					<button onclick="sizeAdd(this.id)" id="${msdto.productSize }">${msdto.productSize }</button>
 				</c:forEach>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
-				<input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
-				<input type="text" name="productStack" id="productStack" placeholder="0">
-				<input type=button value="▲" onClick="javascript:this.form.productStack.value++;">
-			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
@@ -88,12 +100,17 @@
 				<input type="hidden" name="productNo" value="${pdto.productNo }">
 				<input type="hidden" name="productName" value="${pdto.productName }">
 				<input type="hidden" name="productFile" value="${pdto.productFile }">
-				<div id="proOrderAdd"></div>
+				
+				<!-- <input type="button" value="▼" onClick="javascript:this.form.productStack.value--;">
+				<input type="text" name="productStack" id="productStack" placeholder="0">
+				<input type="button" value="▲" onClick="javascript:this.form.productStack.value++;"> -->
+				<div id="proOrderAdd">
+				</div>
 			</form>
 			</td>
 		</tr>
 		<tr>
-			<td><button type="button" onclick="pro()">찜</button></td>
+			<td><button type="button" onclick="">찜</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
 		</tr>

@@ -12,10 +12,8 @@ public interface ProductMapper {
 	public List<ProductDTO> allList();
 	public List<ProductDTO> list(int productCategorie);
 	public ProductDTO productView(int productNo);
-	
 	public List<ProductManageDTO> managementSize(int productNo);
 	public List<ProductManageDTO> managementColor(int productNo);
-	
 	public List<ProductManageDTO> productManageView(int productNo);
 	public int productSave(ProductDTO pdto);
 	public int productManageSave(ProductManageDTO mdto);
