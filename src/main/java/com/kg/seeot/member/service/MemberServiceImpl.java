@@ -1,6 +1,7 @@
 package com.kg.seeot.member.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +53,13 @@ public class MemberServiceImpl implements MemberService{
 	
 	public void getUser(Model model,String id) {
 		model.addAttribute("info", mapper.getUser(id));
+	}
+	public void memberlist(Model model) {
+		List<MemberDTO> list = mapper.memberlist();
+		model.addAttribute("list",list);
+	}
+	public void delete(String id) {
+		mapper.delete(id);
 	}
 }
 

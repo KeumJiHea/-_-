@@ -12,4 +12,6 @@ public interface MemberService {
      public int register(MemberDTO dto);
      public MemberDTO getCookieUser(String cookie);
      public void getUser(Model model,String id);
+     public void memberlist(Model model);
+     public void delete(String id);
 }

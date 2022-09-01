@@ -55,7 +55,7 @@ public class MemberController implements SessionName{
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
 		if(id.equals("admin")) {
-			return "member/admin";
+			return "admin/admin";
 		}
 
 		if( autoLogin != null ) {
@@ -102,8 +102,17 @@ public class MemberController implements SessionName{
 		
 		return "member/info";
 	}
+	@GetMapping("memberlist")
+	public String infolist(Model model) {
+		ms.memberlist(model);
+		return "admin/memberlist";
+	}
+	@GetMapping("delete")
+	public String delete(String id) {
+		ms.delete(id);
+		return "redirect:memberlist";
+	}
 }
-
 
 
 

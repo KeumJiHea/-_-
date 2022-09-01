@@ -34,6 +34,12 @@
 	<select id="getCookieUser" resultMap="member">
 	    select * from seeot_member where login_cookie=#{cookie}
 	</select>
+	<select id="memberlist" resultMap="member">
+	    select * from seeot_member
+	</select>
+	<delete id="delete">
+	    delete from seeot_member where member_id=#{id}
+	</delete>
 
 </mapper>
 

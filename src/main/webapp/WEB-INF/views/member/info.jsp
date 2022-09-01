@@ -22,7 +22,7 @@ a {
 <a href="#">찜리스트</a> <a></a> <a></a> <a href="modify_form">정보수정</a>
 </div>
 <div class="trd_line">
-<a href="#">장바구니</a> <a></a> <a></a> <a href="#">회원탈퇴</a>
+<a href="#">장바구니</a> <a></a> <a></a> <a href="delete">회원탈퇴</a>
 </div>
 <hr>
 <p>
