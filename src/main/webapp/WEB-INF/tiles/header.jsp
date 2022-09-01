@@ -56,7 +56,7 @@
 
 	<div class="right_area">
 		<ul>
-			<li>
+			<li class="open-search">
 				<i class="fa-solid fa-magnifying-glass" title="검색"></i>
 			</li>
 			<li>
@@ -72,3 +72,14 @@
 		</ul>
 	</div>
 </div>
+<div class="modal-bg"></div>
+<div class="modal-search">
+	<i class="fa-solid fa-xmark close-search"></i>
+	<div class="search">
+		<div class="field">
+			<input type="search" placeholder="검색어를 입력하세요">
+			<input type="button" value="검색">
+		</div>
+	</div>
+</div>
+

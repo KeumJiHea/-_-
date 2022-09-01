@@ -78,10 +78,10 @@ body{
 
 .banners{
 	margin: 80px auto 50px;
-	width: 1200px;
+	width: 60vw;
 }
 .banner{
-	width: 1200px;
+	width: 60vw;
 }
 hr{
 	width: 60vw;

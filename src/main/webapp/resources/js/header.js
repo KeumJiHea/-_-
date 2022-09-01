@@ -19,9 +19,31 @@ function indicator(e){
 /**
  *  TOP버튼 스크립트
  */
-const topBtn = document.querySelector('.topBtn')
+const topBtn = document.querySelector('.topBtn');
 
 topBtn.addEventListener('click', function(){
-	console.log('클릭')
+	console.log('클릭');
 	window.scrollTo({top: 0, behavior:'smooth'});
-})
+});
+
+/**
+ * 서치 모달창 스크립트
+ */
+const modalBg = document.querySelector('.modal-bg');
+const openSearch = document.querySelector('.open-search');
+const modalSearch = document.querySelector('.modal-search');
+const closeSearch = document.querySelector('.close-search');
+const main = document.querySelector('#main');
+
+openSearch.addEventListener('click', function(){
+	modalSearch.classList.add('active');
+	modalBg.style.display = 'block';
+});
+closeSearch.addEventListener('click', function(){
+	modalSearch.classList.remove('active');
+	modalBg.style.display = 'none';
+});
+modalBg.addEventListener('click', function(){
+	modalSearch.classList.remove('active');
+	modalBg.style.display = 'none';
+});

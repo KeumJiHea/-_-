@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <div class="side-menu">
 	<div class="recentBtn">
 		<i class="fa-solid fa-clock-rotate-left"></i>
@@ -17,4 +18,4 @@
 		<h3>TOP</h3>
 	</div>
 </div>
-<script src="resources/js/header.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/header.js"></script>
