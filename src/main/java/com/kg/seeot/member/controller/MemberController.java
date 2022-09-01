@@ -112,6 +112,19 @@ public class MemberController implements SessionName{
 		ms.delete(id);
 		return "redirect:memberlist";
 	}
+	@GetMapping("find_form")
+	public String find_form() {
+		return "find_form";
+	}
+	@PostMapping("find_id_form")
+	public String find_id_form(String id) {
+		
+		return "member/find_form";
+	}
+	@PostMapping("find_pw_form")
+	public String find_pw_form() {
+		return "";
+	}
 }
 
 

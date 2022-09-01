@@ -7,6 +7,10 @@
 <title>로그인</title>
 
 <style type="text/css">
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+* { 
+ font-family: 'Noto Sans KR', sans-serif;
+}
 .login {
    text-align: center;
 }
@@ -33,10 +37,6 @@ a {
 input:placeholder {
    font-size: 20px;
 }
-button:hover {
-   color: white;
-   background-color: black;
-}
 </style>
 
 </head>
@@ -58,8 +58,8 @@ button:hover {
 		      로그인</button>
 		  </form>		
 			<br>
-			<a href="#">ID/PW찾기</a>&nbsp;&nbsp; / &nbsp;&nbsp;<a href="register_form">회원가입</a>
-		  </div> 
+			<a href="find_form">ID/PW찾기</a>&nbsp;&nbsp; / &nbsp;&nbsp;<a href="register_form">회원가입</a>
+		  </div>
 		<script type="text/javascript">
 		function loginChk() {
 		    var form = document.fo;
