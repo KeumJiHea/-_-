@@ -76,14 +76,16 @@ $(document).ready(function(){
 			$("#product3").val(0);			
 		}
 	});	
-	
-});
-$(document).ready(function(){
 	var sell1 = $("#product1").val();
 	var sell2 = $("#product2").val();
 	var sell3 = $("#product3").val();
+	console.log(sell1)
+	console.log(sell2)
+	console.log(sell3)
+	console.log(sell1+sell2+sell3)
 	$("#orderPrice").text(sell1+sell2+sell3);
-})
+});
+
 
 function checkAll() {
 	if($("#orderAllCheck").on("change")[0].checked) {
