@@ -8,6 +8,10 @@ member_birth VARCHAR2(20),
 member_addr1 VARCHAR2(100),
 member_addr2 VARCHAR2(100),
 member_addr3 VARCHAR2(100),
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 705532de0f389f6b907534de4f209dca4031a50b
 login_cookie varchar2(100) default 'nan' not null,
 verify number default(0) 
 );
@@ -19,5 +23,13 @@ member_addr1,member_addr2,member_addr3,verify)values('admin','seeot_06','관리�
 insert into seeot_member(member_id,member_pw,member_name,member_phone,member_email,member_birth,
 member_addr1,member_addr2,member_addr3)values('seeotuser','users_06','사용자','010-1111-2222',
 'users@seeot.com','1999년9월9일','시','옷','프로젝트');
+<<<<<<< HEAD
 
 
+=======
+=======
+verify number default(0) 
+);
+
+>>>>>>> 33a802ff82729889924c1a8b2f0cbe7690a10a40
+>>>>>>> 705532de0f389f6b907534de4f209dca4031a50b

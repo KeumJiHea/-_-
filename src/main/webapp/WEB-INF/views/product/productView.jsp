@@ -5,71 +5,122 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-	<style type="text/css">
-		
-	</style>
-
 </head>
 <body>
-
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+	var pc, ps
+	var cnt = 1
+	function colorAdd(productColor) {
+		console.log(productColor)
+		pc = productColor
+	}
+	
+	function sizeAdd(proSize) {
+		console.log(proSize)
+		ps = proSize
+		productSelect()
+	}
+	
+	function productSelect() {
+		
+		if(pc != '' & ps != '') {
+			$("#proOrderAdd").append("<div id='"+cnt+"'>"+ pc + " / " + ps
+				+ "<input type='button' value='▼' onClick='javascript:this.form.productStack.value--;'>"
+				+ "<input type='text' name='productStack' id='productStack' placeholder='0'>"
+				+ "<input type='button' value='▲' onClick='javascript:this.form.productStack.value++;'>"
+					+" </div>")
+			cnt++
+		}
+		pc = ''
+		ps = ''
+		
+	}
+	
+	function proOrderAdd() {
+		$("#proOrderAdd").hide()
+	}
+	
+	</script>
+	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
-	<form action="#" method="post">
+	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
+	<b> | 상품 관리 | </b>
+	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
+	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<b> | 재고 관리 | </b>
+	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
+	
 	<table border="1">
 		<tr>
 			<td rowspan="10">
-				<c:if test="${ dto.productFile == 'nan' }">
+				<c:if test="${ pdto.productFile == 'nan' }">
 					<b>등록된 이미지가 없습니다.</b>
 				</c:if>
-				<c:if test="${ dto.productFile != 'nan' }">
-					<img width="300px" height="300px" src="${contextPath}/product/download?productFile=${dto.productFile}">
+				<c:if test="${ pdto.productFile != 'nan' }">
+					<img width="300px" height="300px" src="${contextPath}/product/download?productFile=${pdto.productFile}">
 				</c:if>
 			</td>
-			<th>상품 이름</th><td colspan="2">${dto.productName }</td>
+			<th>상품 이름</th><td colspan="2">${pdto.productName }</td>
 		</tr>
 		<tr>
-			<th>가격</th><td colspan="2">${dto.productPrice }</td>
+			<th>가격</th><td colspan="2">${pdto.productPrice }</td>
 		</tr>
 		<tr>
-			<td colspan="3">리뷰 수 : ${dto.reviewCount } / 별점 : ${dto.productRating }</td>
+			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : ${pdto.productRating }</td>
 		</tr>
 		<tr>
 			<th colspan="3">컬러</th>
 		</tr>
 		<tr>
-			<td colspan="3"><button>${dto.productColor }</button></td>
+			<td colspan="3">
+				<c:forEach var="mcdto" items="${mclist }">
+					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }"">${mcdto.productColor }</button>
+				</c:forEach>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">사이즈</th>
 		</tr>
 		<tr>
-			<td colspan="3"><button>${dto.productSize }</button></td>
-		</tr>
-		<tr>
-			<th colspan="3">구매 갯수</th>
-		</tr>
-		<tr>
 			<td colspan="3">
-				<input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
-				<input type="text" name="productStack" id="productStack" placeholder="0">
-				<input type=button value="▲" onClick="javascript:this.form.productStack.value++;">
+				<c:forEach var="msdto" items="${mslist }">
+					<button onclick="sizeAdd(this.id)" id="${msdto.productSize }">${msdto.productSize }</button>
+				</c:forEach>
 			</td>
 		</tr>
 		<tr>
-			<td><button onclick="#">찜♡</button></td>
-			<td><button onclick="#">장바구니</button></td>
-			<td><button onclick="#">구매하기</button></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="productNo" value="${pdto.productNo }">
+				<input type="hidden" name="productName" value="${pdto.productName }">
+				<input type="hidden" name="productFile" value="${pdto.productFile }">
+				
+				<!-- <input type="button" value="▼" onClick="javascript:this.form.productStack.value--;">
+				<input type="text" name="productStack" id="productStack" placeholder="0">
+				<input type="button" value="▲" onClick="javascript:this.form.productStack.value++;"> -->
+				<div id="proOrderAdd">
+				</div>
+			</form>
+			</td>
+		</tr>
+		<tr>
+			<td><button type="button" onclick="">찜</button></td>
+			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
+			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
 		</tr>
 	</table>
-	</form>
 	<hr>
 	
 	<div id="proContent">
 	<h2>상품 상세 정보</h2>
 	<hr>
-	${dto.productContent }
+	${pdto.productContent }
 	</div><br><br>
 	
 	<div id="proReview">
