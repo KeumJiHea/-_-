@@ -60,8 +60,8 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<c:forEach var="mdto" items="${mlist }">
-					<button onclick="colorAdd()">${mdto.productColor }</button>
+				<c:forEach var="mcdto" items="${mclist }">
+					<button onclick="colorAdd()">${mcdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -70,8 +70,8 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<c:forEach var="mdto" items="${mlist }">
-					<button onclick="sizeAdd()">${mdto.productSize }</button>
+				<c:forEach var="msdto" items="${mslist }">
+					<button onclick="sizeAdd()">${msdto.productSize }</button>
 				</c:forEach>
 			</td>
 		</tr>

@@ -31,7 +31,8 @@ public class ProductServiceImpl implements ProductService{
 	
 	public void productView(Model model, int productNo) {
 		model.addAttribute("pdto", mapper.productView(productNo));
-		model.addAttribute("mlist", mapper.productManageView(productNo));
+		model.addAttribute("mslist", mapper.managementSize(productNo));
+		model.addAttribute("mclist", mapper.managementColor(productNo));
 	}
 	
 	public String productSave(MultipartHttpServletRequest mul, HttpServletRequest request) {
