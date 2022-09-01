@@ -93,10 +93,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><button onclick="">찜</button></td>
-			<td><button onclick="">장바구니</button></td>
-			<td><button onclick="productOrder()">구매하기</button></td>
-			<td><button type="button" onclick="#">찜♡</button></td>
+			<td><button type="button" onclick="pro()">찜</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
 		</tr>
