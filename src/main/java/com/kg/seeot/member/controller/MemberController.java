@@ -1,6 +1,9 @@
 package com.kg.seeot.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.logging.LogException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.kg.seeot.common.SessionName;
 import com.kg.seeot.member.dto.MemberDTO;
 import com.kg.seeot.member.service.MemberService;
@@ -90,8 +95,9 @@ public class MemberController implements SessionName{
 	}
 	@PostMapping("register")
 	public String register(MemberDTO dto) {
+		
 		int result = ms.register(dto);
-		System.out.println(result);
+		
 		if(result == 1) {
 			return "redirect:login";
 		}
@@ -113,6 +119,23 @@ public class MemberController implements SessionName{
 		ms.delete(id);
 		return "redirect:memberlist";
 	}
+	
+	@GetMapping("memberIdChk")
+	@ResponseBody
+	public void memberIdChk(HttpServletResponse response, @RequestParam String id) throws Exception {
+		Gson gson = new Gson();
+		
+		int result = ms.idCheck(id);
+		
+		System.out.println(result);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("result", result);
+		
+		response.getWriter().print(gson.toJson(data));
+	}
+	
 	@GetMapping("find_form")
 	public String find_form() {
 		return "find_form";

@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <link href="<c:url value='/resources/css/members.css'/>"rel="stylesheet">
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -19,16 +21,20 @@
 				간단한 정보 입력 후 가입해보세요.<br>
 				<a href="login">로그인 페이지로 돌아가기</a>
 			</p>
-			<form action="register" method="post">
+			<form method="post" action="register" name="form">
 				<div class="field input_id">
-					<span>아이디</span> <input type="text" name="id">
+					<span>아이디</span> <input type="text" name="id" class="id_input">
 				</div>
+				<span class="id_input_re_1">사용 가능한 아이디입니다.</span>
+				<span class="id_input_re_2">아이디가 이미 존재합니다.</span>
+				
 				<div class="field input_pw">
-					<span>비밀번호</span> <input type="password" name="pw" placeholder="">
+					<span>비밀번호</span> <input type="password" id="password" name="pw">
 				</div>
 				<div class="field input_pw2">
-					<span>비밀번호 확인</span> <input type="password">
+					<span>비밀번호 확인</span> <input type="password" id="passwordCheck">
 				</div>
+				<div class="password-message"></div>
 				<div class="field input_name">
 					<span>이름</span> <input type="text" name="name">
 				</div>
@@ -66,13 +72,13 @@
 					</ul>
 				</div>
 				<div>
-					<input type="submit" class="button" value="회원가입">
+					<input type="submit" class="button" value="회원가입" onclick="regichk()" >
 				</div>
 			</form>
 		</div>
 	</div>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 		/* 휴대폰 번호 입력시 '-' 자동 입력 처리 */
 		function addHypen(obj) {
 			var number = obj.value.replace(/[^0-9]/g, "");
@@ -99,9 +105,77 @@
 			}
 			obj.value = phone;
 		}
-	</script>	
-	
-	
+		
+   jQuery( document ).ready( function ( $ ) {
+     var wrapper = $(".members-wrapper.register");
+   $("input[type=password]", wrapper).keyup(function() {
+	 var password = $("input[id=password]", wrapper).val();
+	 var confirm_password = $("input[id=passwordCheck]", wrapper).val();
+	 if( password == confirm_password ) {
+	                $('.password-message').css( 'color', 'green' );
+	                $('.password-message').css( 'background-color', '#00800017' );
+	                $('.password-message').html( '비밀번호가 일치합니다.' );
+	            } else {
+	                $('.password-message').css( 'color', 'red' );
+	                $('.password-message').css( 'background-color', '#ff00000f' );
+	                $('.password-message').html( '비밀번호가 일치하지 않습니다.' );
+	            }
+	        });
+	    });
+   
+      function regichk(){ 
+	   var form = document.form;
+	   if(!form.id.value){
+		   alert("아이디는 필수 사항입니다");
+		   form.id.focus();
+		   return;
+	   }
+	   if(!form.pw.value){
+		   alert("비밀번호는 필수 사항입니다");
+		   form.pw.focus();
+		   return;
+	   }
+	   if(!form.name.value){
+		   alert("이름은 필수 사항입니다");
+		   form.name.focus();
+		   return;
+	   }   
+	   if(!form.phone.value){
+		   alert("전화번호는 필수 사항입니다");
+		   form.phone.focus();
+		   return;
+	   }
+	   if(!form.email.value){
+		   alert("이메일은 필수 사항입니다");
+		   form.email.focus();
+		   return;
+	   }
+	   form.action = "<%=request.getContextPath()%>/member/register";
+	   form.submit();
+   }
+      
+      $('.id_input').on("propertychange change keyup paste input", function(){
+    	  // console.log("keyuptest");
+    	  var memberId = $('.id_input').val();		
+	      var data = { id : memberId };
+	  $.ajax({
+		url : "/member/memberIdChk",
+		data : data,
+		dataType : "json",
+		success : function(data){
+			if(result == 0){
+				$('.id_input_re_1').css("display","inline-block");
+				$('.id_input_re_2').css("display", "none");				
+			} else if(result == 1) {
+				$('.id_input_re_2').css("display","inline-block");
+				$('.id_input_re_1').css("display", "none");				
+			}
+		}
+	});
+      
+ });
+      
+</script>	
 	
 	
 </body>

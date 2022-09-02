@@ -14,4 +14,5 @@ public interface MemberService {
      public void getUser(Model model,String id);
      public void memberlist(Model model);
      public void delete(String id);
+     public int idCheck(String id) throws Exception;
 }
