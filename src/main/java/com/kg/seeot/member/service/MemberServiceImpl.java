@@ -1,6 +1,7 @@
 package com.kg.seeot.member.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.kg.seeot.member.dto.MemberDTO;
 import com.kg.seeot.mybatis.member.MemberMapper;
@@ -21,7 +23,7 @@ public class MemberServiceImpl implements MemberService{
 	public int login_check( HttpServletRequest request ) {
 		MemberDTO dto = mapper.getUser(request.getParameter("id"));
 		if(dto != null) {
-			if(en.matches(request.getParameter("pw"),dto.getMember_pw()) || dto.getMember_pw().equals(request.getParameter("pw"))) {
+			if(en.matches(request.getParameter("pw"),dto.getPw()) || dto.getPw().equals(request.getParameter("pw"))) {
 				return 0;	
 			}
 		}
@@ -34,9 +36,9 @@ public class MemberServiceImpl implements MemberService{
 		mapper.keepLogin(map);
 	}
 	public int register(MemberDTO dto) {
-		String seq = en.encode(dto.getMember_pw());
+		String seq = en.encode(dto.getPw());
 		
-		dto.setMember_pw( seq );
+		dto.setPw( seq );
 		
 		try {
 			return mapper.register( dto );
@@ -45,9 +47,19 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return 0;
 	}
-	public int idCheck(String id) throws Exception {
-		
-		return mapper.idCheck(id);
+	public MemberDTO getCookieUser(String cookie) {
+		return mapper.getCookieUser(cookie);
+	}
+	
+	public void getUser(Model model,String id) {
+		model.addAttribute("info", mapper.getUser(id));
+	}
+	public void memberlist(Model model) {
+		List<MemberDTO> list = mapper.memberlist();
+		model.addAttribute("list",list);
+	}
+	public void delete(String id) {
+		mapper.delete(id);
 	}
 }
 

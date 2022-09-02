@@ -1,69 +1,70 @@
 package com.kg.seeot.member.dto;
 
 public class MemberDTO {
-private String member_id,member_pw,member_name,member_phone,member_email,member_birth,
-member_addr1,member_addr2,member_addr3,login_cookie;
+private String id,pw,name,phone,email,birth,addr1,addr2,addr3,loginCookie;
+
 private int verify;
 
-public String getMember_id() {
-	return member_id;
+public String getId() {
+	return id;
 }
-public void setMember_id(String member_id) {
-	this.member_id = member_id;
+public void setId(String id) {
+	this.id = id;
 }
-public String getMember_pw() {
-	return member_pw;
+public String getPw() {
+	return pw;
 }
-public void setMember_pw(String member_pw) {
-	this.member_pw = member_pw;
+public void setPw(String pw) {
+	this.pw = pw;
 }
-public String getMember_name() {
-	return member_name;
+public String getName() {
+	return name;
 }
-public void setMember_name(String member_name) {
-	this.member_name = member_name;
+public void setName(String name) {
+	this.name = name;
 }
-public String getMember_phone() {
-	return member_phone;
+public String getPhone() {
+	return phone;
 }
-public void setMember_phone(String member_phone) {
-	this.member_phone = member_phone;
+public void setPhone(String phone) {
+	this.phone = phone;
 }
-public String getMember_email() {
-	return member_email;
+public String getEmail() {
+	return email;
 }
-public void setMember_email(String member_email) {
-	this.member_email = member_email;
+public void setEmail(String email) {
+	this.email = email;
 }
-public String getMember_birth() {
-	return member_birth;
+public String getBirth() {
+	return birth;
 }
-public void setMember_birth(String member_birth) {
-	this.member_birth = member_birth;
+public void setBirth(String birth) {
+	this.birth = birth;
 }
-public String getMember_addr1() {
-	return member_addr1;
+public String getAddr1() {
+	return addr1;
 }
-public void setMember_addr1(String member_addr1) {
-	this.member_addr1 = member_addr1;
+public void setAddr1(String addr1) {
+	this.addr1 = addr1;
 }
-public String getMember_addr2() {
-	return member_addr2;
+public String getAddr2() {
+	return addr2;
 }
-public void setMember_addr2(String member_addr2) {
-	this.member_addr2 = member_addr2;
+public void setAddr2(String addr2) {
+	this.addr2 = addr2;
 }
-public String getMember_addr3() {
-	return member_addr3;
+public String getAddr3() {
+	return addr3;
 }
-public void setMember_addr3(String member_addr3) {
-	this.member_addr3 = member_addr3;
+public void setAddr3(String addr3) {
+	this.addr3 = addr3;
 }
-public String getLogin_cookie() {
-	return login_cookie;
+
+public String getLoginCookie() {
+	return loginCookie;
 }
-public void setLogin_cookie(String login_cookie) {
-	this.login_cookie = login_cookie;
+public void setLoginCookie(String loginCookie) {
+	this.loginCookie = loginCookie;
 }
 public int getVerify() {
 	return verify;
@@ -71,5 +72,7 @@ public int getVerify() {
 public void setVerify(int verify) {
 	this.verify = verify;
 }
+
+
 
 }
