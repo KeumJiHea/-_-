@@ -83,7 +83,7 @@ body{
 .banner{
 	width: 60vw;
 }
-hr{
+.line{
 	width: 60vw;
-	margin: 30px, auto, 10px;;
+	margin: 30px auto 10px;
 }

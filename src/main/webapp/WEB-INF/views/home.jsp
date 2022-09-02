@@ -25,7 +25,7 @@
 	</div>
 	<button class="item-link-btn" onclick='location.href="product/list?productCategorie=1"'>더보기</button>
 </div>
-<hr>
+<hr class="line">
 <div class="banners">
 	<img class="banner" src="<%=request.getContextPath() %>/resources/images/slide03.jpg">
 </div>
@@ -36,7 +36,7 @@
 	</div>
 	<button class="item-link-btn" onclick='location.href="product/list?productCategorie=2"'>더보기</button>
 </div>
-<hr>
+<hr class="line">
 <div class="banners">
 	<img class="banner" src="<%=request.getContextPath() %>/resources/images/slide02.jpg">
 </div>
