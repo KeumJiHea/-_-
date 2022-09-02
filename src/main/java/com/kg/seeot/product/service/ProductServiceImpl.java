@@ -160,6 +160,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public void managementModify_Form(int productNo, int productSize, String productColor, Model model) {
+		System.out.println(productNo);
+		System.out.println(productSize);
+		System.out.println(productColor);
 		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
 	}
 	
@@ -181,6 +184,13 @@ public class ProductServiceImpl implements ProductService{
 			url = request.getContextPath() + "/product/managementModify_Form?productNo=" + productNo + "&productSize=" + productSize + "&productColor=" + productColor;
 		}
 		return pfs.getMessage(msg, url);
+	}
+	
+	public ProductManageDTO proStackGet(ProductManageDTO mdto) {
+		int productNo = mdto.getProductNo();
+		int productSize = mdto.getProductSize();
+		String productColor = mdto.getProductColor();
+		return mapper.managementModify_Form(productNo, productSize, productColor);
 	}
 
 }

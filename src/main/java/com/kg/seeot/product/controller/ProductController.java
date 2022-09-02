@@ -4,6 +4,7 @@ package com.kg.seeot.product.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.product.dto.ProductManageDTO;
@@ -153,6 +155,13 @@ public class ProductController {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(message);
+	}
+	
+	//상품 상세페이지 남은 재고 가져오기
+	@GetMapping(value = "proStackGet", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public ProductManageDTO proStackGet(ProductManageDTO mdto) {
+		return ps.proStackGet(mdto);
 	}
 	
 

@@ -6,12 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body onload="proOrderAdd()">
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
 	var pc, ps
-	var cnt = 1
 	function colorAdd(productColor) {
 		console.log(productColor)
 		pc = productColor
@@ -24,22 +23,50 @@
 	}
 	
 	function productSelect() {
+		console.log('productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
+		
 		
 		if(pc != '' & ps != '') {
-			$("#proOrderAdd").append("<div id='"+cnt+"'>"+ pc + " / " + ps
-				+ "<input type='button' value='▼' onClick='javascript:this.form.productStack.value--;'>"
-				+ "<input type='text' name='productStack' id='productStack' placeholder='0'>"
-				+ "<input type='button' value='▲' onClick='javascript:this.form.productStack.value++;'>"
-					+" </div>")
-			cnt++
+			$.ajax({
+				url: "proStackGet",
+				type:"get",
+				data:{
+					productNo : ${pdto.productNo},
+					productColor : pc,
+					productSize : ps
+				},
+				datatype:"json",
+				success: function(data) {
+					
+					console.log(data)
+					
+					if(data != '' ) {
+						console.log(data.productColor + ", " + data.productSize)
+						
+						if(document.getElementById(data.productColor + ", " + data.productSize) == null) {
+							$("#proOrderAdd").append("<div id='" + data.productColor + ", " + data.productSize + "'>"+ data.productColor + " / " + data.productSize
+									+ "<input type='number' min='1' max='" + data.productStack + "' name='productStack' id='productStack' value='1' placeholder='1'>"
+									+"금액 <span id='selectPrice'>0</span> 원</div>")
+							$("#selectOrderProduct").show()
+						}else {
+							alert('이미 추가되었습니다.')
+						}
+					}else {
+						alert('상품 재고가 없습니다.')
+					}
+	
+				}
+			})
 		}
 		pc = ''
 		ps = ''
 		
 	}
 	
+	
+	
 	function proOrderAdd() {
-		$("#proOrderAdd").hide()
+		$("#selectOrderProduct").hide()
 	}
 	
 	</script>
@@ -97,14 +124,16 @@
 		<tr>
 			<td colspan="3">
 			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
+				<div id="selectOrderProduct">
 				<input type="hidden" name="productNo" value="${pdto.productNo }">
 				<input type="hidden" name="productName" value="${pdto.productName }">
 				<input type="hidden" name="productFile" value="${pdto.productFile }">
+				<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
 				
-				<!-- <input type="button" value="▼" onClick="javascript:this.form.productStack.value--;">
-				<input type="text" name="productStack" id="productStack" placeholder="0">
-				<input type="button" value="▲" onClick="javascript:this.form.productStack.value++;"> -->
 				<div id="proOrderAdd">
+				</div>
+				
+					총 금액<span id="orderPrice">0</span>원
 				</div>
 			</form>
 			</td>

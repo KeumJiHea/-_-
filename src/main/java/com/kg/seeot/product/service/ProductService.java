@@ -21,5 +21,7 @@ public interface ProductService {
 	public String managementDelete(int productNo, int productSize, String productColor, HttpServletRequest request);
 	public void managementModify_Form(int productNo, int productSize, String productColor, Model model);
 	public String managementModify(ProductManageDTO mdto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request);
-
+	
+	public ProductManageDTO proStackGet(ProductManageDTO mdto);
+	
 }
