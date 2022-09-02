@@ -60,7 +60,7 @@
 				<i class="fa-solid fa-magnifying-glass" title="검색"></i>
 			</li>
 			<li>
-				<a href="#">
+				<a href="${contextPath }/cart/mycart">
 					<i class="fa-solid fa-cart-shopping" title="장바구니"></i>
 				</a>
 			</li>

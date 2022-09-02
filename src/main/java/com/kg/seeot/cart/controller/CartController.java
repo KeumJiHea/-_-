@@ -2,10 +2,12 @@ package com.kg.seeot.cart.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,19 +16,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kg.seeot.cart.service.CartService;
+import com.kg.seeot.common.SessionName;
+import com.kg.seeot.member.service.MemberService;
 
 @Controller
 @RequestMapping("cart")
 public class CartController {
 	@Autowired CartService cs;
+	@Autowired SessionName sn;
 	
 	
 	@GetMapping("addcart")
 	public void addCart(HttpServletRequest request,HttpServletResponse response,int productNo) throws Exception {
-		System.out.println("컨트롤러 동작 성공");
+		System.out.println("장바구니 등록 컨트롤러 동작 성공");
 		cs.addCart(productNo);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
@@ -36,9 +43,37 @@ public class CartController {
 	}
 	
 	@GetMapping("mycart")
-	public String mycart(String memberId,Model model) {
-		memberId = "seeotuser";
+	public String mycart(String memberId,Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		memberId = (String)session.getAttribute("loginUser");
 		cs.getCart(model, memberId);
 		return "cart/mycart";
+	}
+	
+	@GetMapping("cartdeleteOne")
+	public void deleteOne(String memberId, int productNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("장바구니 개별삭제 컨트롤러 동작 성공");
+		System.out.println("id : "+memberId);
+		System.out.println("no : "+productNo);
+		
+		int result = cs.deleteOneCart(memberId,productNo);
+		if(result ==1) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('삭제되었습니다!'); location.reload();</script>");
+			out.flush(); 
+			
+		}
+		 
+	}
+	
+	@PostMapping("cartchkdel")
+	@ResponseBody
+	public void cartchkdel(HttpServletRequest request,String memberId,@RequestParam(value = "productlist")String[] productlist) {
+		System.out.println("선택삭제 컨트롤러 동작 성공");
+		for(int i =0; i<productlist.length;i++) {
+			System.out.println("i : "+productlist[i]);
+		}
+		System.out.println("id : "+memberId);
 	}
 }
