@@ -10,14 +10,18 @@
 <result property="reviewStar" column="review_star"/>
 <result property="productNo" column="product_no"/>
 <result property="reviewContent" column="review_content"/>
+<result property="rating" column="rating" />
 </resultMap>
 
 <select id="reviewList" resultMap="review">
 select * from seeot_review
 </select>
 <insert id="addReview">
-insert into seeot_review(memberId, reviewStar, reviewContent, productNo, reviewFile)
-	values(#{member_id}, #{review_star}, #{review_content} ,#{product_no},#{review_file})
+insert into seeot_review(memberId, reviewContent, productNo, reviewFile, rating , reviewStar)
+	values(#{member_id}, #{review_content} ,#{product_no},#{review_file}, #{rating} , 5)
 </insert>
+<update id="addStar">
+update seeot_review  set reviewStar = (#{review_star}) where =(#{review_star})
+</update>
 	
 	</mapper>

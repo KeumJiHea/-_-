@@ -59,15 +59,17 @@ function review(){
 	var reviewFile = "nan"
 //	var memberId = $("input[name='memberId']").val()  //회원아이디 입력받게 만들기
 	var reviewContent = $("textarea[name='reviewContent']").val()
-	var reviewStar =$('[name=reviewStar]:checked').val()
+	var rating =$('[name=reviewStar]:checked').val() 
+	var reviewStar=1
 	
 	//	var formData = new FormData();
 	// formData.append('file', $('#uploadFile')[0].files[0]);
 
 	//var reviewFile =$("file[name='reviewFile']").val     reviewFile:reviewFile
 	
-	var form = {memberId: memberId, reviewContent: reviewContent, reviewStar: reviewStar
-			,productNo:productNo,reviewFile:reviewFile }
+	var form = {memberId: memberId, reviewContent: reviewContent 
+			,productNo:productNo, reviewFile:reviewFile, rating:rating, reviewStar:reviewStar }
+
 	console.log(form)
 	// console.log( typeof form)
 	$.ajax({
@@ -77,8 +79,9 @@ function review(){
 	dataType:"json",
 	success:function(){
 		alert('리뷰등록')
-	},error: function(data){alert('문제발생'), console.log(form)}
+	},error:function(data){alert('문제발생'), console.log(form)}
 })
+
 }
 
 function readURL(input) {
@@ -106,8 +109,8 @@ function readURL(input) {
 별점: ${dto.reviewStar }	
 상품: ${dto.productNo }	
 등록일: ${dto.reviewDate }	<br>
-
-</c:forEach>-->
+</c:forEach>
+-->
 
 
 <div>

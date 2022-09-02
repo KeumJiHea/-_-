@@ -27,12 +27,22 @@ public class ReviewServiceImpl implements ReviewService {
 		mapper.addReply( map );
 	}
 	
-	public void addReview(Map<String,Object> map, int reviewStar) {
+	public void addReview(Map<String,Object> map) {
 		System.out.println("serImpl");  
 		System.out.println((String)map.get("memberId"));
-		System.out.println((String)map.get("reviewContent"));
-		System.out.println(map.get("reviewStar"));
-		mapper.addReview(map,reviewStar);
+		  System.out.println((String)map.get("reviewContent"));
+		  System.out.println((String)map.get("reviewFile"));
+		  System.out.println(map.get("productNo"));
+		  System.out.println(map.get("reviewStar")); 
+		  System.out.println(map.get("rating"));;
+	//	System.out.println(map.get("reviewStar"));
+		//int reviewStar = Integer.parseInt(String.valueOf(map.get("reviewStar")) );
+		mapper.addReview(map);
+		
+				
+	}
+	public void addStar(int reviewStar) {
+		mapper.addStar(reviewStar);
 	}
 	
 //	

@@ -39,16 +39,25 @@ public class ReviewRepController {
 	@PostMapping(value="addReview",produces="application/json;charset=utf8" )
 	public void addReview(@RequestBody Map<String, Object> map) {
 		System.out.println("controller"); 
-		System.out.println((String)map.get("memberId"));
-		System.out.println((String)map.get("reviewContent"));
-		System.out.println((String)map.get("reviewFile"));
-		System.out.println(map.get("productNo"));
-		System.out.println(map.get("reviewStar"));
-		int reviewStar = Integer.parseInt(String.valueOf(map.get("reviewStar")) );
-		System.out.println(reviewStar);
+		
+		  System.out.println((String)map.get("memberId"));
+		  System.out.println((String)map.get("reviewContent"));
+		  System.out.println((String)map.get("reviewFile"));
+		  System.out.println(map.get("productNo"));
+		  System.out.println(map.get("reviewStar")); 
+		  System.out.println(map.get("rating")); 
 		
 		
-		rs.addReview(map, reviewStar);
+		//int reviewStar = Integer.parseInt(String.valueOf(map.get("reviewStar")) );
+	
+		
+	
+		rs.addReview(map);
+	}
+	
+	@PostMapping(value="addStar",produces="application/json;charset=utf8")
+	public void addStar(int reviewStar) {
+		rs.addStar(reviewStar);
 	}
     /*
    
