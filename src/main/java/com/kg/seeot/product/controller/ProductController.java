@@ -93,7 +93,7 @@ public class ProductController {
 	@GetMapping("productModify_Form")
 	public String productModify_Form(int productNo, Model model) {
 		ps.productModify_Form(productNo, model);
-		return "product/productModify_Form";
+		return "product/productModify_Form.page";
 	}
 	
 	//상품 수정
@@ -109,13 +109,13 @@ public class ProductController {
 	@GetMapping("managementView")
 	public String managementView(int productNo, Model model) {
 		ps.managementView(productNo, model);
-		return "product/managementView";
+		return "product/managementView.page";
 	}
 	
 	//상품 재고 등록 페이지 연결
 	@GetMapping("managementRegister_Form")
 	public String managementRegister_Form() {
-		return "product/managementRegister_Form";
+		return "product/managementRegister_Form.page";
 	}
 	
 	//상품 재고 신규 등록
@@ -142,7 +142,7 @@ public class ProductController {
 	@GetMapping("managementModify_Form")
 	public String managementModify_Form(@RequestParam(value="productNo") int productNo, @RequestParam(value="productSize") int productSize, @RequestParam(value="productColor") String productColor, Model model) {
 		ps.managementModify_Form(productNo, productSize, productColor, model);
-		return "product/managementModify_Form";
+		return "product/managementModify_Form.page";
 	}
 	
 	//상품 재고 수정

@@ -72,6 +72,8 @@ function stopMove(){
 	clearInterval(time);
 }
 
+//마우스 올렸을 때 배너 멈추는 함수
 const outer = document.querySelector('.outer');
 outer.addEventListener('mouseover', stopMove);
 outer.addEventListener('mouseout', move);
+

@@ -39,6 +39,6 @@ public class CartController {
 	public String mycart(String memberId,Model model) {
 		memberId = "seeotuser";
 		cs.getCart(model, memberId);
-		return "cart/mycart";
+		return "cart/mycart.page";
 	}
 }

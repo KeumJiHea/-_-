@@ -1,7 +1,6 @@
 package com.kg.seeot.mybatis.cart;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.kg.seeot.cart.dto.CartDTO;
 
