@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.service.ProductFileService;
 import com.kg.seeot.product.service.ProductService;
 
@@ -84,6 +85,72 @@ public class ProductController {
 		String message = ps.productDelete(productNo, productFile, request);
 		
 		response.setContentType("text/html; charser=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+	
+	//상품 수정 페이지 연결
+	@GetMapping("productModify_Form")
+	public String productModify_Form(int productNo, Model model) {
+		ps.productModify_Form(productNo, model);
+		return "product/productModify_Form";
+	}
+	
+	//상품 수정
+	@PostMapping("productModify")
+	public void productModify(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = ps.productModify(mul, request);
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+	
+	//상품 재고 현황
+	@GetMapping("managementView")
+	public String managementView(int productNo, Model model) {
+		ps.managementView(productNo, model);
+		return "product/managementView";
+	}
+	
+	//상품 재고 등록 페이지 연결
+	@GetMapping("managementRegister_Form")
+	public String managementRegister_Form() {
+		return "product/managementRegister_Form";
+	}
+	
+	//상품 재고 신규 등록
+	@PostMapping("managementSave")
+	public void managementSave(ProductManageDTO dto, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = ps.managementSave(dto, request);
+		
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+	
+	//상품 재고 삭제
+	@GetMapping("managementDelete")
+	public void managementDelete( @RequestParam(value="productNo") int productNo, @RequestParam(value="productSize") int productSize, @RequestParam(value="productColor") String productColor, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		String message = ps.managementDelete(productNo, productSize, productColor, request);
+		
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+	
+	//상품 재고 수정 페이지 연결
+	@GetMapping("managementModify_Form")
+	public String managementModify_Form(@RequestParam(value="productNo") int productNo, @RequestParam(value="productSize") int productSize, @RequestParam(value="productColor") String productColor, Model model) {
+		ps.managementModify_Form(productNo, productSize, productColor, model);
+		return "product/managementModify_Form";
+	}
+	
+	//상품 재고 수정
+	@PostMapping("managementModify")
+	public void managementModify(ProductManageDTO mdto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = ps.managementModify(mdto, moProductStack, moProductColor, moProductSize, request);
+		
+		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(message);
 	}

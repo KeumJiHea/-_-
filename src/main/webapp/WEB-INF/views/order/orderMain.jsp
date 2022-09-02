@@ -13,6 +13,7 @@
 <script type="text/javascript">
 var IMP = window.IMP;
 IMP.init("imp11462084"); // 예: imp00000000 
+
 $(document).ready(function(){
 	console.log($('#orderchk1').is(':checked'))
 	$("#orderchk1").change(function(){
@@ -26,6 +27,7 @@ $(document).ready(function(){
 		}
 	});							
 });
+
 function requestPay() {
 		var rand = ''
 		for (let i = 0; i < 4; i++) {

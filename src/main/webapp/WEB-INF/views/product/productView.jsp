@@ -7,16 +7,53 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+	var pc, ps
+	var cnt = 1
+	function colorAdd(productColor) {
+		console.log(productColor)
+		pc = productColor
+	}
+	
+	function sizeAdd(proSize) {
+		console.log(proSize)
+		ps = proSize
+		productSelect()
+	}
+	
+	function productSelect() {
+		
+		if(pc != '' & ps != '') {
+			$("#proOrderAdd").append("<div id='"+cnt+"'>"+ pc + " / " + ps
+				+ "<input type='button' value='▼' onClick='javascript:this.form.productStack.value--;'>"
+				+ "<input type='text' name='productStack' id='productStack' placeholder='0'>"
+				+ "<input type='button' value='▲' onClick='javascript:this.form.productStack.value++;'>"
+					+" </div>")
+			cnt++
+		}
+		pc = ''
+		ps = ''
+		
+	}
+	
+	function proOrderAdd() {
+		$("#proOrderAdd").hide()
+	}
+	
+	</script>
+	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
 	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
-	<button type="button" onclick="location.href='productUpdate'" >상품 수정</button>
-	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 등록</button>
-	<button type="button" onclick="location.href='proDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<b> | 상품 관리 | </b>
+	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
+	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<b> | 재고 관리 | </b>
+	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
 	
-	<form action="#" method="post">
 	<table border="1">
 		<tr>
 			<td rowspan="10">
@@ -40,8 +77,8 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<c:forEach var="mdto" items="${mlist }">
-					<button>${mdto.productColor }</button>
+				<c:forEach var="mcdto" items="${mclist }">
+					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }"">${mcdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -50,28 +87,34 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<c:forEach var="mdto" items="${mlist }">
-					<button>${mdto.productSize }</button>
+				<c:forEach var="msdto" items="${mslist }">
+					<button onclick="sizeAdd(this.id)" id="${msdto.productSize }">${msdto.productSize }</button>
 				</c:forEach>
 			</td>
 		</tr>
 		<tr>
-			<th colspan="3">구매 갯수</th>
 		</tr>
 		<tr>
 			<td colspan="3">
-				<input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
+			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="productNo" value="${pdto.productNo }">
+				<input type="hidden" name="productName" value="${pdto.productName }">
+				<input type="hidden" name="productFile" value="${pdto.productFile }">
+				
+				<!-- <input type="button" value="▼" onClick="javascript:this.form.productStack.value--;">
 				<input type="text" name="productStack" id="productStack" placeholder="0">
-				<input type=button value="▲" onClick="javascript:this.form.productStack.value++;">
+				<input type="button" value="▲" onClick="javascript:this.form.productStack.value++;"> -->
+				<div id="proOrderAdd">
+				</div>
+			</form>
 			</td>
 		</tr>
 		<tr>
-			<td><button type="button" onclick="#">찜♡</button></td>
+			<td><button type="button" onclick="">찜</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
 		</tr>
 	</table>
-	</form>
 	<hr>
 	
 	<div id="proContent">
