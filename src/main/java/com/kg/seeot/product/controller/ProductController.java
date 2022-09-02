@@ -1,5 +1,10 @@
 package com.kg.seeot.product.controller;
 
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +55,13 @@ public class ProductController {
 		in.close();
 	}
 	
+	//상품 상세 정보
+	@GetMapping("productView")
+	public String productView(Model model, int productNo) {
+		ps.productView(model, productNo);
+		return "product/productView";
+	}
+	
 	//상품 등록 페이지 연결
 	@GetMapping("productRegister")
 	public String productRegister() {
@@ -65,13 +78,15 @@ public class ProductController {
 		out.print(message);
 	}
 	
-	//상품 상세 정보
-	@GetMapping("productView")
-	public String productView(Model model, int productNo) {
-		ps.productView(model, productNo);
-		return "product/productView";
+	//상품 삭제
+	@GetMapping("productDelete")
+	public void productDelete(int productNo, String productFile, HttpServletResponse response ,HttpServletRequest request) throws Exception {
+		String message = ps.productDelete(productNo, productFile, request);
+		
+		response.setContentType("text/html; charser=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
 	}
-	
 	
 
 }
