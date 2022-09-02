@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,7 +55,7 @@ public class MemberController implements SessionName{
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
 		if(id.equals("admin")) {
-			return "member/admin";
+			return "admin/admin";
 		}
 
 		if( autoLogin != null ) {
@@ -90,12 +91,42 @@ public class MemberController implements SessionName{
 	@PostMapping("register")
 	public String register(MemberDTO dto) {
 		int result = ms.register(dto);
-		if(result == 1)
+		System.out.println(result);
+		if(result == 1) {
 			return "redirect:login";
+		}
 			return "redirect:register_form";
 	}
+	@GetMapping("info")
+	public String info(Model model, String id) {
+		ms.getUser(model,id);
+		
+		return "member/info";
+	}
+	@GetMapping("memberlist")
+	public String infolist(Model model) {
+		ms.memberlist(model);
+		return "admin/memberlist";
+	}
+	@GetMapping("delete")
+	public String delete(String id) {
+		ms.delete(id);
+		return "redirect:memberlist";
+	}
+	@GetMapping("find_form")
+	public String find_form() {
+		return "find_form";
+	}
+	@PostMapping("find_id_form")
+	public String find_id_form(String id) {
+		
+		return "member/find_form";
+	}
+	@PostMapping("find_pw_form")
+	public String find_pw_form() {
+		return "";
+	}
 }
-
 
 
 
