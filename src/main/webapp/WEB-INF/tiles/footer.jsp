@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="inner_footer">
 	<div class="footer_menu">
-		<a href="#">Home</a>
+		<a href="home">Home</a>
 		<a href="#">About</a>
 		<a href="#">Agreement</a>
 		<a href="#">Privacy Policy</a>
