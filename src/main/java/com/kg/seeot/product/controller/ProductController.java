@@ -42,7 +42,7 @@ public class ProductController {
 		}else {
 			ps.list(model, productCategorie);
 		}
-		return "product/list";
+		return "product/list.page";
 	}
 	
 	//상품 이미지 로드
@@ -59,13 +59,13 @@ public class ProductController {
 	@GetMapping("productView")
 	public String productView(Model model, int productNo) {
 		ps.productView(model, productNo);
-		return "product/productView";
+		return "product/productView.page";
 	}
 	
 	//상품 등록 페이지 연결
 	@GetMapping("productRegister")
 	public String productRegister() {
-		return "product/productRegister";
+		return "product/productRegister.page";
 	}
 	
 	//상품 등록

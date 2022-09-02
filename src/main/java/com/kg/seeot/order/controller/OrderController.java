@@ -27,17 +27,17 @@ public class OrderController {
 	public String orderMain(Model model,int productNo) {
 		System.out.println("컨트롤러 동작 성공");
 		ps.productView(model, productNo);
-		return "/order/orderMain";
+		return "/order/orderMain.page";
 	}
 	@GetMapping("cartorder")
 	public String cartOrder(Model model,String memberId) {
 		
-		return "/order/cartorder";
+		return "/order/cartorder.page";
 	}
 	@PostMapping("orderchk")
 	public String orderchk() {
 		System.out.println("컨트롤러 동작 성공");
-		return "/order/orderchk";
+		return "/order/orderchk.page";
 		
 	}
 }
