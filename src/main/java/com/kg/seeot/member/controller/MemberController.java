@@ -105,6 +105,7 @@ public class MemberController implements SessionName{
 	}
 	@GetMapping("info")
 	public String info(Model model, String id) {
+		
 		ms.getUser(model,id);
 		
 		return "member/info";
@@ -120,14 +121,12 @@ public class MemberController implements SessionName{
 		return "redirect:memberlist";
 	}
 	
-	@GetMapping("memberIdChk")
+	@GetMapping("memberIdChk.do")
 	@ResponseBody
 	public void memberIdChk(HttpServletResponse response, @RequestParam String id) throws Exception {
 		Gson gson = new Gson();
 		
 		int result = ms.idCheck(id);
-		
-		System.out.println(result);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		

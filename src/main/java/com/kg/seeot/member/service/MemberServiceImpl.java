@@ -50,7 +50,6 @@ public class MemberServiceImpl implements MemberService{
 	public MemberDTO getCookieUser(String cookie) {
 		return mapper.getCookieUser(cookie);
 	}
-	
 	public void getUser(Model model,String id) {
 		model.addAttribute("info", mapper.getUser(id));
 	}
