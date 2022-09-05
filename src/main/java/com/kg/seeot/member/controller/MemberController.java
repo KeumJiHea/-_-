@@ -87,7 +87,7 @@ public class MemberController implements SessionName{
 			ms.keepLogin( (String)session.getAttribute(LOGIN), "nan");
 		}
 		session.invalidate();
-		return "redirect:/index";
+		return "redirect:login";
 	}
 	@GetMapping("register_form")
 	public String register_form() {

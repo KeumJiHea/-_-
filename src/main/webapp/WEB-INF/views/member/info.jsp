@@ -11,7 +11,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	<script>
+
+<script>
     jQuery( document ).ready( function ( $ ) {
         var wrapper = $( '.members-wrapper.myaccount' );
         var navigation = $( '.navigation', wrapper );
@@ -34,6 +35,25 @@
         } );
 
     } );
+</script>
+<script type="text/javascript">
+window.onload = function(){
+	var phoneList = "${info.phone}";
+	var Phone = phoneList.split("-");
+	var emailList = "${info.email}";
+	var Email = emailList.split("@");
+	
+	document.getElementById('phone1').value = Phone[1];
+	document.getElementById('phone2').value = Phone[2];
+	document.getElementById('email1').value = Email[0];
+	document.getElementById('email2').value = Email[1];
+	
+	console.log(Phone[0]);
+	console.log(Phone[1]);
+	console.log(Phone[2]);
+	console.log(Email[0]);
+	console.log(Email[1]);
+}
 </script>
 
 <div class="members-wrapper myaccount">
@@ -177,6 +197,7 @@
                 </div>
                 <div class="field input_phone">
                     <span>전화번호</span>
+                    
                     <select name="part1">
                         <option value="010" selected>010</option>
                         <option value="011">011</option>
@@ -185,14 +206,14 @@
                         <option value="019">019</option>
                         <option value="070">070</option>
                     </select>  
-                    <input type="text" name="part2" maxlength="4" value="">
-                    <input type="text" name="part3" maxlength="4" value="">
+                    <input type="text" name="part2" maxlength="4" id="phone1">
+                    <input type="text" name="part3" maxlength="4" id="phone2">
                 </div>
                 <div class="field input_email">
                     <span>이메일</span>
-                    <input type="text" name="email" placeholder="이메일 주소 입력" value="">
+                    <input type="text" name="email" placeholder="이메일 주소 입력" id="email1">
                     @
-                    <input type="text" name="email2" placeholder="이메일 주소 입력" value="">
+                    <input type="text" name="email2" placeholder="이메일 주소 입력" id="email2">
                     <select name="domain">
                         <option value="naver.com" selected>naver.com</option>
                         <option value="gmail.com">gmail.com</option>
@@ -229,15 +250,15 @@
                 <div class="field input_addr">
                     <span>기본 주소</span>
                     <div class="address">
-                        홍길동<br>
-                        (#1234) 서울시 은평구 응암동 123-12 2층
+                       ${info.id }<br>
+                       (주문번호)&nbsp;${info.addr1}&nbsp;${info.addr2}&nbsp;${info.addr3}
                     </div>
                 </div>
                 <div class="field input_addr">
                     <span>배송지 목록</span>
                     <div class="address">
-                        홍길동<br>
-                        (#1234) 서울시 은평구 응암동 123-12 2층
+                       ${info.id }<br>
+                       (주문번호)목록 구현중
                     </div>
                 </div>
             </div>

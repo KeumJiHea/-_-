@@ -1,8 +1,8 @@
 package com.kg.seeot.member.dto;
 
 public class MemberDTO {
-private String id,pw,name,phone,phone1,phone2,phone3,email,email1,email2,birth,addr1,addr2,addr3,loginCookie;
-
+private String id,pw,name,phone,phone1,phone2,phone3,email,email1,email2,
+               birth,addr1,addr2,addr3,loginCookie;
 private int verify;
 
 public String getId() {
@@ -30,7 +30,7 @@ public String getPhone() {
 	
 	phone = "";
 	if(! phone2.equals("") && ! phone3.equals("")) {
-		phone = getPhone1() +"-"+ getPhone2() +"-"+ getPhone3();
+		phone = phone1+"-"+phone2+"-"+phone3;
 	}
 	
 	return phone;
@@ -107,7 +107,6 @@ public String getAddr3() {
 public void setAddr3(String addr3) {
 	this.addr3 = addr3;
 }
-
 public String getLoginCookie() {
 	return loginCookie;
 }

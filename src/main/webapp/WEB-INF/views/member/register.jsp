@@ -40,11 +40,11 @@
 						<div class="password-message message"></div>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" name="agreement02" checked>
+						<input type="checkbox" id="agreement01" checked>
 						<a href="#" class="required">쇼핑몰 이용약관에 동의합니다.</a>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" name="agreement01" checked>
+						<input type="checkbox" id="agreement02" checked>
 						<a href="#" class="required">만 14세 이상입니다.</a>
 						<ul>
 							<li>만 14세 미만의 아동은 회원가입 시 법적대리인의 동의가 필요합니다.</li>
@@ -107,7 +107,7 @@
 							<input type="text" name="email1" placeholder="이메일 주소 입력">
 							@
 							<input type="text" name="email2" >
-							<select name="domain">
+							<select id="domain">
 								<option value="naver.com">naver.com</option>
 								<option value="gmail.com">gmail.com</option>
 								<option value="daum.net">daum.net</option>
@@ -138,8 +138,8 @@
 		    var wrapper      = $(".members-wrapper.register");
 		    var members_info = $(".members-info", wrapper );
 		    
-		    $('select[name=domain]', wrapper).on( 'change', function() {
-		    	var domain = $('select[name=domain] option:selected', wrapper).val(); //naver
+		    $('select[id=domain]', wrapper).on( 'change', function() {
+		    	var domain = $('select[id=domain] option:selected', wrapper).val(); //naver
 		         console.log(domain);
 		    	if(domain == 1){
 		    		$('input[name=email2]',wrapper).val('');
