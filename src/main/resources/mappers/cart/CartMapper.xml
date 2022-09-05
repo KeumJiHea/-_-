@@ -21,4 +21,8 @@
 	<select id="getCart" resultMap="cart">
 		select * from cart where member_id=#{member_id}
 	</select>
+	
+	<delete id="deleteCartOne">
+		delete from cart where member_id=#{m} and product_no=#{p}
+	</delete>
 </mapper>

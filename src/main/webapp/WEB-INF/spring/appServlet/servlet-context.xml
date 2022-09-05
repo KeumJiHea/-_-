@@ -37,6 +37,12 @@
         <beans:property name="order" value="1" />
     </beans:bean>  
 	
+	<beans:bean id="loginChk" class="com.kg.seeot.common.LoginCheckIn"></beans:bean>
 	
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/cart/mycart"/> 
+			<beans:ref bean="loginChk"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>

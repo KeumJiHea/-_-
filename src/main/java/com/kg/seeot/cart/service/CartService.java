@@ -10,4 +10,5 @@ import com.kg.seeot.cart.dto.CartDTO;
 public interface CartService {
 	public void addCart(int productNo);
 	public ArrayList<CartDTO> getCart(Model model,String memberId);
+	public int deleteOneCart(String memberId,int productNo);
 }

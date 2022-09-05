@@ -76,14 +76,6 @@ $(document).ready(function(){
 			$("#product3").val(0);			
 		}
 	});	
-	var sell1 = $("#product1").val();
-	var sell2 = $("#product2").val();
-	var sell3 = $("#product3").val();
-	console.log(sell1)
-	console.log(sell2)
-	console.log(sell3)
-	console.log(sell1+sell2+sell3)
-	$("#orderPrice").text(sell1+sell2+sell3);
 });
 
 
@@ -113,6 +105,84 @@ $(document).ready(function() {
 		}
 	});
 });
+	 
+    $(document).on('click',".deletebtn",function(){ 
+	                       
+		var str = ""            
+		var tdArr = new Array();    // 배열 선언            
+		var checkBtn = $(this);
+		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
+		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
+		var tr = checkBtn.parent().parent();    
+		var td = tr.children(); 
+
+		// td.eq(index)를 통해 값을 가져올 수도 있다.    
+		var no = td.eq(1).text();    
+		console.log(no);
+		if(confirm(td.eq(3).text()+' 상품을 장바구니에서 삭제 하시겠습니까?')){
+			$.ajax({
+				url: "cartdeleteOne?productNo="+no+"&memberId=${sessionScope.loginUser}",
+				type:"get",
+				data: no,
+				contentType : "application/json; charset=utf-8",
+				success: function(data){
+					alert('ok')
+				},
+				error:function(){
+					alert('no')
+				}
+			})
+		}else{
+			alert('삭제가 취소되었습니다.')
+		}
+});
+
+	var productlist = new Array();        
+$(document).on('click','.chkdel',function(){                     
+	var rowData = new Array();         
+	var checkbox = $("input[name=orderChkbox]:checked");
+	    // 체크된 체크박스 값을 가져온다    
+	checkbox.each(function(i) {            
+		// checkbox.parent() : checkbox의 부모는 <td>이다.        
+		// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.        
+		var tr = checkbox.parent().parent().eq(i);        
+		var td = tr.children();                       
+		// 체크된 row의 모든 값을 배열에 담는다.        
+		rowData.push(tr.text());                        
+		// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+		        
+		var no = td.eq(1).text();                
+		                       
+		// 가져온 값을 배열에 담는다.        
+		productlist.push(no);             
+	});                 
+		if(confirm('선택된 상품을 장바구니에서 삭제하시겠습니까?')){
+			$.ajax({
+				url: "cartchkdel",
+				type:"POST",
+				traditional :true,
+				data: {
+					productNo: productlist
+				},
+				dataType:"JSON",
+				contentType : "application/json; charset=utf-8",
+				success: function(data){
+					console.log(productlist);
+					console.log(data);
+					alert('ok')
+				},
+				error:function(data){
+					console.log(productlist);
+					console.log(data);			
+					alert('no')
+				}
+			})
+		}else{
+			alert('삭제가 취소되었습니다.')
+		}          		
+	  
+});
+
 
 
 </script>
@@ -124,37 +194,40 @@ $(document).ready(function() {
 			<c:forEach var="hiddenprod" items="${cart }" varStatus="status">
 			<input type="hidden" name="product${status.count }" id="product${status.count }" value="">
 			</c:forEach>
-			<table border="1">
+			<table id="cartTable" border="1">
 				<tr>
-					<th>전체 선택<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" onclick='checkAll()'/></th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>상품가격</th><th>구매수량</th>
+					<th>전체 선택<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" onclick='checkAll()'/></th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>상품가격</th><th>구매수량</th><th></th>
 				</tr>
 				<c:if test="${cart.size()==0 }">
 					<tr>
-						<td colspan="6">등록된 장바구니가 없습니다</td>
+						<td colspan="7">등록된 장바구니가 없습니다</td>
 					</tr>
 				</c:if>
 				<c:if test="${cart.size()!=0 }">
 					<c:forEach var="cart" items="${cart }" varStatus="status">					
 					<tr>
-						<th><input type="checkbox" name='orderChkbox' id="orderchk${status.count }"></th><td>${cart.productNo }</td>
-					<td>
-						<c:if test="${ cart.productFile == 'nan' }">
-							<b>등록된 이미지가 없습니다.</b>
-						</c:if>
-						<c:if test="${ cart.productFile != 'nan' }">
-							<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${cart.productFile}">
-						</c:if>
-					</td>
-					<td>${cart.productName }</td>
-					<td>${cart.productPrice }</td>
-					<td>
-						<input type="number" min="0" max="10" name="productStack" id="productStack${status.count }" placeholder="0"><br>
-						<span id="price${status.count }">0</span>원
-					</td>
-					</tr>
+						<th><input type="checkbox" name='orderChkbox' id="orderchk"></th>
+						<td id="productnotd${status.count }">${cart.productNo }</td>
+						<th>
+							<c:if test="${ cart.productFile == 'nan' }">
+								<b>등록된 이미지가 없습니다.</b>
+							</c:if>
+							<c:if test="${ cart.productFile != 'nan' }">
+								<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${cart.productFile}">
+							</c:if>
+						</th>
+						<th>${cart.productName }</th>
+						<th>${cart.productPrice }</th>
+						<th>
+							<input type="number" min="0" max="10" name="productStack" id="productStack${status.count }" placeholder="0"><br>
+							<span id="price${status.count }">0</span>원
+						</th>
+						<th><button type="button" class="deletebtn">삭제</button></th>
+						</tr>
 					</c:forEach>
 				</c:if>
 			</table>
+			<button type="button" class="chkdel">선택 삭제</button> <button type="button" class="alldel">전체 삭제</button>
 			<hr>
 				총 금액 <span id="orderPrice">0</span>원<br>
 				<button type="button" onclick="cartchk()">결제하기</button>

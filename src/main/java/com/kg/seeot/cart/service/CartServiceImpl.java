@@ -25,11 +25,16 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public ArrayList<CartDTO> getCart(Model model,String memberId) {
 		ArrayList<CartDTO> list = new ArrayList<CartDTO>();		
-		System.out.println("memberId : "+memberId);
 		list = cm.getCart(memberId);
 		model.addAttribute("cart",list);
 		
 		return list;
+	}
+
+	@Override
+	public int deleteOneCart(String memberId, int productNo) {
+		int result = cm.deleteCartOne(memberId,productNo);
+		return result;
 	}
 	
 	
