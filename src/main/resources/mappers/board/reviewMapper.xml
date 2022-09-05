@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.seeot.mybatis.board.ReviewMapper">
+<resultMap type="com.kg.seeot.board.dto.ReviewDTO"  id="review">
+<id property="memberId" column="member_id"/>
+<result property="reviewDate" column="review_date"/>
+<result property="reviewFile" column="review_file"/>
+<result property="reviewStar" column="review_star"/>
+<result property="productNo" column="product_no"/>
+<result property="reviewContent" column="review_content"/>
+<result property="rating" column="rating" />
+</resultMap>
+
+<select id="reviewList" resultMap="review">
+select * from seeot_review
+</select>
+<insert id="addReview">
+insert into seeot_review(memberId, reviewContent, productNo, reviewFile, rating , reviewStar)
+	values(#{member_id}, #{review_content} ,#{product_no},#{review_file}, #{rating} , 5)
+</insert>
+<update id="addStar">
+update seeot_review  set reviewStar = (#{review_star}) where =(#{review_star})
+</update>
+	
+	</mapper>

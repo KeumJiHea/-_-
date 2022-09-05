@@ -16,7 +16,7 @@
 				<a href="${contextPath }/member/register_form">회원가입</a>
 			</li>
 			<li>
-				<a href="#">고객문의</a>
+				<a href="${contextPath }/board/boardList">고객문의</a>
 			</li>
 		</ul>
 	</div>
@@ -70,7 +70,8 @@
 				</a>
 			</li>
 			<li>
-				<a href="${contextPath }/member/info?id=${id}">
+				<a href="${contextPath }/member/info?id=${loginUser}">
+				${LOGIN }
 					<i class="fa-solid fa-user" title="마이페이지"></i>
 				</a>
 			</li>
