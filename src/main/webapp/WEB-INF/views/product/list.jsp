@@ -7,11 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<script type="text/javascript">
-		
-	</script>
-
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 		
@@ -34,7 +29,6 @@
 			<th>리뷰수</th>
 			<th>상품별점</th>
 		</tr>
-		
 		<c:if test="${list.size() == 0 }">
 				<tr>
 					<th colspan="12">등록된 상품이 없습니다.</th>
@@ -57,7 +51,7 @@
 		</c:forEach>
 		
 	</table>
-	<button onclick="location.href='productRegister'">상품 추가</button>
 	
+	<button onclick="location.href='productRegister'">상품 추가</button>
 </body>
 </html>

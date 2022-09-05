@@ -70,7 +70,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="${contextPath }/member/info?id=${id}">
 					<i class="fa-solid fa-user" title="마이페이지"></i>
 				</a>
 			</li>

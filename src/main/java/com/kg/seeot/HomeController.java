@@ -31,7 +31,7 @@ public class HomeController {
 		return "home.page";
 	}
 	
-	@GetMapping(value="getProduct")
+	@GetMapping(value={"getProduct", "/getProduct"})
 	@ResponseBody
 	public ArrayList<ProductDTO> getProduct() {
 		ArrayList<ProductDTO> list = (ArrayList<ProductDTO>)mapper.allList();
