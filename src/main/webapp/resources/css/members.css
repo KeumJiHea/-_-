@@ -1,8 +1,6 @@
 @charset "UTF-8";
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-
-* { 
-    font-family: 'Noto Sans KR', sans-serif;
+* {
+    font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
 }
 
 @media all and (min-width:768px) {
@@ -44,7 +42,9 @@
 }
 
 .members-wrapper .kakao-login .kakao-button {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     font-size: 15px;
     font-weight: 500;
@@ -53,6 +53,7 @@
     text-decoration: none;
     color: #111;
     background-color: #fee500;
+    padding: 5px 0;
     border-radius: 5px;
 }
 
@@ -78,13 +79,38 @@
     transform: translateX(-50%);
 }
 
+.members-wrapper .event-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.members-wrapper .event-wrap .event-column {
+    width: 25%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    border-right: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.members-wrapper .user-login .event-wrap .event-column:last-child {
+    border: none;
+}
+
+.members-wrapper .event-wrap .event-column img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 10px auto;
+}
+
 .members-wrapper .user-login .input-box {
     border: 1px solid #e1e1e1;
     border-radius: 5px;
     overflow: hidden;
 }
 
-.members-wrapper .user-login input:focus-visible {
+.members-wrapper input:focus-visible {
     outline: none;
 }
 
@@ -151,7 +177,7 @@
     background-color: #CCD3D8;
     opacity: 0.84;
     cursor: not-allowed;
-    }
+}
 
 .members-wrapper .user-login .login-checkbox label {
     font-size: 12px;
@@ -165,7 +191,7 @@
     margin-left: auto;
 }
 
-.members-wrapper .user-login .button {
+.members-wrapper .button {
     display: inline-block;
     width: 100%;
     height: 45px;
@@ -189,16 +215,53 @@
 }
 
 /* register */
-.members-wrapper.register .field {
-    margin-bottom: 20px;
+@media all and (min-width:768px) {
+    .members-wrapper.register {
+        width: 70%;
+    }
+
+    .members-wrapper .column {
+        width: calc( 100% / 2 - 40px );
+    }
+
+    .members-wrapper form.columns {
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
-.members-wrapper.register .field span {
-    display: block;
-    font-size: 12px;
+.members-wrapper.register .tag-title {
+    height: 28px;
+    padding-bottom: 15px;
 }
 
-.members-wrapper.register .field input {
+.members-wrapper.register .members-info-tag {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.members-wrapper.register .members-info-tag .arrow {
+    display: inline-block;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' width='28' height='28' viewBox='0 0 28 28'%3E%3Cg transform='scale(1.1666666667, 1.1666666667)'%3E%3Cpath d='M17.6255 9.35264L12.0026 14.6473L6.3745 9.35264' stroke='%23838383' stroke-miterlimit='10' stroke-linecap='square' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E");
+    width: 28px;
+    height: 28px;
+    transition: transform .4s ease-in-out;
+}
+
+.members-wrapper.register .members-info-tag .arrow.arrowup {
+    transform: rotate(-180deg);
+}
+
+.members-wrapper.register .members-info-tag .arrow.arrowdown {
+    transform: rotate(0deg);
+}
+
+.members-wrapper .field {
+    margin-bottom: 30px;
+}
+
+.members-wrapper .field input {
     display: inline-block;
     width: 100%;
     font-size: 14px;
@@ -208,11 +271,69 @@
     border-bottom: 1px solid #e1e1e1;
 }
 
-.members-wrapper.register .field input#addr1 {
+.members-wrapper .field.input_phone,
+.members-wrapper .field.input_email {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.members-wrapper .field .message {
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+.members-wrapper .field select:focus-visible {
+    outline: none;
+}
+
+.members-wrapper .field span {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+.members-wrapper .field.required span::after,
+.members-wrapper.register .agreement .required::after {
+    margin: -0.2em 0 0 0.2em;
+    content: '*';
+    color: #DB2828;
+}
+
+.members-wrapper .field.input_phone input,
+.members-wrapper .field.input_email input,
+.members-wrapper .field.input_phone select,
+.members-wrapper .field.input_email select {
+    width: 30%;
+}
+
+.members-wrapper .field.input_email input {
+    margin-right: auto;
+}
+
+.members-wrapper .field.input_email input[name=email2],
+.members-wrapper .field.input_email select {
+    margin-left: auto;
+}
+
+.members-wrapper .field select {
+    height: 40px;
+    font-size: 14px;
+    line-height: initial;
+    background: #fff;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    padding: 0 14px 0 10px!important;
+    margin: 0;
+}
+
+.members-wrapper .field input#addr1 {
     width: 100px;
 }
 
-.members-wrapper.register .field button {
+.members-wrapper .field button {
     color: #31363d;
     background-color: #fff;
     border: 1px solid #31363d;
@@ -220,7 +341,7 @@
     margin-left: 10px;
 }
 
-.members-wrapper .user-login .agreement ul {
+.members-wrapper.register .user-login .agreement ul {
     font-size: 12px;
     line-height: 20px;
     color: #888;
@@ -229,4 +350,212 @@
 
 .members-wrapper.register .agreement a {
     font-size: 14px;
+}
+
+.members-wrapper.register .members-info {
+    transition: visibility 0s ease-in-out .5s,opacity .5s,height .5s ease-in-out;
+}
+
+.members-wrapper.register .members-info.close {
+    opacity: 0;
+}
+
+.members-wrapper.register .members-info.open {
+    opacity: 1;
+}
+
+.members-wrapper.register .members-info-message {
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
+}
+
+/* myaccount */
+.members-wrapper.myaccount {
+    width: 60%;
+    margin: 100px auto;
+}
+
+.members-wrapper.myaccount .myaccount-title {
+    font-weight: 400;
+    text-align: center;
+    color: #222;
+    padding-bottom: 20px;
+    cursor: pointer;
+}
+
+.members-wrapper.myaccount .message {
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
+    padding: 0 5px;
+}
+
+.members-wrapper.myaccount h3.item-title {
+    font-weight: 400;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #222;
+}
+
+.members-wrapper.myaccount .navigation ul {
+    display: flex;
+    list-style: none;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .navigation ul li {
+    width: calc( 100% / 5 );
+    text-align: center;
+}
+
+.members-wrapper.myaccount .navigation ul li a {
+    font-size: 15px;
+    font-weight: 300;
+    color: #222;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.members-wrapper.myaccount .navigation ul li.active a {
+    border-top: 2px solid #222;
+}
+
+.members-wrapper.myaccount .contents {
+    display: none;
+    margin-top: 50px;
+}
+
+.members-wrapper.myaccount .contents.active {
+    display: block !important;
+}
+
+.members-wrapper.myaccount .contents .membership {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.members-wrapper.myaccount .contents .membership .left {
+    width: 40%;
+}
+
+.members-wrapper.myaccount .contents .membership .right {
+    display: flex;
+    width: 60%;
+    align-items: center;
+    background-color: #222;
+    border-radius: 10px;
+}
+
+.members-wrapper.myaccount .contents .membership .right > div {
+    width: 50%;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    color: #fff;
+}
+
+.members-wrapper.myaccount .contents .membership .right > div .icon {
+    padding-bottom: 5px;
+}
+
+.members-wrapper.myaccount .contents .membership .right > div.point {
+    border-right: 1px solid #fff;
+}
+
+.members-wrapper.myaccount .contents .membership .membership-info {
+    font-size: 20px;
+    line-height: 30px;
+    padding: 10px 0;
+}
+
+.members-wrapper.myaccount .contents .membership .membership-contents {
+    font-size: 14px;
+}
+
+.members-wrapper.myaccount .contents .membership .membership-contents span {
+    display: block;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.members-wrapper.myaccount .contents .membership .membership-contents a {
+    display: inline-block;
+    color: #222;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #222;
+    padding: 7px;
+}
+
+.members-wrapper.myaccount .contents .address {
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+.members-wrapper.myaccount .contents .contents-item.columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.members-wrapper.myaccount .contents .contents-item .column {
+    width: calc( 100% / 2 - 50px );
+    padding: 30px 0;
+}
+
+.members-wrapper.myaccount .contents .contents-item .column .menu-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.members-wrapper.myaccount .contents .contents-item .column .menu-wrapper a {
+    width: calc( 100% / 3 );
+    font-size: 15px;
+    font-weight: 300;
+    text-align: center;
+    text-decoration: none;
+    color: #222;
+    border-right: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.members-wrapper.myaccount .contents .contents-item .column .menu-wrapper a:last-child {
+    border-right: none;
+}
+
+.members-wrapper.myaccount .contents .contents-item .column .menu-wrapper .menu img {
+    padding-bottom: 10px;
+}
+
+.members-wrapper.myaccount .contents-item .order-table {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.members-wrapper.myaccount .contents-item .order-table tr th.product-title {
+    width: 40%;
+}
+
+.members-wrapper.myaccount .contents-item .order-table tr th {
+    width: 20%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .contents-item .order-table tr td {
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .contents-item .order-table tr td a {
+    display: inline-block;
+    color: #222;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #222;
+    padding: 5px 10px;
 }

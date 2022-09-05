@@ -14,7 +14,6 @@
    <tr>
      <td>${member.id}</td>
      <td>${member.pw }</td>
-     <td>${member.phone}</td>
      <td>${member.email }</td>
      <td>${member.birth }</td>
      <td>${member.addr1 }</td>

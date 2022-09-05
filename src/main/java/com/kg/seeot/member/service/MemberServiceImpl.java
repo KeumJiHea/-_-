@@ -50,7 +50,6 @@ public class MemberServiceImpl implements MemberService{
 	public MemberDTO getCookieUser(String cookie) {
 		return mapper.getCookieUser(cookie);
 	}
-	
 	public void getUser(Model model,String id) {
 		model.addAttribute("info", mapper.getUser(id));
 	}
@@ -60,6 +59,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 	public void delete(String id) {
 		mapper.delete(id);
+	}
+	public int idCheck(String id) throws Exception{
+		return mapper.idCheck(id);
 	}
 }
 
