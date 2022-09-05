@@ -137,13 +137,12 @@ $(document).ready(function() {
 		}
 });
 
-	var productlist = new Array();        
+	var cartlist = new Array();        
 $(document).on('click','.chkdel',function(){                     
 	var rowData = new Array();         
 	var checkbox = $("input[name=orderChkbox]:checked");
-	    // 체크된 체크박스 값을 가져온다    
-	checkbox.each(function(i) {            
-		// checkbox.parent() : checkbox의 부모는 <td>이다.        
+	    // 체크된 체크박스 값을 가져온다            
+/* 		// checkbox.parent() : checkbox의 부모는 <td>이다.        
 		// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.        
 		var tr = checkbox.parent().parent().eq(i);        
 		var td = tr.children();                       
@@ -151,30 +150,34 @@ $(document).on('click','.chkdel',function(){                  
 		rowData.push(tr.text());                        
 		// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
 		        
-		var no = td.eq(1).text();                
-		                       
+		var no = td.eq(1).text();  */     
+		
+		$("input:checkbox[name=orderChkbox]:checked").each(function(i) {
+			var no = $(this).val();
+			console.log(no)
+			cartlist.push(no);
+		});
+/* 		for(i=1; i<=${cart.size()}; i++){	
+				var no = $("input:checkbox[name='orderChkbox']:checked").val()                      
 		// 가져온 값을 배열에 담는다.        
-		productlist.push(no);             
-	});                 
+				
+		} */
+			
+		                             
 		if(confirm('선택된 상품을 장바구니에서 삭제하시겠습니까?')){
 			$.ajax({
 				url: "cartchkdel",
 				type:"POST",
 				traditional :true,
 				data: {
-					productNo: productlist
+					cartlist: cartlist,
+					memberId : "${sessionScope.loginUser}"
 				},
-				dataType:"JSON",
-				contentType : "application/json; charset=utf-8",
 				success: function(data){
-					console.log(productlist);
-					console.log(data);
-					alert('ok')
+					console.log(cartlist);
 				},
 				error:function(data){
-					console.log(productlist);
-					console.log(data);			
-					alert('no')
+					console.log(cartlist);			
 				}
 			})
 		}else{
@@ -191,9 +194,6 @@ $(document).on('click','.chkdel',function(){                  
 
 	<div align="center">
 		<form action="${contextPath}/order/cartorder" method="post">
-			<c:forEach var="hiddenprod" items="${cart }" varStatus="status">
-			<input type="hidden" name="product${status.count }" id="product${status.count }" value="">
-			</c:forEach>
 			<table id="cartTable" border="1">
 				<tr>
 					<th>전체 선택<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" onclick='checkAll()'/></th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>상품가격</th><th>구매수량</th><th></th>
@@ -206,7 +206,9 @@ $(document).on('click','.chkdel',function(){                  
 				<c:if test="${cart.size()!=0 }">
 					<c:forEach var="cart" items="${cart }" varStatus="status">					
 					<tr>
-						<th><input type="checkbox" name='orderChkbox' id="orderchk"></th>
+						<th><input type="checkbox" name='orderChkbox' id="orderchk" value="${cart.cartNum }">
+							<input type="hidden" name="cartNum${status.index }" id="cartNum${status.index}" value="${cart.cartNum }">
+						</th>
 						<td id="productnotd${status.count }">${cart.productNo }</td>
 						<th>
 							<c:if test="${ cart.productFile == 'nan' }">

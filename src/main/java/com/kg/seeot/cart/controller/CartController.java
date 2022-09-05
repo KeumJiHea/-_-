@@ -31,10 +31,12 @@ public class CartController {
 	@Autowired SessionName sn;
 	
 	
-	@GetMapping("addcart")
-	public void addCart(HttpServletRequest request,HttpServletResponse response,int productNo) throws Exception {
+	@PostMapping("addcart")
+	@ResponseBody
+	public void addCart(HttpServletRequest request,HttpServletResponse response,int productNo,int productStack) throws Exception {
 		System.out.println("장바구니 등록 컨트롤러 동작 성공");
-		cs.addCart(productNo);
+		System.out.println("productStack : "+productStack);
+		cs.addCart(productNo,productStack);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.println("<script>alert('장바구니에 추가되었습니다!'); history.go(-1);</script>");
@@ -69,11 +71,20 @@ public class CartController {
 	
 	@PostMapping("cartchkdel")
 	@ResponseBody
-	public void cartchkdel(HttpServletRequest request,String memberId,@RequestParam(value = "productlist")String[] productlist) {
+	public void cartchkdel(HttpServletRequest request,String memberId,HttpServletResponse response) throws Exception {
 		System.out.println("선택삭제 컨트롤러 동작 성공");
-		for(int i =0; i<productlist.length;i++) {
-			System.out.println("i : "+productlist[i]);
+		int result;
+		int cartNum;
+		String[] cartlist =request.getParameterValues("cartlist");
+		for(int i =0; i<cartlist.length; i++) {
+			System.out.println("cartlist : "+cartlist[i]);
+			cartNum = Integer.parseInt(cartlist[i]);			
+			cs.deleteChkCart(memberId, cartNum);
 		}
-		System.out.println("id : "+memberId);
+		System.out.println("id : "+memberId);		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('선택한 항목이 장바구니에서 삭제되었습니다!'); location.reload();</script>");
+		out.flush(); 
 	}
 }

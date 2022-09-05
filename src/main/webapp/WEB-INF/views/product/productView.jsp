@@ -1,15 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	function test(){
+		$.ajax({
+			url:"${contextPath}/cart/addcart",
+			type:"post",
+			data:{
+				productNo : "${pdto.productNo}",
+				productStack : $("#productStack").val()
+			},
+			success:function(productNo,productStack){
+				console.log(productNo)
+				alert('ok')
+			},
+			error:function(data){
+				console.log(data)
+				alert('no')
+				
+			}
+		});
+	}
+</script>
 </head>
 <body>
 
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+
+	
 	
 	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
 	<button type="button" onclick="location.href='productUpdate'" >상품 수정</button>
@@ -60,14 +84,12 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
-				<input type="text" name="productStack" id="productStack" placeholder="0">
-				<input type=button value="▲" onClick="javascript:this.form.productStack.value++;">
+				<input type="number" name="productStack" id="productStack" placeholder="1" min="1">
 			</td>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="#">찜♡</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
+			<td><button type="button" onclick="test()">장바구니</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
 		</tr>
 	</table>

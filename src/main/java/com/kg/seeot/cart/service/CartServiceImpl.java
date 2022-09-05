@@ -3,6 +3,8 @@ package com.kg.seeot.cart.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -15,9 +17,10 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public void addCart(int productNo) {
+	public void addCart(int productNo,int orderStack) {
 		System.out.println("productNo : "+productNo);
-		cm.addCart_p(productNo);
+		System.out.println("productStack : "+orderStack);
+		cm.addCart_p(productNo,orderStack);
 		//임시 유저데이터 삽입
 		System.out.println("카트 데이터 주입성공");
 	}
@@ -34,6 +37,12 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public int deleteOneCart(String memberId, int productNo) {
 		int result = cm.deleteCartOne(memberId,productNo);
+		return result;
+	}
+
+	@Override
+	public int deleteChkCart(String memberId,int cartNum) {
+		int result = cm.deleteChkCart(memberId,cartNum);
 		return result;
 	}
 	
