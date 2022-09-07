@@ -11,19 +11,22 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
 	var pc, ps
+	var cnt = 1
+	
 	function colorAdd(productColor) {
-		console.log(productColor)
+		console.log("선택 색 : " + productColor)
 		pc = productColor
 	}
 	
 	function sizeAdd(proSize) {
-		console.log(proSize)
+		console.log("선택 사이즈 : " + proSize)
 		ps = proSize
 		productSelect()
 	}
 	
-	function productSelect() {
-		console.log('productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
+	var list = new Array();
+/* 	function productSelect1() {
+		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
 		
 		
 		if(pc != '' & ps != '') {
@@ -41,13 +44,77 @@
 					console.log(data)
 					
 					if(data != '' ) {
-						console.log(data.productColor + ", " + data.productSize)
+						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
 						
-						if(document.getElementById(data.productColor + ", " + data.productSize) == null) {
-							$("#proOrderAdd").append("<div id='" + data.productColor + ", " + data.productSize + "'>"+ data.productColor + " / " + data.productSize
-									+ "<input type='number' min='1' max='" + data.productStack + "' name='productStack' id='productStack' value='1' placeholder='1'>"
+						if(document.getElementById(data.productColor + "/" + data.productSize) == null) {
+							$("#proOrderAdd").append("<div id='" + data.productColor + "/" + data.productSize + "'>"+ data.productColor + " / " + data.productSize
+									+ "<input type='hidden' name='color' value='" + data.productColor + "'>"
+									+ "<input type='hidden' name='size' value='" + data.productSize + "'>"
+									+ "<input type='number' min='1' max='" + data.productStack + "' name='productStack' id='productStack"+cnt + "' value='1' placeholder='1'>"
 									+"금액 <span id='selectPrice'>0</span> 원</div>")
 							$("#selectOrderProduct").show()
+							
+							list.push("productStack"+cnt)
+							console.log(list)
+							cnt++
+						}else {
+							alert('이미 추가되었습니다.')
+						}
+					}else {
+						alert('상품 재고가 없습니다.')
+					}
+	
+				}
+			})
+		}
+		pc = ''
+		ps = ''
+		
+	} */
+	
+ 	function productSelect() {
+		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
+		
+		
+		if(pc != '' & ps != '') {
+			$.ajax({
+				url: "proStackGet",
+				type:"get",
+				data:{
+					productNo : '${pdto.productNo}',
+					productColor : pc,
+					productSize : ps
+				},
+				datatype:"json",
+				success: function(data) {
+					
+					console.log(data)
+					
+					if(data != '' ) {
+						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
+						
+						if(document.getElementById(data.productColor + "/" + data.productSize) == null) {
+							$("#proOrderAdd").append("<div id='" + data.productColor + "/" + data.productSize + "'>"+ data.productColor + " / " + data.productSize
+									+ "<input type='hidden' name='color' value='" + data.productColor + "'>"
+									+ "<input type='hidden' name='size' value='" + data.productSize + "'>"
+									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='test()' name='productStack" + cnt +"' id='productStack" + cnt + "' value='1' class='pst'>"
+									+"금액 <span id='PriceproductStack" + cnt + "'>0</span> 원</div>")
+							$("#selectOrderProduct").show()
+							
+							list.push("productStack"+cnt)
+							console.log(list)
+							cnt++
+							
+							$('.pst').each(function(index, item){
+								elem = $(this);
+								
+								 	result = '';
+
+								    result += index + ' : ' + item;
+								
+								    console.log("생성값 확인 : " + result);
+							});
+							
 						}else {
 							alert('이미 추가되었습니다.')
 						}
@@ -65,11 +132,106 @@
 	
 	
 	
+	
 	function proOrderAdd() {
 		$("#selectOrderProduct").hide()
 	}
 	
+ 	/* $(":input[id=productStack1]").on(function() {
+
+		var a = $( this ).val();
+		var b = ${pdto.productPrice}
+		var sum = a * b;
+		$( '#selectPrice' ).text( sum );
+	}); */
+	
+	
+	// $(document).ready(function() {
+		function test(){
+		$('.pst').each(function(index, item) {
+			   
+			  var result = '';
+
+			    result += index + ' : ' + item;
+			
+			    console.log("생성값 확인 : " + result);
+			    
+			   var elem = $(this);
+			   console.log("elem value : " + elem)
+
+			   elem.on("propertychange change keyup paste", function(){
+				   console.log("변경 감지 : " + result);
+				   var select = elem.attr('id')
+				   console.log("elem id :  " + select)
+				   
+				   
+				   var a = $(this).val();
+					console.log("변경 수량 " + a)
+					var b = ${pdto.productPrice}
+					var sum = a * b;
+					$( '#Price' + select).text( sum );
+					
+			   });
+			 });
+	//});
+	}
+	
+	
+	
+	
+	/* $(document).ready(function() {
+		$('input[name^="productStack"]').on("propertychange change paste input", function() {
+			
+			var element = $('input[name^="productStack"]');
+			var elementName = element.attr('name');
+			console.log("계산된 이름 " + elementName)
+			
+			var a = $(this).val();
+			console.log("들어온 값 " + a)
+			var b = ${pdto.productPrice}
+			var sum = a * b;
+			$( '#selectPrice').text( sum );
+		 });
+	});*/
+	
+	/* function fnReplace(val) {
+	    var ret = 0;
+	    if(typeof val != "undefined" && val != null && val != ""){
+	        ret = Number(val.replace(/,/gi,''));
+	    }
+	    return ret;        
+	} */
+
+	
+  /*  	$(document).ready(function(){
+		$(":input").bind('keyup mouseup', function () {
+			
+			var a = $( this ).val();
+			var b = ${pdto.productPrice}
+			var sum = a * b;
+			$( '#selectPrice' ).text( sum );
+		});
+	}); */
+	
+/* 	$(document).ready(function(){
+		console.log($('#orderchk1').is(':checked'))
+		$("#orderchk1").change(function(){
+			if($('#orderchk1').is(':checked')){
+				$("#productStack").on("change keyup paste input",function(){
+					const stack = $(this).val();
+					const price = $("tr:eq(1)>td:eq(3)").html();	
+					var sum = price*stack
+					$("#orderPrice").text(sum)					
+				});
+			}
+		});							
+	}); */
+
+
+
+	  
 	</script>
+	
 	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
@@ -105,7 +267,7 @@
 		<tr>
 			<td colspan="3">
 				<c:forEach var="mcdto" items="${mclist }">
-					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }"">${mcdto.productColor }</button>
+					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }">${mcdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -129,12 +291,20 @@
 				<input type="hidden" name="productName" value="${pdto.productName }">
 				<input type="hidden" name="productFile" value="${pdto.productFile }">
 				<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
-				
 				<div id="proOrderAdd">
 				</div>
-				
 					총 금액<span id="orderPrice">0</span>원
 				</div>
+				
+				<input type="number" min="1" max="${ data.productStack}" onchange="test()" name="productStack" id="productStack" value="1" class="pst">
+				<span id='PriceproductStack'>0</span> 원<br>
+				
+				<input type="number" min="2" max="${ data.productStack}" onchange="test()" name="productStack0" id="productStack0" value="2" class="pst">
+				<span id='PriceproductStack0'>0</span> 원<br>
+				
+				<input type="number" min="2" max="${ data.productStack}" onchange="test()" name="productStack9" id="productStack9" value="2" class="pst">
+				<span id='PriceproductStack9'>0</span> 원<br>
+				
 			</form>
 			</td>
 		</tr>
