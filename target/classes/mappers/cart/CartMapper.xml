@@ -15,9 +15,13 @@
 	</resultMap>
 	
 	<insert id="addCart_p">
-		insert into cart(product_no,product_name,product_price,product_file,cartNum,order_stack) select product_no,product_name,product_price,product_file,cartnum_seq.nextval,order_stack=#{o} from product
-		where product_no=#{n}
+		insert into cart(product_no,product_name,product_price,product_file,cartNum) select product_no,product_name,product_price,product_file,cartnum_seq.nextval from product
+		where product_no=#{product_no}
 	</insert>
+	
+	<update id="addOrderStack">
+		update cart set order_stack=#{o} where product_no=#{p}
+	</update>
 	
 	<select id="getCart" resultMap="cart">
 		select * from cart where member_id=#{member_id}

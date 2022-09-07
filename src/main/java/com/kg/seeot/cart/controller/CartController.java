@@ -58,33 +58,20 @@ public class CartController {
 		System.out.println("id : "+memberId);
 		System.out.println("no : "+productNo);
 		
-		int result = cs.deleteOneCart(memberId,productNo);
-		if(result ==1) {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('삭제되었습니다!'); location.reload();</script>");
-			out.flush(); 
-			
-		}
-		 
+		int result = cs.deleteOneCart(memberId,productNo);		 
 	}
 	
 	@PostMapping("cartchkdel")
 	@ResponseBody
 	public void cartchkdel(HttpServletRequest request,String memberId,HttpServletResponse response) throws Exception {
 		System.out.println("선택삭제 컨트롤러 동작 성공");
-		int result;
 		int cartNum;
-		String[] cartlist =request.getParameterValues("cartlist");
+		String[] cartlist = request.getParameterValues("cartlist");
 		for(int i =0; i<cartlist.length; i++) {
 			System.out.println("cartlist : "+cartlist[i]);
 			cartNum = Integer.parseInt(cartlist[i]);			
 			cs.deleteChkCart(memberId, cartNum);
 		}
 		System.out.println("id : "+memberId);		
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<script>alert('선택한 항목이 장바구니에서 삭제되었습니다!'); location.reload();</script>");
-		out.flush(); 
 	}
 }

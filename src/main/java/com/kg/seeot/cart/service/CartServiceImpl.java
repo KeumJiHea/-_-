@@ -20,9 +20,13 @@ public class CartServiceImpl implements CartService{
 	public void addCart(int productNo,int orderStack) {
 		System.out.println("productNo : "+productNo);
 		System.out.println("productStack : "+orderStack);
-		cm.addCart_p(productNo,orderStack);
-		//임시 유저데이터 삽입
-		System.out.println("카트 데이터 주입성공");
+		int result = 0;
+		cm.addCart_p(productNo);
+		result = cm.addOrderStack(orderStack, productNo);
+		if(result==1) {
+			System.out.println("카트 데이터 주입성공");
+			System.out.println("orderstack : "+orderStack);
+		}
 	}
 
 	@Override

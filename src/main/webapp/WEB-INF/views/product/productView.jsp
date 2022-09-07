@@ -9,6 +9,12 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
+$(document).ready(function(){
+	$("#productStack").on("change keup paste input",function(){
+		$(this).attr("value", $(this).val());
+	});
+});
 	function test(){
 		$.ajax({
 			url:"${contextPath}/cart/addcart",
@@ -17,8 +23,8 @@
 				productNo : "${pdto.productNo}",
 				productStack : $("#productStack").val()
 			},
-			success:function(productNo,productStack){
-				console.log(productNo)
+			success:function(data){
+				console.log(data)
 				alert('ok')
 			},
 			error:function(data){
@@ -28,6 +34,7 @@
 			}
 		});
 	}
+
 </script>
 </head>
 <body>
@@ -84,7 +91,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<input type="number" name="productStack" id="productStack" placeholder="1" min="1">
+				<input type="number" name="productStack" id="productStack" value="1" placeholder="1" min="1">
 			</td>
 		</tr>
 		<tr>
