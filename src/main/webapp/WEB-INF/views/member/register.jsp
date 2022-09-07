@@ -141,17 +141,18 @@
 	        
 	<script type="text/javascript">
 	       //이메일 인증번호 확인
-	       var code = "";
+	       var code = "973";
 	       
 	       $('.btn_mail_check').click(function(){
 	    	   var email1 = $('.email1').val()+"@";
+	    	   var check = $('.email1').val();
 	    	   var domain = $('.email2').val();
 	    	   var email  = email1 + domain ;
 	    	   var inputChk = $('.input_mail_check');
 	    	   var btnChk = $('.btn_mail_check');
 	    	   var btnChk2 = $('.btn_mail_check2');
+	    	   if(check != "" && domain != ""){ 
 	    	   $.ajax({
-	    		   
 	    		   type : "GET",
 	    	       url : "mailCheck?email="+email,
 	    	       success:function(data){
@@ -162,13 +163,16 @@
 	    	    	   btnChk2.attr("style","display:inline; background-color:white; cursor:pointer; border:1px solid #888;");
 	    	    	   code = data;
 	    	       }
-	    	   });
 	    	   
+	    	     });
+	    	   }
+	    	   else{
+	    		   alert("이메일을 입력해주세요");
+	    	   }
 	       });
 	       
     	   $('.btn_mail_check2').click(function(){
     		   var inputCode = $('.input_mail_check').val();
-	    	   var mailMessage = $('.mail-message');
 	    	   var btnChk2 = $('.btn_mail_check2');
 	    	   
 	    	   if(inputCode == code){
@@ -264,6 +268,9 @@
 	   var id = $('.id_input').val();
 	   var pw = $('.pw_input').val();
 	   var pwchk = $('.pw_confirm').val();
+	   var email1 = $('.email1').val();
+	   var email2 = $('.email2').val();
+	   var inputCode = $('.input_mail_check').val();
 	   
 	   if(!form.id.value){
 		   alert("아이디는 필수 사항입니다");
@@ -277,14 +284,22 @@
 		   alert("비밀번호가 일치하지 않습니다");
 		   form.pwchk.focus();
 		   return;
-	   }
-	   else if(id.length < 5 || id.length > 12){
+	   }else if(id.length < 5 || id.length > 12){
 		   alert("아이디는 5자리 ~ 12자리로 입력해주세요");
 		   form.id.focus();
 		   return;
-	   }
-	   
-	   else{
+	   }else if(!form.email1.value){
+		   alert("이메일을 입력해주세요");
+		   form.email1.focus();
+		   return;
+	   }else if(!form.email2.value){
+		   alert("이메일을 입력해주세요");
+		   form.email2.focus();
+		   return;
+	   }else if(inputCode != code){
+		   alert("이메일 인증을 진행해주세요");
+		   return;
+	   }else{
 		   alert("회원가입이 완료되었습니다");
 	       form.action = "<%=request.getContextPath()%>/member/register";
 	       form.submit();
