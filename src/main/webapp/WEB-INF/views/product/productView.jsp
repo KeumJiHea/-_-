@@ -6,12 +6,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body onload="proOrderAdd()">
+<body>
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
 	var pc, ps
-	var cnt = 1
+	var cnt = 0
 	
 	function colorAdd(productColor) {
 		console.log("선택 색 : " + productColor)
@@ -23,54 +23,6 @@
 		ps = proSize
 		productSelect()
 	}
-	
-	var list = new Array();
-/* 	function productSelect1() {
-		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
-		
-		
-		if(pc != '' & ps != '') {
-			$.ajax({
-				url: "proStackGet",
-				type:"get",
-				data:{
-					productNo : ${pdto.productNo},
-					productColor : pc,
-					productSize : ps
-				},
-				datatype:"json",
-				success: function(data) {
-					
-					console.log(data)
-					
-					if(data != '' ) {
-						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
-						
-						if(document.getElementById(data.productColor + "/" + data.productSize) == null) {
-							$("#proOrderAdd").append("<div id='" + data.productColor + "/" + data.productSize + "'>"+ data.productColor + " / " + data.productSize
-									+ "<input type='hidden' name='color' value='" + data.productColor + "'>"
-									+ "<input type='hidden' name='size' value='" + data.productSize + "'>"
-									+ "<input type='number' min='1' max='" + data.productStack + "' name='productStack' id='productStack"+cnt + "' value='1' placeholder='1'>"
-									+"금액 <span id='selectPrice'>0</span> 원</div>")
-							$("#selectOrderProduct").show()
-							
-							list.push("productStack"+cnt)
-							console.log(list)
-							cnt++
-						}else {
-							alert('이미 추가되었습니다.')
-						}
-					}else {
-						alert('상품 재고가 없습니다.')
-					}
-	
-				}
-			})
-		}
-		pc = ''
-		ps = ''
-		
-	} */
 	
  	function productSelect() {
 		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
@@ -93,28 +45,15 @@
 					if(data != '' ) {
 						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
 						
-						if(document.getElementById(data.productColor + "/" + data.productSize) == null) {
-							$("#proOrderAdd").append("<div id='" + data.productColor + "/" + data.productSize + "'>"+ data.productColor + " / " + data.productSize
-									+ "<input type='hidden' name='color' value='" + data.productColor + "'>"
-									+ "<input type='hidden' name='size' value='" + data.productSize + "'>"
-									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='test()' name='productStack" + cnt +"' id='productStack" + cnt + "' value='1' class='pst'>"
-									+"금액 <span id='PriceproductStack" + cnt + "'>0</span> 원</div>")
-							$("#selectOrderProduct").show()
-							
-							list.push("productStack"+cnt)
-							console.log(list)
-							cnt++
-							
-							$('.pst').each(function(index, item){
-								elem = $(this);
-								
-								 	result = '';
-
-								    result += index + ' : ' + item;
-								
-								    console.log("생성값 확인 : " + result);
-							});
-							
+						if(document.getElementById(data.productColor + data.productSize) == null) {
+							cnt++;
+							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
+									+ "<input type='hidden' name='productColor' value='" + data.productColor + "'>"
+									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
+									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='1' class='pst'>"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>${pdto.productPrice}</span> 원"
+									+ " <input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
+							$("#selectOrderProduct").show();
 						}else {
 							alert('이미 추가되었습니다.')
 						}
@@ -130,106 +69,66 @@
 		
 	}
 	
+	function selProStack(){
+		$('.pst').on("propertychange change keyup paste input", function(){
+				   var selectId = $(this).attr('id')
+				   console.log("11"+selectId)
+				   var selectStack = $(this).val();
+					var productPrice = ${pdto.productPrice}
+					var productStackPrice = selectStack * productPrice;
+					$( '#Price' + selectId).text( productStackPrice );
+			});
+	}
 	
-	
-	
-	function proOrderAdd() {
+
+	$(document).ready(function(){
 		$("#selectOrderProduct").hide()
-	}
+	});
 	
- 	/* $(":input[id=productStack1]").on(function() {
-
-		var a = $( this ).val();
-		var b = ${pdto.productPrice}
-		var sum = a * b;
-		$( '#selectPrice' ).text( sum );
-	}); */
-	
-	
-	// $(document).ready(function() {
-		function test(){
-		$('.pst').each(function(index, item) {
-			   
-			  var result = '';
-
-			    result += index + ' : ' + item;
-			
-			    console.log("생성값 확인 : " + result);
-			    
-			   var elem = $(this);
-			   console.log("elem value : " + elem)
-
-			   elem.on("propertychange change keyup paste", function(){
-				   console.log("변경 감지 : " + result);
-				   var select = elem.attr('id')
-				   console.log("elem id :  " + select)
-				   
-				   
-				   var a = $(this).val();
-					console.log("변경 수량 " + a)
-					var b = ${pdto.productPrice}
-					var sum = a * b;
-					$( '#Price' + select).text( sum );
-					
-			   });
-			 });
-	//});
+	function deleteSelPro(id) {
+		var delId =  $(id).attr('class')
+		console.log(delId)
+		$("div").remove("#"+delId)
+		
+		cnt--;
+		if(cnt == 0) {
+			$("#selectOrderProduct").hide()
+		}
 	}
 	
 	
-	
-	
-	/* $(document).ready(function() {
-		$('input[name^="productStack"]').on("propertychange change paste input", function() {
+	 function productOrder() {
+		if( cnt >= 1) {
+			let form = {};
+			let arr = $("#proOrderFo").serializeArray();
 			
-			var element = $('input[name^="productStack"]');
-			var elementName = element.attr('name');
-			console.log("계산된 이름 " + elementName)
+			console.log(arr)
 			
-			var a = $(this).val();
-			console.log("들어온 값 " + a)
-			var b = ${pdto.productPrice}
-			var sum = a * b;
-			$( '#selectPrice').text( sum );
-		 });
-	});*/
-	
-	/* function fnReplace(val) {
-	    var ret = 0;
-	    if(typeof val != "undefined" && val != null && val != ""){
-	        ret = Number(val.replace(/,/gi,''));
-	    }
-	    return ret;        
-	} */
-
-	
-  /*  	$(document).ready(function(){
-		$(":input").bind('keyup mouseup', function () {
-			
-			var a = $( this ).val();
-			var b = ${pdto.productPrice}
-			var sum = a * b;
-			$( '#selectPrice' ).text( sum );
-		});
-	}); */
-	
-/* 	$(document).ready(function(){
-		console.log($('#orderchk1').is(':checked'))
-		$("#orderchk1").change(function(){
-			if($('#orderchk1').is(':checked')){
-				$("#productStack").on("change keyup paste input",function(){
-					const stack = $(this).val();
-					const price = $("tr:eq(1)>td:eq(3)").html();	
-					var sum = price*stack
-					$("#orderPrice").text(sum)					
-				});
+			for(i=0; i<arr.lenth ; i++) {
+				form[arr[i].name] = arr[i].value
 			}
-		});							
-	}); */
-
-
-
-	  
+			console.log(form)
+			
+			$.ajax({
+				url: "select",
+				type: "get",
+				success: function() {
+					alert('성공')
+				},
+				error: function() {
+					alert('실패')
+				}
+			})
+			
+		} else {
+			alert('상품과 수량을 선택해주세요.')
+		}
+	}
+	
+	/* function productCart() {
+		if()
+	}  */
+	
 	</script>
 	
 	
@@ -285,7 +184,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
+			<form id="proOrderFo">
 				<div id="selectOrderProduct">
 				<input type="hidden" name="productNo" value="${pdto.productNo }">
 				<input type="hidden" name="productName" value="${pdto.productName }">
@@ -296,22 +195,14 @@
 					총 금액<span id="orderPrice">0</span>원
 				</div>
 				
-				<input type="number" min="1" max="${ data.productStack}" onchange="test()" name="productStack" id="productStack" value="1" class="pst">
-				<span id='PriceproductStack'>0</span> 원<br>
-				
-				<input type="number" min="2" max="${ data.productStack}" onchange="test()" name="productStack0" id="productStack0" value="2" class="pst">
-				<span id='PriceproductStack0'>0</span> 원<br>
-				
-				<input type="number" min="2" max="${ data.productStack}" onchange="test()" name="productStack9" id="productStack9" value="2" class="pst">
-				<span id='PriceproductStack9'>0</span> 원<br>
-				
 			</form>
 			</td>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="">찜</button></td>
 			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
+			<%-- <td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td> --%>
+			<td><button type="button" onclick="productOrder()">구매하기</button></td>
 		</tr>
 	</table>
 	<hr>
@@ -319,7 +210,7 @@
 	<div id="proContent">
 	<h2>상품 상세 정보</h2>
 	<hr>
-	${pdto.productContent }
+	${pdto.productContent } 
 	</div><br><br>
 	
 	<div id="proReview">
