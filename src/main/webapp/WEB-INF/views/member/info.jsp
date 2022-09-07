@@ -47,12 +47,19 @@ window.onload = function(){
 	document.getElementById('phone2').value = Phone[2];
 	document.getElementById('email1').value = Email[0];
 	document.getElementById('email2').value = Email[1];
+}
+</script>
+<script type="text/javascript">
+function modifyChk(){
 	
-	console.log(Phone[0]);
-	console.log(Phone[1]);
-	console.log(Phone[2]);
-	console.log(Email[0]);
-	console.log(Email[1]);
+    var form = document.form;
+    var pw = $('.pw_input').val();
+    
+    if(!form.pw.value){
+    	form.pw.value = ${info.pw};
+    }
+    form.action = "<%=request.getContextPath()%>/member/modify";
+    form.submit(); 
 }
 </script>
 
@@ -185,7 +192,7 @@ window.onload = function(){
 
     <!-- 회원 정보 -->
     <div class="contents profile" id="profile">
-        <form action="edit_account_form" method="post" class="columns">
+        <form method="post" class="columns" name="form">
             <div class="column">
                 <div class="field input_id">
                     <span>아이디</span>
@@ -198,7 +205,7 @@ window.onload = function(){
                 <div class="field input_phone">
                     <span>전화번호</span>
                     
-                    <select name="part1">
+                    <select name="phone1">
                         <option value="010" selected>010</option>
                         <option value="011">011</option>
                         <option value="016">016</option>
@@ -206,12 +213,12 @@ window.onload = function(){
                         <option value="019">019</option>
                         <option value="070">070</option>
                     </select>  
-                    <input type="text" name="part2" maxlength="4" id="phone1">
-                    <input type="text" name="part3" maxlength="4" id="phone2">
+                    <input type="text" name="phone2" maxlength="4" id="phone1">
+                    <input type="text" name="phone3" maxlength="4" id="phone2">
                 </div>
                 <div class="field input_email">
                     <span>이메일</span>
-                    <input type="text" name="email" placeholder="이메일 주소 입력" id="email1">
+                    <input type="text" name="email1" placeholder="이메일 주소 입력" id="email1">
                     @
                     <input type="text" name="email2" placeholder="이메일 주소 입력" id="email2">
                     <select name="domain">
@@ -232,12 +239,12 @@ window.onload = function(){
                 <div class="field input_pw">
                     <span>비밀번호 변경</span>
                     <span style="color:#888;">비밀번호를 변경하지 않을 경우, 입력하지 마세요.</span>
-                    <input type="password" name="pw" placeholder="비밀번호">
-                    <input type="password" name="confirm_pw" placeholder="비밀번호 확인">
+                    <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
+                    <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
                     <div class="password-message message"></div>
                 </div>
                 <div>
-                    <input type="submit" class="button" value="회원정보 수정">
+                    <input type="submit" class="button" value="회원정보 수정" onclick="modifyChk()">
                 </div>
             </div>
         </form>

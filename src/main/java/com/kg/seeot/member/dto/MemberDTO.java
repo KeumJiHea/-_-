@@ -29,14 +29,12 @@ public String getPhone() {
 	}
 	
 	phone = "";
+	
 	if(! phone2.equals("") && ! phone3.equals("")) {
 		phone = phone1+"-"+phone2+"-"+phone3;
 	}
 	
 	return phone;
-}
-public void setPhone(String phone) {
-	this.phone = phone;
 }
 public String getPhone1() {
 	return phone1;
@@ -62,6 +60,7 @@ public String getEmail() {
 	}
 	
 	email = "";
+	
 	if(! email1.equals("") && ! email2.equals("")) {
 		email = email1+"@"+email2;
 	}
