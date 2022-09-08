@@ -11,27 +11,28 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardFileServiceImpl implements BoardFileService {
 	public String getMessage(String msg, String url) {
 		String message = "";
-		message += "<script>alert('"+msg+"');";
-		message += "location.href='"+url+"';</script>";
+		message += "<script>alert('" + msg + "');";
+		message += "location.href='" + url + "';</script>";
 		return message;
 	}
+
 	public String saveFile(MultipartFile file) {
-		SimpleDateFormat simpl = 
-				new SimpleDateFormat("yyyyMMddHHmmss-");
+		SimpleDateFormat simpl = new SimpleDateFormat("yyyyMMddHHmmss-");
 		Calendar calendar = Calendar.getInstance();
-		String sysFileName = 
-				simpl.format(calendar.getTime()) 
-				+ file.getOriginalFilename();
-		File saveFile = new File(IMAGE_REPO+"/"+sysFileName);
+		String fileOriginName = file.getOriginalFilename();
+		String fileSaveName = simpl.format(calendar.getTime()) + fileOriginName;
+		File saveFile = new File(IMAGE_REPO + "/" + fileSaveName);
+		
 		try {
-			file.transferTo(saveFile);//해당 위치에 파일 저장
-		}catch (Exception e) {
+			file.transferTo(saveFile);// 해당 위치에 파일 저장
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return sysFileName;
+		return fileSaveName;
 	}
+
 	public void deleteImage(String fName) {
-		File dFile = new File(IMAGE_REPO+"/"+fName);
+		File dFile = new File(IMAGE_REPO + "/" + fName);
 		dFile.delete();
 	}
 }

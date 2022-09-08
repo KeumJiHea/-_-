@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.board.service.BoardService;
@@ -20,72 +19,59 @@ import com.kg.seeot.board.service.BoardService;
 @Controller
 @RequestMapping("board")
 public class BoardController {
-	@Autowired BoardService bs;
+	@Autowired
+	BoardService bs;
 
-	
-@GetMapping("test")
-public String test() {
-	return "board/test";
-}
+	@GetMapping("boardList")
+	public String boardList(Model model) {
+		bs.boardList(model);
+		return "board/boardList.page";
+	}
 
-@GetMapping("boardList")
-public String boardList(Model model) {
-bs.boardList(model);
-	return "board/boardList.page";
-}
+	@GetMapping("boardContentView")
+	public String boardContentView(int boardNo, Model model) {
+		bs.boardContentView(boardNo, model);
+		return "board/boardContentView.page";
+	}
 
-@GetMapping("boardContentView")
-public String boardContentView(String memberId, Model model) {
-	bs.boardContentView(memberId, model);
-	return "board/boardContentView.page";
-}
-@GetMapping("boardWrite")
-public String boardWrite() {
-	
-	return "board/boardWrite.page";
-}
-@GetMapping("boardReply")
-public String boardReply(String memberId, Model model) {
-	bs.boardContentView(memberId, model);
-	return "board/boardReply";
-}
-@GetMapping("boardModifyForm")
-public String boardModifyForm(String memberId, Model model) {
-	bs.boardModifyForm(memberId, model);
-	return "board/boardModifyForm.page";
-}
+	@GetMapping("boardWrite")
+	public String boardWrite() {
+		return "board/boardWrite.page";
+	}
 
-@GetMapping("delete")
-public void delete(String memberId, String boardFile,
-					HttpServletResponse response,
-					HttpServletRequest request) throws IOException {
-	String msg = 
-			bs.delete(memberId, boardFile,request);
-	response.setContentType("text/html; charset=utf-8");
-	PrintWriter out = response.getWriter();
-	out.print( msg );
-}
+	@GetMapping("boardReply")
+	public String boardReply(int boardNo, Model model) {
+		bs.boardContentView(boardNo, model);
+		return "board/boardReply";
+	}
 
-@PostMapping("boardReplySave")
-public void boardReplySave(String memberId, Model model,MultipartHttpServletRequest mul,
-			HttpServletResponse response,HttpServletRequest request) throws IOException {
-	String message = bs.writeSave(mul, request);
-	
-	response.setContentType("text/html;charset=utf-8");
-	PrintWriter out = response.getWriter();
-	out.print( message );
-}
+	@GetMapping("delete")
+	public void delete(String memberId, String boardFile, HttpServletResponse response, HttpServletRequest request)
+			throws IOException {
+		String msg = bs.delete(memberId, boardFile, request);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(msg);
+	}
 
-@PostMapping("writeSave")
-public void writeSave(MultipartHttpServletRequest mul,
-		HttpServletResponse response,
-		HttpServletRequest request) throws Exception {
-	String message = bs.writeSave(mul, request);
-	
-	response.setContentType("text/html;charset=utf-8");
-	PrintWriter out = response.getWriter();
-	out.print( message );
-}
+	@PostMapping("boardReplySave")
+	public void boardReplySave(String memberId, Model model, MultipartHttpServletRequest mul,
+			HttpServletResponse response, HttpServletRequest request) throws IOException {
+		String message = bs.writeSave(mul, request);
 
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+
+	@PostMapping("writeSave")
+	public void writeSave(MultipartHttpServletRequest mul, HttpServletResponse response, HttpServletRequest request)
+			throws Exception {
+		String message = bs.writeSave(mul, request);
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
 
 }

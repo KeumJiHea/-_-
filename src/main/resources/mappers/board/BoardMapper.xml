@@ -9,32 +9,41 @@
 		<result property="boardNo" column="board_no" />
 		<result property="boardTitle" column="board_title" />
 		<result property="boardContent" column="board_content" />
-		<result property="boardFile" column="board_file" />
 		<result property="boardDate" column="board_date" />
 		<result property="boardGroup" column="board_group" />
 		<result property="boardIndent" column="board_indent" />
+		<result property="boardQnAType" column="board_qnatype"/>
+		<result property="boardStatus" column="board_status"/>
 	</resultMap>
+	
+	<resultMap type="com.kg.seeot.board.dto.FileDTO" id="file">
+		<result property="fileOriginName" column="file_origin_name"/>
+		<result property="fileSaveName" column="file_save_name"/>
+		<result property="boardNo" column="board_No"/>
+	</resultMap>
+
 	<select id="boardList" resultMap="board">
 		select * from seeot_board
-		<!-- select B.* from(select rownum rn, A.* from (select * from seeot_board 
-			order by board_no desc)A)B where rn between #{s} and #{e} -->
 	</select>
 
 	<select id="boardContentView" resultMap="board">
-		select * from seeot_board where member_id=#{memberId}
+		select * from seeot_board
+		where board_no=#{boardNo}
 	</select>
 
 	<delete id="delete">
 		delete from seeot_board where member_id=#{memberId}
 	</delete>
 
-
 	<insert id="writeSave">
-		insert into
-		seeot_board(board_no,member_id,board_title,board_content,board_file)
-		values(board_seq.nextval,#{memberId},#{boardTitle},#{boardContent},#{boardFile})
+	    insert into seeot_board(member_id, member_name, board_no, board_title, board_content, board_qnatype, board_status)
+		values(#{memberId}, #{memberName}, board_seq.nextval, #{boardTitle}, #{boardContent}, #{boardQnAType}, #{boardStatus})
 	</insert>
-
+	
+	<insert id="writeFileSave">
+	 	insert into seeot_board_file(file_origin_name, file_save_name, board_no)
+		values(#{fileOriginName}, #{fileSaveName}, board_seq.currval)
+	</insert>
 
 
 </mapper>
