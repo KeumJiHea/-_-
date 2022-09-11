@@ -176,7 +176,7 @@ public class MemberController implements SessionName{
         return num;
 	
 	}
-	
+	/*
 	@GetMapping("find_form")
 	public String find_form() {
 		return "find_form";
@@ -201,6 +201,7 @@ public class MemberController implements SessionName{
 	public String find_pw_form() {
 		return "";
 	}
+	*/
 }
 
 

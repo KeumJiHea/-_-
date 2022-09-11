@@ -66,7 +66,7 @@ public class MemberServiceImpl implements MemberService{
 	public int idCheck(String id) throws Exception{
 		return mapper.idCheck(id);
 	}
-	public int modify(HttpServletRequest request,MemberDTO dto) {
+	/*public int modify(HttpServletRequest request,MemberDTO dto) {
 		dto.setId(request.getParameter("id"));
 		dto.setPw(request.getParameter("pw"));
 		dto.setName(request.getParameter("name"));
@@ -87,6 +87,7 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return 0;
 	}
+	*/
 }
 
 

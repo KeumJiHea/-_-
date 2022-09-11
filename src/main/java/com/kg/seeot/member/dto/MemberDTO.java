@@ -24,13 +24,13 @@ public void setName(String name) {
 	this.name = name;
 }
 public String getPhone() {
-	if ( ! phone.equals("") ) {
+	phone = null == phone ? "" : phone;
+	
+	if ( 0 < phone.length() ) {
 		return phone;
 	}
 	
-	phone = "";
-	
-	if(! phone2.equals("") && ! phone3.equals("")) {
+	if( 0 < phone2.length() && 0 < phone3.length() ) {
 		phone = phone1+"-"+phone2+"-"+phone3;
 	}
 	
@@ -55,13 +55,9 @@ public void setPhone3(String phone3) {
 	this.phone3 = phone3;
 }
 public String getEmail() {
-	if(! email.equals("") ) {
-		return email;
-	}
+	email = null == email ? "" : email;
 	
-	email = "";
-	
-	if(! email1.equals("") && ! email2.equals("")) {
+	if( 0 < email1.length() && 0 < email2.length() ) {
 		email = email1+"@"+email2;
 	}
 	
