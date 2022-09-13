@@ -8,13 +8,16 @@
 <title>Insert title here</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+var IMP = window.IMP;
+IMP.init("imp11462084"); // 예: imp00000000 
 function cartchk(){
-	if(!$('#orderchk').is(':checked')){
+	if(!$("input:checkbox[name=orderChkbox]").is(':checked')){
 		alert('주문할 상품을 골라주세요!')
 	}else{
-		alert('주문페이지로 이동합니다')
-		location.href='${contextPath}/order/cartorder';
+		requestPay();
 	}
 }
 
@@ -38,13 +41,13 @@ function change(){
 		}else{
 			pricelist[i] = sum;					
 		}						
-		console.log(pricelist)
+		console.log('리스트 : '+pricelist)
 		
 		total =0;
 		for(i =0; i<pricelist.length;i++){
 			total+=pricelist[i]
 		}
-		console.log(total)
+		console.log('총 가격 : '+total)
 		$("#total_price").text(total);
 	});
 };
@@ -164,9 +167,98 @@ $(document).on('click','.chkdel',function(){                  
 		}          		
 	  
 });
-
-
-
+	function requestPay() {
+		var nlist = new Array()
+ 		$("input:checkbox[name=orderChkbox]:checked").each(function(i) {
+			var pname = $("#pname"+i).text()
+			nlist.push(pname)
+		}); 
+			console.log(nlist)
+		var rand = ''
+		for (let j = 0; j < 4; j++) {
+			rand += Math.floor(Math.random() * 10)
+		}
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = ("0" + (1 + date.getMonth())).slice(-2);
+	    var day = ("0" + date.getDate()).slice(-2);
+	    var num = year+month+day+rand;
+	    let pricet = ${pdto.productPrice }
+    IMP.request_pay({ 
+        pg: "html5_inicis",
+        pay_method: "card",
+        merchant_uid: num,   //주문번호
+        name: nlist[0]+'외 '+(nlist.length-1)+'종',
+        amount: 1000,                         // $("#total_price").text()
+        buyer_email: "${info.email}",
+        buyer_name: "${info.name}",
+        buyer_tel: "${info.phone}",
+        buyer_addr: "${info.addr2}"+"${info.addr3}",
+        buyer_postcode: "${info.addr1}"
+    }, function (rsp) { // callback
+    	if ( rsp.success ) {
+    		var form ={merchant_uid: rsp.merchant_uid , 
+                    name : rsp.name, 		
+                    amount : rsp.paid_amount, 	
+                    buyer_name : rsp.buyer_name, 
+                    buyer_addr : rsp.buyer_addr, 	
+                    buyer_postcode: rsp.buyer_postcode }
+    		 // jQuery로 HTTP 요청
+            jQuery.ajax({
+                url: "${contextPath}/order/orderchk", 
+                method: "POST",
+                contentType : "application/json; charset=utf-8",
+                dataType : 'JSON',
+                data:    
+                	JSON.stringify(form)
+                    /* merchant_uid: rsp.merchant_uid , //주문번호
+                    name : rsp.name, 		//제품명
+                    amount : rsp.paid_amount, 	// 가격
+                    buyer_name : rsp.buyer_name, // 구매자
+                    buyer_addr : rsp.buyer_addr, 	// 구매자주소
+                    buyer_postcode: rsp.buyer_postcode //우편번호 */
+                
+            }).done(function (data) {
+            	console.log(rsp)
+              console.log('결제성공!! 주문번호 : '+rsp.merchant_uid+' 제품명 : '+rsp.name+' 가격 : '+rsp.paid_amount+' 구매자 : '+rsp.buyer_name+' 주소 : '+rsp.buyer_addr )
+              location.href="${contextPath}/order/ordersuccess";
+            }).fail(function(error){
+            	console.log(error)
+            	location.href="${contextPath}/order/ordersuccess";
+            })
+        }else{
+        	alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg); 
+        	
+        }
+    });
+   
+  }
+function daumPost(){
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+           console.log(data.zonecode) 
+           console.log(data.userSelectedType)           
+           console.log(data.jibunAddress) 
+           console.log(data.roadAddress)
+           
+           document.getElementById("postcode").value = data.zonecode
+           if(data.userSelectedType== 'R'){
+        	   var addr = data.roadAddress
+           }else{
+        	   var addr = data.jibunAddress        	   
+           }
+           document.getElementById("addr1").value = addr;
+           document.getElementById("addr2").focus();
+        }
+    }).open();
+}
+function setaddr(){
+	$("#postcode").val('${info.addr1}');
+	$("#addr1").val('${info.addr2}');
+	$("#addr2").val('${info.addr3}');
+}
 </script>
 </head>
 <body>
@@ -200,7 +292,7 @@ $(document).on('click','.chkdel',function(){                  
 								<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${cart.productFile}">
 							</c:if>
 						</th>
-						<th>${cart.productName }</th>
+						<th id="pname${status.index }">${cart.productName }</th>
 						<th id="price${status.index }">${cart.productPrice }</th>
 						<th>
 							<input type="number" min="1" max="10" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.orderStack }" placeholder="${cart.orderStack }"><br>
@@ -215,6 +307,11 @@ $(document).on('click','.chkdel',function(){                  
 			<button type="button" class="chkdel">선택 삭제</button> <button type="button" class="alldel">전체 삭제</button>
 			<hr>
 				총 금액<span id="total_price"></span>원<br>
+			<hr>
+				배송지 입력 (가입시 등록주소)<input type="checkbox" onclick="setaddr()" name="orderaddr" id="orderaddr">
+				<input type="text" onclick="daumPost()" id="postcode">
+				<input type="text" onclick="daumPost()" id="addr1">
+				<input type="text" onclick="daumPost()" id="addr2">
 				<button type="button" onclick="cartchk()">결제하기</button>
 		</form>
 	</div>	

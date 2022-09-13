@@ -29,6 +29,7 @@ import com.kg.seeot.member.service.MemberService;
 public class CartController {
 	@Autowired CartService cs;
 	@Autowired SessionName sn;
+	@Autowired MemberService ms;
 	
 	
 	@PostMapping("addcart")
@@ -48,6 +49,7 @@ public class CartController {
 	public String mycart(String memberId,Model model,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		memberId = (String)session.getAttribute("loginUser");
+		ms.getUser(model, memberId);
 		cs.getCart(model, memberId);
 		return "cart/mycart";
 	}

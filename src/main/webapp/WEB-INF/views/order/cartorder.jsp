@@ -13,19 +13,6 @@
 <script type="text/javascript">
 var IMP = window.IMP;
 IMP.init("imp11462084"); // 예: imp00000000 
-$(document).ready(function(){
-	console.log($('#orderchk1').is(':checked'))
-	$("#orderchk1").change(function(){
-		if($('#orderchk1').is(':checked')){
-			$("#productStack").on("change keyup paste input",function(){
-				const stack = $(this).val();
-				const price = $("tr:eq(1)>td:eq(3)").html();	
-				var sum = price*stack
-				$("#orderPrice").text(sum)					
-			});
-		}
-	});							
-});
 function requestPay() {
 		var rand = ''
 		for (let i = 0; i < 4; i++) {
