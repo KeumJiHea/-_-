@@ -36,6 +36,7 @@
 
     } );
 </script>
+
 <script type="text/javascript">
 window.onload = function(){
 	var phoneList = "${info.phone}";
@@ -49,6 +50,7 @@ window.onload = function(){
 	document.getElementById('email2').value = Email[1];
 }
 </script>
+
 <script type="text/javascript">
 function modifyChk(){
 	
@@ -110,7 +112,7 @@ function modifyChk(){
                             주문 배송
                         </div>
                     </a>
-                    <a href="#profile">
+                    <a href="#profile" class="infotab">
                         <div class="menu">
                             <div class="icon"><img src="<c:url value='/resources/images/navigation/profile.png'/>" width="50px"></div>
                             회원 정보
@@ -204,7 +206,6 @@ function modifyChk(){
                 </div>
                 <div class="field input_phone">
                     <span>전화번호</span>
-                    
                     <select name="phone1">
                         <option value="010" selected>010</option>
                         <option value="011">011</option>
@@ -220,7 +221,7 @@ function modifyChk(){
                     <span>이메일</span>
                     <input type="text" name="email1" placeholder="이메일 주소 입력" id="email1">
                     @
-                    <input type="text" name="email2" placeholder="이메일 주소 입력" id="email2">
+                    <input type="text" name="email2" id="email2">
                     <select name="domain">
                         <option value="naver.com" selected>naver.com</option>
                         <option value="gmail.com">gmail.com</option>
