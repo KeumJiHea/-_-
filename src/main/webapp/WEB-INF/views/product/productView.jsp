@@ -100,7 +100,7 @@
 	 function productOrder() {
 			form = document.profo;
 			form.method = "post";
-			form.action = '${pageContext.request.contextPath }/order/test3'
+			form.action = '${pageContext.request.contextPath }/order/test2'
 			form.submit();
 	}
 	
