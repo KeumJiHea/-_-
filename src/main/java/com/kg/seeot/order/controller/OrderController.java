@@ -40,7 +40,7 @@ public class OrderController {
 	}
 	
 	
-	@GetMapping("test2")
+	@PostMapping("test2")
 	public String productOrder(Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
 		System.out.println(req.getParameter("productNo"));
 		System.out.println(req.getParameter("productName"));
