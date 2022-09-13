@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<select id="reviewList" resultMap="review">
-		select * from seeot_review
+		select * from seeot_review 
 	</select>
 	<insert id="addReview">
 		insert into seeot_review(member_id, review_content, product_no, review_file,review_star)
@@ -25,7 +25,7 @@
 	<select id="getRepList" 
 		resultType="com.kg.seeot.board.dto.ReviewDTO">
 	select * from reply where product_no=#{productNo}
-								order by write_date desc
+								order by review_date desc
 	</select>
 
 
