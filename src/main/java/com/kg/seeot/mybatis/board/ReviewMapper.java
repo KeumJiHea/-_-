@@ -14,4 +14,10 @@ public interface ReviewMapper {
 	public int addReview(ReviewDTO dto);
 	public List<ReviewDTO> getRepList(int productNo);
 
+	
+	
+	
+	
+	
+	public void saveData(ReviewDTO dto );
 }

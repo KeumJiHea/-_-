@@ -12,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.kg.seeot.board.service.ReviewService;
 
@@ -30,6 +33,15 @@ public class ReviewController {
 	public String reviewList(Model model) {
 		rs.reviewList(model);
 		return "review/reviewList";
+	}
+	
+	@PostMapping("reviewSave")
+	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar) {
+		System.out.println("reviewcontroller");
+		System.out.println("reviewStar: "+ reviewStar);
+		rs.fileProcess( mul );
+		//나중에 보드에서 상세페이지로 바꾸기
+		return "redirect:board";
 	}
 	/*
 	@PostMapping("reviwSave")

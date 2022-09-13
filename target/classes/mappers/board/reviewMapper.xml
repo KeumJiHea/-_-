@@ -29,6 +29,11 @@
 	</select>
 
 
+	<insert id="saveData">
+		insert into seeot_reivew values(#{memberId},#{reviewContent},#{reviewFile},#{reviewStar})
+	</insert>
+
+
 
 
 </mapper>

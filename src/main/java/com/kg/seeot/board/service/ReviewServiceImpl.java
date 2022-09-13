@@ -1,5 +1,8 @@
 package com.kg.seeot.board.service;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +51,49 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewDTO> getRepList(int productNo){
 		return mapper.getRepList( productNo );
 	}
+	
+	
+	
+	public void fileProcess(MultipartHttpServletRequest mul) {
+		System.out.println("reviewcontroller-service");
+		System.out.println(mul.getParameter("memberId"));
+		System.out.println(mul.getParameter("memberContent"));
+		
+		
+		ReviewDTO dto = new ReviewDTO();
+		dto.setMemberId(mul.getParameter("memberId"));
+		dto.setReviewContent((mul.getParameter("reviewContent")));
+		//dto.setReviewStar((int)mul.getParameter("reviewStar"));
+		
+		MultipartFile file = mul.getFile("f"); //꺼내와야함
+		System.out.println(file.getOriginalFilename());
+		if( file.getSize() != 0) { // file.isEmpty() != true (파일이 존재하면)  !file.isEmpty()
+			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss-");
+			String sysFileName = f.format(new Date());
+			//System.out.println( sysFileName);
+			
+			sysFileName += file.getOriginalFilename();
+			
+			dto.setReviewFile(sysFileName);
+			
+			
+			File saveFile = new File("저장소"+"/"+sysFileName);
+			try {
+				file.transferTo(saveFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {//파일을 선택하지 않은 경우
+			dto.setReviewFile( "nan");
+		}
+		mapper.saveData( dto );
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 //	
