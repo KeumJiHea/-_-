@@ -98,36 +98,15 @@
 	
 	
 	 function productOrder() {
-		if( cnt >= 1) {
-			let form = {};
-			let arr = $("#proOrderFo").serializeArray();
-			
-			console.log(arr)
-			
-			for(i=0; i<arr.lenth ; i++) {
-				form[arr[i].name] = arr[i].value
-			}
-			console.log(form)
-			
-			$.ajax({
-				url: "select",
-				type: "get",
-				success: function() {
-					alert('성공')
-				},
-				error: function() {
-					alert('실패')
-				}
-			})
-			
-		} else {
-			alert('상품과 수량을 선택해주세요.')
-		}
+			form = document.profo;
+			form.method = "get";
+			form.action = '${pageContext.request.contextPath }/order/test2'
+			form.submit();
 	}
 	
 	/* function productCart() {
-		if()
-	}  */
+
+	} */
 	
 	</script>
 	
@@ -184,7 +163,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-			<form id="proOrderFo">
+			<form id="proOrderFo" name="profo">
 				<div id="selectOrderProduct">
 				<input type="hidden" name="productNo" value="${pdto.productNo }">
 				<input type="hidden" name="productName" value="${pdto.productName }">
