@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.board.service.ReviewService;
 import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.service.ProductFileService;
 import com.kg.seeot.product.service.ProductService;
@@ -36,6 +37,9 @@ public class ProductController {
 	
 	@Autowired
 	ProductService ps;
+	
+	@Autowired
+	ReviewService rs;
 	
 	//상품 전체 리스트 및 카테고리 리스트 출력
 	@GetMapping("list")
