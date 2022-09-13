@@ -1,7 +1,7 @@
 package com.kg.seeot.cart.dto;
 
 public class CartDTO {
-	private int productNo,cartPrice,productPrice,orderStack;
+	private int productNo,cartPrice,productPrice,orderStack,cartNum;
 	private String memberId,productName,productFile;
 	public int getProductNo() {
 		return productNo;
@@ -44,6 +44,12 @@ public class CartDTO {
 	}
 	public void setProductFile(String productFile) {
 		this.productFile = productFile;
+	}
+	public int getCartNum() {
+		return cartNum;
+	}
+	public void setCartNum(int cartNum) {
+		this.cartNum = cartNum;
 	}
 	
 	

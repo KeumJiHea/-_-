@@ -11,14 +11,27 @@
 		<result property="productPrice" column="product_price"/>
 		<result property="productFile" column="product_file"/>
 		<result property="orderStack" column="order_stack"/>
+		<result property="cartNum" column="cartnum"/>
 	</resultMap>
 	
 	<insert id="addCart_p">
-		insert into cart(product_no,product_name,product_price,product_file) select product_no,product_name,product_price,product_file from product
-		where product_no=(#{product_no})
+		insert into cart(product_no,product_name,product_price,product_file,cartNum) select product_no,product_name,product_price,product_file,cartnum_seq.nextval from product
+		where product_no=#{product_no}
 	</insert>
 	
-	<select id="getCart">
+	<update id="addOrderStack">
+		update cart set order_stack=#{o} where product_no=#{p}
+	</update>
+	
+	<select id="getCart" resultMap="cart">
 		select * from cart where member_id=#{member_id}
 	</select>
+	
+	<delete id="deleteCartOne">
+		delete from cart where member_id=#{m} and product_no=#{p}
+	</delete>
+	
+	<delete id="deleteChkCart">
+		delete from cart where member_id=#{m} and cartnum=#{c}
+	</delete>
 </mapper>
