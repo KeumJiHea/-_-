@@ -32,7 +32,7 @@ public class ReviewRepController {
 		
 		  System.out.println((String)map.get("memberId"));
 		  System.out.println((String)map.get("reviewContent"));
-		  System.out.println((String)map.get("reviewFile"));
+		//  System.out.println((String)map.get("reviewFile"));
 		  System.out.println(map.get("productNo"));
 		  System.out.println(map.get("reviewStar")); 
 		
