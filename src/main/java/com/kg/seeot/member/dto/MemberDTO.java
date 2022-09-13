@@ -33,7 +33,6 @@ public String getPhone() {
 	if( 0 < phone2.length() && 0 < phone3.length() ) {
 		phone = phone1+"-"+phone2+"-"+phone3;
 	}
-	
 	return phone;
 }
 public String getPhone1() {
@@ -57,10 +56,13 @@ public void setPhone3(String phone3) {
 public String getEmail() {
 	email = null == email ? "" : email;
 	
+	if ( 0 < email.length() ) {
+		return email;
+	}
+	
 	if( 0 < email1.length() && 0 < email2.length() ) {
 		email = email1+"@"+email2;
 	}
-	
 	return email;
 }
 public void setEmail(String email) {

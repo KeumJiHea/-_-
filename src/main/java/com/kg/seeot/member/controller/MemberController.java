@@ -42,7 +42,7 @@ public class MemberController implements SessionName{
 
 	@GetMapping("/login")
 	public String login() { 
-		return "member/login"; 
+		return "member/login.page"; 
 	}
 
 	@PostMapping("/login_check")
@@ -75,7 +75,7 @@ public class MemberController implements SessionName{
 			ms.keepLogin(id, id);
 		}
 		session.setAttribute(LOGIN, id);
-		return "member/successLogin";
+		return "home.page";
 	}
 	@GetMapping("logout")
 	public String logout( HttpSession session,
@@ -93,7 +93,7 @@ public class MemberController implements SessionName{
 	}
 	@GetMapping("register_form")
 	public String register_form() {
-		return "member/register";
+		return "member/register.page";
 	}
 	@PostMapping("register")
 	public String register(MemberDTO dto) {
