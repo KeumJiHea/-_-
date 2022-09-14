@@ -3,6 +3,7 @@ package com.kg.seeot.board.service;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,19 +55,28 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	
 	
-	public void fileProcess(MultipartHttpServletRequest mul) {
+	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar) {
+		/**/
 		System.out.println("reviewcontroller-service");
 		System.out.println(mul.getParameter("memberId"));
-		System.out.println(mul.getParameter("memberContent"));
-		
+		System.out.println(mul.getParameter("reviewContent"));
+		System.out.println(reviewStar);
+		System.out.println(mul.getParameter("productNo"));
 		
 		ReviewDTO dto = new ReviewDTO();
 		dto.setMemberId(mul.getParameter("memberId"));
 		dto.setReviewContent((mul.getParameter("reviewContent")));
-		//dto.setReviewStar((int)mul.getParameter("reviewStar"));
+		dto.setReviewStar(reviewStar);
 		
-		MultipartFile file = mul.getFile("f"); //꺼내와야함
-		System.out.println(file.getOriginalFilename());
+		Iterator<String> fileNames = mul.getFileNames();
+			while(fileNames.hasNext()) {
+				MultipartFile file = mul.getFile(fileNames.next());
+				
+				System.out.println(file.getOriginalFilename());
+			
+		//MultipartFile file = mul.getFile("reviewFile"); //꺼내와야함
+		
+		/**/
 		if( file.getSize() != 0) { // file.isEmpty() != true (파일이 존재하면)  !file.isEmpty()
 			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss-");
 			String sysFileName = f.format(new Date());
@@ -76,8 +86,8 @@ public class ReviewServiceImpl implements ReviewService {
 			
 			dto.setReviewFile(sysFileName);
 			
-			
-			File saveFile = new File("저장소"+"/"+sysFileName);
+			//System.out.println(sysFileName); 
+			File saveFile = new File("c:/spring/image_repo"+"/"+sysFileName);
 			try {
 				file.transferTo(saveFile);
 			} catch (Exception e) {
@@ -85,7 +95,7 @@ public class ReviewServiceImpl implements ReviewService {
 			}
 		}else {//파일을 선택하지 않은 경우
 			dto.setReviewFile( "nan");
-		}
+		}}
 		mapper.saveData( dto );
 	}
 	

@@ -24,13 +24,14 @@
 	
 	<select id="getRepList" 
 		resultType="com.kg.seeot.board.dto.ReviewDTO">
-	select * from reply where product_no=#{productNo}
+	select * from seeot_reply where product_no=#{productNo}
 								order by review_date desc
 	</select>
 
 
 	<insert id="saveData">
-		insert into seeot_reivew values(#{memberId},#{reviewContent},#{reviewFile},#{reviewStar})
+		insert into seeot_review(member_id, review_content, product_no, review_file,review_star)
+		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar})
 	</insert>
 
 

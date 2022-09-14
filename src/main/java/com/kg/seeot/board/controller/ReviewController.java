@@ -39,8 +39,8 @@ public class ReviewController {
 	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar) {
 		System.out.println("reviewcontroller");
 		System.out.println("reviewStar: "+ reviewStar);
-		rs.fileProcess( mul );
-		//나중에 보드에서 상세페이지로 바꾸기
+		rs.fileProcess( mul , reviewStar );
+		//나중에 보드에서 리뷰작성버튼화면으로 바꾸기
 		return "redirect:board";
 	}
 	/*

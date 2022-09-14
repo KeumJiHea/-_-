@@ -66,6 +66,20 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+var cnt=1;//파일 업로드 name값을 다르게 하는 변수
+function addFile(){
+   $("#addfile").append("<div id='"+cnt+"'><input type='file' name='file"+cnt+"' >"
+           
+            +"<img id='View' src='#' width=100 height=100 alt='선택된 이미지가 없습니다' name='file"+cnt+"'/>"
+            +"<input type='button' value='삭제' onclick='delFile()'> </div>")
+   cnt++
+}
+function delFile(){
+   cnt--
+   $("#"+cnt).remove()
+}
+
 /* ajax로 리뷰 저장 -(form으로 보내기 만들면 삭제) 이미지 보내기 문제
 
 function review(){//리뷰저장
@@ -147,19 +161,20 @@ function review(){//리뷰저장
 	</fieldset>
 	<div>
 	
-	<!-- 상세페이지에서 해당 상품의 상품번호 불러오기
-	${dto.productNo }
-	<input type="hidden" id="productNo" value="${dto.productNo }"> -->
+	<!-- 상세페이지의 해당 상품의 상품번호 불러오기 -->
+	
+	<input type="hidden" id="productNo" value="">
 	<textarea class="reviewContent" type="text" id="reviewContent"
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>
 				  
 	<b>이미지파일 첨부</b><br>
-
-    <input type='file' id="reviewFile" name="reviewName" multiple="multiple"/>
+	<input type="button" value="파일추가" onclick="addFile()"><br>
+    <input type='file' id="reviewFile" name="reviewFile"/>
     <img id="View" src="#" width=100 height=100 alt="선택된 이미지가 없습니다" name="file"/>
 
 		<br>
-	
+		
+      <div id="addfile"></div>
 	
 	<input type="submit" value="후기등록">
 
