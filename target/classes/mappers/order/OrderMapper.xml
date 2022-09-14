@@ -18,5 +18,8 @@
 		<result property="orderStack" column="order_stack"/>
 	</resultMap>
 	
+ 	<insert id="addOrder">
+		insert into order(order_no,member_id,order_price,order_addr1,order_addr2,order_addr3,product_file,order_date,product_price,order_stack) values()
+	</insert> 
 	
 </mapper>

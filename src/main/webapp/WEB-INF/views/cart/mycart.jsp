@@ -17,7 +17,12 @@ function cartchk(){
 	if(!$("input:checkbox[name=orderChkbox]").is(':checked')){
 		alert('주문할 상품을 골라주세요!')
 	}else{
-		requestPay();
+		if(($("#postcode").val()=="") || ($("#addr1").val()=="") || ($("#addr2").val()=="")){
+			alert('주소는 필수사항입니다')
+			$("#postcode").focus();
+		}else{
+			requestPay();
+		}
 	}
 }
 
@@ -167,13 +172,26 @@ $(document).on('click','.chkdel',function(){                  
 		}          		
 	  
 });
+	
 	function requestPay() {
-		var nlist = new Array()
+		var namelist = new Array()
+		var stacklist = new Array()
+		var nolist = new Array()
+		var filelist = new Array()
+		var costlist = new Array()
  		$("input:checkbox[name=orderChkbox]:checked").each(function(i) {
 			var pname = $("#pname"+i).text()
-			nlist.push(pname)
+			var pstack = $("#productStack"+i).val()
+			var pno = $("#productnotd"+i).text()
+			var pfile =$("#file"+i).attr('src')
+			var pcost = $("#goods_total_price"+i).text()
+			namelist.push(pname)
+			stacklist.push(pstack)
+			nolist.push(pno)
+			filelist.push(pfile)
+			costlist.push(pcost)
 		}); 
-			console.log(nlist)
+			console.log(namelist)
 		var rand = ''
 		for (let j = 0; j < 4; j++) {
 			rand += Math.floor(Math.random() * 10)
@@ -188,16 +206,22 @@ $(document).on('click','.chkdel',function(){                  
         pg: "html5_inicis",
         pay_method: "card",
         merchant_uid: num,   //주문번호
-        name: nlist[0]+'외 '+(nlist.length-1)+'종',
-        amount: 1000,                         // $("#total_price").text()
+        name: namelist[0]+'외 '+(namelist.length-1)+'종',
+        amount: 100, // $("#total_price").text()
         buyer_email: "${info.email}",
         buyer_name: "${info.name}",
         buyer_tel: "${info.phone}",
-        buyer_addr: "${info.addr2}"+"${info.addr3}",
-        buyer_postcode: "${info.addr1}"
+        buyer_addr: $("#addr1").val()+$("#addr2").val(),
+        buyer_postcode: $("#postcode").val()
     }, function (rsp) { // callback
     	if ( rsp.success ) {
-    		var form ={merchant_uid: rsp.merchant_uid , 
+    		var form ={
+    				gno : nolist,
+    				glist : namelist,
+    				gstack : stacklist,
+    				gfile : filelist,
+    				gcost : costlist,
+    				merchant_uid: rsp.merchant_uid , 
                     name : rsp.name, 		
                     amount : rsp.paid_amount, 	
                     buyer_name : rsp.buyer_name, 
@@ -208,7 +232,6 @@ $(document).on('click','.chkdel',function(){                  
                 url: "${contextPath}/order/orderchk", 
                 method: "POST",
                 contentType : "application/json; charset=utf-8",
-                dataType : 'JSON',
                 data:    
                 	JSON.stringify(form)
                     /* merchant_uid: rsp.merchant_uid , //주문번호
@@ -221,10 +244,9 @@ $(document).on('click','.chkdel',function(){                  
             }).done(function (data) {
             	console.log(rsp)
               console.log('결제성공!! 주문번호 : '+rsp.merchant_uid+' 제품명 : '+rsp.name+' 가격 : '+rsp.paid_amount+' 구매자 : '+rsp.buyer_name+' 주소 : '+rsp.buyer_addr )
-              location.href="${contextPath}/order/ordersuccess";
-            }).fail(function(error){
-            	console.log(error)
-            	location.href="${contextPath}/order/ordersuccess";
+              location.href="${contextPath}/order/order";
+            }).fail(function(request,status,error){
+            	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n error : "+error)
             })
         }else{
         	alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg); 
@@ -255,9 +277,15 @@ function daumPost(){
     }).open();
 }
 function setaddr(){
-	$("#postcode").val('${info.addr1}');
-	$("#addr1").val('${info.addr2}');
-	$("#addr2").val('${info.addr3}');
+	if($("input:checkbox[name=orderaddr]").is(":checked")){
+		$("#postcode").val('${info.addr1}');
+		$("#addr1").val('${info.addr2}');
+		$("#addr2").val('${info.addr3}');
+	}else{
+		$("#postcode").val('');
+		$("#addr1").val('');
+		$("#addr2").val('');		
+	}
 }
 </script>
 </head>
@@ -283,13 +311,13 @@ function setaddr(){
 						<th><input type="checkbox" name='orderChkbox' id="orderchk${status.index }" onchange="change()" checked="checked" value="${cart.cartNum }">
 							<input type="hidden" name="cartNum${status.index }" id="cartNum${status.index}" value="${cart.cartNum }">
 						</th>
-						<td id="productnotd${status.count }">${cart.productNo }</td>
+						<td id="productnotd${status.index }">${cart.productNo }</td>
 						<th>
 							<c:if test="${ cart.productFile == 'nan' }">
 								<b>등록된 이미지가 없습니다.</b>
 							</c:if>
 							<c:if test="${ cart.productFile != 'nan' }">
-								<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${cart.productFile}">
+								<img id="file${status.index }" width="100px" height="100px" src="${contextPath}/product/download?productFile=${cart.productFile}">
 							</c:if>
 						</th>
 						<th id="pname${status.index }">${cart.productName }</th>
@@ -308,10 +336,10 @@ function setaddr(){
 			<hr>
 				총 금액<span id="total_price"></span>원<br>
 			<hr>
-				배송지 입력 (가입시 등록주소)<input type="checkbox" onclick="setaddr()" name="orderaddr" id="orderaddr">
-				<input type="text" onclick="daumPost()" id="postcode">
-				<input type="text" onclick="daumPost()" id="addr1">
-				<input type="text" onclick="daumPost()" id="addr2">
+				배송지 입력 (가입시 등록주소)<input type="checkbox" onchange="setaddr()" name="orderaddr" id="orderaddr"><br>
+				<input type="text" onclick="daumPost()" id="postcode"><br>
+				<input type="text" onclick="daumPost()" id="addr1"><br>
+				<input type="text" onclick="daumPost()" id="addr2"><br>
 				<button type="button" onclick="cartchk()">결제하기</button>
 		</form>
 	</div>	
