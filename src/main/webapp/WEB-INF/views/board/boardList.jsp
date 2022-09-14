@@ -37,7 +37,7 @@
 				</td>
 				<td>${dto.memberName }</td>
 				<td>${dto.boardDate }</td>
-				<td>처리상태</td>
+				<td>${dto.boardStatus }</td>
 				<td>${dto.boardGroup }</td>
 				<td>${dto.boardIndent }</td>
 			</tr>

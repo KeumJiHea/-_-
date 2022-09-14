@@ -7,10 +7,10 @@
 		enctype="multipart/form-data">
 		
 		<input type="text" name="memberId" value="${loginUser }" hidden="hidden"/>
-		<label>작성자</label>
+		<label for="memberName">작성자</label>
 		<input type="text" name="memberName" required/>
 		<hr>
-		<label>문의 유형</label>
+		<label for="boardQnAType">문의 유형</label>
 		<select name="boardQnAType">
 			<option value="상품">상품</option>
 			<option value="배송">배송</option>
@@ -20,14 +20,14 @@
 			<option value="기타">기타</option>
 		</select>
 		<hr>
-		<label>제목</label>
+		<label for="boardTitle">제목</label>
 		<input type="text" size="50" name="boardTitle" required/>
 		<hr>
-		<label>내용</label>
+		<label for="boardContent">내용</label>
 		<textarea name="boardContent" rows="10" cols="50" required></textarea>
 		<hr>
-		<label>파일 첨부</label>
-		<input type="file" name="fileOriginName" onchange="addFile(this);" multiple />
+		<label for="file">파일 첨부</label>
+		<input type="file" name="boardFile" onchange="addFile(this);" multiple />
 		<div class="file-list"></div>
 		<hr>
 		<input type="submit" value="글쓰기" />

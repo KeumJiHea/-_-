@@ -38,11 +38,15 @@
 	<insert id="writeSave">
 	    insert into seeot_board(member_id, member_name, board_no, board_title, board_content, board_qnatype, board_status)
 		values(#{memberId}, #{memberName}, board_seq.nextval, #{boardTitle}, #{boardContent}, #{boardQnAType}, #{boardStatus})
+		
+		<selectKey keyProperty="boardNo" order="AFTER" resultType="int">
+			select board_seq.currval from dual
+		</selectKey>
 	</insert>
 	
-	<insert id="writeFileSave">
+	<insert id="writeFileSave" useGeneratedKeys="true">
 	 	insert into seeot_board_file(file_origin_name, file_save_name, board_no)
-		values(#{fileOriginName}, #{fileSaveName}, board_seq.currval)
+		values(#{fileOriginName}, #{fileSaveName}, #{boardNo})
 	</insert>
 
 

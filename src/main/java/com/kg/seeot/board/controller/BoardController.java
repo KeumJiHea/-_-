@@ -2,6 +2,8 @@ package com.kg.seeot.board.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.board.dto.FileDTO;
+import com.kg.seeot.board.service.BoardFileService;
 import com.kg.seeot.board.service.BoardService;
 
 @Controller
@@ -21,6 +26,8 @@ import com.kg.seeot.board.service.BoardService;
 public class BoardController {
 	@Autowired
 	BoardService bs;
+	@Autowired
+	BoardFileService bfs;
 
 	@GetMapping("boardList")
 	public String boardList(Model model) {

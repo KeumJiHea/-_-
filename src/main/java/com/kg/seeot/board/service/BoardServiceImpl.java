@@ -1,5 +1,6 @@
 package com.kg.seeot.board.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,10 +51,9 @@ public class BoardServiceImpl implements BoardService {
 
 	public String writeSave(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		BoardDTO dto = new BoardDTO();
-		FileDTO fdto = new FileDTO();
 
-		if(mul.getParameter("memberId").equals("")) { //비회원 처리(아직 구현 안 됨)
-			dto.setMemberId("visitor");
+		if(mul.getParameter("memberId").equals("")) { //비회원 처리
+			dto.setMemberId("비회원");
 		}else {
 			dto.setMemberId(mul.getParameter("memberId"));
 		}
@@ -64,21 +64,26 @@ public class BoardServiceImpl implements BoardService {
 		dto.setBoardQnAType(mul.getParameter("boardQnAType"));
 		dto.setBoardStatus("미처리");
 		
-		List<MultipartFile> fileList = mul.getFiles("boardFile");
-		for(MultipartFile file : fileList) {
-			if(file.getSize() != 0) {
-				fdto.setFileOriginName(file.getName());
-				fdto.setFileSaveName(bfs.saveFile(file));
-			}else {
-				fdto.setFileOriginName("NaN");
-				fdto.setFileSaveName("NaN");
-			}
-		}
-
 		int result = 0;
 		result = mapper.writeSave(dto);
-		mapper.writeFileSave(fdto);
+		
+		System.out.println("boardNo: " + dto.getBoardNo());
+		
+		Iterator<String> itr = mul.getFileNames();
+		
+		while(itr.hasNext()) {
+			List<MultipartFile> fileList = mul.getFiles(itr.next());
+			if(fileList.size()>0) {
+				for(MultipartFile file : fileList) {
+					System.out.println("파일아" + file.getOriginalFilename());
+					FileDTO fdto = bfs.saveFile(file);
+					fdto.setBoardNo(dto.getBoardNo());
+					mapper.writeFileSave(fdto);
+				}
+			}
 
+		}
+	
 		String msg, url;
 		if (result == 1) {
 			msg = "새글이 추가되었습니다!!";

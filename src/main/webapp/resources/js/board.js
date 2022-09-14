@@ -45,7 +45,7 @@ function addFile(obj){
 		}
 	}
 	
-	document.querySelector("input[type=file]").value="";
+	//document.querySelector("input[type=file]").value="";
 }
 
 function validation(obj){
