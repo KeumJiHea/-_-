@@ -24,17 +24,17 @@ import com.kg.seeot.board.service.ReviewService;
 public class ReviewController {
 @Autowired ReviewService rs;
 
-	@GetMapping("test")
+	@GetMapping("reviewList")
 	public String test() {
-		return "review/test";
+		return "review/reviewList";
 	}
-	
+	/*
 	@GetMapping("reviewList")
 	public String reviewList(Model model) {
 		rs.reviewList(model);
 		return "review/reviewList";
 	}
-	
+	*/
 	@PostMapping("reviewSave")
 	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar) {
 		System.out.println("reviewcontroller");
