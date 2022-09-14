@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <div class="inner_footer">
 	<div class="footer_menu">
-		<a href="home">Home</a>
+		<a href="${contextPath }/home">Home</a>
 		<a href="#">About</a>
 		<a href="#">Agreement</a>
 		<a href="#">Privacy Policy</a>

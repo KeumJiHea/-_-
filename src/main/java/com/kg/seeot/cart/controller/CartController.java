@@ -51,7 +51,7 @@ public class CartController {
 		memberId = (String)session.getAttribute("loginUser");
 		ms.getUser(model, memberId);
 		cs.getCart(model, memberId);
-		return "cart/mycart";
+		return "cart/mycart.page";
 	}
 	
 	@GetMapping("cartdeleteOne")

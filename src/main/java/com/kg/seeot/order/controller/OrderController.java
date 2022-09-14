@@ -33,8 +33,9 @@ public class OrderController {
 	public String orderMain(Model model,int productNo) {
 		System.out.println("컨트롤러 동작 성공");
 		ps.productView(model, productNo);
-		return "/order/orderMain";
+		return "/order/orderMain.page";
 	}
+
 	
 	
 	@PostMapping(value = "orderchk", produces = "application/json; charset=utf-8")
