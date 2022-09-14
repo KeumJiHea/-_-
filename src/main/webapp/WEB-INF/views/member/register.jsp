@@ -26,17 +26,17 @@
 					<div class="tag-title">필수 입력</div>
 					<div class="field input_id required">
 						<span>아이디</span> 
-						<input class="id_input" type="text" name="id">
+						<input class="id_input" type="text" name="id" maxlength="12">
 						<div class="id-message message"></div>
 					</div>
 					<div class="field input_pw required">
 						<span>비밀번호</span>
-						<input class="pw_input" type="password" name="pw" id="password" >
+						<input class="pw_input" type="password" name="pw" id="password" maxlength="16" >
 						<div class="passwordchk-message message"></div>
 					</div>
 					<div class="field input_pw2 required">
 						<span>비밀번호 확인</span>
-						<input class="pw_confirm" type="password" id="confirm_pw">
+						<input class="pw_confirm" type="password" id="confirm_pw" maxlength="16">
 						<div class="password-message message"></div>
 					</div>
 					<div class="field input_phone required">

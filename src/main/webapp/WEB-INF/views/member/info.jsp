@@ -39,10 +39,10 @@
 
 <script type="text/javascript">
 window.onload = function(){
-	var phoneList = "${info.phone}";
-	var Phone = phoneList.split("-");
-	var emailList = "${info.email}";
-	var Email = emailList.split("@");
+	var phoneList    = "${info.phone}";
+	var Phone		 = phoneList.split("-");
+	var emailList    = "${info.email}";
+	var Email        = emailList.split("@");
 	
 	document.getElementById('phone0').value = Phone[0];
 	document.getElementById('phone1').value = Phone[1];
@@ -56,17 +56,25 @@ window.onload = function(){
 function modifyChk(){
 	
     var form = document.form;
+    var pw = $('.pw_input').value();
+    var pw2 = $('.pw_confirm').value();
+    
+    if(!form.pw.value && !form.pw2.value){
+    	alert("비밀번호 입력은 필수입니다");
+    	form.pw.focus();
+    	return;
+    }
+    if(pw != pw2){
+    	alert("비밀번호가 일치하지 않습니다");
+    	form.pw2.focus();
+    	return;
+    }
     
     form.method = "post";
     form.action = "<%=request.getContextPath()%>/member/modify";
     form.submit();
 }
-</script>
 
-<script type="text/javascript">
-function pwUpdate(){
-	
-}
 </script>
 
 <div class="members-wrapper myaccount">
@@ -144,7 +152,7 @@ function pwUpdate(){
                         <th class="date">주문일자</th>
                         <th class="product-title">상품명</th>
                         <th class="price">결제금액</th>
-                        <th class="action">상품상세</th>
+                        <th class="action">후기작성</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,13 +160,13 @@ function pwUpdate(){
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                     <tr>
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -212,18 +220,6 @@ function pwUpdate(){
                     <span>생년월일</span>
                     <input type="text" name="birth" placeholder="ex)2000.01.01" value="${info.birth}">
                 </div>
-                <div>
-                    <a href="pwUpdate()"><input type="button" class="button" style="background-color: white; color: black; border: 1px solid #888;" value="비밀번호 변경하기"></a>
-                </div>
-            </div>
-            <div class="column">
-                <!--<div class="field input_pw">
-                    <span>비밀번호 변경</span>
-                    <span style="color:#888;">비밀번호를 변경하지 않을 경우, 입력하지 마세요.</span>
-                    <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
-                    <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
-                    <div class="password-message message"></div>
-                </div>-->
                 <div class="field input_phone">
                     <span>전화번호</span>
                     <input type="text" name="phone1" maxlength="3" id="phone0">  
@@ -243,6 +239,15 @@ function pwUpdate(){
                         <option value="kakao.com">kakao.com</option>
                         <option value="1" selected>직접입력</option>
                     </select>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field input_pw">
+                    <span>비밀번호 변경</span>
+                    <span style="color:#888;">회원 정보 수정시 비밀번호는 필수 입력 사항입니다.</span><br>
+                    <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
+                    <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
+                    <div class="password-message message"></div>
                 </div>
                 <div>
                     <input type="submit" class="button" value="회원정보 수정" onclick="modifyChk()">
