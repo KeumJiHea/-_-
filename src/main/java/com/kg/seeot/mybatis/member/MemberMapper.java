@@ -13,5 +13,5 @@ public MemberDTO getCookieUser(String cookie);
 public List<MemberDTO> memberlist();
 public void delete(String id);
 public int idCheck(String id);
-//public int modify(MemberDTO dto);
+public int modify(MemberDTO dto);
 }

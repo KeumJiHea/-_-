@@ -39,6 +39,19 @@
 						<input class="pw_confirm" type="password" id="confirm_pw">
 						<div class="password-message message"></div>
 					</div>
+					<div class="field input_phone required">
+							<span>전화번호</span>
+							<select name="phone1" class="phone1">
+								<option value="010" selected>010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="019">019</option>
+								<option value="070">070</option>
+							</select>
+							<input type="text" class="phone2" name="phone2" maxlength="4"> 
+							<input type="text" class="phone3" name="phone3" maxlength="4">
+						</div>
 					<div class="field input_email required">
 							<span>이메일</span>
 							<input type="text" class="email1" name="email1">
@@ -58,6 +71,35 @@
 							<input type="button" class="btn_mail_check2" style="display:none; margin-top: 15px; border: 1px solid #888; background-color: white; cursor: pointer;" value="인증번호 확인">
 							<div class="mail-message message"></div>
 						</div>
+				</div>
+
+				<div class="column">
+					<div class="tag-title members-info-tag">
+						추가 정보 입력
+						<div class="arrow arrowdown"></div>
+					</div>
+
+					<div class="members-info-message">
+						이름 및 전화번호, 주소 등 추가 정보를 입력하시면, 상품 주문 시 편리하게 이용 가능합니다.
+					</div>
+
+					<div class="members-info close">
+						<div class="field input_name">
+							<span>이름</span>
+							<input type="text" name="name">
+						</div>
+						<div class="field input_birth">
+							<span>생년월일</span>
+							<input type="text" name="birth" placeholder="ex)2000.01.01">
+						</div>
+						<div class="field input_addr">
+							<span>주소</span>
+							<input type="text" readonly id="addr1" name="addr1" placeholder="우편번호">
+							<button type="button" onclick="daumPost()">주소 검색</button>
+							<input type="text" readonly id="addr2" name="addr2" placeholder="주소">
+							<input type="text" id="addr3" name="addr3" placeholder="상세주소">
+						</div>
+					</div>
 					<div class="login-checkbox agreement">
 						<input type="checkbox" id="agreement01" checked>
 						<a href="#" class="required">쇼핑몰 이용약관에 동의합니다.</a>
@@ -90,48 +132,6 @@
 					</div>
 					<div>
 					    <button type="button" class="button" onclick="regichk()">회원가입</button>
-					</div>
-				</div>
-
-				<div class="column">
-					<div class="tag-title members-info-tag">
-						추가 정보 입력
-						<div class="arrow arrowdown"></div>
-					</div>
-
-					<div class="members-info-message">
-						이름 및 전화번호, 주소 등 추가 정보를 입력하시면, 상품 주문 시 편리하게 이용 가능합니다.
-					</div>
-
-					<div class="members-info close">
-						<div class="field input_name">
-							<span>이름</span>
-							<input type="text" name="name">
-						</div>
-						<div class="field input_phone">
-							<span>전화번호</span>
-							<select name="phone1">
-								<option value="010" selected>010</option>
-								<option value="011">011</option>
-								<option value="016">016</option>
-								<option value="017">017</option>
-								<option value="019">019</option>
-								<option value="070">070</option>
-							</select>
-							<input type="text" name="phone2" maxlength="4"> 
-							<input type="text" name="phone3" maxlength="4">
-						</div>
-						<div class="field input_birth">
-							<span>생년월일</span>
-							<input type="text" name="birth" placeholder="ex)2000.01.01">
-						</div>
-						<div class="field input_addr">
-							<span>주소</span>
-							<input type="text" readonly id="addr1" name="addr1" placeholder="우편번호">
-							<button type="button" onclick="daumPost()">주소 검색</button>
-							<input type="text" readonly id="addr2" name="addr2" placeholder="주소">
-							<input type="text" id="addr3" name="addr3" placeholder="상세주소">
-						</div>
 					</div>
 				</div>
 			</form>
@@ -271,6 +271,9 @@
 	   var email1 = $('.email1').val();
 	   var email2 = $('.email2').val();
 	   var inputCode = $('.input_mail_check').val();
+	   var phone1 = $('.phone1').val();
+	   var phone2 = $('.phone2').val();
+	   var phone3 = $('.phone3').val();
 	   
 	   if(!form.id.value){
 		   alert("아이디는 필수 사항입니다");
@@ -299,8 +302,11 @@
 	   }else if(inputCode != code){
 		   alert("이메일 인증을 진행해주세요");
 		   return;
-	   }else{
-		   alert("회원가입이 완료되었습니다");
+	   }else if(!form.phone1.value && !form.phone2.value && !form.phone3.value){
+		   alert("전화번호를 입력해주세요");
+		   return;
+	   }
+	   else{
 	       form.action = "<%=request.getContextPath()%>/member/register";
 	       form.submit();
      	}

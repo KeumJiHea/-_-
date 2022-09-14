@@ -96,20 +96,21 @@ public class MemberController implements SessionName{
 		return "member/register";
 	}
 	@PostMapping("register")
-	public String register(MemberDTO dto) {
-		
-		System.out.println(dto.getId());
-		System.out.println(dto.getPw());
+	public String register(HttpServletRequest request, MemberDTO dto) {
 		
 		int result = ms.register(dto);
 		
-		System.out.println(result);
-		
-		if(result == 1) {
-			return "redirect:login";
+		//회원가입 alert
+		if(1 == result) {
+			request.setAttribute("rmsg","회원가입 완료되었습니다");
+			request.setAttribute("rurl","login");
+			return "member/alert";
 		}
-			return "redirect:register_form";
+			request.setAttribute("rmsg","입력 정보를 다시 확인해주세요");
+			request.setAttribute("rurl","register");
+			return "member/alert";
 	}
+	
 	@GetMapping("info")
 	public String info(Model model, String id) {
 		
@@ -176,6 +177,25 @@ public class MemberController implements SessionName{
         return num;
 	
 	}
+	
+	@PostMapping("modify")
+	public String modify(HttpServletRequest request,MemberDTO dto) {
+		
+		int result = ms.modify(request,dto);
+		
+		System.out.println(result);
+		
+		//정보 수정 alert
+		if(1 == result) {
+			request.setAttribute("msg","정보 수정이 완료되었습니다");
+			request.setAttribute("url","info?id="+request.getParameter("id"));
+			return "member/alert";
+		}
+			request.setAttribute("msg","정보를 다시 확인해주세요");
+			request.setAttribute("url","info?id="+request.getParameter("id"));
+			return "member/alert";
+	}
+	
 	/*
 	@GetMapping("find_form")
 	public String find_form() {
@@ -186,17 +206,7 @@ public class MemberController implements SessionName{
 		
 		return "member/find_form";
 	}
-	@PostMapping("modify")
-	public String modify(HttpServletRequest request,MemberDTO dto) {
-		
-		System.out.println(request.getParameter("id"));
-		
-		int result = ms.modify(request,dto);
-		
-		System.out.println(result);
-		
-		return "redirect:info?id="+request.getParameter("id");
-	}
+	
 	@PostMapping("find_pw_form")
 	public String find_pw_form() {
 		return "";
