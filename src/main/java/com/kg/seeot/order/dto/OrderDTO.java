@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class OrderDTO {
-	int orderNo,orderPrice,productNo,productPrice,orderStack;
-	String orderAddr1,orderAddr2,orderAddr3,productName,productFile,memberId,orderDate;
-	public int getOrderNo() {
+	int orderPrice,productNo,productPrice,orderStack;
+	String orderNo,orderAddr1,orderAddr2,orderAddr3,productName,productFile,memberId,orderDate;
+	public String getOrderNo() {
 		return orderNo;
 	}
-	public void setOrderNo(int orderNo) {
+	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
 	public int getOrderPrice() {

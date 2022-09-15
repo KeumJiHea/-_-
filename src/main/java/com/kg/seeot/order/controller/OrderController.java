@@ -47,7 +47,6 @@ public class OrderController {
 		System.out.println("memberId : "+memberId);
 		System.out.println("주문 컨트롤러 동작");
 		System.out.println("map : "+map);
-		HashMap pdata = new HashMap();
 		ArrayList name = (ArrayList) map.get("glist");
 		ArrayList file = (ArrayList) map.get("gfile");
 		ArrayList no = (ArrayList) map.get("gno");
@@ -92,25 +91,27 @@ public class OrderController {
 		System.out.println("memberId : "+memberId);
 		Map map = (Map) session.getAttribute("orderdata");
 		model.addAttribute("order",map);
-		System.out.println("넘겨준 세션값 : "+session.getAttribute("orderdata"));
-		System.out.println("모든파일이름 : "+map.get("gfile"));
+		ArrayList name = (ArrayList) map.get("glist");
 		ArrayList file = (ArrayList) map.get("gfile");
-		
-		for(int i =0; i<file.size();i++) {
-			System.out.println("파일이름"+i+" : "+file.get(i));
-		}
+		ArrayList no = (ArrayList) map.get("gno");
+		ArrayList stack = (ArrayList) map.get("gstack");
+		ArrayList cost = (ArrayList) map.get("gcost");
 		model.addAttribute("result",file.size());
-		System.out.println("model result : "+model.getAttribute("result"));
-		System.out.println(model.getAttribute("result").getClass().getName());
-		OrderDTO dto = new OrderDTO();
 		
+		OrderDTO dto = new OrderDTO();		
 		for(int i =0; i<file.size();i++) {
-			dto.setOrderNo((Integer.parseInt((String) map.get("merchant_uid"))));
-			dto.setOrderPrice((map.get("amount"));// 09.14 dto추가해야함
+			dto.setOrderNo(map.get("merchant_uid").toString());
+			dto.setOrderPrice(Integer.parseInt(map.get("amount").toString()));// 09.14 dto추가해야함
+			dto.setProductNo(Integer.parseInt(no.get(i).toString()));
+			dto.setProductPrice(Integer.parseInt(cost.get(i).toString()));
+			dto.setOrderStack(Integer.parseInt(stack.get(i).toString()));
+			dto.setOrderAddr1(map.get("buyer_postcode").toString());
+			dto.setOrderAddr2(map.get("buyer_addr").toString());
+			dto.setProductName(name.get(i).toString());
+			dto.setProductFile(file.get(i).toString());
+			dto.setMemberId(memberId);
+			os.addOrder(dto);
 		}
-		
-		
-		//os.addOrder(memberId);
 		return "/order/order";
 	}
 }

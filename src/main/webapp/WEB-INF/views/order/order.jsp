@@ -27,27 +27,5 @@
 		</c:forEach>	
 	</c:if>
 </table>
-	총 세션 : ${sessionScope.orderdata}<br>
-	주문번호 : ${sessionScope.orderdata.merchant_uid }<br>
-	제품번호 배열 : ${sessionScope.orderdata.gno }<br>
-	각제품명 배열 : ${sessionScope.orderdata.glist }<br>
-	각제품갯수 배열 : ${sessionScope.orderdata.gstack }<br>
-	간단한 제품명 : ${sessionScope.orderdata.name  }<br>
-	총 가격 : ${sessionScope.orderdata.amount  }<br>
-	구매자 이름 : ${sessionScope.orderdata.buyer_name  }<br>
-	구매자 주소 : ${sessionScope.orderdata.buyer_addr  }<br>
-	구매자 우편번호 : ${sessionScope.orderdata.buyer_postcode  }<br>
-	<hr>
-	총 세션 : ${sessionScope.orderdata}<br>
-	주문번호 : ${order.merchant_uid }<br>
-	제품번호 배열 : ${order.gno }<br>
-	각제품명 배열 : ${order.glist }<br>
-	각제품갯수 배열 : ${order.gstack }<br>
-	간단한 제품명 : ${order.name  }<br>
-	총 가격 : ${order.amount  }<br>
-	구매자 이름 : ${order.buyer_name  }<br>
-	구매자 주소 : ${order.buyer_addr  }<br>
-	구매자 우편번호 : ${order.buyer_postcode  }<br>
-	${paramValues.order.glist }
 </body>
 </html>
