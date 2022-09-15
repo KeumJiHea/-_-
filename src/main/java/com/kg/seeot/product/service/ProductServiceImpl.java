@@ -1,5 +1,8 @@
 package com.kg.seeot.product.service;
 
+import java.io.File;
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +47,6 @@ public class ProductServiceImpl implements ProductService{
 		pdto.setProductCategorie(Integer.parseInt(mul.getParameter("productCategorie")));
 		pdto.setProductName(mul.getParameter("productName"));
 		pdto.setProductPrice(Integer.parseInt(mul.getParameter("productPrice")));
-		pdto.setProductContent(mul.getParameter("productContent"));
 		
 		mdto.setProductNo(Integer.parseInt(mul.getParameter("productNo")));
 		mdto.setProductSize(Integer.parseInt(mul.getParameter("productSize")));
@@ -52,11 +54,18 @@ public class ProductServiceImpl implements ProductService{
 		mdto.setProductStack(Integer.parseInt(mul.getParameter("productStack")));
 		
 		//이미지 처리
-		MultipartFile file = mul.getFile("productFile");
-		if( file.getSize() != 0 ) { //이미지 있는경우
-			pdto.setProductFile(pfs.saveFile(file));
+		MultipartFile file1 = mul.getFile("productFile");
+		if( file1.getSize() != 0 ) { //이미지 있는경우
+			pdto.setProductFile(pfs.saveFile(file1));
 		}else { //이미지가 없는 경우
 			pdto.setProductFile("nan");
+		}
+		
+		MultipartFile file2 = mul.getFile("productContent");
+		if( file2.getSize() != 0 ) { //이미지 있는경우
+			pdto.setProductContent(pfs.saveFile(file2));
+		}else { //이미지가 없는 경우
+			pdto.setProductContent("nan");
 		}
 		
 		int presult = 0, mresult = 0;

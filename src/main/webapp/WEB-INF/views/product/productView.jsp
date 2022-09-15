@@ -50,10 +50,9 @@
 							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
 									+ "<input type='hidden' name='productColor' value='" + data.productColor + "'>"
 									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
-									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='1' class='pst'>"
-									+ "금액 <span id='PriceproductStack" + cnt + "'>${pdto.productPrice}</span> 원"
-									+ " <input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
-							$("#selectOrderProduct").show();
+									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='0' class='pst'>"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>0</span> 원"
+									+ "<input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
 						}else {
 							alert('이미 추가되었습니다.')
 						}
@@ -81,19 +80,11 @@
 	}
 	
 
-	$(document).ready(function(){
-		$("#selectOrderProduct").hide()
-	});
-	
 	function deleteSelPro(id) {
 		var delId =  $(id).attr('class')
 		console.log(delId)
 		$("div").remove("#"+delId)
 		
-		cnt--;
-		if(cnt == 0) {
-			$("#selectOrderProduct").hide()
-		}
 	}
 	
 	
@@ -170,14 +161,11 @@
 		<tr>
 			<td colspan="3">
 			<form id="proOrderFo" name="profo">
-				<div id="selectOrderProduct">
 				<input type="hidden" name="productNo" value="${pdto.productNo }">
 				<input type="hidden" name="productName" value="${pdto.productName }">
 				<input type="hidden" name="productFile" value="${pdto.productFile }">
 				<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
 				<div id="proOrderAdd">
-				</div>
-					총 금액<span id="orderPrice">0</span>원
 				</div>
 				
 			</form>
@@ -195,7 +183,12 @@
 	<div id="proContent">
 	<h2>상품 상세 정보</h2>
 	<hr>
-	${pdto.productContent } 
+	<c:if test="${ pdto.productContent == 'nan' }">
+		<b>등록된 이미지가 없습니다.</b>
+	</c:if>
+	<c:if test="${ pdto.productContent != 'nan' }">
+		<img width="500px" height="500px" src="${contextPath}/product/download?productFile=${pdto.productContent}">
+	</c:if>
 	</div><br><br>
 	
 	<div id="proReview">
