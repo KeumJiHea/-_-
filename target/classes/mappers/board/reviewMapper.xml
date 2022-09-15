@@ -11,7 +11,6 @@
 		<result property="reviewStar" column="review_star" />
 		<result property="productNo" column="product_no" />
 		<result property="reviewContent" column="review_content" />
-		<result property="rating" column="rating" />
 	</resultMap>
 
 	<select id="reviewList" resultMap="review">
@@ -30,7 +29,7 @@
 
 
 	<insert id="saveData">
-		insert into seeot_review(member_id, review_content, product_no, review_file,review_star)
+		insert into seeot_review(member_id, review_content, product_no, review_file, review_star)
 		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar})
 	</insert>
 

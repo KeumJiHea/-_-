@@ -26,6 +26,7 @@ public class ReviewController {
 
 	@GetMapping("reviewList")
 	public String test() {
+		
 		return "review/reviewList";
 	}
 	/*
@@ -36,24 +37,37 @@ public class ReviewController {
 	}
 	*/
 	@PostMapping("reviewSave")
-	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar) {
+	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar
+								, int productNo) {
 		System.out.println("reviewcontroller");
 		System.out.println("reviewStar: "+ reviewStar);
-		rs.fileProcess( mul , reviewStar );
-		//나중에 보드에서 리뷰작성버튼화면으로 바꾸기
-		return "redirect:board";
-	}
-	/*
-	@PostMapping("reviwSave")
-	public void reviwSave(MultipartHttpServletRequest mul,
-			HttpServletResponse response,
-			HttpServletRequest request) {
-String message = rs.writeSave(mul, request);
+		System.out.println("productNo: "+ productNo);
 		
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.print( message );
+		rs.fileProcess( mul , reviewStar , productNo );
 		
+		String id = mul.getParameter("memberId"); 
+		return "redirect:../member/info?id="+id;
 	}
-	*/
+	
+	
+	@GetMapping("reviewPrint")
+	public String reviewPrint() {
+		
+		return "review/reviewPrint";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

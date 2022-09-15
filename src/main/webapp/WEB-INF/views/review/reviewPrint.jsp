@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+상품후기
+<hr>
 </body>
 </html>

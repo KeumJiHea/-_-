@@ -55,18 +55,20 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	
 	
-	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar) {
+	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar 
+									, int productNo) {
 		/**/
 		System.out.println("reviewcontroller-service");
 		System.out.println(mul.getParameter("memberId"));
 		System.out.println(mul.getParameter("reviewContent"));
 		System.out.println(reviewStar);
-		System.out.println(mul.getParameter("productNo"));
+		System.out.println(productNo);
 		
 		ReviewDTO dto = new ReviewDTO();
 		dto.setMemberId(mul.getParameter("memberId"));
 		dto.setReviewContent((mul.getParameter("reviewContent")));
 		dto.setReviewStar(reviewStar);
+		dto.setProductNo(productNo);
 		
 		Iterator<String> fileNames = mul.getFileNames();
 			while(fileNames.hasNext()) {

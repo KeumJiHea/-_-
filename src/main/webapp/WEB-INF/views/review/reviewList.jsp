@@ -138,7 +138,7 @@ function review(){//리뷰저장
  	 action="${contextPath}/review/reviewSave" method="post" enctype="multipart/form-data">
  	
 	<c:if test="${sessionScope.loginUser != null}">
-	<input type="hidden" name="memberId" value="${sessionScope.loginUser } "> 	
+	<input type="hidden" name="memberId" value="${sessionScope.loginUser }"> 	
 	</c:if>
 	<c:if test="${sessionScope.loginUser == null}">
 	<input type="hidden" name="memberId" value="seeotuser"> 	
@@ -163,18 +163,18 @@ function review(){//리뷰저장
 	
 	<!-- 상세페이지의 해당 상품의 상품번호 불러오기 -->
 	
-	<input type="hidden" id="productNo" value="">
+	<input type="hidden" id="productNo" value="10001" name="productNo">
 	<textarea class="reviewContent" type="text" id="reviewContent"
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>
 				  
 	<b>이미지파일 첨부</b><br>
-	<input type="button" value="파일추가" onclick="addFile()"><br>
-    <input type='file' id="reviewFile" name="reviewFile"/>
+	<!-- <input type="button" value="파일추가" onclick="addFile()"><br> -->
+    <input type='file' id="reviewFile" name="reviewFile"  multiple="multiple"/>
     <img id="View" src="#" width=100 height=100 alt="선택된 이미지가 없습니다" name="file"/>
 
 		<br>
 		
-      <div id="addfile"></div>
+     <!-- <div id="addfile"></div> --> 
 	
 	<input type="submit" value="후기등록">
 
