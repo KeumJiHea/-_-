@@ -21,11 +21,11 @@
 		where product_no=#{product_no}
 	</insert>
 	<update id="addCart_m">
-		update cart set product_size=#{s}, product_color=#{c} where product_no=#{n}
+		update cart set product_size=#{s}, product_color=#{c} where 
 	</update>
 	
 	<update id="addOrderStack">
-		update cart set order_stack=#{o} where product_no=#{p}
+		update cart set order_stack=#{o} where <!--0915 시퀀스현재값으로 조회해야함 -->
 	</update>
 	
 	<select id="getCart" resultMap="cart">

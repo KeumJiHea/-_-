@@ -19,12 +19,34 @@
 		<result property="productColor" column="product_color"/>
 	</resultMap>
 	
+	<resultMap type="com.kg.seeot.order.dto.OrderHistoryDTO" id="hdto">
+		<result property="hiMemberId" column="himember_id"/>
+		<result property="hiOrderNo" column="hiorder_no"/>
+		<result property="hiProductNo" column="hiproduct_no"/>
+		<result property="hiProductName" column="hiproduct_name"/>
+		<result property="hiProductSize" column="hiproduct_size"/>
+		<result property="hiProductColor" column="hiproduct_color"/>
+		<result property="hiProductFile" column="hiproduct_file"/>
+		<result property="hiOrderAddr1" column="hiorder_addr1"/>
+		<result property="hiOrderAddr2" column="hiorder_addr2"/>
+		<result property="hiOrderPrice" column="hiorder_price"/>
+		<result property="hiOrderDate" column="hiorder_date"/>
+		<result property="hiOrderStatus" column="hiorder_status"/>
+		<result property="hiOrderStack" column="hiorder_stack"/>
+		<result property="hiProductPrice" column="hiproduct_price"/>
+	</resultMap>
+	
  	<insert id="addOrder">
 		insert into goods_order(order_no,product_no,member_id,order_price,order_addr1,order_addr2,product_name,product_file,product_price,order_stack,product_size,product_color) 
 			values(#{orderNo},#{productNo},#{memberId},#{orderPrice},#{orderAddr1},#{orderAddr2},#{productName},#{productFile},#{productPrice},#{orderStack},#{productSize},#{productColor})
 	</insert> 
 	
-	<select id="getOrderHistorys" resultType="com.kg.seeot.order.dto.OrderHistoryDTO">
+	<insert id="addOrderHistory">
+		insert into order_history(himember_id,hiorder_no,hiproduct_no,hiproduct_name,hiproduct_size,hiproduct_color,hiproduct_file,hiorder_addr1,hiorder_addr2,hiorder_price,hiorder_date,hiorder_status,hiproduct_price,hiorder_stack) 
+			values(#{hiMemberId},#{hiOrderNo},#{hiProductNo},#{hiProductName},#{hiProductSize},#{hiProductColor},#{hiProductFile},#{hiOrderAddr1},#{hiOrderAddr2},#{hiOrderPrice},sysdate,#{hiOrderStatus},#{hiProductPrice},#{hiOrderStack})
+	</insert>
+	
+	<select id="getOrderHistorys" resultMap="hdto">
 		select * from order_history where memberId=#{memberId}
 	</select>
 	

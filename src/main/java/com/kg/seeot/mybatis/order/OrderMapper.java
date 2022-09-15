@@ -7,5 +7,5 @@ import com.kg.seeot.order.dto.OrderHistoryDTO;
 
 public interface OrderMapper {
 	public void addOrder(OrderDTO dto);
-	public void getOrderHistorys(@Param("d") OrderHistoryDTO dto,@Param("m") String memberId);
+	public void addOrderHistory(OrderHistoryDTO hdto);
 }

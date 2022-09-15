@@ -354,8 +354,6 @@ function setaddr(){
 		</form>
 	</div>	
 	
-	<div id="option"><span id="sizec">안녕하세요반가워요</span></div>
-	
 	
 </body>
 </html>

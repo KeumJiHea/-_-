@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kg.seeot.member.service.MemberService;
 import com.kg.seeot.order.dto.OrderDTO;
+import com.kg.seeot.order.dto.OrderHistoryDTO;
 import com.kg.seeot.order.service.OrderService;
 import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.service.ProductService;
@@ -102,6 +103,7 @@ public class OrderController {
 		model.addAttribute("result",file.size());
 		
 		OrderDTO dto = new OrderDTO();		
+		OrderHistoryDTO hdto = new OrderHistoryDTO();
 		for(int i =0; i<file.size();i++) {
 			dto.setOrderNo(map.get("merchant_uid").toString());
 			dto.setOrderPrice(Integer.parseInt(map.get("amount").toString()));// 09.14 dto추가해야함
@@ -116,6 +118,20 @@ public class OrderController {
 			dto.setProductFile(file.get(i).toString());
 			dto.setMemberId(memberId);
 			os.addOrder(dto);
+			hdto.setHiMemberId(dto.getMemberId());
+			hdto.setHiOrderAddr1(dto.getOrderAddr1());
+			hdto.setHiOrderAddr2(dto.getOrderAddr2());
+			hdto.setHiOrderNo(dto.getOrderNo());
+			hdto.setHiOrderPrice(dto.getOrderPrice());
+			hdto.setHiOrderStack(dto.getOrderStack());
+			hdto.setHiOrderStatus(1);
+			hdto.setHiProductColor(dto.getProductColor());
+			hdto.setHiProductFile(dto.getProductFile());
+			hdto.setHiProductName(dto.getProductName());
+			hdto.setHiProductNo(dto.getProductNo());
+			hdto.setHiProductPrice(dto.getProductPrice());
+			hdto.setHiProductSize(dto.getProductSize());	
+			os.addHiOrder(hdto);
 		}
 		return "/order/order";
 	}

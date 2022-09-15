@@ -16,6 +16,7 @@ import com.kg.seeot.product.dto.ProductOrderDTO;
 
 import com.kg.seeot.mybatis.order.OrderMapper;
 import com.kg.seeot.order.dto.OrderDTO;
+import com.kg.seeot.order.dto.OrderHistoryDTO;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -46,4 +47,12 @@ public class OrderServiceImpl implements OrderService{
 		
 		model.addAttribute("list", list);
 	}
+
+	@Override
+	public void addHiOrder(OrderHistoryDTO hdto) {
+		om.addOrderHistory(hdto);
+		
+	}
+	
+	
 }
