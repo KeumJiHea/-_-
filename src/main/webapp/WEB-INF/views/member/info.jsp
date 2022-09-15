@@ -39,11 +39,12 @@
 
 <script type="text/javascript">
 window.onload = function(){
-	var phoneList = "${info.phone}";
-	var Phone = phoneList.split("-");
-	var emailList = "${info.email}";
-	var Email = emailList.split("@");
+	var phoneList    = "${info.phone}";
+	var Phone		 = phoneList.split("-");
+	var emailList    = "${info.email}";
+	var Email        = emailList.split("@");
 	
+	document.getElementById('phone0').value = Phone[0];
 	document.getElementById('phone1').value = Phone[1];
 	document.getElementById('phone2').value = Phone[2];
 	document.getElementById('email1').value = Email[0];
@@ -55,21 +56,32 @@ window.onload = function(){
 function modifyChk(){
 	
     var form = document.form;
-    var pw = $('.pw_input').val();
+    var pw = $('.pw_input').value();
+    var pw2 = $('.pw_confirm').value();
     
-    if(!form.pw.value){
-    	form.pw.value = ${info.pw};
+    if(!form.pw.value && !form.pw2.value){
+    	alert("비밀번호 입력은 필수입니다");
+    	form.pw.focus();
+    	return;
     }
+    if(pw != pw2){
+    	alert("비밀번호가 일치하지 않습니다");
+    	form.pw2.focus();
+    	return;
+    }
+    
+    form.method = "post";
     form.action = "<%=request.getContextPath()%>/member/modify";
-    form.submit(); 
+    form.submit();
 }
+
 </script>
 
 <div class="members-wrapper myaccount">
     <h1 class="myaccount-title">마이페이지</h1>
     <div class="navigation">
         <ul>
-            <li class=""><a href="#orders">주문 배송</a></li>
+            <li class=""><a href="#orders">주문 내역</a></li>
             <li class=""><a href="#profile">회원 정보</a></li>
             <li class=""><a href="#address">주소 관리</a></li>
             <li class=""><a href="#coupon">쿠폰 목록</a></li>
@@ -96,8 +108,8 @@ function modifyChk(){
                     포인트<span>1,000</span>
                 </div>
                 <div class="coupon">
-                    <div class="icon"><img src="<c:url value='/resources/images/navigation/coupon.png'/>" width="40px"></div>
-                    쿠폰<span>(2)</span>
+                    <div class="icon"><img src="<c:url value='/resources/images/navigation/review.png'/>" width="40px"></div>
+                    <a href="#" style="color: white;">나의 후기</a>
                 </div>
             </div>
         </div>
@@ -140,7 +152,7 @@ function modifyChk(){
                         <th class="date">주문일자</th>
                         <th class="product-title">상품명</th>
                         <th class="price">결제금액</th>
-                        <th class="action">상품상세</th>
+                        <th class="action">후기작성</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,13 +160,13 @@ function modifyChk(){
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                     <tr>
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -171,7 +183,7 @@ function modifyChk(){
                         <th class="date">주문일자</th>
                         <th class="product-title">상품명</th>
                         <th class="price">결제금액</th>
-                        <th class="action">상품상세</th>
+                        <th class="action">후기작성</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -179,13 +191,13 @@ function modifyChk(){
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                     <tr>
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -194,26 +206,23 @@ function modifyChk(){
 
     <!-- 회원 정보 -->
     <div class="contents profile" id="profile">
-        <form method="post" class="columns" name="form">
+        <form method="post" action="<%=request.getContextPath()%>/member/modify" class="columns" name="form">
             <div class="column">
-                <div class="field input_id">
-                    <span>아이디</span>
-                    <input type="text" name="id" value=${info.id} readonly>
-                </div>
-                <div class="field input_name">
+              	 <div class="field input_name">
                     <span>이름</span>
                     <input type="text" name="name" value="${info.name}">
                 </div>
+                <div class="field input_id">
+                    <span>아이디</span>
+                    <input type="text" name="id" value="${info.id}" readonly>
+                </div>
+                <div class="field input_birth">
+                    <span>생년월일</span>
+                    <input type="text" name="birth" placeholder="ex)2000.01.01" value="${info.birth}">
+                </div>
                 <div class="field input_phone">
                     <span>전화번호</span>
-                    <select name="phone1">
-                        <option value="010" selected>010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                        <option value="017">017</option>
-                        <option value="019">019</option>
-                        <option value="070">070</option>
-                    </select>  
+                    <input type="text" name="phone1" maxlength="3" id="phone0">  
                     <input type="text" name="phone2" maxlength="4" id="phone1">
                     <input type="text" name="phone3" maxlength="4" id="phone2">
                 </div>
@@ -231,15 +240,11 @@ function modifyChk(){
                         <option value="1" selected>직접입력</option>
                     </select>
                 </div>
-                <div class="field input_birth">
-                    <span>생년월일</span>
-                    <input type="text" name="birth" placeholder="ex)2000.01.01" value="${info.birth}">
-                </div>
             </div>
             <div class="column">
                 <div class="field input_pw">
                     <span>비밀번호 변경</span>
-                    <span style="color:#888;">비밀번호를 변경하지 않을 경우, 입력하지 마세요.</span>
+                    <span style="color:#888;">회원 정보 수정시 비밀번호는 필수 입력 사항입니다.</span><br>
                     <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
                     <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
                     <div class="password-message message"></div>
