@@ -1,53 +1,125 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<c:set var="contextPath" value="${pageContext.request.contextPath }" />
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-
-$(document).ready(function(){
-	$("#productStack").on("change keup paste input",function(){
-		$(this).attr("value", $(this).val());
-	});
-});
-	function test(){
-		$.ajax({
-			url:"${contextPath}/cart/addcart",
-			type:"post",
-			data:{
-				productNo : "${pdto.productNo}",
-				productStack : $("#productStack").val()
-			},
-			success:function(data){
-				console.log(data)
-				alert('ok')
-			},
-			error:function(data){
-				console.log(data)
-				alert('no')
-				
-			}
-		});
-	}
-
-</script>
 </head>
 <body>
-
-
 	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+	var pc, ps
+	var cnt = 0
+	
+	function colorAdd(productColor) {
+		console.log("선택 색 : " + productColor)
+		pc = productColor
+	}
+	
+	function sizeAdd(proSize) {
+		console.log("선택 사이즈 : " + proSize)
+		ps = proSize
+		productSelect()
+	}
+	
+ 	function productSelect() {
+		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
+		
+		
+		if(pc != '' & ps != '') {
+			$.ajax({
+				url: "proStackGet",
+				type:"get",
+				data:{
+					productNo : '${pdto.productNo}',
+					productColor : pc,
+					productSize : ps
+				},
+				datatype:"json",
+				success: function(data) {
+					
+					console.log(data)
+					
+					if(data != '' ) {
+						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
+						
+						if(document.getElementById(data.productColor + data.productSize) == null) {
+							cnt++;
+							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
+									+ "<input type='hidden' name='productColor' value='" + data.productColor + "'>"
+									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
+									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='1' class='pst'>"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>${pdto.productPrice}</span> 원"
+									+ " <input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
+							$("#selectOrderProduct").show();
+						}else {
+							alert('이미 추가되었습니다.')
+						}
+					}else {
+						alert('상품 재고가 없습니다.')
+					}
+	
+				}
+			})
+		}
+		pc = ''
+		ps = ''
+		
+	}
+
+
+	function selProStack(){
+		$('.pst').on("propertychange change keyup paste input", function(){
+				   var selectId = $(this).attr('id')
+				   var selectStack = $(this).val();
+					var productPrice = ${pdto.productPrice}
+					var productStackPrice = selectStack * productPrice;
+					$( '#Price' + selectId).text( productStackPrice );
+			});
+	}
+	
+
+	$(document).ready(function(){
+		$("#selectOrderProduct").hide()
+	});
+	
+	function deleteSelPro(id) {
+		var delId =  $(id).attr('class')
+		console.log(delId)
+		$("div").remove("#"+delId)
+		
+		cnt--;
+		if(cnt == 0) {
+			$("#selectOrderProduct").hide()
+		}
+	}
+	
+	
+	 function productOrder() {
+			form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/order/test2'
+			form.submit();
+	}
+	
+	/* function productCart() {
+
+	} */
+	</script>
+	
+	
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
 	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
-	<button type="button" onclick="location.href='productUpdate'" >상품 수정</button>
-	<button type="button" onclick="location.href='productStackUpdate'" >상품 재고 등록</button>
-	<button type="button" onclick="location.href='proDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<b> | 상품 관리 | </b>
+	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
+	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
+	<b> | 재고 관리 | </b>
+	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
 	
-	<form action="#" method="post">
 	<table border="1">
 		<tr>
 			<td rowspan="10">
@@ -64,15 +136,22 @@ $(document).ready(function(){
 			<th>가격</th><td colspan="2">${pdto.productPrice }</td>
 		</tr>
 		<tr>
-			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : ${pdto.productRating }</td>
+			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : 
+				<c:if test="${pdto.reviewCount == 0}">
+					0
+				</c:if>
+				<c:if test="${pdto.reviewCount != 0}">
+					${pdto.productRating/pdto.reviewCount }
+				</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">컬러</th>
 		</tr>
 		<tr>
 			<td colspan="3">
-				<c:forEach var="mdto" items="${mlist }">
-					<button>${mdto.productColor }</button>
+				<c:forEach var="mcdto" items="${mclist }">
+					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }">${mcdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -81,32 +160,42 @@ $(document).ready(function(){
 		</tr>
 		<tr>
 			<td colspan="3">
-				<c:forEach var="mdto" items="${mlist }">
-					<button>${mdto.productSize }</button>
+				<c:forEach var="msdto" items="${mslist }">
+					<button onclick="sizeAdd(this.id)" id="${msdto.productSize }">${msdto.productSize }</button>
 				</c:forEach>
 			</td>
 		</tr>
 		<tr>
-			<th colspan="3">구매 갯수</th>
 		</tr>
 		<tr>
 			<td colspan="3">
-				<input type="number" name="productStack" id="productStack" value="1" placeholder="1" min="1">
+			<form id="proOrderFo" name="profo">
+				<div id="selectOrderProduct">
+				<input type="hidden" name="productNo" value="${pdto.productNo }">
+				<input type="hidden" name="productName" value="${pdto.productName }">
+				<input type="hidden" name="productFile" value="${pdto.productFile }">
+				<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
+				<div id="proOrderAdd">
+				</div>
+					총 금액<span id="orderPrice">0</span>원
+				</div>
+				
+			</form>
 			</td>
 		</tr>
 		<tr>
-			<td><button type="button" onclick="#">찜♡</button></td>
-			<td><button type="button" onclick="test()">장바구니</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
+			<td><button type="button" onclick="">찜</button></td>
+			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
+			<%-- <td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td> --%>
+			<td><button type="button" onclick="productOrder()">구매하기</button></td>
 		</tr>
 	</table>
-	</form>
 	<hr>
 	
 	<div id="proContent">
 	<h2>상품 상세 정보</h2>
 	<hr>
-	${pdto.productContent }
+	${pdto.productContent } 
 	</div><br><br>
 	
 	<div id="proReview">
@@ -114,10 +203,9 @@ $(document).ready(function(){
 	<hr>
 	<table border="1">
 		<tr>
-			<td>김**(kim*****) | 2022-08-24 | 평점 ★★★☆☆<br>후기1 입니다</td>
-		</tr>
-		<tr>
-			<td>정**(jung*****) | 2022-08-26 | 평점 ★☆☆☆☆<br>후기2 입니다</td>
+			<td>
+				<div id="review"></div>
+			</td>
 		</tr>
 	</table>
 	</div><br><br>

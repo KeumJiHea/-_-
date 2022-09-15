@@ -31,16 +31,25 @@
 	    member_email,member_birth,member_addr1,member_addr2,member_addr3) 
 	    values (#{id},#{pw},#{name},#{phone},#{email},#{birth},#{addr1},#{addr2},#{addr3})
 	</insert>
+	
 	<select id="getCookieUser" resultMap="member">
 	    select * from seeot_member where login_cookie=#{cookie}
 	</select>
+	
 	<select id="memberlist" resultMap="member">
 	    select * from seeot_member
 	</select>
+	
 	<delete id="delete">
 	    delete from seeot_member where member_id=#{id}
 	</delete>
-
+	
+	<select id="idCheck" resultType="int">
+	    select count(*) from seeot_member where member_id=#{id}
+	</select>
+	<update id="modify">
+		update seeot_member set member_name=#{name},member_pw=#{pw},member_phone=#{phone},member_email=#{email},member_birth=#{birth} where member_id=#{id}
+	</update>
 </mapper>
 
 
