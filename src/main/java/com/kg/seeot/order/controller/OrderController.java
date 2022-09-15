@@ -96,6 +96,9 @@ public class OrderController {
 		ArrayList no = (ArrayList) map.get("gno");
 		ArrayList stack = (ArrayList) map.get("gstack");
 		ArrayList cost = (ArrayList) map.get("gcost");
+		ArrayList size = (ArrayList) map.get("gsize");
+		ArrayList color = (ArrayList) map.get("gcolor");
+		
 		model.addAttribute("result",file.size());
 		
 		OrderDTO dto = new OrderDTO();		
@@ -105,6 +108,8 @@ public class OrderController {
 			dto.setProductNo(Integer.parseInt(no.get(i).toString()));
 			dto.setProductPrice(Integer.parseInt(cost.get(i).toString()));
 			dto.setOrderStack(Integer.parseInt(stack.get(i).toString()));
+			dto.setProductColor(color.get(i).toString());
+			dto.setProductSize(Integer.parseInt(size.get(i).toString()));
 			dto.setOrderAddr1(map.get("buyer_postcode").toString());
 			dto.setOrderAddr2(map.get("buyer_addr").toString());
 			dto.setProductName(name.get(i).toString());

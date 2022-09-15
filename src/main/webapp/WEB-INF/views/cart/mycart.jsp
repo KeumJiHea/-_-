@@ -25,7 +25,6 @@ function cartchk(){
 		}
 	}
 }
-
 var total = 0;
 var pricelist = new Array();
 function change(){	
@@ -179,17 +178,23 @@ $(document).on('click','.chkdel',function(){                  
 		var nolist = new Array()
 		var filelist = new Array()
 		var costlist = new Array()
+		var colorlist = new Array()
+		var sizelist = new Array()
  		$("input:checkbox[name=orderChkbox]:checked").each(function(i) {
 			var pname = $("#pname"+i).text()
 			var pstack = $("#productStack"+i).val()
 			var pno = $("#productnotd"+i).text()
 			var pfile =$("#file"+i).attr('src')
 			var pcost = $("#goods_total_price"+i).text()
+			var psize = $("#size"+i).text()
+			var pcolor = $("#color"+i).text()
 			namelist.push(pname)
 			stacklist.push(pstack)
 			nolist.push(pno)
 			filelist.push(pfile)
 			costlist.push(pcost)
+			colorlist.push(pcolor)
+			sizelist.push(psize)
 		}); 
 			console.log(namelist)
 		var rand = ''
@@ -221,6 +226,8 @@ $(document).on('click','.chkdel',function(){                  
     				gstack : stacklist,
     				gfile : filelist,
     				gcost : costlist,
+    				gcolor : colorlist,
+    				gsize : sizelist,
     				merchant_uid: rsp.merchant_uid , 
                     name : rsp.name, 		
                     amount : rsp.paid_amount, 	
@@ -296,7 +303,7 @@ function setaddr(){
 			<table id="cartTable" border="1">
 			<thead>
 				<tr>
-					<th>전체 선택<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" checked="checked" onchange="change()" onclick='checkAll()'/></th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>상품가격</th><th>구매수량</th><th></th>
+					<th>전체 선택<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" checked="checked" onchange="change()" onclick='checkAll()'/></th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>옵션</th><th>상품가격</th><th>구매수량</th><th></th>
 				</tr>
 				<c:if test="${cart.size()==0 }">
 					<tr>
@@ -321,6 +328,9 @@ function setaddr(){
 							</c:if>
 						</th>
 						<th id="pname${status.index }">${cart.productName }</th>
+						<th><span id="color${status.index }">${cart.productColor }</span><br> 
+							<span id="size${status.index }">${cart.productSize }</span>
+						</th>
 						<th id="price${status.index }">${cart.productPrice }</th>
 						<th>
 							<input type="number" min="1" max="10" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.orderStack }" placeholder="${cart.orderStack }"><br>
@@ -343,5 +353,9 @@ function setaddr(){
 				<button type="button" onclick="cartchk()">결제하기</button>
 		</form>
 	</div>	
+	
+	<div id="option"><span id="sizec">안녕하세요반가워요</span></div>
+	
+	
 </body>
 </html>

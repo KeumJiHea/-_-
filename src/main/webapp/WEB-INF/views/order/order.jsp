@@ -7,6 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<script type="text/javascript">
+	function cancel(){
+		alert('취소 준비중')
+	}
+</script>
 </head>
 <body>
 
@@ -22,7 +27,7 @@
 	<c:if test="${sessionScope.orderdata != null }">	
 		<c:forEach begin="0" end="${result-1 }" var="i">			
 			<tr>
-				<th>${order.merchant_uid }</th><th><img width="50px" height="50px" src="${order.gfile[i] }"></th><th>${order.glist[i]}</th><th>${order.gcost[i] }/${order.gstack[i] }</th><th>주문완료</th><th>확인</th>
+				<th>${order.merchant_uid }</th><th><img width="50px" height="50px" src="${order.gfile[i] }"></th><th>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</th><th>${order.gcost[i] }/${order.gstack[i] }</th><th>주문완료<br><button type="button" onclick="cancel()">주문취소</button></th><th>확인</th>
 			</tr>
 		</c:forEach>	
 	</c:if>

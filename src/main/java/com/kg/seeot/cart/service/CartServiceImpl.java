@@ -17,11 +17,14 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public void addCart(int productNo,int orderStack) {
+	public void addCart(int productNo,int orderStack,int productSize, String productColor) {
 		System.out.println("productNo : "+productNo);
 		System.out.println("productStack : "+orderStack);
+		System.out.println("productSize : "+productSize);
+		System.out.println("productColor : "+productColor);
 		int result = 0;
 		cm.addCart_p(productNo);
+		cm.addCart_m(productNo,productSize,productColor);
 		result = cm.addOrderStack(orderStack, productNo);
 		if(result==1) {
 			System.out.println("카트 데이터 주입성공");

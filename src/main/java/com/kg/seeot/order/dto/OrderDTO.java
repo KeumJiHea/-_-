@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class OrderDTO {
-	int orderPrice,productNo,productPrice,orderStack;
-	String orderNo,orderAddr1,orderAddr2,orderAddr3,productName,productFile,memberId,orderDate;
+	int orderPrice,productNo,productPrice,orderStack,productSize;
+	String orderNo,orderAddr1,orderAddr2,orderAddr3,productName,productFile,memberId,orderDate,productColor;
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -79,5 +79,18 @@ public class OrderDTO {
 		SimpleDateFormat s = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		this.orderDate = s.format(orderDate);
 	}
+	public int getProductSize() {
+		return productSize;
+	}
+	public void setProductSize(int productSize) {
+		this.productSize = productSize;
+	}
+	public String getProductColor() {
+		return productColor;
+	}
+	public void setProductColor(String productColor) {
+		this.productColor = productColor;
+	}
+	
 	
 }
