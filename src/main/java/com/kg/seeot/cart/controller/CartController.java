@@ -34,10 +34,11 @@ public class CartController {
 	
 	@PostMapping(value = "addcart")
 	@ResponseBody
-	public void addCart(HttpServletRequest request,HttpServletResponse response,int productNo,int productStack,int productSize, String productColor) throws Exception {
+	public void addCart(HttpServletRequest request,HttpServletResponse response,String productName, String productColor, String productSize , String productStack) throws Exception {
 		System.out.println("장바구니 등록 컨트롤러 동작 성공");
 		System.out.println("productStack : "+productStack);
-		cs.addCart(productNo,productStack,productSize,productColor);
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
+		cs.addCart(request, productNo,productStack,productSize,productColor);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.println("<script>alert('장바구니에 추가되었습니다!'); history.go(-1);</script>");

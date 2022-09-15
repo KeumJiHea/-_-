@@ -48,7 +48,7 @@
 						if(document.getElementById(data.productColor + data.productSize) == null) {
 							cnt++;
 							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
-									+ "<input type='hidden' name='productColor' value='" + data.productColor + "'>"
+									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'>"
 									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
 									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='0' class='pst'>"
 									+ "금액 <span id='PriceproductStack" + cnt + "'>0</span> 원"
@@ -65,6 +65,7 @@
 		}
 		pc = ''
 		ps = ''
+		
 		
 	}
 
@@ -170,7 +171,6 @@
 				<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
 				<div id="proOrderAdd">
 				</div>
-				
 			</form>
 			</td>
 		</tr>
