@@ -68,11 +68,11 @@
 		ps = ''
 		
 	}
-	
+
+
 	function selProStack(){
 		$('.pst').on("propertychange change keyup paste input", function(){
 				   var selectId = $(this).attr('id')
-				   console.log("11"+selectId)
 				   var selectStack = $(this).val();
 					var productPrice = ${pdto.productPrice}
 					var productStackPrice = selectStack * productPrice;
@@ -107,7 +107,6 @@
 	/* function productCart() {
 
 	} */
-	
 	</script>
 	
 	
@@ -137,7 +136,14 @@
 			<th>가격</th><td colspan="2">${pdto.productPrice }</td>
 		</tr>
 		<tr>
-			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : ${pdto.productRating }</td>
+			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : 
+				<c:if test="${pdto.reviewCount == 0}">
+					0
+				</c:if>
+				<c:if test="${pdto.reviewCount != 0}">
+					${pdto.productRating/pdto.reviewCount }
+				</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">컬러</th>
@@ -197,10 +203,9 @@
 	<hr>
 	<table border="1">
 		<tr>
-			<td>김**(kim*****) | 2022-08-24 | 평점 ★★★☆☆<br>후기1 입니다</td>
-		</tr>
-		<tr>
-			<td>정**(jung*****) | 2022-08-26 | 평점 ★☆☆☆☆<br>후기2 입니다</td>
+			<td>
+				<div id="review"></div>
+			</td>
 		</tr>
 	</table>
 	</div><br><br>
