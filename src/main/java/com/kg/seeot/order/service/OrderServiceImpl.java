@@ -1,5 +1,7 @@
 package com.kg.seeot.order.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +14,18 @@ import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.dto.ProductOrderDTO;
 
+import com.kg.seeot.mybatis.order.OrderMapper;
+import com.kg.seeot.order.dto.OrderDTO;
+
 @Service
 public class OrderServiceImpl implements OrderService{
+	@Autowired OrderMapper om;
 	
+	@Override
+	public void addOrder(OrderDTO dto) {
+		om.addOrder(dto);
+	}
+		
 	public void productOrder(Model model, HttpServletRequest req, String productColor, String productSize, String productStack) {
 		String[] a = productColor.split(",");
 		String[] b = productSize.split(",");
@@ -35,5 +46,4 @@ public class OrderServiceImpl implements OrderService{
 		
 		model.addAttribute("list", list);
 	}
-
 }

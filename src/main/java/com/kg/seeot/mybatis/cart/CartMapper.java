@@ -9,6 +9,7 @@ import com.kg.seeot.cart.dto.CartDTO;
 
 public interface CartMapper {
 	public void addCart_p(int productNo);
+	public void addCart_m(@Param("n") int productNo,@Param("s") int productSize, @Param("c") String productColor);
 	public int addOrderStack(@Param("o") int orderStack, @Param("p") int productNo);
 	public ArrayList<CartDTO> getCart(String memberId);
 	public int deleteCartOne(@Param("m") String memberId, @Param("p") int productNo);

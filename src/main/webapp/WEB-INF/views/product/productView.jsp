@@ -95,9 +95,12 @@
 			form.submit();
 	}
 	
-	/* function productCart() {
-
-	} */
+	 function productCart() {
+		 form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/cart/addcart'
+			form.submit();
+	}
 	</script>
 	
 	
@@ -173,7 +176,7 @@
 		</tr>
 		<tr>
 			<td><button type="button" onclick="">찜</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
+			<td><button type="button" onclick="productCart()">장바구니</button></td>
 			<%-- <td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td> --%>
 			<td><button type="button" onclick="productOrder()">구매하기</button></td>
 		</tr>
