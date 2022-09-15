@@ -25,7 +25,7 @@ import com.kg.seeot.board.service.ReviewService;
 public class ReviewRepController {
 	@Autowired ReviewService rs;
 	
-	
+	/* 삭제예정
 	@PostMapping(value="addReview",produces="application/json;charset=utf8" )
 	public void addReview(@RequestBody Map<String, Object> map) {
 		System.out.println("controller"); 
@@ -46,9 +46,9 @@ public class ReviewRepController {
 		dto.setReviewStar(Integer.parseInt(String.valueOf(map.get("reviewStar")) ));
 		rs.addReview(dto);
 	}
+	*/
 	
-	
-	
+	/*댓글가져오기용*/
 	@GetMapping(value = "replyData/{productNo}", produces="application/json;charset=utf8")
 	public List<ReviewDTO> replyData(
 						@PathVariable int productNo){

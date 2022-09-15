@@ -179,7 +179,7 @@ function modifyChk(){
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">리뷰</a></td>
+                        <td><a href="">조회</a></td>
                     </tr>
                     <tr>
                         <td>2022.09.03</td>
