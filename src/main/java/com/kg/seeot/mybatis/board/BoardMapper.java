@@ -8,6 +8,7 @@ public interface BoardMapper {
 	public List<BoardDTO> boardList();
 	public int selectBoardCount();
 	public BoardDTO boardContentView(int boardNo);
+	public List<FileDTO> boardFileView(int boardNo);
 	public int writeSave(BoardDTO dto);
 	public int writeFileSave(FileDTO fdto);
 	public String delete(String memberId);

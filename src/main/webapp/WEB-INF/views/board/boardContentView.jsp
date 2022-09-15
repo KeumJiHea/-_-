@@ -15,5 +15,20 @@
 	<tr>
 		<td colspan="4">${dto.boardContent }</td>
 	</tr>
+	<tr>
+		<c:if test="${fileList != '[]' }">
+			<th>첨부파일</th>
+			<td colspan="3">
+					<c:forEach var="file" items="${fileList }">
+						<a href="${contextPath }/board/download?file=${file.fileSaveName }">
+							<img src="${contextPath }/board/download?file=${file.fileSaveName }" alt="${file.fileOriginName }" 
+							width="100px" height="100px">
+						</a>
+					</c:forEach>
+					<br>
+					<span>이미지 클릭시 다운로드 됩니다.</span>
+			</td>
+		</c:if>
+	</tr>
 </table>
 </body>

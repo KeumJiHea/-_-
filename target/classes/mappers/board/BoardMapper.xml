@@ -30,6 +30,11 @@
 		select * from seeot_board
 		where board_no=#{boardNo}
 	</select>
+	
+	<select id="boardFileView" resultMap="file">
+		select * from seeot_board_file
+		where board_no=#{boardNo}
+	</select>
 
 	<delete id="delete">
 		delete from seeot_board where member_id=#{memberId}

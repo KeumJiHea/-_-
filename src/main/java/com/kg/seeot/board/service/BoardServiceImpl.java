@@ -29,6 +29,7 @@ public class BoardServiceImpl implements BoardService {
 
 	public void boardContentView(int boardNo, Model model) {
 		model.addAttribute("dto", mapper.boardContentView(boardNo));
+		model.addAttribute("fileList", mapper.boardFileView(boardNo));
 	}
 
 	public String delete(String memberId, String boardFile, HttpServletRequest request) {
