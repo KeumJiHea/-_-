@@ -32,7 +32,7 @@ public class ReviewServiceImpl implements ReviewService {
 		map.put("memberId", memberId);
 		mapper.addReply(map);
 	}
-
+/*
 	public void addReview(ReviewDTO dto) {
 		System.out.println("serImpl");
 
@@ -48,9 +48,15 @@ public class ReviewServiceImpl implements ReviewService {
 
 	}
 
-	
+	*/
 	public List<ReviewDTO> getRepList(int productNo){
-		return mapper.getRepList( productNo );
+		System.out.println("serviceImpl");
+		System.out.println(productNo);
+		
+		 List<ReviewDTO> list;
+		list =  mapper.getRepList( productNo );
+		System.out.println("serviece list: "+list);
+		return list;
 	}
 	
 	

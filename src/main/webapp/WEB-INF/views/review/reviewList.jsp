@@ -66,7 +66,7 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-
+/*
 var cnt=1;//파일 업로드 name값을 다르게 하는 변수
 function addFile(){
    $("#addfile").append("<div id='"+cnt+"'><input type='file' name='file"+cnt+"' >"
@@ -79,7 +79,7 @@ function delFile(){
    cnt--
    $("#"+cnt).remove()
 }
-
+*/
 /* ajax로 리뷰 저장 -(form으로 보내기 만들면 삭제) 이미지 보내기 문제
 
 function review(){//리뷰저장
@@ -161,8 +161,8 @@ function review(){//리뷰저장
 	</fieldset>
 	<div>
 	
-	<!-- 상세페이지의 해당 상품의 상품번호 불러오기 -->
-	
+	<!-- 마이페이지 해당 상품의 상품번호 불러오기 -->
+	<!-- 상품번호 받아와서 연결하기 -->
 	<input type="hidden" id="productNo" value="10001" name="productNo">
 	<textarea class="reviewContent" type="text" id="reviewContent"
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>

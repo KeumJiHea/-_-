@@ -49,10 +49,17 @@ public class ReviewRepController {
 	*/
 	
 	/*댓글가져오기용*/
-	@GetMapping(value = "replyData/{productNo}", produces="application/json;charset=utf8")
-	public List<ReviewDTO> replyData(
-						@PathVariable int productNo){
-		return rs.getRepList(productNo);
+	
+	@GetMapping(value = "replyData", produces="application/json;charset=utf8")
+	public List<ReviewDTO> replyData(//@PathVariable int productNo
+						){
+		System.out.println("reviewRepController");
+		int productNo = 10001;
+		/*	*/
+		List<ReviewDTO> list;
+		list = rs.getRepList(productNo);
+		System.out.println("controller list: "+list);
+		return list;
 	}
 	
 	

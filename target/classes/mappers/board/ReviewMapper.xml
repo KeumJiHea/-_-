@@ -23,8 +23,7 @@
 	
 	<select id="getRepList" 
 		resultType="com.kg.seeot.board.dto.ReviewDTO">
-	select * from seeot_reply where product_no=#{productNo}
-								order by review_date desc
+	select * from seeot_review where product_no=#{productNo} order by review_date desc
 	</select>
 
 

@@ -19,13 +19,15 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.kg.seeot.board.service.ReviewService;
 
+
 @Controller
 @RequestMapping("review")
 public class ReviewController {
 @Autowired ReviewService rs;
 
+
 	@GetMapping("reviewList")
-	public String test() {
+	public String reviewList() {
 		
 		return "review/reviewList";
 	}
