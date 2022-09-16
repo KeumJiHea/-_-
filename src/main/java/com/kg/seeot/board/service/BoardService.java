@@ -8,7 +8,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 public interface BoardService {
 	public void boardList(Model model);
 	public void boardContentView(int boardNo, Model model);
-	public String writeSave(MultipartHttpServletRequest mul,HttpServletRequest request);
+	public String writeSave(MultipartHttpServletRequest mul, HttpServletRequest request);
+	public String boardModify(MultipartHttpServletRequest mul, HttpServletRequest request);
 	public String delete(String memberId, String boardFile,
 			HttpServletRequest request);
 }

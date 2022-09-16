@@ -31,4 +31,6 @@
 		</c:if>
 	</tr>
 </table>
+<button onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
+<button onclick="location.href='delete'">삭제</button>
 </body>

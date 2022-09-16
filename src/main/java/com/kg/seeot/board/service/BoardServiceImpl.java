@@ -95,4 +95,45 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return bfs.getMessage(msg, url);
 	}
+	
+	public String boardModify(MultipartHttpServletRequest mul, HttpServletRequest request) {
+		int boardNo = Integer.parseInt(mul.getParameter("boardNo"));
+		System.out.println(boardNo);
+		
+		BoardDTO dto = new BoardDTO();
+		dto.setMemberName(mul.getParameter("memberName"));
+		dto.setBoardTitle(mul.getParameter("boardTitle"));
+		dto.setBoardContent(mul.getParameter("boardContent"));
+		dto.setBoardQnAType(mul.getParameter("boardQnAType"));
+		
+		System.out.println(mul.getParameter("delete_image"));
+		
+//		Iterator<String> itr = mul.getFileNames();
+//		
+//		while(itr.hasNext()) {
+//			List<MultipartFile> fileList = mul.getFiles(itr.next());
+//			if(fileList.size()>0) {
+//				for(MultipartFile file : fileList) {
+//					System.out.println("파일아" + file.getOriginalFilename());
+//					FileDTO fdto = bfs.saveFile(file);
+//					fdto.setBoardNo(dto.getBoardNo());
+//					mapper.writeFileSave(fdto);
+//				}
+//			}
+//
+//		}
+		
+		int result = 0;
+		//result = mapper.writeSave(dto);
+		
+		String msg, url;
+		if (result == 1) {
+			msg = "새글이 추가되었습니다!!";
+			url = request.getContextPath() + "/board/boardList";
+		} else {
+			msg = "문제가 발생했습니다";
+			url = request.getContextPath() + "/board/writeForm";
+		}
+		return bfs.getMessage(msg, url);
+	}
 }

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class BoardDTO {
 	private String memberId, memberName, boardTitle, boardContent, boardDate;
-	private int boardNo, boardGroup, boardIndent;
+	private int boardNo, boardGroup, boardIndent, boardHit;
 	private String boardQnAType, boardStatus;
 
 //1:1문의 게시판
@@ -89,6 +89,14 @@ public class BoardDTO {
 
 	public void setBoardStatus(String boardStatus) {
 		this.boardStatus = boardStatus;
+	}
+
+	public int getBoardHit() {
+		return boardHit;
+	}
+
+	public void setBoardHit(int boardHit) {
+		this.boardHit = boardHit;
 	}
 
 }

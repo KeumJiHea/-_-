@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,6 +51,33 @@ public class BoardController {
 	public String boardWrite() {
 		return "board/boardWrite.page";
 	}
+	
+	@PostMapping("writeSave")
+	@ResponseBody
+	public void writeSave(MultipartHttpServletRequest mul, HttpServletResponse response, HttpServletRequest request)
+			throws Exception {
+		String message = bs.writeSave(mul, request);
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
+	
+	@GetMapping("modifyForm")
+	public String modifyForm(int boardNo, Model model) {
+		bs.boardContentView(boardNo, model);
+		return "board/boardModifyForm.page";
+	}
+	
+	@PostMapping("boardModify")
+	@ResponseBody
+	public void boardModify(MultipartHttpServletRequest mul, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		String message = bs.boardModify(mul, request);
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
+	}
 
 	@GetMapping("boardReply")
 	public String boardReply(int boardNo, Model model) {
@@ -76,17 +104,6 @@ public class BoardController {
 		out.print(message);
 	}
 
-	@PostMapping("writeSave")
-	@ResponseBody
-	public void writeSave(MultipartHttpServletRequest mul, HttpServletResponse response, HttpServletRequest request)
-			throws Exception {
-		String message = bs.writeSave(mul, request);
-		
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.print(message);
-	}
-	
 	@GetMapping("download")
 	public void downloadFile(String file, HttpServletResponse response) throws Exception{
 		response.addHeader("Content-disposition", "attachment; fileName=" + file);
