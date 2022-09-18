@@ -52,30 +52,27 @@ window.onload = function(){
 }
 </script>
 
-<script type="text/javascript">
+ <script type="text/javascript">
 function modifyChk(){
 	
     var form = document.form;
+    <%--
     var pw = $('.pw_input').value();
     var pw2 = $('.pw_confirm').value();
     
     if(!form.pw.value && !form.pw2.value){
-    	alert("비밀번호 입력은 필수입니다");
+    	alert('비밀번호 입력은 필수입니다');
     	form.pw.focus();
-    	return;
     }
-    if(pw != pw2){
-    	alert("비밀번호가 일치하지 않습니다");
+    if(pw.value != pw2.value){
+    	alert('비밀번호가 일치하지 않습니다');
     	form.pw2.focus();
-    	return;
-    }
+    }--%>
     
-    form.method = "post";
-    form.action = "<%=request.getContextPath()%>/member/modify";
     form.submit();
 }
 
-</script>
+</script> 
 
 <div class="members-wrapper myaccount">
     <h1 class="myaccount-title">마이페이지</h1>
@@ -242,13 +239,13 @@ function modifyChk(){
                 </div>
             </div>
             <div class="column">
-                <div class="field input_pw">
+               <!--  <div class="field input_pw">
                     <span>비밀번호 변경</span>
                     <span style="color:#888;">회원 정보 수정시 비밀번호는 필수 입력 사항입니다.</span><br>
                     <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
                     <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
                     <div class="password-message message"></div>
-                </div>
+                </div> -->
                 <div>
                     <input type="submit" class="button" value="회원정보 수정" onclick="modifyChk()">
                 </div>

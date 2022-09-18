@@ -178,7 +178,7 @@ public class MemberController implements SessionName{
 	
 	}
 	
-	@PostMapping("modify")
+	@RequestMapping(value = "/modify",method = RequestMethod.POST)
 	public String modify(HttpServletRequest request,MemberDTO dto) {
 		
 		int result = ms.modify(request,dto);
