@@ -26,6 +26,26 @@
        
 	<select id="allList" resultMap="product">
 		select * from product
+		<!-- 	<choose>
+				<when test="null" or test="">
+				
+				</when>
+				<when test="orderBy.equals('redate')">
+					order by product_date desc
+				</when>
+				<when test="orderBy.equals('lprice')">
+					order by product_price asc, product_date desc
+				</when>
+				<when test="orderBy.equals('hprice')">
+					order by product_price desc, product_date desc
+				</when>
+				<when test="orderBy.equals('rating')">
+					order by product_rating desc
+				</when>
+				<when test="orderBy.equals('review')">
+					order by review_count desc
+				</when>
+			</choose> -->
 	</select>
 	
 	<select id="list" resultMap="product">
@@ -77,5 +97,29 @@
 	<update id="managementModify">
 		update product_management set product_stack=#{moProductStack}, product_size=#{moProductSize}, product_color=#{moProductColor} where product_no=#{productNo} and product_stack=#{productStack} and product_size=#{productSize} and product_color=#{productColor}
 	</update>
+	
+	<select id="proList" resultMap="product">
+		select * from product
+		 	<choose>
+		 		<when test="orderBy.equals('lprice')">
+					order by product_price asc, product_date desc
+				</when>
+ 				<when test="orderBy.equals('redate')">
+					order by product_date desc
+				</when>
+				<when test="orderBy.equals('hprice')">
+					order by product_price desc, product_date desc
+				</when>
+				<when test="orderBy.equals('rating')">
+					order by product_rating desc
+				</when>
+				<when test="orderBy.equals('review')">
+					order by review_count desc
+				</when>
+				<otherwise>
+				
+				</otherwise>
+			</choose>
+	</select>
 	
 </mapper>

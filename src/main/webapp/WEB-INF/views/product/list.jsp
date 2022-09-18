@@ -5,13 +5,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- 	
+	<style type="text/css">
+	    .wrapper {
+	        display: flex;
+	        flex-wrap: wrap;
+	    }
+	    .product {
+	        width: calc( 100% / 3 - 10px );
+	        justify-content: space-between;
+	        background-color: #ddd;
+	        margin: 5px;
+	    }
+	</style>
+ -->
 </head>
 <body>
-
-	<script type="text/javascript">
-		
-	</script>
-
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 		
@@ -27,6 +36,20 @@
 	</div>
 	
 	<hr>
+<!-- 	
+	<div class="wrapper">
+	    <div class="product">
+	        여기에 상품 이미지, 카테고리 등 내용
+	        <h1>상품1</h1>
+	    </div>
+	    <div class="product">
+	        여기에 상품 이미지, 카테고리 등 내용
+	        <h1>상품2</h1>
+	    </div>
+	</div>
+	 -->
+	
+	
 	<table border="1">
 		<tr>
 			<th>상품이미지</th>

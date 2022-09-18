@@ -1,10 +1,13 @@
 package com.kg.seeot.product.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
 
 public interface ProductService {
@@ -23,5 +26,7 @@ public interface ProductService {
 	public String managementModify(ProductManageDTO mdto, int moProductStack, String moProductColor, int moProductSize, HttpServletRequest request);
 	
 	public ProductManageDTO proStackGet(ProductManageDTO mdto);
+	
+	public List<ProductDTO> prolist(String orderBy);
 	
 }

@@ -2,6 +2,7 @@ package com.kg.seeot.product.service;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -200,6 +201,11 @@ public class ProductServiceImpl implements ProductService{
 		int productSize = mdto.getProductSize();
 		String productColor = mdto.getProductColor();
 		return mapper.managementModify_Form(productNo, productSize, productColor);
+	}
+	
+	public List<ProductDTO> prolist(String orderBy) {
+		System.out.println("@@@@" + orderBy);
+		return mapper.proList(orderBy);
 	}
 
 }

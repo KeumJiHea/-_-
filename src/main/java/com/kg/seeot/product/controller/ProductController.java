@@ -10,10 +10,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +23,14 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.board.service.ReviewService;
+import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.service.ProductFileService;
 import com.kg.seeot.product.service.ProductService;
@@ -166,6 +170,34 @@ public class ProductController {
 	@ResponseBody
 	public ProductManageDTO proStackGet(ProductManageDTO mdto) {
 		return ps.proStackGet(mdto);
+	}
+	
+	//상품 전체 리스트 및 카테고리 리스트 출력
+	@GetMapping("list2")
+	public String list2(Model model, @RequestParam(value="productCategorie", required = false, defaultValue = "0")  int productCategorie) {
+		if(productCategorie == 0) {
+			ps.allList(model);
+		}else {
+			ps.list(model, productCategorie);
+		}
+		return "product/list2";
+	}
+	
+	@GetMapping("list3")
+	public String list3() {
+		return "product/list3";
+	}
+	
+	@GetMapping("list4")
+	public String list4() {
+		return "product/list4";
+	}
+	
+	@PostMapping(value = "prolist", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response) {
+		String orderBy = request.getParameter("orderBy");
+		return ps.prolist(orderBy);
 	}
 	
 }
