@@ -203,10 +203,24 @@ public class ProductServiceImpl implements ProductService{
 		return mapper.managementModify_Form(productNo, productSize, productColor);
 	}
 	
-	public List<ProductDTO> prolist(String orderBy, int productCategorie) {
+	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct) {
 		System.out.println("카테고리 값 : " + productCategorie);
 		System.out.println("정렬 값 : " + orderBy);
-		return mapper.proList(orderBy, productCategorie);
+		System.out.println("페이징 num 값 : " + num);
+		System.out.println("보일 상품의 수 : " + pageViewProduct);
+		
+		int end = num * pageViewProduct;
+		int start = end + 1 - pageViewProduct;
+		System.out.println("start : " +  start);
+		System.out.println("end : " + end);
+		return mapper.proList(orderBy, productCategorie, start, end);
+	}
+	
+	public int allCount(String orderBy, int productCategorie) {
+		System.out.println("카테고리 값 : " + productCategorie);
+		System.out.println("정렬 값 : " + orderBy);
+		
+		return mapper.allCount(orderBy, productCategorie);
 	}
 
 }

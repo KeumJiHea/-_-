@@ -197,7 +197,16 @@ public class ProductController {
 	@ResponseBody
 	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
 		String orderBy = request.getParameter("orderBy");
-		return ps.prolist(orderBy, productCategorie);
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+		return ps.prolist(orderBy, productCategorie, num, pageViewProduct);
+	}
+	
+	@PostMapping(value = "allCount", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public int allCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
+		String orderBy = request.getParameter("orderBy");
+		return ps.allCount(orderBy, productCategorie);
 	}
 	
 }

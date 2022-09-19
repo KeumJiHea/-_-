@@ -27,6 +27,7 @@ public interface ProductService {
 	
 	public ProductManageDTO proStackGet(ProductManageDTO mdto);
 	
-	public List<ProductDTO> prolist(String orderBy, int productCategorie);
+	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct);
+	public int allCount(String orderBy, int productCategorie);
 	
 }

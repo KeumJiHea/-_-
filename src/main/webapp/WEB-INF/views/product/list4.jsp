@@ -8,7 +8,7 @@
 
 	<style type="text/css">
 	    .wrapper {
-	    	width : 35%;
+	    	width: 1000px;
 	        display: flex;
 	        flex-wrap: wrap;
 	    }
@@ -20,7 +20,7 @@
 	    }
 	</style>
 </head>
-<body onload=listOrder('redate');>
+<body onload=productList();>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
@@ -34,53 +34,82 @@
 	if( productCategorie == null ) {
 		productCategorie = 0;
 	}
-
 	
-	function listOrder(orderBy) {
-		console.log(orderBy)	
+	var num = 1;
+	var orderBy = 'redate';
+	
+	function pagingNum(pNum) {
+		num = pNum;
+		productList();
+	}
+	
+	function listOrder(order) {
+		orderBy = order;
+		num = 1;
+		productList();
+	}
+	
+	
+	function productList() {
+		console.log(num)
+		console.log(orderBy)
 		$.ajax({
-			url: "prolist?productCategorie=" + productCategorie,
+			url: "allCount?productCategorie=" + productCategorie,
 			type: "post",
 			data: {
 				orderBy : orderBy
 			},
 			datatype:"json",
 			success: function(list) {
-				console.log("전체 리스트  :" + list)
-				console.log("리스트 갯수 : " + list.length)
+				console.log("리스트 갯수 : " + list)
 				
-				let html = "";
 				let paging = "";
 				
-				var num = 1;
-				var pageViewProduct = 16;
-				var productCount = list.length;
+				var pageViewProduct = 12;
+				var productCount = list;
 				var repeat = parseInt(productCount / pageViewProduct);
 				if( productCount / pageViewProduct != 0) {
 					repeat += 1;
 				}
-				var end = num * pageViewProduct;
-				var start = end + 1 - pageViewProduct;
 				
-				
-				for(i=0; i<list.length; i++) {
-					html += "<div class='product'>";
-					html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
-					html += "<span><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></span><br>";
-					html += "<span><b>" + list[i].productName + "</b></span><br>";
-					html += "<span><b>" + list[i].productPrice + "</b></span></a>";
-					html += "</div>";
-					$(".wrapper").html(html);
-				}
-				
-				for(i=0; i<repeat; i++) {
-					paging += "<a href=''>" + [i+1] + "</a> &nbsp;"
+				for(i=1; i<=repeat; i++) {
+					paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
 					$(".paging").html(paging);
 				}
 				
+				$.ajax({
+					url: "prolist?productCategorie=" + productCategorie,
+					type: "post",
+					data: {
+						orderBy : orderBy,
+						num : num,
+						pageViewProduct : pageViewProduct
+					},
+					datatype:"json",
+					success: function(list) {
+						console.log("리스트 갯수 : " + list.length)
+						console.log("전체 리스트  :" + list)
+						
+						let html = "";
+						
+						for(i=0; i<list.length; i++) {
+							html += "<div class='product'>";
+							html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
+							html += "<span><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></span><br>";
+							html += "<span><b>" + list[i].productName + "</b></span><br>";
+							html += "<span><b>" + list[i].productPrice + "</b></span></a>";
+							html += "</div>";
+							$(".wrapper").html(html);
+						}
+					}
+					
+				})
+				
+				
 			}
-			
 		})
+		
+		
 	}
 	</script>
 	
@@ -91,7 +120,6 @@
 			<option value="rating"> 높은 별점순
 			<option value="review"> 리뷰 많은순
 	</select>
-	
 	
 	
 	<div class="wrapper">
