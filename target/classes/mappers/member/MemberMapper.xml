@@ -48,7 +48,10 @@
 	    select count(*) from seeot_member where member_id=#{id}
 	</select>
 	<update id="modify">
-		update seeot_member set member_name=#{name},member_pw=#{pw},member_phone=#{phone},member_email=#{email},member_birth=#{birth} where member_id=#{id}
+		update seeot_member set member_name=#{name},member_phone=#{phone},member_email=#{email},member_birth=#{birth} where member_id=#{id}
+	</update>
+	<update id="edit_addr">
+		update seeot_member set member_addr1=#{addr1},member_addr2=#{addr2},member_addr3=#{addr3} where member_id=#{id}
 	</update>
 </mapper>
 

@@ -9,9 +9,25 @@
 <title>마이페이지</title>
 <link href="<c:url value='/resources/css/members.css'/>"rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/daum_post.js"></script>
 </head>
 <body>
-
+<!-- 
+/*  var pw = $('.pw_input').value();
+    var pw2 = $('.pw_confirm').value();
+    
+    if(!form.pw.value && !form.pw2.value){
+    	alert("비밀번호 입력은 필수입니다");
+    	form.pw.focus();
+    	return;
+    }
+    if(pw != pw2){
+    	alert("비밀번호가 일치하지 않습니다");
+    	form.pw2.focus();
+    	return;
+    } */
+ -->
 <script>
     jQuery( document ).ready( function ( $ ) {
         var wrapper = $( '.members-wrapper.myaccount' );
@@ -51,30 +67,33 @@ window.onload = function(){
 	document.getElementById('email2').value = Email[1];
 }
 </script>
-
 <script type="text/javascript">
-function modifyChk(){
+function modiChk(){
+	var form = document.form;
+	var pw = $('.pw_input').val();
+	var pw2 = $('.pw_confirm').val();
 	
-    var form = document.form;
-    var pw = $('.pw_input').value();
-    var pw2 = $('.pw_confirm').value();
-    
-    if(!form.pw.value && !form.pw2.value){
-    	alert("비밀번호 입력은 필수입니다");
-    	form.pw.focus();
-    	return;
-    }
-    if(pw != pw2){
-    	alert("비밀번호가 일치하지 않습니다");
-    	form.pw2.focus();
-    	return;
-    }
-    
-    form.method = "post";
-    form.action = "<%=request.getContextPath()%>/member/modify";
-    form.submit();
+	if(!form.pw.value){
+		alert('비밀번호 입력은 필수입니다');
+		form.pw.focus();
+		return;
+	}
+	if(!form.pw2.value){
+		alert('비밀번호 확인은 필수입니다');
+		form.pw2.focus();
+		return;
+	}
+	if(pw == pw2){
+		alert('비밀번호가 일치하지 않습니다');
+		form.pw2.focus();
+		return;
+	}
+	
+	method="post";
+	action="<%=request.getContextPath()%>/member/modify";
+	form.submit;
+	
 }
-
 </script>
 
 <div class="members-wrapper myaccount">
@@ -206,7 +225,7 @@ function modifyChk(){
 
     <!-- 회원 정보 -->
     <div class="contents profile" id="profile">
-        <form method="post" action="<%=request.getContextPath()%>/member/modify" class="columns" name="form">
+        <form class="columns" name="form" method="post" action="<%=request.getContextPath()%>/member/modify">
             <div class="column">
               	 <div class="field input_name">
                     <span>이름</span>
@@ -240,8 +259,11 @@ function modifyChk(){
                         <option value="1" selected>직접입력</option>
                     </select>
                 </div>
+                <div>
+            	  	  <input type="submit" class="button" value="회원정보 수정">
+                </div>
             </div>
-            <div class="column">
+            <!-- <div class="column">
                 <div class="field input_pw">
                     <span>비밀번호 변경</span>
                     <span style="color:#888;">회원 정보 수정시 비밀번호는 필수 입력 사항입니다.</span><br>
@@ -249,16 +271,14 @@ function modifyChk(){
                     <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
                     <div class="password-message message"></div>
                 </div>
-                <div>
-                    <input type="submit" class="button" value="회원정보 수정" onclick="modifyChk()">
-                </div>
-            </div>
+                
+            </div> -->
         </form>
     </div>
 
     <!-- 주소 관리 -->
     <div class="contents address" id="address">
-        <form action="edit_account_form" method="post" class="columns">
+        <form action="<%=request.getContextPath()%>/member/edit_addr" method="post" class="columns">
             <div class="column">
                 <div class="field input_addr">
                     <span>기본 주소</span>
@@ -267,17 +287,11 @@ function modifyChk(){
                        (주문번호)&nbsp;${info.addr1}&nbsp;${info.addr2}&nbsp;${info.addr3}
                     </div>
                 </div>
-                <div class="field input_addr">
-                    <span>배송지 목록</span>
-                    <div class="address">
-                       ${info.id }<br>
-                       (주문번호)목록 구현중
-                    </div>
-                </div>
             </div>
             <div class="column">
                 <div class="field input_addr">
-                    <span>배송지 추가</span>
+                <input type="hidden" value="${info.id}" name="id">
+                    <span>배송지 변경</span>
                     <input type="text" readonly id="addr1" name="addr1" placeholder="우편번호">
                     <button type="button" onclick="daumPost()">주소 검색</button>
                     <input type="text" readonly id="addr2" name="addr2" placeholder="주소">

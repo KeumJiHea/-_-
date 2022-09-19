@@ -16,4 +16,5 @@ public interface MemberService {
      public void delete(String id);
      public int idCheck(String id) throws Exception;
      public int modify(HttpServletRequest request,MemberDTO dto);
+     public int edit_addr(HttpServletRequest request,MemberDTO dto);
 }

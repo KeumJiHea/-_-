@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.logging.LogException;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -102,12 +104,12 @@ public class MemberController implements SessionName{
 		
 		//회원가입 alert
 		if(1 == result) {
-			request.setAttribute("rmsg","회원가입 완료되었습니다");
-			request.setAttribute("rurl","login");
+			request.setAttribute("msg","회원가입 완료되었습니다");
+			request.setAttribute("url","login");
 			return "member/alert";
 		}
-			request.setAttribute("rmsg","입력 정보를 다시 확인해주세요");
-			request.setAttribute("rurl","register");
+			request.setAttribute("msg","입력 정보를 다시 확인해주세요");
+			request.setAttribute("url","register");
 			return "member/alert";
 	}
 	
@@ -177,6 +179,21 @@ public class MemberController implements SessionName{
         return num;
 	
 	}
+	@PostMapping("edit_addr")
+	public String edit_addr(HttpServletRequest request,MemberDTO dto) {
+		
+		int result = ms.edit_addr(request,dto);
+		
+		//배송지 수정 alert
+				if(1 == result) {
+					request.setAttribute("msg","배송지 수정이 완료되었습니다");
+					request.setAttribute("url","info?id="+request.getParameter("id"));
+					return "member/addr_alert";
+				}
+					request.setAttribute("msg","정보를 다시 확인해주세요");
+					request.setAttribute("url","info?id="+request.getParameter("id"));
+					return "member/addr_alert";
+	}
 	
 	@PostMapping("modify")
 	public String modify(HttpServletRequest request,MemberDTO dto) {
@@ -189,29 +206,12 @@ public class MemberController implements SessionName{
 		if(1 == result) {
 			request.setAttribute("msg","정보 수정이 완료되었습니다");
 			request.setAttribute("url","info?id="+request.getParameter("id"));
-			return "member/alert";
+			return "member/info_alert";
 		}
 			request.setAttribute("msg","정보를 다시 확인해주세요");
 			request.setAttribute("url","info?id="+request.getParameter("id"));
-			return "member/alert";
+			return "member/info_alert";
 	}
-	
-	/*
-	@GetMapping("find_form")
-	public String find_form() {
-		return "find_form";
-	}
-	@PostMapping("find_id_form")
-	public String find_id_form(String id) {
-		
-		return "member/find_form";
-	}
-	
-	@PostMapping("find_pw_form")
-	public String find_pw_form() {
-		return "";
-	}
-	*/
 }
 
 

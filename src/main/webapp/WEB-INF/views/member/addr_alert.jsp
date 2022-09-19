@@ -8,8 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-
 <script>
 	var msg = "<c:out value='${msg}'/>";
 	var url = "<c:out value='${url}'/>";
