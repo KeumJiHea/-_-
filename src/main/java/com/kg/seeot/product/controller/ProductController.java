@@ -195,9 +195,9 @@ public class ProductController {
 	
 	@PostMapping(value = "prolist", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response) {
+	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
 		String orderBy = request.getParameter("orderBy");
-		return ps.prolist(orderBy);
+		return ps.prolist(orderBy, productCategorie);
 	}
 	
 }

@@ -26,26 +26,6 @@
        
 	<select id="allList" resultMap="product">
 		select * from product
-		<!-- 	<choose>
-				<when test="null" or test="">
-				
-				</when>
-				<when test="orderBy.equals('redate')">
-					order by product_date desc
-				</when>
-				<when test="orderBy.equals('lprice')">
-					order by product_price asc, product_date desc
-				</when>
-				<when test="orderBy.equals('hprice')">
-					order by product_price desc, product_date desc
-				</when>
-				<when test="orderBy.equals('rating')">
-					order by product_rating desc
-				</when>
-				<when test="orderBy.equals('review')">
-					order by review_count desc
-				</when>
-			</choose> -->
 	</select>
 	
 	<select id="list" resultMap="product">
@@ -99,26 +79,26 @@
 	</update>
 	
 	<select id="proList" resultMap="product">
-		select * from product
+		select * from product 
+			<if test="productCategorie != 0">
+				where product_categorie = #{productCategorie} 
+			</if>
 		 	<choose>
-		 		<when test="orderBy.equals('lprice')">
-					order by product_price asc, product_date desc
-				</when>
  				<when test="orderBy.equals('redate')">
 					order by product_date desc
 				</when>
 				<when test="orderBy.equals('hprice')">
 					order by product_price desc, product_date desc
 				</when>
+		 		<when test="orderBy.equals('lprice')">
+					order by product_price asc, product_date desc
+				</when>
 				<when test="orderBy.equals('rating')">
-					order by product_rating desc
+					order by product_rating desc, product_date desc
 				</when>
 				<when test="orderBy.equals('review')">
-					order by review_count desc
+					order by review_count desc, product_date desc
 				</when>
-				<otherwise>
-				
-				</otherwise>
 			</choose>
 	</select>
 	

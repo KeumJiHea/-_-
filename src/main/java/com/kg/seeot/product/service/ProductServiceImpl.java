@@ -203,9 +203,10 @@ public class ProductServiceImpl implements ProductService{
 		return mapper.managementModify_Form(productNo, productSize, productColor);
 	}
 	
-	public List<ProductDTO> prolist(String orderBy) {
-		System.out.println("@@@@" + orderBy);
-		return mapper.proList(orderBy);
+	public List<ProductDTO> prolist(String orderBy, int productCategorie) {
+		System.out.println("카테고리 값 : " + productCategorie);
+		System.out.println("정렬 값 : " + orderBy);
+		return mapper.proList(orderBy, productCategorie);
 	}
 
 }

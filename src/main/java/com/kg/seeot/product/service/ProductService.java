@@ -27,6 +27,6 @@ public interface ProductService {
 	
 	public ProductManageDTO proStackGet(ProductManageDTO mdto);
 	
-	public List<ProductDTO> prolist(String orderBy);
+	public List<ProductDTO> prolist(String orderBy, int productCategorie);
 	
 }

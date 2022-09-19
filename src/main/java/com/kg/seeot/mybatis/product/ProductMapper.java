@@ -24,5 +24,5 @@ public interface ProductMapper {
 	public ProductManageDTO managementModify_Form(@Param("productNo") int productNo,  @Param("productSize") int productSize, @Param("productColor") String productColor);
 	public int managementModify( @Param("productNo") int productNo, @Param("productStack") int productStack,  @Param("productColor") String productColor,  @Param("productSize") int productSize, @Param("moProductStack") int moProductStack, @Param("moProductColor") String moProductColor, @Param("moProductSize") int moProductSize);
 	
-	public List<ProductDTO> proList(@Param("orderBy") String orderBy);
+	public List<ProductDTO> proList(@Param("orderBy") String orderBy, @Param("productCategorie") int productCategorie);
 }

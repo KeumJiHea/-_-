@@ -13,7 +13,7 @@
 	        flex-wrap: wrap;
 	    }
 	    .product {
-	        width: calc( 100% / 3 - 10px );
+	        width: calc( 100% / 4 - 10px );
 	        justify-content: space-between;
 	        background-color: #ddd;
 	        margin: 5px;
@@ -26,10 +26,20 @@
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
+	
+	/* 카테고리 넘버 가져오기 */
+	const url = window.location.search;
+	var params = new URLSearchParams(url);
+	var productCategorie = params.get('productCategorie');
+	if( productCategorie == null ) {
+		productCategorie = 0;
+	}
+
+	
 	function listOrder(orderBy) {
 		console.log(orderBy)	
 		$.ajax({
-			url: "prolist",
+			url: "prolist?productCategorie=" + productCategorie,
 			type: "post",
 			data: {
 				orderBy : orderBy
@@ -37,10 +47,23 @@
 			datatype:"json",
 			success: function(list) {
 				console.log("전체 리스트  :" + list)
+				console.log("리스트 갯수 : " + list.length)
 				
-				let html = ""
-				let paging = ""
-				for(i=0; i<6; i++) {
+				let html = "";
+				let paging = "";
+				
+				var num = 1;
+				var pageViewProduct = 16;
+				var productCount = list.length;
+				var repeat = parseInt(productCount / pageViewProduct);
+				if( productCount / pageViewProduct != 0) {
+					repeat += 1;
+				}
+				var end = num * pageViewProduct;
+				var start = end + 1 - pageViewProduct;
+				
+				
+				for(i=0; i<list.length; i++) {
 					html += "<div class='product'>";
 					html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
 					html += "<span><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></span><br>";
@@ -50,9 +73,7 @@
 					$(".wrapper").html(html);
 				}
 				
-				console.log("리스트 갯수 : " + list.length)
-				var pagingNum = list.length / 9
-				for(i=0; i<pagingNum; i++) {
+				for(i=0; i<repeat; i++) {
 					paging += "<a href=''>" + [i+1] + "</a> &nbsp;"
 					$(".paging").html(paging);
 				}
