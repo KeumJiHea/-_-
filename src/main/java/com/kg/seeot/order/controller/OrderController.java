@@ -32,64 +32,32 @@ public class OrderController {
 	@Autowired ProductService ps;
 	@Autowired MemberService ms;
 	
-	@GetMapping("ordermain")
-	public String orderMain(Model model,int productNo) {
+	@PostMapping("ordermain")
+	public String orderMain(int productNo,Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
 		System.out.println("컨트롤러 동작 성공");
-		ps.productView(model, productNo);
+		HttpSession session = req.getSession();
+		String memberId = (String)session.getAttribute("loginUser");
+		os.productOrder(model, req, productColor, productSize, productStack);
+		ms.getUser(model, memberId);
 		return "/order/orderMain";
 	}
 	
 	
 	@PostMapping(value = "orderchk", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public void orderchk(@RequestBody Map map, String memberId,HttpSession session) {
+	public void orderchk(@RequestBody Map map, String memberId,HttpSession session) { //0919 개별결제 해결해야함
 		memberId = (String) session.getAttribute("loginUser");
-		System.out.println("컨트롤러 동작 성공");
-		System.out.println("memberId : "+memberId);
-		System.out.println("주문 컨트롤러 동작");
-		System.out.println("map : "+map);
 		ArrayList name = (ArrayList) map.get("glist");
 		ArrayList file = (ArrayList) map.get("gfile");
 		ArrayList no = (ArrayList) map.get("gno");
 		ArrayList stack = (ArrayList) map.get("gstack");
 		ArrayList cost = (ArrayList) map.get("gcost");
-		
-		System.out.println("각제품명 배열 : "+map.get("glist"));
-		for(int i =0; i<name.size();i++) {
-			System.out.println("제품이름"+i+" : "+name.get(i));			
-		}				
-		System.out.println("제품사진명 배열 : "+map.get("gfile"));
-		for(int i =0; i<file.size();i++) {
-			System.out.println("제품사진"+i+" : "+file.get(i));			
-		}
-		System.out.println("제품번호 배열 : "+map.get("gno"));		
-		for(int i =0; i<no.size();i++) {
-			System.out.println("제품번호"+i+" : "+no.get(i));
-		}		
-		System.out.println("각제품개수 배열 : "+map.get("gstack"));
-		for(int i =0; i<stack.size();i++) {
-			System.out.println("제품개수"+i+" : "+stack.get(i));
-		}
-		System.out.println("각 제품 가격 배열 : "+map.get("gcost"));
-		for(int i =0; i<cost.size();i++) {
-			System.out.println("제품가격"+i+" : "+cost.get(i));
-		}
-		
-		System.out.println("주문번호 : "+map.get("merchant_uid"));
-		System.out.println("간단한 제품명 : "+map.get("name"));
-		System.out.println("총 가격 : "+map.get("amount"));
-		System.out.println("구매자 이름 : "+map.get("buyer_name"));
-		System.out.println("구매자 주소 : "+map.get("buyer_addr"));
-		System.out.println("구매자 우편번호 : "+map.get("buyer_postcode"));
-		//os.addOrder(memberId);
-		session.setAttribute("orderdata", map);
-		
-				
+		session.setAttribute("orderdata", map);				
 	}
+	
 	@GetMapping("order")
 	public String ordersuccess(HttpSession session,Model model,String memberId) {
 		memberId = (String) session.getAttribute("loginUser");
-		System.out.println("memberId : "+memberId);
 		Map map = (Map) session.getAttribute("orderdata");
 		model.addAttribute("order",map);
 		ArrayList name = (ArrayList) map.get("glist");
@@ -138,14 +106,15 @@ public class OrderController {
 	
 	@PostMapping("test2")
 	public String productOrder(Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
-		System.out.println(req.getParameter("productNo"));
-		System.out.println(req.getParameter("productName"));
-		System.out.println(req.getParameter("productFile"));
-		System.out.println(req.getParameter("productPrice"));
-		System.out.println(productColor);
-		System.out.println(productSize);
-		System.out.println(productStack);
+
 		os.productOrder(model, req, productColor, productSize, productStack);
 		return "/order/test2";
+	}
+	
+	@PostMapping(value = "cancel", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void cancel(HttpServletRequest request,@RequestBody Map data,String memberId) {
+		String orderNo = (String) data.get("merchant_uid");
+		os.cancle(request,orderNo,memberId);
 	}
 }

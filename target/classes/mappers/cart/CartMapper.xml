@@ -10,22 +10,19 @@
 		<result property="productName" column="product_name"/>
 		<result property="productPrice" column="product_price"/>
 		<result property="productFile" column="product_file"/>
-		<result property="orderStack" column="order_stack"/>
+		<result property="productStack" column="order_stack"/>
 		<result property="cartNum" column="cartnum"/>
 		<result property="productSize" column="product_size"/>
 		<result property="productColor" column="product_color"/>
 	</resultMap>
 	
 	<insert id="addCart_p">
-		insert into cart(product_no,product_name,product_price,product_file,cartNum) select product_no,product_name,product_price,product_file,cartnum_seq.nextval from product
-		where product_no=#{product_no}
+		insert into cart(product_no, product_size, product_color,order_stack,cartnum) values(#{n},#{s},#{c},#{o},cartnum_seq.nextval)
 	</insert>
-	<update id="addCart_m">
-		update cart set product_size=#{s}, product_color=#{c} where 
-	</update>
 	
-	<update id="addOrderStack">
-		update cart set order_stack=#{o} where <!--0915 시퀀스현재값으로 조회해야함 -->
+	<update id="addCart_m">
+		update cart set product_name=(select product_name from product where product_no=#{n}), product_price=(select product_price from product where product_no=#{n}),
+		product_file = (select product_file from product where product_no=#{n}) where product_size=#{s} and product_color=#{c} and product_no=#{n}
 	</update>
 	
 	<select id="getCart" resultMap="cart">

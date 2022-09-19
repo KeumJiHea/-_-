@@ -18,26 +18,24 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public void addCart(HttpServletRequest request,int productNo,String orderStack,String productSize, String productColor) {
+	public void addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
 		System.out.println("productNo : "+productNo);
-		System.out.println("productStack : "+orderStack);
+		System.out.println("productStack : "+productStack);
 		System.out.println("productSize : "+productSize);
 		System.out.println("productColor : "+productColor);
-		int result = 0;
-		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, orderStack);
+		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
 		for(int i =0; i<list.size();i++) {
 			System.out.println("list"+i+" : "+list.get(i).getProductColor());
 			System.out.println("list"+i+" : "+list.get(i).getProductSize());
 			System.out.println("list"+i+" : "+list.get(i).getProductStack());
 			productSize = list.get(i).getProductSize();
 			productColor = list.get(i).getProductColor();
-			orderStack = list.get(i).getProductStack();
-			cm.addCart_p(productNo);
+			productStack = list.get(i).getProductStack();
+			cm.addCart_p(productNo,productSize,productColor,productStack);
 			cm.addCart_m(productNo,productSize,productColor);
-			cm.addOrderStack(orderStack, productNo);
 		}
 		System.out.println("카트 데이터 주입성공");
-		System.out.println("orderstack : "+orderStack);
+		System.out.println("orderstack : "+productStack);
 		
 		
 	}

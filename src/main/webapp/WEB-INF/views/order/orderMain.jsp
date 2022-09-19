@@ -7,27 +7,51 @@
 <meta charset="UTF-8">
 <title>주문 페이지</title>
 <!-- jQuery -->
+<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
 var IMP = window.IMP;
 IMP.init("imp11462084"); // 예: imp00000000 
-
+var tp = 0;
 $(document).ready(function(){
-	console.log($('#orderchk1').is(':checked'))
-	$("#orderchk1").change(function(){
-		if($('#orderchk1').is(':checked')){
-			$("#productStack").on("change keyup paste input",function(){
-				const stack = $(this).val();
-				const price = $("tr:eq(1)>td:eq(3)").html();	
-				var sum = price*stack
-				$("#orderPrice").text(sum)					
+	for(i=0;i<$("#tbody tr").length;i++){
+		tp = $("#goods_total_price"+i).text();
+		console.log(tp);
+		$("#total_price").text(tp);	
+	}
+})
+var total = 0;
+var pricelist = new Array();
+function change(){	
+	var totallist = new Array();
+	if($("#tbody tr").length>=1){
+		for(i=0;i<$("#tbody tr").length;i++){
+			$("#productStack"+i).on("change keyup paste input",function(){
+				$("#productStack"+i).attr("value", $("#productStack"+i).val());
 			});
+		var stack = $("#productStack"+i).val();
+		var price = $("#price"+i).html();
+		sum =  price*stack;
+		$("#goods_total_price"+i).text(sum);
+		console.log('현재 i : '+i);
+		console.log('현재 i 의 합 : '+sum);
+		
+		pricelist[i] = sum;											
+		console.log('리스트 : '+pricelist)
+		
+		total =0;
+		for(i =0; i<pricelist.length;i++){
+			total+=pricelist[i]
 		}
-	});							
-});
-
+		console.log('총 가격 : '+total)
+		$("#total_price").text(total);
+			
+		}
+	}
+	
+};
 function requestPay() {
 		var rand = ''
 		for (let i = 0; i < 4; i++) {
@@ -38,23 +62,22 @@ function requestPay() {
 		var month = ("0" + (1 + date.getMonth())).slice(-2);
 	    var day = ("0" + date.getDate()).slice(-2);
 	    var num = year+month+day+rand;
-	    let pricet = ${pdto.productPrice }
     IMP.request_pay({ 
         pg: "html5_inicis",
         pay_method: "card",
         merchant_uid: num,   //주문번호
-        name: '${pdto.productName}',
-        amount: pricet*$("#productStack").val(),                         // '${pdto.productPrice}' $("tr:eq(1)>td:eq(3)").html()숫자타입
-        buyer_email: "users@seeot.com",
-        buyer_name: "사용자",
-        buyer_tel: "010-1111-2222",
-        buyer_addr: "시"+"옷"+"프로젝트",
-        buyer_postcode: "우편번호"
+        name: $('#ProductName').text(),
+        amount: 100,//$('#total_price').text()
+        buyer_email: "${info.email}",
+        buyer_name: "${info.name}",
+        buyer_tel: "{info.phone}",
+        buyer_addr: $("#addr1").val()+$("#addr2").val(),
+        buyer_postcode: $("#postcode").val()
     }, function (rsp) { // callback
     	if ( rsp.success ) {
     		 // jQuery로 HTTP 요청
             jQuery.ajax({
-                url: "orderchk", 
+                url: "${contextPath}/order/orderchk", 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 data: {
@@ -75,33 +98,38 @@ function requestPay() {
     });
    
   }
-function checkAll() {
-	if($("#orderAllCheck").is(':checked')) {
-		$("input[name=orderChkbox]").prop("checked", true);
-	} else {
-		$("input[name=orderChkbox]").prop("checked", false);
+function daumPost(){
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+           console.log(data.zonecode) 
+           console.log(data.userSelectedType)           
+           console.log(data.jibunAddress) 
+           console.log(data.roadAddress)
+           
+           document.getElementById("postcode").value = data.zonecode
+           if(data.userSelectedType== 'R'){
+        	   var addr = data.roadAddress
+           }else{
+        	   var addr = data.jibunAddress        	   
+           }
+           document.getElementById("addr1").value = addr;
+           document.getElementById("addr2").focus();
+        }
+    }).open();
+}
+function setaddr(){
+	if($("input:checkbox[name=orderaddr]").is(":checked")){
+		$("#postcode").val('${info.addr1}');
+		$("#addr1").val('${info.addr2}');
+		$("#addr2").val('${info.addr3}');
+	}else{
+		$("#postcode").val('');
+		$("#addr1").val('');
+		$("#addr2").val('');		
 	}
 }
-
-$(document).ready(function() {
-	$("#orderAllCheck").click(function() {
-		if($("#orderAllCheck").is(":checked")) $("input[name=orderChkbox]").prop("checked", true);
-		else $("input[name=orderChkbox]").prop("checked", false);
-	});
-
-	$("input[name=orderChkbox]").click(function() {
-		var total = $("input[name=orderChkbox]").length;
-		var checked = $("input[name=orderChkbox]:checked").length;
-
-		if(total != checked) $("#orderAllCheck").prop("checked", false);
-		else $("#orderAllCheck").prop("checked", true); 
-	});
-});
-
-
-
-
-
 </script>
 </head>
 <body>
@@ -111,16 +139,12 @@ $(document).ready(function() {
 			<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
 			<table id="orderTable" border="1">				
 				<tr>
-					<th><input type='checkbox' name='orderAllCheck' id="orderAllCheck" onclick='checkAll()'/><br>전체 선택</th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>상품가격</th><th>구매수량</th>
+					<th>상품번호</th><th>상품이미지</th><th>상품명</th><th>옵션</th><th>상품가격</th><th>구매수량</th>
 				</tr>
-<%-- 				<c:if test="${pdto.size==0 }">
+				<tbody id="tbody">
+				<c:forEach var="pdto" items="${list }" varStatus="status">
 					<tr>
-						<td colspan="6">등록된 장바구니가 없습니다</td>
-					</tr>
-				</c:if> --%>
-				<%-- <c:if test="${pdto.size!=0 }"> --%>
-					<tr>
-						<th><input type="checkbox" name='orderChkbox' id="orderchk1"></th><td>${pdto.productNo }</td>
+						<td>${pdto.productNo }</td>
 					<td>
 						<c:if test="${ pdto.productFile == 'nan' }">
 							<b>등록된 이미지가 없습니다.</b>
@@ -129,17 +153,26 @@ $(document).ready(function() {
 							<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${pdto.productFile}">
 						</c:if>
 					</td>
-					<td>${pdto.productName }</td>
-					<td>${pdto.productPrice }</td>
+					<td id="ProductName">${pdto.productName }</td>
+					<td>${pdto.productColor }/${pdto.productSize }</td>
 					<td>
-						<input type="number" min="0" max="10" name="productStack" id="productStack" placeholder="1">
+						<span id="price${status.index }">${pdto.productPrice }</span>						
+					</td>
+					<td>
+						<input type="number" min="0" max="10" name="productStack" id="productStack${status.index }" placeholder="1" onchange="change()" value="${pdto.productStack }"><br>
+						<span id="goods_total_price${status.index }">${pdto.productPrice*pdto.productStack }</span>원
 					</td>
 					</tr>
-				<%-- </c:if> --%>
-			
+				</c:forEach>
+				</tbody>	
 			</table>
 				<hr>
-				총 금액 <span id="orderPrice">0</span>원<br>
+				총 금액 <span id="total_price">${pdto.productPrice*pdto.productStack }</span>원<br>
+				<hr>
+				배송지 입력 (가입시 등록주소)<input type="checkbox" onchange="setaddr()" name="orderaddr" id="orderaddr"><br>
+				<input type="text" onclick="daumPost()" id="postcode"><br>
+				<input type="text" onclick="daumPost()" id="addr1"><br>
+				<input type="text" onclick="daumPost()" id="addr2"><br>
 				<button type="button" onclick="requestPay()">결제하기</button>
 		</form>
 	</div>

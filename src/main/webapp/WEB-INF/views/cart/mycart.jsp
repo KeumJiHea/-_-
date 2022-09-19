@@ -241,16 +241,8 @@ $(document).on('click','.chkdel',function(){                  
                 contentType : "application/json; charset=utf-8",
                 data:    
                 	JSON.stringify(form)
-                    /* merchant_uid: rsp.merchant_uid , //주문번호
-                    name : rsp.name, 		//제품명
-                    amount : rsp.paid_amount, 	// 가격
-                    buyer_name : rsp.buyer_name, // 구매자
-                    buyer_addr : rsp.buyer_addr, 	// 구매자주소
-                    buyer_postcode: rsp.buyer_postcode //우편번호 */
                 
             }).done(function (data) {
-            	console.log(rsp)
-              console.log('결제성공!! 주문번호 : '+rsp.merchant_uid+' 제품명 : '+rsp.name+' 가격 : '+rsp.paid_amount+' 구매자 : '+rsp.buyer_name+' 주소 : '+rsp.buyer_addr )
               location.href="${contextPath}/order/order";
             }).fail(function(request,status,error){
             	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n error : "+error)
@@ -333,8 +325,8 @@ function setaddr(){
 						</th>
 						<th id="price${status.index }">${cart.productPrice }</th>
 						<th>
-							<input type="number" min="1" max="10" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.orderStack }" placeholder="${cart.orderStack }"><br>
-							<span id="goods_total_price${status.index }">${cart.productPrice*cart.orderStack }</span>원
+							<input type="number" min="1" max="10" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.productStack }" placeholder="${cart.productStack }"><br>
+							<span id="goods_total_price${status.index }">${cart.productPrice*cart.productStack }</span>원
 						</th>
 						<th><button type="button" class="deletebtn">삭제</button></th>
 						</tr>

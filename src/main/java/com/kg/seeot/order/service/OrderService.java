@@ -14,5 +14,5 @@ public interface OrderService {
 	public void addOrder(OrderDTO dto);
 	public void productOrder(Model model, HttpServletRequest req, String productColor, String productSize, String productStack);
 	public void addHiOrder(OrderHistoryDTO hdto);
-
+	public void cancle(HttpServletRequest request,String orderNo,String memberId);
 }

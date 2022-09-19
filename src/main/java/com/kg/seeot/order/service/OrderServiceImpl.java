@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -13,7 +14,7 @@ import org.springframework.ui.Model;
 import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.dto.ProductOrderDTO;
-
+import com.kg.seeot.member.service.MemberService;
 import com.kg.seeot.mybatis.order.OrderMapper;
 import com.kg.seeot.order.dto.OrderDTO;
 import com.kg.seeot.order.dto.OrderHistoryDTO;
@@ -40,8 +41,8 @@ public class OrderServiceImpl implements OrderService{
 			dto.setProductFile(req.getParameter("productFile"));
 			dto.setProductPrice(Integer.parseInt(req.getParameter("productPrice")));
 			dto.setProductColor(a[i]);
-			dto.setProductSize(Integer.parseInt(b[i]));
-			dto.setProductStack(Integer.parseInt(c[i]));
+			dto.setProductSize(b[i]);
+			dto.setProductStack(c[i]);
 			list.add(dto);
 			}
 		
@@ -50,8 +51,15 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public void addHiOrder(OrderHistoryDTO hdto) {
-		om.addOrderHistory(hdto);
-		
+		om.addOrderHistory(hdto);		
+	}
+
+	@Override
+	public void cancle(HttpServletRequest request,String orderNo, String memberId) {
+		HttpSession session = request.getSession();
+		memberId = (String)session.getAttribute("loginUser");
+		System.out.println("orderNo : "+orderNo);
+		System.out.println("memberId : "+memberId);
 	}
 	
 	
