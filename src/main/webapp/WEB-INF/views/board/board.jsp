@@ -31,6 +31,10 @@
 		</c:if>
 	</tr>
 </table>
-<button onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
-<button onclick="location.href='delete'">삭제</button>
+<button onclick="location.href='boardReply?boardNo=${dto.boardNo}'">답글 달기</button>
+<button onclick="location.href='boardList'">목록으로</button>
+<c:if test="${dto.memberId == loginUser}">
+	<button onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
+	<button onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
+</c:if>
 </body>

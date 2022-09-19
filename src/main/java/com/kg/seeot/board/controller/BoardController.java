@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.fasterxml.jackson.databind.ser.std.FileSerializer;
-import com.kg.seeot.board.dto.FileDTO;
 import com.kg.seeot.board.service.BoardFileService;
 import com.kg.seeot.board.service.BoardService;
 
@@ -41,10 +35,10 @@ public class BoardController {
 		return "board/boardList.page";
 	}
 
-	@GetMapping("boardContentView")
-	public String boardContentView(int boardNo, Model model) {
-		bs.boardContentView(boardNo, model);
-		return "board/boardContentView.page";
+	@GetMapping("board")
+	public String getBoard(int boardNo, Model model) {
+		bs.getBoard(boardNo, model);
+		return "board/board.page";
 	}
 
 	@GetMapping("boardWrite")
@@ -52,11 +46,11 @@ public class BoardController {
 		return "board/boardWrite.page";
 	}
 	
-	@PostMapping("writeSave")
+	@PostMapping("boardWrite")
 	@ResponseBody
-	public void writeSave(MultipartHttpServletRequest mul, HttpServletResponse response, HttpServletRequest request)
+	public void boardWrite(MultipartHttpServletRequest mul, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
-		String message = bs.writeSave(mul, request);
+		String message = bs.boardWrite(mul, request);
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
@@ -65,7 +59,7 @@ public class BoardController {
 	
 	@GetMapping("modifyForm")
 	public String modifyForm(int boardNo, Model model) {
-		bs.boardContentView(boardNo, model);
+		bs.getBoard(boardNo, model);
 		return "board/boardModifyForm.page";
 	}
 	
@@ -79,31 +73,15 @@ public class BoardController {
 		out.print(message);
 	}
 
-	@GetMapping("boardReply")
-	public String boardReply(int boardNo, Model model) {
-		bs.boardContentView(boardNo, model);
-		return "board/boardReply";
-	}
-
 	@GetMapping("delete")
-	public void delete(String memberId, String boardFile, HttpServletResponse response, HttpServletRequest request)
+	public void delete(int boardNo, HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
-		String msg = bs.delete(memberId, boardFile, request);
+		String msg = bs.delete(boardNo, request);
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(msg);
 	}
-
-	@PostMapping("boardReplySave")
-	public void boardReplySave(String memberId, Model model, MultipartHttpServletRequest mul,
-			HttpServletResponse response, HttpServletRequest request) throws IOException {
-		String message = bs.writeSave(mul, request);
-
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.print(message);
-	}
-
+	
 	@GetMapping("download")
 	public void downloadFile(String file, HttpServletResponse response) throws Exception{
 		response.addHeader("Content-disposition", "attachment; fileName=" + file);
@@ -111,6 +89,22 @@ public class BoardController {
 		FileInputStream in = new FileInputStream(f);
 		FileCopyUtils.copy(in, response.getOutputStream());
 		in.close();
+	}
+	
+	@GetMapping("boardReply")
+	public String boardReply(int boardNo, Model model) {
+		bs.getBoard(boardNo, model);
+		return "board/boardReply";
+	}
+
+	@PostMapping("boardReplySave")
+	public void boardReplySave(String memberId, Model model, MultipartHttpServletRequest mul,
+			HttpServletResponse response, HttpServletRequest request) throws IOException {
+		String message = bs.boardWrite(mul, request);
+
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(message);
 	}
 
 }

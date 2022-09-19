@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <body>
-	<form id="writeForm">
-		<input type="number" name="boardNo" value=${dto.boardNo }>
-		<input type="text" name="memberId" value="${loginUser }" hidden="hidden"/>
+	<form id="modifyForm">
+		<input type="number" name="boardNo" value=${dto.boardNo } hidden="hidden">
+		<input type="text" name="memberId" value="${dto.memberId }" hidden="hidden"/>
 		<label for="memberName">작성자</label>
 		<input type="text" name="memberName" value="${dto.memberName }" readonly required/>
 		<hr>
@@ -32,6 +32,7 @@
 				<div id="file${vs.index }" class="filebox">
 					<img src="${contextPath }/board/download?file=${file.fileSaveName }" width="100px" height="100px;">
 					<p class="name">${file.fileOriginName }</p>
+					<p class="saveName" hidden="hidden">${file.fileSaveName }</p>
 					<a class="delete" onclick="deleteFile(${vs.index});">삭제</a>
 				</div>
 			</c:forEach>

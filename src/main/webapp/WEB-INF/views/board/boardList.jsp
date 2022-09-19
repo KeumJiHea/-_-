@@ -17,9 +17,6 @@
 			<th>작성자</th>
 			<th>날짜</th>
 			<th>처리상태</th>
-			<th>그룹</th>
-			<th>indent</th>
-			<!-- 나중에 그룹,indent 가리기 -->
 		</tr>
 		
 		<c:if test="${boardList.size() == 0 }">
@@ -32,14 +29,12 @@
 			<tr>
 				<td>${dto.boardNo }</td>
 				<td>${dto.boardQnAType }</td>
-				<td><a href="${contextPath }/board/boardContentView?boardNo=${dto.boardNo}">
+				<td><a href="${contextPath }/board/board?boardNo=${dto.boardNo}">
 					${dto.boardTitle }</a>
 				</td>
 				<td>${dto.memberName }</td>
 				<td>${dto.boardDate }</td>
 				<td>${dto.boardStatus }</td>
-				<td>${dto.boardGroup }</td>
-				<td>${dto.boardIndent }</td>
 			</tr>
 		</c:forEach>
 		<tr>

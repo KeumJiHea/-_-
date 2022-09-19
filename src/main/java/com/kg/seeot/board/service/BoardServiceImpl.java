@@ -27,30 +27,12 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("boardList", mapper.boardList());
 	}
 
-	public void boardContentView(int boardNo, Model model) {
-		model.addAttribute("dto", mapper.boardContentView(boardNo));
-		model.addAttribute("fileList", mapper.boardFileView(boardNo));
+	public void getBoard(int boardNo, Model model) {
+		model.addAttribute("dto", mapper.getBoard(boardNo));
+		model.addAttribute("fileList", mapper.getBoardFile(boardNo));
 	}
 
-	public String delete(String memberId, String boardFile, HttpServletRequest request) {
-		String result = mapper.delete(memberId);
-		int resultnum = 0;
-		if (result.equals("1")) {
-			resultnum = 1;
-		}
-		String msg, url;
-		if (resultnum == 1) {
-			bfs.deleteImage(boardFile);
-			msg = "성공적으로 삭제 되었습니다!!!";
-			url = request.getContextPath() + "/board/boardList";
-		} else {
-			msg = "삭제 실패!!!";
-			url = request.getContextPath() + "/board/boardContentView?memberId=" + memberId;
-		}
-		return bfs.getMessage(msg, url);
-	}
-
-	public String writeSave(MultipartHttpServletRequest mul, HttpServletRequest request) {
+	public String boardWrite(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		BoardDTO dto = new BoardDTO();
 
 		if(mul.getParameter("memberId").equals("")) { //비회원 처리
@@ -66,7 +48,7 @@ public class BoardServiceImpl implements BoardService {
 		dto.setBoardStatus("미처리");
 		
 		int result = 0;
-		result = mapper.writeSave(dto);
+		result = mapper.boardWrite(dto);
 		
 		System.out.println("boardNo: " + dto.getBoardNo());
 		
@@ -79,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
 					System.out.println("파일아" + file.getOriginalFilename());
 					FileDTO fdto = bfs.saveFile(file);
 					fdto.setBoardNo(dto.getBoardNo());
-					mapper.writeFileSave(fdto);
+					mapper.boardFileWrite(fdto);
 				}
 			}
 
@@ -105,26 +87,36 @@ public class BoardServiceImpl implements BoardService {
 		dto.setBoardTitle(mul.getParameter("boardTitle"));
 		dto.setBoardContent(mul.getParameter("boardContent"));
 		dto.setBoardQnAType(mul.getParameter("boardQnAType"));
+		dto.setBoardNo(boardNo);
 		
-		System.out.println(mul.getParameter("delete_image"));
+		//삭제할 이미지의 저장된 이름 가져오기
+		String[] deleteImages = mul.getParameterValues("delete_image");
+		//String 배열로 가져오기 때문에 순회하며 이름 뽑아옴
+		if(deleteImages != null) {
+			for(String image : deleteImages) {
+				System.out.println(image);
+				bfs.deleteImage(image);
+				mapper.deleteImage(image);
+			}
+		}
 		
-//		Iterator<String> itr = mul.getFileNames();
-//		
-//		while(itr.hasNext()) {
-//			List<MultipartFile> fileList = mul.getFiles(itr.next());
-//			if(fileList.size()>0) {
-//				for(MultipartFile file : fileList) {
-//					System.out.println("파일아" + file.getOriginalFilename());
-//					FileDTO fdto = bfs.saveFile(file);
-//					fdto.setBoardNo(dto.getBoardNo());
-//					mapper.writeFileSave(fdto);
-//				}
-//			}
-//
-//		}
+		Iterator<String> itr = mul.getFileNames();
+		
+		while(itr.hasNext()) {
+			List<MultipartFile> fileList = mul.getFiles(itr.next());
+			if(fileList.size()>0) {
+				for(MultipartFile file : fileList) {
+					System.out.println("추가 파일: " + file.getOriginalFilename());
+					FileDTO fdto = bfs.saveFile(file);
+					fdto.setBoardNo(dto.getBoardNo());
+					mapper.boardFileWrite(fdto);
+				}
+			}
+
+		}
 		
 		int result = 0;
-		//result = mapper.writeSave(dto);
+		result = mapper.boardModify(dto);
 		
 		String msg, url;
 		if (result == 1) {
@@ -132,7 +124,28 @@ public class BoardServiceImpl implements BoardService {
 			url = request.getContextPath() + "/board/boardList";
 		} else {
 			msg = "문제가 발생했습니다";
-			url = request.getContextPath() + "/board/writeForm";
+			url = request.getContextPath() + "/board/modifyForm?boardNo="+boardNo;
+		}
+		return bfs.getMessage(msg, url);
+	}
+	
+	public String delete(int boardNo, HttpServletRequest request) {
+		List<FileDTO> fileList = mapper.getBoardFile(boardNo);
+		int result = mapper.delete(boardNo);
+			
+		String msg, url;
+		if (result == 1) {
+			if(fileList != null) {
+				for(FileDTO file : fileList) {
+					String deleteImage = file.getFileSaveName();
+					bfs.deleteImage(deleteImage);
+				}
+			}
+			msg = "성공적으로 삭제 되었습니다!!!";
+			url = request.getContextPath() + "/board/boardList";
+		} else {
+			msg = "삭제 실패!!!";
+			url = request.getContextPath() + "/board/getBoard?boardNo=" + boardNo;
 		}
 		return bfs.getMessage(msg, url);
 	}

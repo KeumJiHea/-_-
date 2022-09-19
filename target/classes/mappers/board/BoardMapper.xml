@@ -10,8 +10,6 @@
 		<result property="boardTitle" column="board_title" />
 		<result property="boardContent" column="board_content" />
 		<result property="boardDate" column="board_date" />
-		<result property="boardGroup" column="board_group" />
-		<result property="boardIndent" column="board_indent" />
 		<result property="boardQnAType" column="board_qnatype"/>
 		<result property="boardStatus" column="board_status"/>
 		<result property="boardHit" column="board_hit"/>
@@ -22,39 +20,68 @@
 		<result property="fileSaveName" column="file_save_name"/>
 		<result property="boardNo" column="board_No"/>
 	</resultMap>
+	
+	<resultMap type="com.kg.seeot.board.dto.ReplyDTO" id="reply">
+		<result property="memberId" column="member_id"/>
+		<result property="replyTitle" column="reply_title"/>
+		<result property="replyContent" column="reply_content"/>
+		<result property="memberName" column="member_name"/>
+		<result property="boardNo" column="board_No"/>
+		<result property="replyNo" column="reply_no"/>
+	</resultMap>
 
 	<select id="boardList" resultMap="board">
-		select * from seeot_board
+		SELECT * from seeot_board
 	</select>
 
-	<select id="boardContentView" resultMap="board">
-		select * from seeot_board
-		where board_no=#{boardNo}
+	<select id="getBoard" resultMap="board">
+		SELECT * from seeot_board
+		WHERE board_no=#{boardNo}
 	</select>
 	
-	<select id="boardFileView" resultMap="file">
-		select * from seeot_board_file
-		where board_no=#{boardNo}
+	<select id="getBoardFile" resultMap="file">
+		SELECT * from seeot_board_file
+		WHERE board_no=#{boardNo}
 	</select>
 
-	<delete id="delete">
-		delete from seeot_board where member_id=#{memberId}
-	</delete>
-
-	<insert id="writeSave">
-	    insert into seeot_board(member_id, member_name, board_no, board_title, board_content, board_qnatype, board_status)
-		values(#{memberId}, #{memberName}, board_seq.nextval, #{boardTitle}, #{boardContent}, #{boardQnAType}, #{boardStatus})
+	<insert id="boardWrite">
+	    INSERT into seeot_board(member_id, member_name, board_no, board_title, board_content, board_qnatype, board_status)
+		VALUES(#{memberId}, #{memberName}, board_seq.nextval, #{boardTitle}, #{boardContent}, #{boardQnAType}, #{boardStatus})
 		
 		<selectKey keyProperty="boardNo" order="AFTER" resultType="int">
-			select board_seq.currval from dual
+			SELECT board_seq.currval from dual
 		</selectKey>
 	</insert>
 	
-	<insert id="writeFileSave" useGeneratedKeys="true">
-	 	insert into seeot_board_file(file_origin_name, file_save_name, board_no)
-		values(#{fileOriginName}, #{fileSaveName}, #{boardNo})
+	<insert id="boardFileWrite" useGeneratedKeys="true">
+	 	INSERT into seeot_board_file(file_origin_name, file_save_name, board_no)
+		VALUES(#{fileOriginName}, #{fileSaveName}, #{boardNo})
 	</insert>
+	
+	<update id="boardModify">
+	    UPDATE seeot_board
+	    SET	member_name = #{memberName},
+	    	board_title = #{boardTitle},
+	    	board_content = #{boardContent},
+	    	board_qnatype = #{boardQnAType}
+		WHERE board_no = #{boardNo}
+	</update>
+	
+	<update id="boardFileModify" useGeneratedKeys="true">
+	 	UPDATE seeot_board_file
+	 	SET (file_origin_name, file_save_name, board_no)
+		values(#{fileOriginName}, #{fileSaveName}, #{boardNo})
+	</update>
 
+	<delete id="deleteImage">
+		DELETE seeot_board_file
+		WHERE file_save_name = #{image}
+	</delete>
+	
+	<delete id="delete">
+		DELETE from seeot_board
+		WHERE board_no = #{boardNo}
+	</delete>
 
 </mapper>
 

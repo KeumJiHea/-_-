@@ -44,8 +44,8 @@ public class BoardFileServiceImpl implements BoardFileService {
 		return fdto;
 	}
 
-	public void deleteImage(String fName) {
-		File dFile = new File(IMAGE_REPO + "/" + fName);
-		dFile.delete();
+	public void deleteImage(String imageName) {
+		File deleteImage = new File(IMAGE_REPO + "/" + imageName);
+		deleteImage.delete();
 	}
 }

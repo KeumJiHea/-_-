@@ -8,7 +8,7 @@ let filesArr = []; //올라온 파일들의 배열(삭제해도 배열에서는 
 //이미 저장된 이미지를 배열에 담는 코드
 for(let i=0; i<document.querySelectorAll('.filebox').length; i++){
 	filesArr.push({
-		'id': document.querySelectorAll('.filebox')[i]['id'],
+		'fileName': document.querySelectorAll('.filebox .saveName')[i].innerText,
 		'cur_delete': false,
 	})
 	fileNo++;
@@ -97,7 +97,7 @@ function submitForm(){
 	$.ajax({
 		type:"POST",
 		enctype: 'multipart/form-data',
-		url: 'http://localhost:8085/seeot/board/writeSave',
+		url: 'http://localhost:8085/seeot/board/boardWrite',
 		data: formData,
 		dataType: 'text',
 		processData:false,
@@ -114,7 +114,7 @@ function submitForm(){
 }
 
 function modifyForm(){
-	let form = $('#writeForm')[0];
+	let form = $('#modifyForm')[0];
 	let formData = new FormData(form);
 	formData.delete('boardFile');
 	
@@ -122,7 +122,7 @@ function modifyForm(){
 	// cur_delete -> true => DB에서 삭제해야 하니까 전달
 	// is_delete -> false => 새로 들어온 이미지니까 DB에 전달
 	filesArr = filesArr.filter((obj)=>{
-		if(obj.cur_delete == true || obj.id_delete == false){
+		if(obj.cur_delete == true || obj.is_delete == false){
 			return true;
 		}
 	})
@@ -130,7 +130,7 @@ function modifyForm(){
 	filesArr.forEach((file)=>{
 		if(file.cur_delete){
 			//DB에서 삭제해야 할 이미지
-			formData.append('delete_image', file.id) //file div id
+			formData.append('delete_image', file.fileName) //file div id
 		}else{
 			//DB에 새로 저장해야할 이미지
 			formData.append('save_image', file);
