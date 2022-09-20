@@ -36,4 +36,8 @@
 	<delete id="deleteChkCart">
 		delete from cart where member_id=#{m} and cartnum=#{c}
 	</delete>
+	
+	<delete id="alldel">
+		delete from cart where member_id=#{memberId}
+	</delete>
 </mapper>

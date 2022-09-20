@@ -82,5 +82,11 @@ public class CartServiceImpl implements CartService{
 		return list;
 		
 	}
+
+	@Override
+	public void alldel(String memberId) {
+		cm.alldel(memberId);
+		
+	}
 	
 }

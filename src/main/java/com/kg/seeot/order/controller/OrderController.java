@@ -32,7 +32,9 @@ public class OrderController {
 	@Autowired ProductService ps;
 	@Autowired MemberService ms;
 	
-	@PostMapping("ordermain")
+	
+	//productView에서 바로 구매하기
+	@PostMapping("ordermain") 
 	public String orderMain(int productNo,Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
 		System.out.println("컨트롤러 동작 성공");
 		HttpSession session = req.getSession();
@@ -42,24 +44,11 @@ public class OrderController {
 		return "/order/orderMain";
 	}
 	
-	
+	//들어오는 모든 주문처리
 	@PostMapping(value = "orderchk", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public void orderchk(@RequestBody Map map, String memberId,HttpSession session) { //0919 개별결제 해결해야함
+	public void orderchk(@RequestBody Map map,Model model, String memberId,HttpSession session) { 
 		memberId = (String) session.getAttribute("loginUser");
-		ArrayList name = (ArrayList) map.get("glist");
-		ArrayList file = (ArrayList) map.get("gfile");
-		ArrayList no = (ArrayList) map.get("gno");
-		ArrayList stack = (ArrayList) map.get("gstack");
-		ArrayList cost = (ArrayList) map.get("gcost");
-		session.setAttribute("orderdata", map);				
-	}
-	
-	@GetMapping("order")
-	public String ordersuccess(HttpSession session,Model model,String memberId) {
-		memberId = (String) session.getAttribute("loginUser");
-		Map map = (Map) session.getAttribute("orderdata");
-		model.addAttribute("order",map);
 		ArrayList name = (ArrayList) map.get("glist");
 		ArrayList file = (ArrayList) map.get("gfile");
 		ArrayList no = (ArrayList) map.get("gno");
@@ -67,14 +56,15 @@ public class OrderController {
 		ArrayList cost = (ArrayList) map.get("gcost");
 		ArrayList size = (ArrayList) map.get("gsize");
 		ArrayList color = (ArrayList) map.get("gcolor");
+		session.setAttribute("orderdata", map);
 		
-		model.addAttribute("result",file.size());
 		
+		//결제성공시 주문데이터 DB(goods_order,order_history)에 저장
 		OrderDTO dto = new OrderDTO();		
 		OrderHistoryDTO hdto = new OrderHistoryDTO();
 		for(int i =0; i<file.size();i++) {
 			dto.setOrderNo(map.get("merchant_uid").toString());
-			dto.setOrderPrice(Integer.parseInt(map.get("amount").toString()));// 09.14 dto추가해야함
+			dto.setOrderPrice(Integer.parseInt(map.get("amount").toString()));
 			dto.setProductNo(Integer.parseInt(no.get(i).toString()));
 			dto.setProductPrice(Integer.parseInt(cost.get(i).toString()));
 			dto.setOrderStack(Integer.parseInt(stack.get(i).toString()));
@@ -101,20 +91,29 @@ public class OrderController {
 			hdto.setHiProductSize(dto.getProductSize());	
 			os.addHiOrder(hdto);
 		}
+	}
+	
+	//결제완료후 직전에 결제한내용 출력
+	@GetMapping("order")
+	public String ordersuccess(HttpSession session,Model model,String memberId) {
+		os.orderView(session, model, memberId);
 		return "/order/order";
 	}
 	
-	@PostMapping("test2")
-	public String productOrder(Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
-
-		os.productOrder(model, req, productColor, productSize, productStack);
-		return "/order/test2";
-	}
-	
+	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
 	@PostMapping(value = "cancel", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public void cancel(HttpServletRequest request,@RequestBody Map data,String memberId) {
+	public void cancel(HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
 		String orderNo = (String) data.get("merchant_uid");
-		os.cancle(request,orderNo,memberId);
+		reason = (String) data.get("reason");
+		os.cancel(request,orderNo,memberId,reason);
+	}
+	
+	
+	//test용
+	@PostMapping("test2")
+	public String productOrder(Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
+		os.productOrder(model, req, productColor, productSize, productStack);
+		return "/order/test2";
 	}
 }

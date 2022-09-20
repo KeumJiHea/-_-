@@ -172,6 +172,27 @@ $(document).on('click','.chkdel',function(){                  
 	  
 });
 	
+	function alldel(){
+		if(confirm('장바구니를 비우시겠습니까?')){
+			$.ajax({
+				url : "cartAlldel",
+				type : "POST",
+				data:{
+					memberId : "${sessionScope.loginUser}"
+				},
+				success: function(data){
+					alert('${sessionScope.loginUser}님의 장바구니를 비웠습니다!');
+					location.reload();
+				},error:function(data){
+					alert('장바구니를 비우는데 실패했습니다!\n잠시후에 시도해주세요.')
+				}
+			})
+		}else{
+			alert('취소했습니다.')
+		}
+	}
+	
+	
 	function requestPay() {
 		var namelist = new Array()
 		var stacklist = new Array()
@@ -299,7 +320,7 @@ function setaddr(){
 				</tr>
 				<c:if test="${cart.size()==0 }">
 					<tr>
-						<td colspan="7">등록된 장바구니가 없습니다</td>
+						<td colspan="8">장바구니에 물건이 없습니다!!</td>
 					</tr>
 				</c:if>
 			</thead>
@@ -334,7 +355,7 @@ function setaddr(){
 				</tbody>
 				</c:if>
 			</table>
-			<button type="button" class="chkdel">선택 삭제</button> <button type="button" class="alldel">전체 삭제</button>
+			<button type="button" class="chkdel">선택 삭제</button> <button type="button" onclick="alldel()">전체 삭제</button>
 			<hr>
 				총 금액<span id="total_price"></span>원<br>
 			<hr>

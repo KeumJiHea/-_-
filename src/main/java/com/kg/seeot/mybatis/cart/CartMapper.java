@@ -13,4 +13,5 @@ public interface CartMapper {
 	public ArrayList<CartDTO> getCart(String memberId);
 	public int deleteCartOne(@Param("m") String memberId, @Param("p") int productNo);
 	public int deleteChkCart(@Param("m") String memberId, @Param("c") int cartNum);
+	public void alldel(String memberId);
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,12 +23,30 @@ import com.kg.seeot.order.dto.OrderHistoryDTO;
 @Service
 public class OrderServiceImpl implements OrderService{
 	@Autowired OrderMapper om;
+	@Autowired OrderService os;
 	
 	@Override
 	public void addOrder(OrderDTO dto) {
 		om.addOrder(dto);
 	}
+	
+	@Override
+	public void orderView(HttpSession session,Model model,String memberId) {
+		memberId = (String) session.getAttribute("loginUser");
+		Map map = (Map) session.getAttribute("orderdata");
+		model.addAttribute("order",map);
+		ArrayList name = (ArrayList) map.get("glist");
+		ArrayList file = (ArrayList) map.get("gfile");
+		ArrayList no = (ArrayList) map.get("gno");
+		ArrayList stack = (ArrayList) map.get("gstack");
+		ArrayList cost = (ArrayList) map.get("gcost");
+		ArrayList size = (ArrayList) map.get("gsize");
+		ArrayList color = (ArrayList) map.get("gcolor");
 		
+		model.addAttribute("result",file.size());
+	}
+
+	@Override
 	public void productOrder(Model model, HttpServletRequest req, String productColor, String productSize, String productStack) {
 		String[] a = productColor.split(",");
 		String[] b = productSize.split(",");
@@ -55,11 +74,12 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public void cancle(HttpServletRequest request,String orderNo, String memberId) {
+	public void cancel(HttpServletRequest request,String orderNo, String memberId,String reason) {
 		HttpSession session = request.getSession();
 		memberId = (String)session.getAttribute("loginUser");
 		System.out.println("orderNo : "+orderNo);
 		System.out.println("memberId : "+memberId);
+		System.out.println("1reason : "+reason);
 	}
 	
 	

@@ -22,6 +22,17 @@ $(document).ready(function(){
 		$("#total_price").text(tp);	
 	}
 })
+
+function order(){
+	if(($("#postcode").val()=="") || ($("#addr1").val()=="") || ($("#addr2").val()=="")){
+		alert('주소는 필수사항입니다')
+		$("#postcode").focus();
+	}else{
+		requestPay();
+	}
+	
+}
+
 var total = 0;
 var pricelist = new Array();
 function change(){	
@@ -53,6 +64,30 @@ function change(){
 	
 };
 function requestPay() {
+	var namelist = new Array()
+	var stacklist = new Array()
+	var nolist = new Array()
+	var filelist = new Array()
+	var costlist = new Array()
+	var colorlist = new Array()
+	var sizelist = new Array()
+	for(i=0;i<$("#tbody tr").length;i++){
+		var pname = $("#pname"+i).text()
+		var pstack = $("#productStack"+i).val()
+		var pno = $("#productnotd"+i).text()
+		var pfile =$("#file"+i).attr('src')
+		var pcost = $("#goods_total_price"+i).text()
+		var psize = $("#size"+i).text()
+		var pcolor = $("#color"+i).text()
+		namelist.push(pname)
+		stacklist.push(pstack)
+		nolist.push(pno)
+		filelist.push(pfile)
+		costlist.push(pcost)
+		colorlist.push(pcolor)
+		sizelist.push(psize)
+	}
+	
 		var rand = ''
 		for (let i = 0; i < 4; i++) {
 			rand += Math.floor(Math.random() * 10)
@@ -66,7 +101,7 @@ function requestPay() {
         pg: "html5_inicis",
         pay_method: "card",
         merchant_uid: num,   //주문번호
-        name: $('#ProductName').text(),
+        name: namelist[0],
         amount: 100,//$('#total_price').text()
         buyer_email: "${info.email}",
         buyer_name: "${info.name}",
@@ -75,22 +110,31 @@ function requestPay() {
         buyer_postcode: $("#postcode").val()
     }, function (rsp) { // callback
     	if ( rsp.success ) {
+    		var form = {
+    				gno : nolist,
+    				glist : namelist,
+    				gstack : stacklist,
+    				gfile : filelist,
+    				gcost : costlist,
+    				gcolor : colorlist,
+    				gsize : sizelist,
+    				merchant_uid: rsp.merchant_uid , 
+                    name : rsp.name, 		
+                    amount : rsp.paid_amount, 	
+                    buyer_name : rsp.buyer_name, 
+                    buyer_addr : rsp.buyer_addr, 	
+                    buyer_postcode: rsp.buyer_postcode
+    		}
     		 // jQuery로 HTTP 요청
             jQuery.ajax({
                 url: "${contextPath}/order/orderchk", 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                data: {
-                    imp_uid: rsp.imp_uid,            //결제 고유번호     
-                    merchant_uid: rsp.merchant_uid , //주문번호
-                    name : rsp.name, 		//제품명
-                    amount : rsp.paid_amount, 	// 가격
-                    buyer_name : rsp.buyer_name, // 구매자
-                    buyer_addr : rsp.buyer_addr 	// 구매자주소
-                }
+                data: JSON.stringify(form)
             }).done(function (data) {
             	console.log(rsp)
               alert('결제성공!! 주문번호 : '+rsp.merchant_uid+' 제품명 : '+rsp.name+' 가격 : '+rsp.paid_amount+' 구매자 : '+rsp.buyer_name+' 주소 : '+rsp.buyer_addr )
+              location.href="${contextPath}/order/order";
             })
         } else {
         	alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
@@ -144,17 +188,17 @@ function setaddr(){
 				<tbody id="tbody">
 				<c:forEach var="pdto" items="${list }" varStatus="status">
 					<tr>
-						<td>${pdto.productNo }</td>
+						<td id="productnotd${status.index }">${pdto.productNo }</td>
 					<td>
 						<c:if test="${ pdto.productFile == 'nan' }">
 							<b>등록된 이미지가 없습니다.</b>
 						</c:if>
 						<c:if test="${ pdto.productFile != 'nan' }">
-							<img width="100px" height="100px" src="${contextPath}/product/download?productFile=${pdto.productFile}">
+							<img width="100px" height="100px" id="file${status.index }" src="${contextPath}/product/download?productFile=${pdto.productFile}">
 						</c:if>
 					</td>
-					<td id="ProductName">${pdto.productName }</td>
-					<td>${pdto.productColor }/${pdto.productSize }</td>
+					<td id="pname${status.index }">${pdto.productName }</td>
+					<td><span id="color${status.index }">${pdto.productColor }</span>/<span id="size${status.index }">${pdto.productSize }</span></td>
 					<td>
 						<span id="price${status.index }">${pdto.productPrice }</span>						
 					</td>
@@ -173,7 +217,7 @@ function setaddr(){
 				<input type="text" onclick="daumPost()" id="postcode"><br>
 				<input type="text" onclick="daumPost()" id="addr1"><br>
 				<input type="text" onclick="daumPost()" id="addr2"><br>
-				<button type="button" onclick="requestPay()">결제하기</button>
+				<button type="button" onclick="order()">결제하기</button>
 		</form>
 	</div>
 </body>

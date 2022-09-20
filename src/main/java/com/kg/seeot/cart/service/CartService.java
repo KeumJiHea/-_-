@@ -16,4 +16,5 @@ public interface CartService {
 	public int deleteOneCart(String memberId,int productNo);
 	public int deleteChkCart(String memberId, int cartNum);
 	public List<ProductOrderDTO> productOrder(HttpServletRequest req, String productColor, String productSize, String productStack);
+	public void alldel(String memberId);
 }
