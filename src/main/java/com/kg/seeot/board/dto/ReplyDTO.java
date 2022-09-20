@@ -1,7 +1,10 @@
 package com.kg.seeot.board.dto;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 public class ReplyDTO {
-	private String memberId, replyTitle, replyContent, memberName;
+	private String memberId, replyContent, memberName, replyDate;
 	private int boardNo, replyNo;
 	
 	public String getMemberId() {
@@ -9,12 +12,6 @@ public class ReplyDTO {
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
-	}
-	public String getReplyTitle() {
-		return replyTitle;
-	}
-	public void setReplyTitle(String replyTitle) {
-		this.replyTitle = replyTitle;
 	}
 	public String getReplyContent() {
 		return replyContent;
@@ -39,5 +36,12 @@ public class ReplyDTO {
 	}
 	public void setReplyNo(int replyNo) {
 		this.replyNo = replyNo;
-	} 
+	}
+	public String getReplyDate() {
+		return replyDate;
+	}
+	public void setReplyDate(Timestamp replyDate) {
+		SimpleDateFormat s = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+		this.replyDate = s.format(replyDate);
+	}
 }

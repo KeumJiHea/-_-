@@ -23,15 +23,23 @@
 	
 	<resultMap type="com.kg.seeot.board.dto.ReplyDTO" id="reply">
 		<result property="memberId" column="member_id"/>
-		<result property="replyTitle" column="reply_title"/>
 		<result property="replyContent" column="reply_content"/>
 		<result property="memberName" column="member_name"/>
 		<result property="boardNo" column="board_No"/>
 		<result property="replyNo" column="reply_no"/>
+		<result property="replyDate" column="reply_date"/>
 	</resultMap>
 
 	<select id="boardList" resultMap="board">
+		SELECT B.* from(
+		SELECT rownum rn, A.* from(
 		SELECT * from seeot_board
+		order by board_no desc)A)B
+		WHERE rn between #{startPage} and #{endPage}
+	</select>
+	
+	<select id="boardCount" resultType="Integer">
+		SELECT COUNT(*) FROM SEEOT_BOARD
 	</select>
 
 	<select id="getBoard" resultMap="board">
@@ -82,6 +90,11 @@
 		DELETE from seeot_board
 		WHERE board_no = #{boardNo}
 	</delete>
+	
+	<insert id="addReply">
+		INSERT INTO seeot_reply(member_id, board_no, reply_content, member_name, reply_no, reply_date)
+		values(#{memberId}, #{boardNo}, #{replyContent}, #{memberName}, reply_seq.nextval, sysdate )
+	</insert>
 
 </mapper>
 

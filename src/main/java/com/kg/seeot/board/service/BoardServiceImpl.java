@@ -1,7 +1,9 @@
 package com.kg.seeot.board.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,8 +25,28 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardFileService bfs;
 
-	public void boardList(Model model) {
-		model.addAttribute("boardList", mapper.boardList());
+	public void boardList(Model model, int currentPage) {
+		//페이징 처리
+		int pageSize = 10; //한 페이지에 보이는 게시물 수
+		int boardSize = 0; //전체 게시물 수
+		if(mapper.boardCount() != null) {
+			boardSize = mapper.boardCount();
+		}
+		System.out.println("게시글 수: " + boardSize);
+		int pagingCount = boardSize / pageSize; //전체 페이지 수
+		
+		if(boardSize % pageSize != 0) {
+			pagingCount += 1; 
+		}
+		
+		int endPage = currentPage * pageSize; //가져올 게시글 끝 rn
+		int startPage = endPage + 1 -pageSize; //가져올 게시글 시작 rn
+		
+		model.addAttribute("pagingCount", pagingCount);
+		
+		ArrayList<BoardDTO> boardlist = mapper.boardList(startPage, endPage);
+		model.addAttribute("boardList", boardlist);
+
 	}
 
 	public void getBoard(int boardNo, Model model) {
@@ -148,5 +170,9 @@ public class BoardServiceImpl implements BoardService {
 			url = request.getContextPath() + "/board/getBoard?boardNo=" + boardNo;
 		}
 		return bfs.getMessage(msg, url);
+	}
+	
+	public void addReply(Map<String, String> map) {
+		mapper.addReply(map);
 	}
 }

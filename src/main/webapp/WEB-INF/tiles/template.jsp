@@ -19,6 +19,7 @@
 	<!-- 커스텀  CSS -->
 	<link rel="stylesheet" href="<c:url value='/resources/css/common.css'/>" >
 	<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>" >
+	<link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 </head>
 <body>
     <div class="wrapper">

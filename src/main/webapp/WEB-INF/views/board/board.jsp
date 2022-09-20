@@ -3,22 +3,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <body>
-<table border="1">
+<table class="board">
 	<tr>
-		<th>제목</th><td>${dto.boardTitle }</td>
-		<th>작성자</th><td>${dto.memberName }</td>
+		<th>제목</th>
+		<td class="title">${dto.boardTitle }</td>
+		<th>작성자</th>
+		<td class="memberName">${dto.memberName }</td>
 	</tr>
 	<tr>
-		<th>문의 일시</th><td>${dto.boardDate }</td>
-		<th>처리 상태</th><td>${dto.boardStatus }</td>
+		<th>문의 일시</th>
+		<td class="boardDate">${dto.boardDate }</td>
+		<th>처리 상태</th>
+		<td class="boardStatus">${dto.boardStatus }</td>
 	</tr>
 	<tr>
-		<td colspan="4">${dto.boardContent }</td>
+		<td colspan="4" class="content">${dto.boardContent }</td>
 	</tr>
 	<tr>
 		<c:if test="${fileList != '[]' }">
 			<th>첨부파일</th>
-			<td colspan="3">
+			<td colspan="3" class="file">
 					<c:forEach var="file" items="${fileList }">
 						<a href="${contextPath }/board/download?file=${file.fileSaveName }">
 							<img src="${contextPath }/board/download?file=${file.fileSaveName }" alt="${file.fileOriginName }" 
@@ -31,10 +35,67 @@
 		</c:if>
 	</tr>
 </table>
-<button onclick="location.href='boardReply?boardNo=${dto.boardNo}'">답글 달기</button>
+
+<div class="reply-box">
+	<c:if test="${loginUser == null }">
+		<label for="memberName">이름</label>
+		<input type="text" name="memberName" placeholder="비회원" readonly>
+		<br>
+		<textarea rows="5" cols="100" placeholder="로그인 시에만 댓글 작성이 가능합니다."></textarea>
+		<input type="button" value="작성">
+	</c:if>
+	
+	<c:if test="${loginUser != null }">
+		<form class="replyForm">
+			<input type="hidden" name="memberId" id="memberId" value=${loginUser } readonly>
+			<label for="memberName">이름</label>
+			<input type="text" name="memberName" id="memberName" value=${loginUser }>
+			<br>
+			<textarea name="replyContent" id="replyContent" rows="5" cols="100" placeholder="댓글을 입력해주세요."></textarea>
+			<button type="button" onclick="saveReply()">작성</button>
+		</form>
+	</c:if>
+</div>
+
 <button onclick="location.href='boardList'">목록으로</button>
+
 <c:if test="${dto.memberId == loginUser}">
 	<button onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
 	<button onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
 </c:if>
 </body>
+<script>
+	function saveReply(){
+		const memberId = "${loginUser}";
+		const memberName = $('#memberName').val();
+		const replyContent = $('#replyContent').val();
+		const boardNo = ${dto.boardNo};
+		
+		console.log(memberId);
+		console.log(memberName);
+		console.log(replyContent);
+		console.log(boardNo);
+		
+		$.ajax({
+			type: "POST",
+			url: 'http://localhost:8085/seeot/board/reply',
+			data: JSON.stringify(
+				{
+					"memberId":memberId,
+					"memberName":memberName,
+					"replyContent":replyContent,
+					"boardNo":boardNo
+				}
+			),
+			contentType: "application/json;charset-utf8",
+			success: function(){
+				alert("댓글이 작성되었습니다.");
+				getReply();
+			}
+		})
+	}
+	
+	function getReply(){
+		console.log("getReply 함수")
+	}
+</script>

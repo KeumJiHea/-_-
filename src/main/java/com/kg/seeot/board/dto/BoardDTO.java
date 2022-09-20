@@ -45,7 +45,6 @@ public class BoardDTO {
 		return boardDate;
 	}
 
-//public void setBoardDate(String boardDate) { this.boardDate = boardDate; }
 	public void setBoardDate(Timestamp boardDate) {
 		SimpleDateFormat s = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		this.boardDate = s.format(boardDate);
