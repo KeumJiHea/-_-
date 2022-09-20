@@ -126,7 +126,7 @@ function modiChk(){
             <div class="right">
                 <div class="point">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/point.png'/>" width="40px"></div>
-                    포인트<span>1,000</span>
+                    <a href="#" style="color: white;">문의 하기</a>
                 </div>
                 <div class="coupon">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/review.png'/>" width="40px"></div>

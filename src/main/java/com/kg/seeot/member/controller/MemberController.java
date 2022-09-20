@@ -54,18 +54,17 @@ public class MemberController implements SessionName{
 		if(result == 0) {
 			rs.addAttribute("id",request.getParameter("id"));
 			rs.addAttribute("autoLogin", request.getParameter("autoLogin"));
-
-		return "redirect:successLogin";
+			
+			return "redirect:successLogin";
 		}
-			return "redirect:login";
+			request.setAttribute("msg","아이디 또는 비밀번호를 확인해주세요");
+			request.setAttribute("url","login");
+			return "member/alert";
 	}
 	@GetMapping("successLogin")
 	public String successLogin(@RequestParam String id,
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
-		if(id.equals("admin")) {
-			return "admin/admin";
-		}
 
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
@@ -76,8 +75,16 @@ public class MemberController implements SessionName{
 
 			ms.keepLogin(id, id);
 		}
+		if(id.equals("admin")) {
+			
+			session.setAttribute(LOGIN, id);
+			session.setMaxInactiveInterval(24*60*60);
+			return "admin/admin";
+		}
 		session.setAttribute(LOGIN, id);
+		session.setMaxInactiveInterval(24*60*60);
 		return "member/successLogin";
+		
 	}
 	@GetMapping("logout")
 	public String logout( HttpSession session,
@@ -188,11 +195,11 @@ public class MemberController implements SessionName{
 				if(1 == result) {
 					request.setAttribute("msg","배송지 수정이 완료되었습니다");
 					request.setAttribute("url","info?id="+request.getParameter("id"));
-					return "member/addr_alert";
+					return "member/alert";
 				}
 					request.setAttribute("msg","정보를 다시 확인해주세요");
 					request.setAttribute("url","info?id="+request.getParameter("id"));
-					return "member/addr_alert";
+					return "member/alert";
 	}
 	
 	@RequestMapping(value = "/modify",method = RequestMethod.POST)
@@ -206,11 +213,19 @@ public class MemberController implements SessionName{
 		if(1 == result) {
 			request.setAttribute("msg","정보 수정이 완료되었습니다");
 			request.setAttribute("url","info?id="+request.getParameter("id"));
-			return "member/info_alert";
+			return "member/alert";
 		}
 			request.setAttribute("msg","정보를 다시 확인해주세요");
 			request.setAttribute("url","info?id="+request.getParameter("id"));
-			return "member/info_alert";
+			return "member/alert";
+	}
+	@GetMapping("id_find")
+	public String id_find() {
+			return "member/id_find";
+	}
+	@PostMapping("idchk")
+	public String idchk() {
+		return "";
 	}
 }
 
