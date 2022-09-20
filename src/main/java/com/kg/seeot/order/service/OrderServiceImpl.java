@@ -3,6 +3,7 @@ package com.kg.seeot.order.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,8 +80,37 @@ public class OrderServiceImpl implements OrderService{
 		memberId = (String)session.getAttribute("loginUser");
 		System.out.println("orderNo : "+orderNo);
 		System.out.println("memberId : "+memberId);
-		System.out.println("1reason : "+reason);
+		System.out.println("reason : "+reason);
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("orderNo", orderNo);
+		map.put("memberId", memberId);
+		map.put("reason", reason);
+		session.setAttribute("cancel", map);
+		//om.changeStatus_canceling(orderNo, memberId);
 	}
+	
+	@Override
+	public ArrayList<OrderDTO> getAllOrders(Model model) {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list =  om.getAllOrders();
+		model.addAttribute("list",list);
+		return list;
+	}
+
+	@Override
+	public void getOrder(String memberId, String orderNo) {
+		System.out.println("memberId : "+memberId);
+		System.out.println("orderNo : "+orderNo);
+		om.getOrder(memberId,orderNo);
+	}
+
+	@Override
+	public void getOrders(String memberId) {
+		System.out.println("memberId : "+memberId);
+		om.getOrders(memberId);
+		
+	}
+	
 	
 	
 }

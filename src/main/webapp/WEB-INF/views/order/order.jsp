@@ -20,7 +20,14 @@ function slide_hide(){
 	$("#first").hide();
 	$("#modal_wrap").hide();	
 }		
-		
+$(document).ready(function(){
+	var rowspan = $("#tbody tr").length;
+	var statustd = $("#statustd0");
+	statustd.attr('rowspan',rowspan);
+	for(i=1;i<$("#tbody tr").length;i++){
+		$("#statustd"+i).remove();
+	}
+})		
 		
 $(document).on('click',".fcancel",function(){
 		
@@ -56,8 +63,8 @@ $(document).on('click',".fcancel",function(){
 		    	alert('주문취소가 신청되었습니다\n관리자 승인후 취소 및 환불처리가 진행됩니다.');
 		    	slide_hide();		    	
 		    	var str = "<button type='button' class='cancel'>주문취소</button>"
-		    		$("#tbody td").eq(5).html('취소진행중<br>'+str);
-		    	$(".cancel").attr("disabled","disabled");
+		    	$("#status").text('취소진행중');
+		    	$(".cancel:button").attr("disabled",true);
 		    }).fail(function(result){
 		    	alert('주문취소신청에 실패하였습니다.\n잠시후 다시 시도 해주세요.')
 		    });					
@@ -100,7 +107,7 @@ $(document).on('click',".fcancel",function(){
 	<tbody id="tbody">	
 		<c:forEach begin="0" end="${result-1 }" var="i" varStatus="status">			
 			<tr>
-				<td id="order${status.index }">${order.merchant_uid }</td><td><img width="50px" height="50px" src="${order.gfile[i] }"></td><td>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</td><td>${order.gcost[i] }</td><td>${order.gstack[i] }</td><td><span id="status${status.index }">주문완료</span><br><button type="button" onclick="slideClick()">주문취소</button></td><td>확인</td>
+				<td id="order${status.index }">${order.merchant_uid }</td><td><img width="50px" height="50px" src="${order.gfile[i] }"></td><td>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</td><td>${order.gcost[i] }</td><td>${order.gstack[i] }</td><td id="statustd${status.index }"><span id="status">주문완료</span><br><button type="button" name="cancelBtn" class='cancel' onclick="slideClick()">주문취소</button></td><td>확인</td>
 			</tr>
 		</c:forEach>
 	</tbody>	

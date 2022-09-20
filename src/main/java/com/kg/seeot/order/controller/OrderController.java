@@ -103,11 +103,21 @@ public class OrderController {
 	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
 	@PostMapping(value = "cancel", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public void cancel(HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
+	public void cancel(HttpSession session,HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
 		String orderNo = (String) data.get("merchant_uid");
 		reason = (String) data.get("reason");
+		
 		os.cancel(request,orderNo,memberId,reason);
 	}
+	
+	@GetMapping("orderadmin")
+	public String orderadmin(Model model) {
+		OrderDTO odto = new OrderDTO();
+		os.getAllOrders(model);
+		return "/order/orderadmin";
+	}
+	
+	
 	
 	
 	//test용

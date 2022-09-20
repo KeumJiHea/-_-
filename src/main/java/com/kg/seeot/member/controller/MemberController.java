@@ -75,6 +75,7 @@ public class MemberController implements SessionName{
 			ms.keepLogin(id, id);
 		}
 		session.setAttribute(LOGIN, id);
+		session.setMaxInactiveInterval(24*60*60);
 		return "home.page";
 	}
 	@GetMapping("logout")

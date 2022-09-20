@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kg.seeot.mybatis.order.OrderMapper">
 	<resultMap type="com.kg.seeot.order.dto.OrderDTO" id="order">
-		<id property="orderNo" column="order_no"/>
-		<id property="productNo" column="product_no"/>
-		<id property="member_Id" column="member_id"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="productNo" column="product_no"/>
+		<result property="memberId" column="member_id"/>
 		<result property="orderPrice" column="order_price"/>
 		<result property="orderAddr1" column="order_addr1"/>
 		<result property="orderAddr2" column="order_addr2"/>
@@ -17,6 +17,7 @@
 		<result property="orderStack" column="order_stack"/>
 		<result property="productSize" column="product_size"/>
 		<result property="productColor" column="product_color"/>
+		<result property="orderStatus" column="order_status"/>
 	</resultMap>
 	
 	<resultMap type="com.kg.seeot.order.dto.OrderHistoryDTO" id="hdto">
@@ -49,5 +50,53 @@
 	<select id="getOrderHistorys" resultMap="hdto">
 		select * from order_history where memberId=#{memberId}
 	</select>
+	
+	<select id="getOrder" resultMap="order">
+		select * from goods_order where memberId=#{m} and order_no=#{o}
+	</select>
+	
+	<select id="getOrders" resultMap="order">
+		select * from goods_order where memberId=#{memberId} order by order_date DESC
+	</select>
+	
+	<select id="getAllOrders" resultMap="order">
+		select * from goods_order order by order_date DESC
+	</select>
+	
+	
+	<!-- 취소중 -->
+	<update id="changehiStatus_canceling">
+		update order_history set hiorder_status=0 where himember_id={m} and hiorder_status=1
+	</update>
+	<!-- 취소됨 -->
+	<update id="changehiStatus_canceled">
+		update order_history set hiorder_status=-1 where himember_id={m} and hiorder_status=0
+	</update>
+	<!-- 배송중 -->
+	<update id="changehiStatus_deliverying">
+		update order_history set hiorder_status=2 where himember_id={m} and hiorder_status=1
+	</update>
+	<!-- 배송완 -->
+	<update id="changehiStatus_finish">
+		update order_history set hiorder_status=3 where himember_id={m} and hiorder_status=2
+	</update>
+	
+	
+	<!-- 취소중 -->
+	<update id="changeStatus_canceling">
+		update goods_order set order_status=0 where member_id={m} and order_status=1 and order_no={o}
+	</update>
+	<!-- 취소됨 -->
+	<update id="changeStatus_canceled">
+		update goods_order set order_status=-1 where member_id={m} and order_status=0 and order_no={o}
+	</update>
+	<!-- 배송중 -->
+	<update id="changeStatus_deliverying">
+		update goods_order set order_status=2 where member_id={m} and order_status=1 and order_no={o}
+	</update>
+	<!-- 배송완 -->
+	<update id="changeStatus_finish">
+		update goods_order set order_status=3 where member_id={m} and order_status=2 and order_no={o}
+	</update>
 	
 </mapper>
