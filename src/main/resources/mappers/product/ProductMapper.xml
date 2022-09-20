@@ -78,6 +78,30 @@
 		update product_management set product_stack=#{moProductStack}, product_size=#{moProductSize}, product_color=#{moProductColor} where product_no=#{productNo} and product_stack=#{productStack} and product_size=#{productSize} and product_color=#{productColor}
 	</update>
 	
+	<select id="allCount" resultType="Integer">
+		select count(*) from product 
+			<if test="productCategorie != 0">
+				where product_categorie = #{productCategorie} 
+			</if>
+		 	<choose>
+ 				<when test="orderBy.equals('redate')">
+					order by product_date desc
+				</when>
+				<when test="orderBy.equals('hprice')">
+					order by product_price desc, product_date desc
+				</when>
+		 		<when test="orderBy.equals('lprice')">
+					order by product_price asc, product_date desc
+				</when>
+				<when test="orderBy.equals('rating')">
+					order by product_rating desc, product_date desc
+				</when>
+				<when test="orderBy.equals('review')">
+					order by review_count desc, product_date desc
+				</when>
+			</choose>
+	</select>
+	
 	<select id="proList" resultMap="product">
 		select B.* from(select rownum rn, A.* from(select * from product 
 			<if test="productCategorie != 0">
@@ -103,12 +127,89 @@
 		)A)B where rn between #{start} and #{end}
 	</select>
 	
-	<select id="allCount" resultType="Integer">
-		select count(*) from product 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="TestallCount" resultType="Integer">
+	<foreach collection="chkColor_arr" item="chkColor">
+		<choose>
+		<when test="chkColor == 'Nan'">
+			select count(*) from product 
+				<if test="productCategorie != 0">
+					where product_categorie = #{productCategorie} 
+				</if>
+					<!-- and (  product_price between 900 and 1200 or product_price between 100000 and 1500000  ) -->
+					<if test="chkPrice_arr != 'Nan'">
+						<trim prefix="and (" prefixOverrides="or" suffix=")">
+						<foreach collection="chkPrice_arr" item="chkPrice">
+						<choose>
+							<when test="chkPrice.equals('PR1')">
+								product_price between 0 and 10000
+							</when>
+							<when test="chkPrice.equals('PR2')">
+								or product_price between 10000 and 30000
+							</when>
+							<when test="chkPrice.equals('PR3')">
+								or product_price between 30000 and 50000
+							</when>
+							<when test="chkPrice.equals('PR4')">
+								or product_price between 50000 and 100000
+							</when>
+							<when test="chkPrice.equals('PR5')">
+								or product_price between 100000 and 999999999
+							</when>
+						</choose>
+						</foreach>
+						</trim>
+					</if>
+		</when>
+		<otherwise>
+			select count(*) from product 
+		</otherwise>
+		</choose>
+		</foreach>
+	</select>
+	
+	<select id="Testprolist" resultMap="product">
+	<foreach collection="chkColor_arr" item="chkColor">
+		<choose>
+		<when test="chkColor == 'Nan'">
+			select B.* from(select rownum rn, A.* from(select * from product 
 			<if test="productCategorie != 0">
 				where product_categorie = #{productCategorie} 
 			</if>
-		 	<choose>
+				<!-- and (  product_price between 900 and 1200 or product_price between 100000 and 1500000  ) -->
+				<if test="chkPrice_arr != 'Nan'">
+					<trim prefix="and (" prefixOverrides="or" suffix=")">
+					<foreach collection="chkPrice_arr" item="chkPrice">
+					<choose>
+						<when test="chkPrice.equals('PR1')">
+							product_price between 0 and 10000
+						</when>
+						<when test="chkPrice.equals('PR2')">
+							or product_price between 10000 and 30000
+						</when>
+						<when test="chkPrice.equals('PR3')">
+							or product_price between 30000 and 50000
+						</when>
+						<when test="chkPrice.equals('PR4')">
+							or product_price between 50000 and 100000
+						</when>
+						<when test="chkPrice.equals('PR5')">
+							or product_price between 100000 and 999999999
+						</when>
+					</choose>
+					</foreach>
+					</trim>
+				</if>
+			<choose>
  				<when test="orderBy.equals('redate')">
 					order by product_date desc
 				</when>
@@ -125,6 +226,14 @@
 					order by review_count desc, product_date desc
 				</when>
 			</choose>
+			)A)B where rn between #{start} and #{end}
+		</when>
+		<otherwise>
+			select * from product 
+		</otherwise>
+		</choose>
+		</foreach>
 	</select>
+
 	
 </mapper>

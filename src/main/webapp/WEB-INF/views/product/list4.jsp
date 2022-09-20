@@ -109,9 +109,42 @@
 			}
 		})
 		
-		
 	}
+	
+	function selectSearch() {
+		var chkColor_arr = [];
+		$("input[name=Color]:checked").each(function(){
+			var chkColor = $(this).val();
+			chkColor_arr.push(chkColor);
+			console.log(chkColor_arr);
+		})
+		
+		var chkPrice_arr = [];
+		$("input[name=Color]:checked").each(function(){
+			var chkPrice = $(this).val();
+			chkPrice_arr.push(chkPrice);
+			console.log(chkPrice_arr);
+		})
+	}
+	
 	</script>
+	
+	<div>
+		색상
+		<input type="checkbox" name="Color" value="RED"> RED
+		<input type="checkbox" name="Color" value="GREEN"> GREEN
+		<input type="checkbox" name="Color" value="BLUE"> BLUE
+		<input type="checkbox" name="Color" value="BLACK"> BLACK
+		<hr>
+		가격범위
+		<input type="checkbox" name="Price" value>1만원이하
+		<input type="checkbox" name="Price">1~3만원
+		<input type="checkbox" name="Price">3만원~5만원
+		<input type="checkbox" name="Price">5만원~10만원
+		<input type="checkbox" name="Price">10만원이상
+		<hr>
+		<input type="button" value="검색하기" onclick="selectSearch()">
+	</div>
 	
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순

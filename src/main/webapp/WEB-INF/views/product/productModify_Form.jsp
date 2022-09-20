@@ -5,9 +5,9 @@
 <head>
 <meta charset="UTF-8">
 
-	<style type="text/css">
+	<!-- <style type="text/css">
 		.ck-editor__editable { height: 300px; }
-	</style>
+	</style> -->
 
 <title>Insert title here</title>
 </head>
@@ -78,20 +78,21 @@
 		<hr>
 		
 		<b>상품 설명</b><br>
-		<textarea name="productContent" id="productContent" >${pdto.productContent }</textarea>
+		<input type="file" name="productContent" />
+		<%-- <textarea name="productContent" id="productContent" >${pdto.productContent }</textarea> --%>
 		<hr>
 		
 		<button type="button" onclick="chkData()">상품 수정</button>
 		<button type="button" onclick="location.href='${contextPath}/product/productView?productNo=${pdto.productNo }'">수정 취소</button>
 	</form>
 	
-	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+	<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
 	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/translations/ko.js"></script>
 	<script type="text/javascript">
 		ClassicEditor.create( document.querySelector( '#productContent' ), {
 	    	language: "ko"
 		});
-	</script>
+	</script> -->
 	
 </body>
 </html>

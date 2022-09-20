@@ -193,6 +193,15 @@ public class ProductController {
 		return "product/list4";
 	}
 	
+	// 해당 카테고리 전체 상품 수
+	@PostMapping(value = "allCount", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public int allCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
+		String orderBy = request.getParameter("orderBy");
+		return ps.allCount(orderBy, productCategorie);
+	}
+	
+	// list 페이지에 보여질 상품
 	@PostMapping(value = "prolist", produces = "application/json;charset=utf8")
 	@ResponseBody
 	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
@@ -202,11 +211,29 @@ public class ProductController {
 		return ps.prolist(orderBy, productCategorie, num, pageViewProduct);
 	}
 	
-	@PostMapping(value = "allCount", produces = "application/json;charset=utf8")
+
+	
+	
+	
+	
+	
+	
+	@PostMapping(value = "TestallCount", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public int allCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
+	public int TestallCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
+				@RequestParam(value="chkColor_arr[]", required = false, defaultValue = "Nan") String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false, defaultValue = "Nan") String[] chkPrice_arr) {
+		
+		return ps.TestallCount(productCategorie, chkColor_arr, chkPrice_arr);
+	}
+	
+	@PostMapping(value = "Testprolist", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public List<ProductDTO> Testprolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
+			@RequestParam(value="chkColor_arr[]", required = false, defaultValue = "Nan") String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false, defaultValue = "Nan") String[] chkPrice_arr) {
 		String orderBy = request.getParameter("orderBy");
-		return ps.allCount(orderBy, productCategorie);
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+		return ps.Testprolist(orderBy, productCategorie, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	
 }

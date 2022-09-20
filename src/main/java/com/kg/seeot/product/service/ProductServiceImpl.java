@@ -203,11 +203,18 @@ public class ProductServiceImpl implements ProductService{
 		return mapper.managementModify_Form(productNo, productSize, productColor);
 	}
 	
+	public int allCount(String orderBy, int productCategorie) {
+		System.out.println("all 카테고리 값 : " + productCategorie);
+		System.out.println("all 정렬 값 : " + orderBy);
+		
+		return mapper.allCount(orderBy, productCategorie);
+	}
+	
 	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct) {
-		System.out.println("카테고리 값 : " + productCategorie);
-		System.out.println("정렬 값 : " + orderBy);
-		System.out.println("페이징 num 값 : " + num);
-		System.out.println("보일 상품의 수 : " + pageViewProduct);
+		System.out.println("list 카테고리 값 : " + productCategorie);
+		System.out.println("list 정렬 값 : " + orderBy);
+		System.out.println("list 페이징 num 값 : " + num);
+		System.out.println("list 보일 상품의 수 : " + pageViewProduct);
 		
 		int end = num * pageViewProduct;
 		int start = end + 1 - pageViewProduct;
@@ -216,11 +223,47 @@ public class ProductServiceImpl implements ProductService{
 		return mapper.proList(orderBy, productCategorie, start, end);
 	}
 	
-	public int allCount(String orderBy, int productCategorie) {
-		System.out.println("카테고리 값 : " + productCategorie);
-		System.out.println("정렬 값 : " + orderBy);
+	
+	
+	
+	
+	
+	
+	
+	public int TestallCount(int productCategorie, String[] chkColor_arr, String[] chkPrice_arr) {
+		System.out.println("all 카테고리 값 : " + productCategorie);
+		System.out.println("all 가격 : " + chkPrice_arr);
 		
-		return mapper.allCount(orderBy, productCategorie);
+		for(int i=0; i<chkColor_arr.length ; i++) {
+			System.out.println("all 컬러 - chkColor_arr[" + i + "] : " + chkColor_arr[i]);
+		}
+		for(int i=0; i<chkPrice_arr.length ; i++) {
+			System.out.println("all 가격 - chkPrice_arr[" + i + "] : " + chkPrice_arr[i]);
+		}
+		
+		return mapper.TestallCount(productCategorie, chkColor_arr, chkPrice_arr);
 	}
+	
+	public List<ProductDTO> Testprolist(String orderBy, int productCategorie, int num, int pageViewProduct, String[] chkColor_arr, String[] chkPrice_arr) {
+		System.out.println("list 카테고리 값 : " + productCategorie);
+		System.out.println("list 정렬 값 : " + orderBy);
+		System.out.println("list 페이징 num 값 : " + num);
+		System.out.println("list 보일 상품의 수 : " + pageViewProduct);
 
+		for(int i=0; i<chkColor_arr.length ; i++) {
+			System.out.println("list 컬러 - chkColor_arr[" + i + "] : " + chkColor_arr[i]);
+		}
+		for(int i=0; i<chkPrice_arr.length ; i++) {
+			System.out.println("list 가격 - chkPrice_arr[" + i + "] : " + chkPrice_arr[i]);
+		}
+		
+		
+		int end = num * pageViewProduct;
+		int start = end + 1 - pageViewProduct;
+		System.out.println("start : " +  start);
+		System.out.println("end : " + end);
+		System.out.println("------------------------------------");
+		return mapper.Testprolist(orderBy, productCategorie, start, end, chkColor_arr, chkPrice_arr);
+	}
+	
 }

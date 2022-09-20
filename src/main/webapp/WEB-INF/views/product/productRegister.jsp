@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-	<style type="text/css">
+	<!-- <style type="text/css">
 		.ck-editor__editable { height: 300px; }
-	</style>
+	</style> -->
 	
 </head>
 <body>
