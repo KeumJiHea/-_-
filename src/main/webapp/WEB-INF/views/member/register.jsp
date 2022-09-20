@@ -24,6 +24,10 @@
 			<form method="post" name="form" class="columns">
 				<div class="column">
 					<div class="tag-title">필수 입력</div>
+					<div class="field input_name required" >
+						<span>이름</span>
+						<input type="text" name="name" class="name">
+					</div>
 					<div class="field input_id required">
 						<span>아이디</span> 
 						<input class="id_input" type="text" name="id" maxlength="12">
@@ -84,10 +88,6 @@
 					</div>
 
 					<div class="members-info close">
-						<div class="field input_name">
-							<span>이름</span>
-							<input type="text" name="name">
-						</div>
 						<div class="field input_birth">
 							<span>생년월일</span>
 							<input type="text" name="birth" placeholder="ex)2000.01.01">
@@ -274,13 +274,18 @@
 	   var phone1 = $('.phone1').val();
 	   var phone2 = $('.phone2').val();
 	   var phone3 = $('.phone3').val();
+	   var name = $('.name').val();
 	   
-	   if(!form.id.value){
-		   alert("아이디는 필수 사항입니다");
+	   if(!form.name.value){
+		   alert("이름을 입력해주세요");
+		   form.name.focus();
+		   return;
+	   }else if(!form.id.value){
+		   alert("아이디를 입력해주세요");
 		   form.id.focus();
 		   return;
 	   }else if(!form.pw.value){
-		   alert("비밀번호는 필수 사항입니다");
+		   alert("비밀번호를 입력해주세요");
 		   form.pw.focus();
 		   return;
 	   }else if( pw != pwchk){

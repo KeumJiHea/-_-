@@ -77,11 +77,8 @@ public class MemberServiceImpl implements MemberService{
 		dto.setEmail2(request.getParameter("email2"));
 		dto.setBirth(request.getParameter("birth"));
 		
-		/*
-		 * String seq = en.encode(request.getParameter("pw"));
-		 * 
-		 * dto.setPw(seq);
-		 */
+		String seq = en.encode(request.getParameter("pw"));
+		dto.setPw(seq);
 		
 		try {
 			return mapper.modify(dto);

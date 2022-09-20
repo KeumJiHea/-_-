@@ -13,21 +13,8 @@
 <script src="<%=request.getContextPath() %>/resources/js/daum_post.js"></script>
 </head>
 <body>
-<!-- 
-/*  var pw = $('.pw_input').value();
-    var pw2 = $('.pw_confirm').value();
-    
-    if(!form.pw.value && !form.pw2.value){
-    	alert("비밀번호 입력은 필수입니다");
-    	form.pw.focus();
-    	return;
-    }
-    if(pw != pw2){
-    	alert("비밀번호가 일치하지 않습니다");
-    	form.pw2.focus();
-    	return;
-    } */
- -->
+
+
 <script>
     jQuery( document ).ready( function ( $ ) {
         var wrapper = $( '.members-wrapper.myaccount' );
@@ -51,6 +38,7 @@
         } );
 
     } );
+  
 </script>
 
 <script type="text/javascript">
@@ -68,32 +56,48 @@ window.onload = function(){
 }
 </script>
 <script type="text/javascript">
+
+
+
+//필수 입력 체크
+
 function modiChk(){
+	
 	var form = document.form;
 	var pw = $('.pw_input').val();
-	var pw2 = $('.pw_confirm').val();
+	var pwchk = $('.pw_confirm').val();
+	var pwRegex =  /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+	var passWordTest = pwRegex.test($('.pw_input').val());
 	
-	if(!form.pw.value){
+	if(pw == ""){
 		alert('비밀번호 입력은 필수입니다');
 		form.pw.focus();
 		return;
 	}
-	if(!form.pw2.value){
+	else if(pwchk == ""){
 		alert('비밀번호 확인은 필수입니다');
-		form.pw2.focus();
+		form.pwchk.focus();
 		return;
 	}
-	if(pw == pw2){
+	else if(pw != pwchk){
 		alert('비밀번호가 일치하지 않습니다');
-		form.pw2.focus();
+		form.pwchk.focus();
 		return;
 	}
-	
-	method="post";
-	action="<%=request.getContextPath()%>/member/modify";
-	form.submit;
-	
+	else if(!passWordTest){
+		alert('비밀번호는 8~16 영문자 숫자, 특수문자 포함하여 입력해주세요');
+		form.pw.value = "";
+		form.pwchk.value = "";
+		form.pw.focus();
+		return;
+	}
+	else{
+	form.method="post";
+	form.action="<%=request.getContextPath()%>/member/modify";
+	form.submit();
+	}
 }
+
 </script>
 
 <div class="members-wrapper myaccount">
@@ -259,20 +263,20 @@ function modiChk(){
                         <option value="1" selected>직접입력</option>
                     </select>
                 </div>
-                <div>
-            	  	  <input type="submit" class="button" value="회원정보 수정">
-                </div>
             </div>
-            <!-- <div class="column">
+            <div class="column">
                 <div class="field input_pw">
                     <span>비밀번호 변경</span>
                     <span style="color:#888;">회원 정보 수정시 비밀번호는 필수 입력 사항입니다.</span><br>
-                    <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
-                    <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
-                    <div class="password-message message"></div>
+                    <input type="password" name="pw" placeholder="최소 8자 최대 16자 영문자 숫자, 특수문자 포함" class="pw_input">
+                    <div class="passwordchk-message"></div>
+                    <input type="password" placeholder="비밀번호 확인" name="pwchk" id="confirm_pw" class="pw_confirm">
+                    <div class="password-message"></div>
                 </div>
-                
-            </div> -->
+                <div>
+            	  	 <button type="button" class="button" onclick="modiChk()">회원정보 수정</button>
+                </div>
+            </div>
         </form>
     </div>
 
