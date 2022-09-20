@@ -23,6 +23,7 @@ import com.kg.seeot.mybatis.board.ReviewMapper;
 public class ReviewServiceImpl implements ReviewService {
 	@Autowired
 	ReviewMapper mapper;
+	
 
 	public void reviewList(Model model) {
 		model.addAttribute("reviewList", mapper.reviewList());
@@ -32,33 +33,13 @@ public class ReviewServiceImpl implements ReviewService {
 		map.put("memberId", memberId);
 		mapper.addReply(map);
 	}
-/*
-	public void addReview(ReviewDTO dto) {
-		System.out.println("serImpl");
 
-		System.out.println(dto.getMemberId());
-		System.out.println(dto.getProductNo());
-		System.out.println(dto.getReviewContent());
-		System.out.println(dto.getReviewFile());
-		System.out.println(dto.getReviewStar());
-
-		int result = mapper.addReview(dto);
-		System.out.println("serImpl result: ");
-		System.out.println(result);
-
-	}
-
-	*/
 	public List<ReviewDTO> getRepList(int productNo){
-		System.out.println("serviceImpl");
-		System.out.println(productNo);
+		//System.out.println("serviceImpl");
+		//System.out.println(productNo);
 		
-		 List<ReviewDTO> list;
-		list =  mapper.getRepList( productNo );
-		System.out.println("serviece list: "+list);
-		return list;
+		return mapper.getRepList( productNo );
 	}
-	
 	
 	
 	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar 
@@ -95,7 +76,7 @@ public class ReviewServiceImpl implements ReviewService {
 			dto.setReviewFile(sysFileName);
 			
 			//System.out.println(sysFileName); 
-			File saveFile = new File("c:/spring/image_repo"+"/"+sysFileName);
+			File saveFile = new File("c:/spring/image_repo" +"/"+sysFileName);
 			try {
 				file.transferTo(saveFile);
 			} catch (Exception e) {

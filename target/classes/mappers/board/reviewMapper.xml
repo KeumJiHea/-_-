@@ -5,30 +5,38 @@
 <mapper namespace="com.kg.seeot.mybatis.board.ReviewMapper">
 	<resultMap type="com.kg.seeot.board.dto.ReviewDTO"
 		id="review">
-		<id property="memberId" column="member_id" />
-		<result property="reviewDate" column="review_date" />
-		<result property="reviewFile" column="review_file" />
-		<result property="reviewStar" column="review_star" />
-		<result property="productNo" column="product_no" />
-		<result property="reviewContent" column="review_content" />
+		<id property="memberId" column="memberId" />
+		<result property="reviewDate" column="reviewDate" />
+		<result property="reviewFile" column="reviewFile" />
+		<result property="reviewStar" column="reviewStar" />
+		<result property="productNo" column="productNo" />
+		<result property="reviewContent" column="reviewContent" />
 	</resultMap>
 
-	<select id="reviewList" resultMap="review">
-		select * from seeot_review 
-	</select>
 	<insert id="addReview">
-		insert into seeot_review(member_id, review_content, product_no, review_file,review_star)
+		insert into seeot_review(memberId, reviewContent, productNo, reviewFile,reviewStar)
 		values(#{memberId}, #{reviewContent} ,#{productNo},#{reviewFile},#{reviewStar})
 	</insert>
 	
 	<select id="getRepList" 
 		resultType="com.kg.seeot.board.dto.ReviewDTO">
-	select * from seeot_review where product_no=#{productNo} order by review_date desc
+	select * from seeot_review where productNo=#{productNo} order by reviewDate desc
+	</select>
+	
+	<!-- 리뷰 페이징용 상품별 글 가져오기 -->
+	<select id="getCount" resultType="Integer">
+	select count(*) from seeot_review where productNo=#{productNO}
+	</select>
+	
+	
+
+
+	<select id="reviewList" resultMap="review">
+		select * from seeot_review 
 	</select>
 
-
 	<insert id="saveData">
-		insert into seeot_review(member_id, review_content, product_no, review_file, review_star)
+		insert into seeot_review(memberId, reviewContent, productNo, reviewFile, reviewStar)
 		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar})
 	</insert>
 

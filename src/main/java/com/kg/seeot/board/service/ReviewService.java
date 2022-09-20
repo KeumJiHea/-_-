@@ -18,7 +18,6 @@ public interface ReviewService {
 	//public void addReview(ReviewDTO dto);
 	public  List<ReviewDTO> getRepList(int productNo);
 	
-	
 	 public void fileProcess(MultipartHttpServletRequest mul , int reviewStar
 			 				,int productNo);
 	

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body  onload="rePrint()">
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
@@ -108,6 +108,39 @@
 
 	} */
 	
+	/*리뷰 불러오기*/
+	function rePrint(){
+	$.ajax({
+		url:"../review/replyData", type:"get",
+		dataType :"json", //받아올 데이터 자료형
+		success : function( reviewData ){
+			
+			let html = ""
+		for( i=0; i<reviewData.length; i++){
+				let date = new Date( reviewData[i].reviewDate )
+				let wd = date.getFullYear()+"-";
+				wd += (date.getMonth()+1) + "-";
+				wd += date.getDate();
+				/*
+				wd += date.getHours()+"시";
+				wd += date.getMinutes()+"분";
+				wd += date.getSeconds()+"초";
+				*/
+				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
+				html += "<b>작성일 : </b>"+ wd+" &nbsp";
+				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
+				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
+				//html += "<b>이미지: </b>"+ reviewData[i].reviewFile+"<br>";
+				html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50'alt='이미지가 없습니다.' /><hr></div></div>";
+			}
+			$("#reply").html( html )
+			},
+		error: function(){alert("function error")}
+			
+	})
+	
+	
+}
 	</script>
 	
 	
@@ -195,6 +228,7 @@
 	<div id="proReview">
 	<h2>상품 후기</h2>
 	<hr>
+	<!-- 
 	<table border="1">
 		<tr>
 			<td>김**(kim*****) | 2022-08-24 | 평점 ★★★☆☆<br>후기1 입니다</td>
@@ -206,6 +240,10 @@
 		
 		</tr>
 	</table>
+	 -->
+	<div>
+	<div id="reply"></div>
+	</div>
 	</div><br><br>
 	
 	<div id="changeGuide">
