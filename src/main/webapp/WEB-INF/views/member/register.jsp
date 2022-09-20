@@ -26,7 +26,7 @@
 					<div class="tag-title">필수 입력</div>
 					<div class="field input_name required" >
 						<span>이름</span>
-						<input type="text" name="name" class="name">
+						<input type="text" name="name" class="name" maxlength="4">
 					</div>
 					<div class="field input_id required">
 						<span>아이디</span> 
@@ -101,11 +101,11 @@
 						</div>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" id="agreement01" checked>
+						<input type="checkbox" name="pointCheck" id="agreement01" checked>
 						<a href="#" class="required">쇼핑몰 이용약관에 동의합니다.</a>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" id="agreement02" checked>
+						<input type="checkbox" name="pointCheck2" id="agreement02" checked>
 						<a href="#" class="required">만 14세 이상입니다.</a>
 						<ul>
 							<li>만 14세 미만의 아동은 회원가입 시 법적대리인의 동의가 필요합니다.</li>
@@ -310,7 +310,13 @@
 	   }else if(!form.phone1.value && !form.phone2.value && !form.phone3.value){
 		   alert("전화번호를 입력해주세요");
 		   return;
-	   }
+	   }else if ($("input:checkbox[name=pointCheck]").is(":checked") != true) {
+           alert("쇼핑몰 이용약관에 동의해주세요");
+           return;
+       }else if ($("input:checkbox[name=pointCheck2]").is(":checked") != true) {
+           alert("쇼핑몰 이용약관에 동의해주세요");
+           return;
+       }
 	   else{
 	       form.action = "<%=request.getContextPath()%>/member/register";
 	       form.submit();

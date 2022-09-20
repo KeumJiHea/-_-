@@ -55,9 +55,8 @@ window.onload = function(){
 	document.getElementById('email2').value = Email[1];
 }
 </script>
+
 <script type="text/javascript">
-
-
 
 //필수 입력 체크
 
@@ -97,8 +96,7 @@ function modiChk(){
 	form.submit();
 	}
 }
-
-</script>
+</script> 
 
 <div class="members-wrapper myaccount">
     <h1 class="myaccount-title">마이페이지</h1>
