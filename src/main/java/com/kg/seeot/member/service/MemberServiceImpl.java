@@ -103,6 +103,43 @@ public class MemberServiceImpl implements MemberService{
 		
 		return 0;
 	}
+	public String id_find(String name, String email) {
+		
+		String result = "";
+		
+		try {
+			result = mapper.id_find(name,email);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return result;
+	}
+public String pw_find(String id, String email) {
+		
+		String result = "";
+		
+		try {
+			result = mapper.pw_find(id,email);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return result;
+	}
+public int change_pw(HttpServletRequest request,MemberDTO dto) {
+	
+	dto.setId(request.getParameter("id"));
+	String seq = en.encode(request.getParameter("pw"));
+	dto.setPw(seq);
+	
+	try {
+		return mapper.change_pw(dto);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return 0;
+}
 }
 
 

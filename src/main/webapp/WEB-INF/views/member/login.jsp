@@ -78,7 +78,7 @@ function kakaoLogin() {
                     <div class="login-checkbox">
                         <input type="checkbox" name="autoLogin"><label for="save_id">로그인 상태 유지</label>
                         <div class="util-menu">
-                            <a href="id_find">아이디</a> | <a href="#">비밀번호 찾기</a>
+                            <a href="id_find_form">아이디</a> | <a href="#">비밀번호 찾기</a>
                         </div>
                     </div>
                     <button type="button" class="button login-button" onclick="loginChk()">로그인</button>

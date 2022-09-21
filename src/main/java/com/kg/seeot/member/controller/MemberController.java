@@ -207,8 +207,6 @@ public class MemberController implements SessionName{
 		
 		int result = ms.modify(request,dto);
 		
-		System.out.println(result);
-		
 		//정보 수정 alert
 		if(1 == result) {
 			request.setAttribute("msg","정보 수정이 완료되었습니다");
@@ -219,13 +217,50 @@ public class MemberController implements SessionName{
 			request.setAttribute("url","info?id="+request.getParameter("id"));
 			return "member/alert";
 	}
-	@GetMapping("id_find")
-	public String id_find() {
-			return "member/id_find";
+	@GetMapping("id_find_form")
+	public String id_find_form() {
+			return "member/id_find_form";
 	}
-	@PostMapping("idchk")
-	public String idchk() {
-		return "";
+	
+	@RequestMapping(value = "/id_find",method = RequestMethod.POST)
+	@ResponseBody
+	public String id_find(@RequestParam("name") String name , @RequestParam("email") String email) {
+		
+		String result = ms.id_find(name, email);
+		
+		return result;
+	}
+	
+	@GetMapping("pw_find_form")
+	public String pw_find_form() {
+		return "member/pw_find_form";
+	}
+	
+	@RequestMapping(value = "/pw_find",method = RequestMethod.POST)
+	@ResponseBody
+	public String pw_find(@RequestParam("id") String id , @RequestParam("email") String email) {
+		
+		String result = ms.pw_find(id, email);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "change_pw" , method = RequestMethod.POST)
+	public String change_pw(HttpServletRequest request , MemberDTO dto) {
+		
+		int result = ms.change_pw(request,dto);
+		
+		System.out.println(result);
+		
+		//정보 수정 alert
+		if(1 == result) {
+			request.setAttribute("msg","비밀번호 설정이 완료되었습니다");
+			request.setAttribute("url","login");
+			return "member/alert";
+		}
+			request.setAttribute("msg","정보를 다시 확인해주세요");
+			request.setAttribute("url","pw_find_form");
+			return "member/alert";
 	}
 }
 
