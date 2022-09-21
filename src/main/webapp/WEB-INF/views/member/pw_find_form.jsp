@@ -62,7 +62,7 @@
 		else if(!passWordTest){
 			alert('비밀번호는 8~16 영문자 숫자, 특수문자 포함하여 입력해주세요');
 			pw_form.pw.value = "";
-			pw_form.pwchk.value = "";
+			pw_form.pwchk.value = ""; 
 			pw_form.pw.focus();
 			return;
 		}
