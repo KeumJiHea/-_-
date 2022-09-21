@@ -61,8 +61,8 @@
 <button class="list button" onclick="location.href='boardList'">목록으로</button>
 
 <c:if test="${dto.memberId == loginUser}">
-	<button class="modify button" onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
-	<button class="delete button" onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
+	<button class="modifyBoard button" onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
+	<button class="deleteBoard button" onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
 </c:if>
 </body>
 <script>
@@ -108,6 +108,8 @@
 						html += "<div class='replyWriter'>"+reply.memberName+"</div>";
 						html += "<div class='replyContent'>"+reply.replyContent+"</div>";
 						html += "<div class='replyDate'>"+reply.replyDate+"</div>";
+						html += "<button class='modifyReply' onclick='modifyReply("+reply.replyNo+")'>수정</button>";
+						html += "<button class='deleteReply' onclick='deleteReply("+reply.replyNo+")'>삭제</button>";
 						html += "</div>"
 						html += "<hr>"
 					});
@@ -115,6 +117,17 @@
 				$(".reply-list").html(html);
 			}
 			
+		})
+	}
+	
+	function modifyReply(replyNo){
+		console.log("댓글 수정")
+	}
+	function deleteReply(replyNo){
+		console.log("댓글 삭제")
+		$.ajax({
+			type: "DELETE",
+			url: 
 		})
 	}
 </script>

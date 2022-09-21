@@ -98,4 +98,11 @@
 	width: 88px;
 	height: 35px;
 }
+.modifyReply, .deleteReply{
+	background-color: white;
+	border: none;
+	color: rgb(33,33,33,0.8);
+	margin:0;
+	padding: 3px;
+}
 
