@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<body>
+<body onload="getReply()">
 <table class="board">
 	<tr>
 		<th>제목</th>
@@ -41,8 +41,8 @@
 		<label for="memberName">이름</label>
 		<input type="text" name="memberName" placeholder="비회원" readonly>
 		<br>
-		<textarea rows="5" cols="100" placeholder="로그인 시에만 댓글 작성이 가능합니다."></textarea>
-		<input type="button" value="작성">
+		<textarea placeholder="로그인 시에만 댓글 작성이 가능합니다."></textarea>
+		<input type="button" class="addReply" value="작성">
 	</c:if>
 	
 	<c:if test="${loginUser != null }">
@@ -51,17 +51,18 @@
 			<label for="memberName">이름</label>
 			<input type="text" name="memberName" id="memberName" value=${loginUser }>
 			<br>
-			<textarea name="replyContent" id="replyContent" rows="5" cols="100" placeholder="댓글을 입력해주세요."></textarea>
-			<button type="button" onclick="saveReply()">작성</button>
+			<textarea name="replyContent" class="repleContent" id="replyContent" rows="5" cols="100" placeholder="댓글을 입력해주세요."></textarea>
+			<button type="button" class="addReply" onclick="saveReply()">작성</button>
 		</form>
 	</c:if>
 </div>
+<div class="reply-list"></div>
 
-<button onclick="location.href='boardList'">목록으로</button>
+<button class="list button" onclick="location.href='boardList'">목록으로</button>
 
 <c:if test="${dto.memberId == loginUser}">
-	<button onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
-	<button onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
+	<button class="modify button" onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
+	<button class="delete button" onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
 </c:if>
 </body>
 <script>
@@ -70,11 +71,6 @@
 		const memberName = $('#memberName').val();
 		const replyContent = $('#replyContent').val();
 		const boardNo = ${dto.boardNo};
-		
-		console.log(memberId);
-		console.log(memberName);
-		console.log(replyContent);
-		console.log(boardNo);
 		
 		$.ajax({
 			type: "POST",
@@ -96,6 +92,29 @@
 	}
 	
 	function getReply(){
-		console.log("getReply 함수")
+		$.ajax({
+			type: "GET",
+			url: "http://localhost:8085/seeot/board/replyList/"+${dto.boardNo},
+			dataType: "json",
+			success: function(replyList){
+				console.log(replyList);
+				let html = "";
+				if(replyList.length == 0){
+					html = "등록된 댓글이 없습니다."
+				}else{
+					replyList.forEach((reply,index)=>{
+						console.log(reply,index);
+						html += "<div class='reply'>";
+						html += "<div class='replyWriter'>"+reply.memberName+"</div>";
+						html += "<div class='replyContent'>"+reply.replyContent+"</div>";
+						html += "<div class='replyDate'>"+reply.replyDate+"</div>";
+						html += "</div>"
+						html += "<hr>"
+					});
+				}
+				$(".reply-list").html(html);
+			}
+			
+		})
 	}
 </script>

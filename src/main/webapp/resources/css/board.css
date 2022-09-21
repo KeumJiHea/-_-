@@ -41,7 +41,7 @@
     width: 50px;
 }
 
-button{
+.button{
 	display: inline-block;
 	float: right;
 	margin: 10px;
@@ -73,5 +73,29 @@ button{
 
 .board th{
 	width: 100px;
+}
+
+.repleContent{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 8px;
+	resize: none;
+	overflow:visible;
+}
+.repleContent::focus{
+	border-color: rgb(33,33,33,0.8);
+}
+#memberName{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 5px;
+	margin: 10px;
+}
+.addReply{
+	margin: 10px;
+	width: 88px;
+	height: 35px;
 }
 

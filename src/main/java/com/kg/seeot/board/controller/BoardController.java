@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +16,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.board.dto.ReplyDTO;
 import com.kg.seeot.board.service.BoardFileService;
 import com.kg.seeot.board.service.BoardService;
+import com.kg.seeot.common.SessionName;
 
 @Controller
 @RequestMapping("board")
-public class BoardController {
+public class BoardController{
 	@Autowired
 	BoardService bs;
 	@Autowired
@@ -95,9 +100,18 @@ public class BoardController {
 		in.close();
 	}
 
-	@PostMapping(value="reply", produces = "application/json;charset=utf8")
-	public void addReply(@RequestBody Map<String, String> map){
+	@PostMapping(value="reply", 
+				produces = "application/json;charset=utf8")
+	@ResponseBody
+	public void reply(@RequestBody Map<String, String> map){
+		System.out.println(map);
 		bs.addReply(map);
+	}
+	
+	@GetMapping(value="replyList/{boardNo}", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public ArrayList<ReplyDTO> replyList(@PathVariable int boardNo){
+		return bs.getReplyList(boardNo);
 	}
 
 }

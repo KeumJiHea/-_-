@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.kg.seeot.board.dto.BoardDTO;
 import com.kg.seeot.board.dto.FileDTO;
+import com.kg.seeot.board.dto.ReplyDTO;
 
 public interface BoardMapper {
 	public ArrayList<BoardDTO> boardList(@Param("startPage") int startPage,@Param("endPage") int endPage); //게시글 리스트
@@ -19,5 +20,6 @@ public interface BoardMapper {
 	public int delete(int boardNo); //게시글 삭제
 	public void deleteImage(String image); //게시글에 딸린 파일 삭제
 	public Integer boardCount(); //페이징용 게시글 수 count
-	public void addReply(Map<String, String> map);
+	public void addReply(Map<String, String> map); //게시글 댓글 작성
+	public ArrayList<ReplyDTO> getReplyList(int boardNo); //게시글 댓글 가져오기
 }

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.board.dto.BoardDTO;
 import com.kg.seeot.board.dto.FileDTO;
+import com.kg.seeot.board.dto.ReplyDTO;
 import com.kg.seeot.mybatis.board.BoardMapper;
 
 @Service
@@ -174,5 +175,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	public void addReply(Map<String, String> map) {
 		mapper.addReply(map);
+	}
+	
+	public ArrayList<ReplyDTO> getReplyList(int boardNo){
+		return mapper.getReplyList(boardNo);
 	}
 }
