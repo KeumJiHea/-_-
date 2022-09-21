@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body onload="rePrint()">
-상품후기 == 완성하면 페이지 삭제예정
+<h4>상품후기</h4> 
 <hr>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -17,13 +17,10 @@
 function rePrint(){
 	$.ajax({
 		url:"replyData", type:"get",
+		
 		dataType :"json",
 		success : function( reviewData ){
-			if(reviewData){
-				alert("reviewdata 불러오기 성공")
-			}else{
-				alert("reviewdata 실패")
-			}
+			
 			console.log("data: "+ JSON.stringify(reviewData) )
 			
 
@@ -34,13 +31,26 @@ function rePrint(){
 				wd += (date.getMonth()+1) + "월";
 				wd += date.getDate()+"일";
 				
+				//html += "<b>no: </b>"+reviewData[i].reviewNo+"<br>"+;
 				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
-				//html += "<b>이미지: </b>"+ reviewData[i].reviewFile+"<br>";
-				html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50'alt='이미지가 없습니다.' /><hr></div></div>";
-			}
+				
+				
+				if(reviewData[i].reviewFile != 'nan'){
+					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50'alt='이미지가 없습니다.' /></div>";
+				}
+				/*	유저 일치 if문 오류 고치기
+				if(${sessionScope.loginUser} ==  reviewData[i].memberId){}*/
+					html+= "<div>"+"<a href=delete?reviewno="+reviewData[i].reviewNo+">삭제</a>"+"</div>"
+					html+= "<div>"+"<a href=modify?>수정</a>"+"</div>"
+				
+			
+				
+				html+= "<hr></div>";
+				//html += "<div align='left'>"++"</div>"
+		}
 			$("#reply").html( html )
 			},
 		error: function(){alert("function error")}
@@ -51,9 +61,9 @@ function rePrint(){
 }
 </script>
 
-<div id="reply"></div>
+<div id="reply"> </div>
 
-<input type="button" id="data" value="button" onclick="rePrint()">
+
 
 
 </body>

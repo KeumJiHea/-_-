@@ -16,10 +16,11 @@ public interface ReviewService {
 	//		HttpServletRequest request);
 	public void addReply(Map<String, String>map, String memberId);
 	//public void addReview(ReviewDTO dto);
-	public  List<ReviewDTO> getRepList(int productNo);
+	public  List<ReviewDTO> getRepList(Model model,int productNo , int num);
+	public  List<ReviewDTO> getRepList1(int productNo);
 	
 	 public void fileProcess(MultipartHttpServletRequest mul , int reviewStar
 			 				,int productNo);
 	
-
+	 public void delete(int reviewNo);
 }

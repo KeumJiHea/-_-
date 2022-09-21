@@ -74,6 +74,20 @@ public class ReviewController {
 		in.close();
 	}
 	
+	@GetMapping("delete")
+	public String delete(int reviewNo) {
+		System.out.println("cotm" +reviewNo);
+		//rs.delete(reviewNo);
+		
+		return "review/reviewPrint";
+	}
+	
+	
+	@GetMapping("print")
+	public String print(Model model) {
+		//rs.reviewList(model);
+		return "review/print";
+	}
 }
 
 

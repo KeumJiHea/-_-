@@ -6,6 +6,7 @@
 	<resultMap type="com.kg.seeot.board.dto.ReviewDTO"
 		id="review">
 		<id property="memberId" column="memberId" />
+		<result property="reviewNo" column="reviewNo" />
 		<result property="reviewDate" column="reviewDate" />
 		<result property="reviewFile" column="reviewFile" />
 		<result property="reviewStar" column="reviewStar" />
@@ -23,12 +24,19 @@
 	select * from seeot_review where productNo=#{productNo} order by reviewDate desc
 	</select>
 	
-	<!-- 리뷰 페이징용 상품별 글 가져오기 -->
+	<!-- 리뷰 페이징용 상품별 글 수 가져오기 -->
 	<select id="getCount" resultType="Integer">
-	select count(*) from seeot_review where productNo=#{productNO}
+	select count(*) from seeot_review where productNo=#{productNo}
 	</select>
 	
+	<select id="reviewPage" resultMap="review">
 	
+	select B.* from
+	(select rownum rn, A.* from
+	(select * from seeot_review where productNo=#{productNo} order by reviewDate desc)A)B
+	where rn between #{s} and #{e}
+	
+	</select>
 
 
 	<select id="reviewList" resultMap="review">
@@ -36,10 +44,13 @@
 	</select>
 
 	<insert id="saveData">
-		insert into seeot_review(memberId, reviewContent, productNo, reviewFile, reviewStar)
-		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar})
+		insert into seeot_review(memberId, reviewContent, productNo, reviewFile, reviewStar, reviewNo)
+		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar}, #{reviewNo})
 	</insert>
-
+	
+	<delete id="delete">
+	 delete from seeot_review where reviewNO=#{reviewNo}
+	</delete>
 
 
 

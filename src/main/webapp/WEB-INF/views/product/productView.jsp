@@ -108,10 +108,14 @@
 
 	} */
 	
-	/*리뷰 불러오기*/
+	/*리뷰 불러오기*///var reviewFile = $("input[name='reviewFile']")
 	function rePrint(){
+		
+		
 	$.ajax({
+
 		url:"../review/replyData", type:"get",
+		
 		dataType :"json", //받아올 데이터 자료형
 		success : function( reviewData ){
 			
@@ -130,9 +134,17 @@
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
-				//html += "<b>이미지: </b>"+ reviewData[i].reviewFile+"<br>";
-				html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50'alt='이미지가 없습니다.' /><hr></div></div>";
+				if(reviewData[i].reviewFile != 'nan'){
+					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
+				}
+				
+				html+= "<div>"+"<a href=delete?rn=>삭제</a>"+"  &nbsp ";
+				html+= "<a href=modify?>수정</a>"+"</div>";
+			
+				
+				html+= "<hr></div>";
 			}
+			html+="<a href=../review/reviewPrint?productNo=${pdto.productNo}>후기더보기";
 			$("#reply").html( html )
 			},
 		error: function(){alert("function error")}
@@ -242,6 +254,8 @@
 	</table>
 	 -->
 	<div>
+	<input type="hidden" value="${pdto.productNo }" name="productNo">
+	
 	<div id="reply"></div>
 	</div>
 	</div><br><br>

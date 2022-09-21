@@ -34,8 +34,35 @@ public class ReviewServiceImpl implements ReviewService {
 		mapper.addReply(map);
 	}
 
-	public List<ReviewDTO> getRepList(int productNo){
-		//System.out.println("serviceImpl");
+	public List<ReviewDTO> getRepList(Model model, int productNo , int num){
+		System.out.println("serviceImpl");
+		//System.out.println(productNo);
+		
+		int pageLetter = 5;
+		int allCount = mapper.getCount(productNo);
+		
+		System.out.println(allCount);
+		
+		int repeat = allCount / pageLetter;
+		if( allCount % pageLetter != 0 )
+			repeat += 1;
+		
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		
+		System.out.println(repeat);
+		System.out.println(start);
+		System.out.println(end);
+		
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("page", mapper.reviewPage(productNo, start, end ));
+		return mapper.reviewPage(productNo, start, end );
+		//return mapper.getRepList( productNo );
+	}
+	
+	
+	public List<ReviewDTO> getRepList1(int productNo){
+		System.out.println("serviceImpl");
 		//System.out.println(productNo);
 		
 		return mapper.getRepList( productNo );
@@ -61,7 +88,7 @@ public class ReviewServiceImpl implements ReviewService {
 			while(fileNames.hasNext()) {
 				MultipartFile file = mul.getFile(fileNames.next());
 				
-				System.out.println(file.getOriginalFilename());
+				//System.out.println(file.getOriginalFilename());
 			
 		//MultipartFile file = mul.getFile("reviewFile"); //꺼내와야함
 		
@@ -88,7 +115,9 @@ public class ReviewServiceImpl implements ReviewService {
 		mapper.saveData( dto );
 	}
 	
-	
+	 public void delete(int reviewNo) {
+		 mapper.delete(reviewNo);
+	 }
 	
 	
 	

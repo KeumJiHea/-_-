@@ -29,16 +29,23 @@ public class ReviewRepController {
 	/*댓글가져오기용*/
 	
 	@GetMapping(value = "replyData", produces="application/json;charset=utf8")
-	public List<ReviewDTO> replyData(//@PathVariable int productNo
-						){
+	public List<ReviewDTO> replyData(//@PathVariable int productNo,
+			Model model,@RequestParam(value="num", required=false, defaultValue="1") int num 				){
 		//System.out.println("reviewRepController");
 		int productNo = 10001;
-	
-		return  rs.getRepList(productNo);
+		System.out.println(productNo +","+ num);
+		return  rs.getRepList(model,productNo , num);
 	}
 
 	
-	
+	@GetMapping(value = "replyData1", produces="application/json;charset=utf8")
+	public List<ReviewDTO> replyData(//@PathVariable int productNo
+			){
+		//System.out.println("reviewRepController");
+		int productNo = 10001;
+		
+		return  rs.getRepList1(productNo );
+	}
 
 }
 
