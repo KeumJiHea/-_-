@@ -103,7 +103,7 @@ public class OrderController {
 	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
 	@PostMapping(value = "cancel", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public void cancel(HttpSession session,HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
+	public void cancel(HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
 		String orderNo = (String) data.get("merchant_uid");
 		reason = (String) data.get("reason");
 		
@@ -111,13 +111,43 @@ public class OrderController {
 	}
 	
 	@GetMapping("orderadmin")
-	public String orderadmin(Model model) {
+	public String orderadmin(Model model,HttpServletRequest request) {
+		model.getAttribute("cdto");
+		System.out.println("cdto : "+model.getAttribute("cdto"));
 		OrderDTO odto = new OrderDTO();
-		os.getAllOrders(model);
+		os.getAllOrders(request,model);
 		return "/order/orderadmin";
 	}
 	
+	@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void cancelchk(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
+		memberId = (String) map.get("memberId");
+		orderNo = (String)map.get("orderNo");		
+		os.getCancel(request, model, memberId, orderNo);
+	}
 	
+	@PostMapping(value = "cancelOk", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void cancelOk(HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
+		String orderNo = (String) data.get("merchant_uid");
+		os.cancel(request, orderNo, memberId, reason);
+	}
+	
+	@PostMapping(value = "delevery",produces = "application/json; charset=utf-8" )
+	@ResponseBody
+	public void delevery(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
+		memberId = (String) map.get("memberId");
+		orderNo = (String) map.get("orderNo");
+		os.doDelevery(orderNo);
+	}
+	@PostMapping(value = "enddelevery",produces = "application/json; charset=utf-8" )
+	@ResponseBody
+	public void enddelevery(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
+		memberId = (String) map.get("memberId");
+		orderNo = (String) map.get("orderNo");
+		os.endDelevery(orderNo);
+	}
 	
 	
 	//test용

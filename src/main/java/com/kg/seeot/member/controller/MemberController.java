@@ -62,6 +62,8 @@ public class MemberController implements SessionName{
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
 		if(id.equals("admin")) {
+			session.setAttribute(LOGIN, id);
+			session.setMaxInactiveInterval(24*60*60);
 			return "admin/admin";
 		}
 

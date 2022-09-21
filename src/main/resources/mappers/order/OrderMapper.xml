@@ -37,6 +37,12 @@
 		<result property="hiProductPrice" column="hiproduct_price"/>
 	</resultMap>
 	
+	<resultMap type="com.kg.seeot.order.dto.CancelDTO" id="cdto">
+		<result property="memberId" column="member_id"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="reason" column="reason"/>
+	</resultMap>
+	
  	<insert id="addOrder">
 		insert into goods_order(order_no,product_no,member_id,order_price,order_addr1,order_addr2,product_name,product_file,product_price,order_stack,product_size,product_color) 
 			values(#{orderNo},#{productNo},#{memberId},#{orderPrice},#{orderAddr1},#{orderAddr2},#{productName},#{productFile},#{productPrice},#{orderStack},#{productSize},#{productColor})
@@ -63,40 +69,51 @@
 		select * from goods_order order by order_date DESC
 	</select>
 	
+	<insert id="addcancel_1">
+		insert into cancel member_id=#{m}, order_no=#{o} and reason=#{r}
+	</insert>
+	
+	<delete id="addcancel_2">
+	DELETE FROM cancel a WHERE ROWID > (SELECT MIN(ROWID) FROM cancel b WHERE b.#{orderNo} = a.#{orderNo});
+	</delete>
+	
+	<select id="getcancel" resultMap="cdto">
+		select * from cancel where member_id=#{m} and order_no=#{o}
+	</select>
 	
 	<!-- 취소중 -->
 	<update id="changehiStatus_canceling">
-		update order_history set hiorder_status=0 where himember_id={m} and hiorder_status=1
+		update order_history set hiorder_status=0 where himember_id=#{m} and hiorder_status=1 and order_no=#{o}
 	</update>
 	<!-- 취소됨 -->
 	<update id="changehiStatus_canceled">
-		update order_history set hiorder_status=-1 where himember_id={m} and hiorder_status=0
+		update order_history set hiorder_status=-1 where hiorder_status=0 and hiorder_no=#{orderNo}
 	</update>
 	<!-- 배송중 -->
 	<update id="changehiStatus_deliverying">
-		update order_history set hiorder_status=2 where himember_id={m} and hiorder_status=1
+		update order_history set hiorder_status=2 where hiorder_no=#{orderNo} and hiorder_status=1
 	</update>
 	<!-- 배송완 -->
 	<update id="changehiStatus_finish">
-		update order_history set hiorder_status=3 where himember_id={m} and hiorder_status=2
+		update order_history set hiorder_status=3 where hiorder_no=#{orderNo} and hiorder_status=2
 	</update>
 	
 	
 	<!-- 취소중 -->
 	<update id="changeStatus_canceling">
-		update goods_order set order_status=0 where member_id={m} and order_status=1 and order_no={o}
+		update goods_order set order_status=0 where member_id=#{m} and order_status=1 and order_no=#{o}
 	</update>
 	<!-- 취소됨 -->
 	<update id="changeStatus_canceled">
-		update goods_order set order_status=-1 where member_id={m} and order_status=0 and order_no={o}
+		update goods_order set order_status=-1 where order_status=0 and order_no=#{orderNo}
 	</update>
 	<!-- 배송중 -->
 	<update id="changeStatus_deliverying">
-		update goods_order set order_status=2 where member_id={m} and order_status=1 and order_no={o}
+		update goods_order set order_status=2 where order_status=1 and order_no=#{orderNo}
 	</update>
 	<!-- 배송완 -->
 	<update id="changeStatus_finish">
-		update goods_order set order_status=3 where member_id={m} and order_status=2 and order_no={o}
+		update goods_order set order_status=3 where order_status=2 and order_no=#{orderNo}
 	</update>
 	
 </mapper>

@@ -18,6 +18,7 @@ import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.dto.ProductOrderDTO;
 import com.kg.seeot.member.service.MemberService;
 import com.kg.seeot.mybatis.order.OrderMapper;
+import com.kg.seeot.order.dto.CancelDTO;
 import com.kg.seeot.order.dto.OrderDTO;
 import com.kg.seeot.order.dto.OrderHistoryDTO;
 
@@ -78,23 +79,62 @@ public class OrderServiceImpl implements OrderService{
 	public void cancel(HttpServletRequest request,String orderNo, String memberId,String reason) {
 		HttpSession session = request.getSession();
 		memberId = (String)session.getAttribute("loginUser");
-		System.out.println("orderNo : "+orderNo);
-		System.out.println("memberId : "+memberId);
-		System.out.println("reason : "+reason);
-		Map<String,String> map = new HashMap<String, String>();
-		map.put("orderNo", orderNo);
-		map.put("memberId", memberId);
-		map.put("reason", reason);
-		session.setAttribute("cancel", map);
-		//om.changeStatus_canceling(orderNo, memberId);
+		String admin = "admin";
+		if(memberId.equals(admin)) {
+			om.changeStatus_canceled(orderNo);
+			om.changehiStatus_canceled(orderNo);
+		}else {
+			System.out.println("orderNo : "+orderNo);
+			System.out.println("memberId : "+memberId);
+			System.out.println("reason : "+reason);
+			Map<String,String> map = new HashMap<String, String>();
+			map.put("orderNo", orderNo);
+			map.put("memberId", memberId);
+			map.put("reason", reason);
+			session.setAttribute("cancel", map);
+			om.changeStatus_canceling(orderNo, memberId);	
+			om.addcancel_1(memberId, orderNo, reason);
+			om.addcancel_2(orderNo);
+			
+		}
+		
+		
 	}
 	
 	@Override
-	public ArrayList<OrderDTO> getAllOrders(Model model) {
+	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
 		list =  om.getAllOrders();
 		model.addAttribute("list",list);
+		HttpSession session = request.getSession();
+		
+		System.out.println("cancel session "+session.getAttribute("cancel"));
+		Map map = (Map) session.getAttribute("cancel");
+		if(map!=null) {
+			String reason = (String) map.get("reason");
+			String orderNo = (String) map.get("orderNo");
+			String memberId = (String) map.get("memberId");
+			model.addAttribute("cancel",map);			
+		}
+		
 		return list;
+	}
+	
+	@Override
+	public void getCancel(HttpServletRequest request,Model model,String memberId, String orderNo) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginUser").equals("admin")) {
+			CancelDTO cdto = new CancelDTO();
+			cdto = om.getcancel(memberId, orderNo);
+			String reason = cdto.getReason();
+			memberId = cdto.getMemberId();
+			orderNo = cdto.getOrderNo();					
+			System.out.println(memberId);
+			System.out.println(orderNo);
+			System.out.println(reason);
+			session.setAttribute("reason", reason);
+		}
+		
 	}
 
 	@Override
@@ -109,6 +149,18 @@ public class OrderServiceImpl implements OrderService{
 		System.out.println("memberId : "+memberId);
 		om.getOrders(memberId);
 		
+	}
+
+	@Override
+	public void doDelevery(String orderNo) {
+		om.changeStatus_deliverying(orderNo);
+		om.changehiStatus_deliverying(orderNo);
+	}
+	
+	@Override
+	public void endDelevery(String orderNo) {
+		om.changeStatus_finish(orderNo);
+		om.changehiStatus_finish(orderNo);
 	}
 	
 	
