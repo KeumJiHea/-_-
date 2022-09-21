@@ -83,7 +83,7 @@
 					$(".paging").html(paging);
 				}
 				
-				$.ajax({
+				 $.ajax({
 					url: "Testprolist?productCategorie=" + productCategorie,
 					type: "post",
 					data: {
@@ -100,7 +100,7 @@
 						console.log("전체 리스트  :" + list)
 						
 						let html = "";
-						
+						if(list.length != 0) {
 						for(i=0; i<list.length; i++) {
 							html += "<div class='product'>";
 							html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
@@ -108,6 +108,10 @@
 							html += "<span><b>" + list[i].productName + "</b></span><br>";
 							html += "<span><b>" + list[i].productPrice + "</b></span></a>";
 							html += "</div>";
+							$(".wrapper").html(html);
+						}
+						}else{
+							html += "<div><b>일치하는 상품이 없습니다.<b></div>";
 							$(".wrapper").html(html);
 						}
 					}
@@ -146,7 +150,9 @@
 		<input type="checkbox" name="Color" value="RED"> RED
 		<input type="checkbox" name="Color" value="GREEN"> GREEN
 		<input type="checkbox" name="Color" value="BLUE"> BLUE
+		<input type="checkbox" name="Color" value="IVORY"> IVORY
 		<input type="checkbox" name="Color" value="BLACK"> BLACK
+		<input type="checkbox" name="Color" value="WHITE"> WHITE
 		<hr>
 		가격범위
 		<input type="checkbox" name="Price" value="PR1">1만원이하

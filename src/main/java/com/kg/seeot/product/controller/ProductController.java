@@ -221,7 +221,7 @@ public class ProductController {
 	@PostMapping(value = "TestallCount", produces = "application/json;charset=utf8")
 	@ResponseBody
 	public int TestallCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
-				@RequestParam(value="chkColor_arr[]", required = false, defaultValue = "Nan") String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false, defaultValue = "Nan") String[] chkPrice_arr) {
+				@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
 		
 		return ps.TestallCount(productCategorie, chkColor_arr, chkPrice_arr);
 	}
@@ -229,7 +229,7 @@ public class ProductController {
 	@PostMapping(value = "Testprolist", produces = "application/json;charset=utf8")
 	@ResponseBody
 	public List<ProductDTO> Testprolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
-			@RequestParam(value="chkColor_arr[]", required = false, defaultValue = "Nan") String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false, defaultValue = "Nan") String[] chkPrice_arr) {
+			@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
 		String orderBy = request.getParameter("orderBy");
 		int num = Integer.parseInt(request.getParameter("num"));
 		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
