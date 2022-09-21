@@ -36,6 +36,14 @@
 		select * from product where product_no = #{productNo}
 	</select>
 	
+	<select id="productNoList" resultMap="product">
+		select * from product where product_no = #{productNo}
+	</select>
+	
+	<select id="productNameList" resultMap="product">
+		select * from product where UPPER(product_name) like UPPER('%' || #{productName} || '%')
+	</select>
+	
 	<select id="managementSize" resultMap="product_management">
 		select distinct product_size from product_management where product_no = #{productNo}
 	</select>
@@ -79,65 +87,6 @@
 	</update>
 	
 	<select id="allCount" resultType="Integer">
-		select count(*) from product 
-			<if test="productCategorie != 0">
-				where product_categorie = #{productCategorie} 
-			</if>
-		 	<choose>
- 				<when test="orderBy.equals('redate')">
-					order by product_date desc
-				</when>
-				<when test="orderBy.equals('hprice')">
-					order by product_price desc, product_date desc
-				</when>
-		 		<when test="orderBy.equals('lprice')">
-					order by product_price asc, product_date desc
-				</when>
-				<when test="orderBy.equals('rating')">
-					order by product_rating desc, product_date desc
-				</when>
-				<when test="orderBy.equals('review')">
-					order by review_count desc, product_date desc
-				</when>
-			</choose>
-	</select>
-	
-	<select id="proList" resultMap="product">
-		select B.* from(select rownum rn, A.* from(select * from product 
-			<if test="productCategorie != 0">
-				where product_categorie = #{productCategorie} 
-			</if>
-		 	<choose>
- 				<when test="orderBy.equals('redate')">
-					order by product_date desc
-				</when>
-				<when test="orderBy.equals('hprice')">
-					order by product_price desc, product_date desc
-				</when>
-		 		<when test="orderBy.equals('lprice')">
-					order by product_price asc, product_date desc
-				</when>
-				<when test="orderBy.equals('rating')">
-					order by product_rating desc, product_date desc
-				</when>
-				<when test="orderBy.equals('review')">
-					order by review_count desc, product_date desc
-				</when>
-			</choose>
-		)A)B where rn between #{start} and #{end}
-	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<select id="TestallCount" resultType="Integer">
 		<if test="chkColor_arr == null">
 			select count(*) from product
 				<if test="productCategorie != 0">
@@ -260,7 +209,7 @@
 		</if>
 	</select>
 	
-	<select id="Testprolist" resultMap="product">
+	<select id="prolist" resultMap="product">
 			<if test="chkColor_arr == null">
 			select B.* from(select rownum rn, A.* from(select * from product 
 				<if test="productCategorie != 0">

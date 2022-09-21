@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tiles.request.Request;
+import org.apache.velocity.runtime.directive.Parse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,18 +43,30 @@ public class ProductController {
 	@Autowired
 	ProductService ps;
 	
-	@Autowired
-	ReviewService rs;
-	
 	//상품 전체 리스트 및 카테고리 리스트 출력
 	@GetMapping("list")
-	public String list(Model model, @RequestParam(value="productCategorie", required = false, defaultValue = "0")  int productCategorie) {
-		if(productCategorie == 0) {
-			ps.allList(model);
-		}else {
-			ps.list(model, productCategorie);
-		}
+	public String list() {
 		return "product/list";
+	}
+	
+	//해당 카테고리 전체 상품 수
+	@PostMapping(value = "allCount", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public int allCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
+				@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
+		
+		return ps.allCount(productCategorie, chkColor_arr, chkPrice_arr);
+	}
+	
+	//list 페이지에 보여질 상품
+	@PostMapping(value = "prolist", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
+			@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
+		String orderBy = request.getParameter("orderBy");
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+		return ps.prolist(orderBy, productCategorie, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	
 	//상품 이미지 로드
@@ -110,6 +123,7 @@ public class ProductController {
 	@PostMapping("productModify")
 	public void productModify(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String message = ps.productModify(mul, request);
+		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(message);
@@ -173,67 +187,30 @@ public class ProductController {
 	}
 	
 	//상품 전체 리스트 및 카테고리 리스트 출력
-	@GetMapping("list2")
-	public String list2(Model model, @RequestParam(value="productCategorie", required = false, defaultValue = "0")  int productCategorie) {
-		if(productCategorie == 0) {
-			ps.allList(model);
-		}else {
+	@GetMapping("productList")
+	public String productList(Model model) {
+		ps.allList(model);
+		return "admin/productList";
+	}
+	
+	@PostMapping("searchProduct")
+	public String searchProduct(Model model, @RequestParam(value="search") String search, @RequestParam(value="val") String val) {
+		System.out.println(search);
+		switch(search) {
+		case "productNo":
+			int productNo = Integer.parseInt(val);
+			ps.productNoList(model, productNo);
+			break;
+		case "productName":
+			String productName = val;
+			ps.productNameList(model, productName);
+			break;
+		case "productCategorie":
+			int productCategorie = Integer.parseInt(val);
 			ps.list(model, productCategorie);
+			break;
 		}
-		return "product/list2";
-	}
-	
-	@GetMapping("list3")
-	public String list3() {
-		return "product/list3";
-	}
-	
-	@GetMapping("list4")
-	public String list4() {
-		return "product/list4";
-	}
-	
-	// 해당 카테고리 전체 상품 수
-	@PostMapping(value = "allCount", produces = "application/json;charset=utf8")
-	@ResponseBody
-	public int allCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
-		String orderBy = request.getParameter("orderBy");
-		return ps.allCount(orderBy, productCategorie);
-	}
-	
-	// list 페이지에 보여질 상품
-	@PostMapping(value = "prolist", produces = "application/json;charset=utf8")
-	@ResponseBody
-	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie) {
-		String orderBy = request.getParameter("orderBy");
-		int num = Integer.parseInt(request.getParameter("num"));
-		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-		return ps.prolist(orderBy, productCategorie, num, pageViewProduct);
-	}
-	
-
-	
-	
-	
-	
-	
-	
-	@PostMapping(value = "TestallCount", produces = "application/json;charset=utf8")
-	@ResponseBody
-	public int TestallCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
-				@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
-		
-		return ps.TestallCount(productCategorie, chkColor_arr, chkPrice_arr);
-	}
-	
-	@PostMapping(value = "Testprolist", produces = "application/json;charset=utf8")
-	@ResponseBody
-	public List<ProductDTO> Testprolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
-			@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
-		String orderBy = request.getParameter("orderBy");
-		int num = Integer.parseInt(request.getParameter("num"));
-		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-		return ps.Testprolist(orderBy, productCategorie, num, pageViewProduct, chkColor_arr, chkPrice_arr);
+		return "admin/productList";
 	}
 	
 }

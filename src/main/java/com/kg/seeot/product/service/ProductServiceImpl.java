@@ -33,6 +33,14 @@ public class ProductServiceImpl implements ProductService{
 		model.addAttribute("list", mapper.list(productCategorie));
 	}
 	
+	public void productNameList(Model model, String productName) {
+		model.addAttribute("list", mapper.productNameList(productName));
+	}
+	
+	public void productNoList(Model model, int productNo) {
+		model.addAttribute("list", mapper.productNoList(productNo));
+	}
+	
 	public void productView(Model model, int productNo) {
 		model.addAttribute("pdto", mapper.productView(productNo));
 		model.addAttribute("mslist", mapper.managementSize(productNo));
@@ -77,7 +85,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		if( presult == 1 && mresult == 1) { //상품 등록 성공시
 			msg = "상품이 등록되었습니다.";
-			url = request.getContextPath() + "/product/list";
+			url = request.getContextPath() + "/product/productList";
 		}else { //상품 등록 실패시
 			msg = "상품 등록에 실패하였습니다.";
 			url = request.getContextPath() + "/product/productRegister";
@@ -95,7 +103,7 @@ public class ProductServiceImpl implements ProductService{
 		if( result == 1) {
 			pfs.deleteImage(productFile);
 			msg = "상품이 삭제되었습니다.";
-			url = request.getContextPath() + "/product/list";
+			url = request.getContextPath() + "/product/productList";
 		} else {
 			msg = "상품 삭제에 실패하였습니다.";
 			url = request.getContextPath() + "productView?productNo=" + productNo;
@@ -114,14 +122,21 @@ public class ProductServiceImpl implements ProductService{
 		dto.setProductCategorie(Integer.parseInt(mul.getParameter("productCategorie")));
 		dto.setProductName(mul.getParameter("productName"));
 		dto.setProductPrice(Integer.parseInt(mul.getParameter("productPrice")));
-		dto.setProductContent(mul.getParameter("productContent"));
 		
-		MultipartFile file = mul.getFile("productFile");
-		if( file.getSize() != 0) {
-			dto.setProductFile(pfs.saveFile(file));
+		MultipartFile file1 = mul.getFile("productFile");
+		if( file1.getSize() != 0) {
+			dto.setProductFile(pfs.saveFile(file1));
 			pfs.deleteImage(mul.getParameter("originProductFile"));
 		} else {
 			dto.setProductFile(mul.getParameter("originProductFile"));
+		}
+		
+		MultipartFile file2 = mul.getFile("productContent");
+		if( file2.getSize() != 0) {
+			dto.setProductContent(pfs.saveFile(file2));
+			pfs.deleteImage(mul.getParameter("originProductContent"));
+		} else {
+			dto.setProductContent(mul.getParameter("originProductContent"));
 		}
 		
 		int result = mapper.productModify( dto );
@@ -203,42 +218,15 @@ public class ProductServiceImpl implements ProductService{
 		return mapper.managementModify_Form(productNo, productSize, productColor);
 	}
 	
-	public int allCount(String orderBy, int productCategorie) {
-		System.out.println("all 카테고리 값 : " + productCategorie);
-		System.out.println("all 정렬 값 : " + orderBy);
-		
-		return mapper.allCount(orderBy, productCategorie);
-	}
-	
-	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct) {
-		System.out.println("list 카테고리 값 : " + productCategorie);
-		System.out.println("list 정렬 값 : " + orderBy);
-		System.out.println("list 페이징 num 값 : " + num);
-		System.out.println("list 보일 상품의 수 : " + pageViewProduct);
-		
-		int end = num * pageViewProduct;
-		int start = end + 1 - pageViewProduct;
-		System.out.println("start : " +  start);
-		System.out.println("end : " + end);
-		return mapper.proList(orderBy, productCategorie, start, end);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	public int TestallCount(int productCategorie, String[] chkColor_arr, String[] chkPrice_arr) {
+	public int allCount(int productCategorie, String[] chkColor_arr, String[] chkPrice_arr) {
 		System.out.println("1. all 카테고리 값 : " + productCategorie);
 		System.out.println("1. all 컬러 - chkColor_arr : " + chkColor_arr);
 		System.out.println("1. all 가격 - chkPrice_arr : " + chkPrice_arr);
 		
-		return mapper.TestallCount(productCategorie, chkColor_arr, chkPrice_arr);
+		return mapper.allCount(productCategorie, chkColor_arr, chkPrice_arr);
 	}
 	
-	public List<ProductDTO> Testprolist(String orderBy, int productCategorie, int num, int pageViewProduct, String[] chkColor_arr, String[] chkPrice_arr) {
+	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct, String[] chkColor_arr, String[] chkPrice_arr) {
 		System.out.println("2. list 카테고리 값 : " + productCategorie);
 		System.out.println("2. list 정렬 값 : " + orderBy);
 		System.out.println("2. list 페이징 num 값 : " + num);
@@ -252,7 +240,7 @@ public class ProductServiceImpl implements ProductService{
 		System.out.println("start : " +  start);
 		System.out.println("end : " + end);
 		System.out.println("------------------------------------");
-		return mapper.Testprolist(orderBy, productCategorie, start, end, chkColor_arr, chkPrice_arr);
+		return mapper.prolist(orderBy, productCategorie, start, end, chkColor_arr, chkPrice_arr);
 	}
 	
 }

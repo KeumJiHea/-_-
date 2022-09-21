@@ -123,7 +123,7 @@
 		
 		<hr>
 		<button type="button" onclick="chkData()">상품 등록</button>
-		<button type="button" onclick="location.href='list'">등록 취소</button>
+		<button type="button" onclick="location.href='productList'">등록 취소</button>
 	</form>
 
 <!-- 	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
