@@ -17,6 +17,7 @@
 	        justify-content: space-between;
 	        background-color: #ddd;
 	        margin: 5px;
+	        
 	    }
 	</style>
 </head>
@@ -78,10 +79,22 @@
 					repeat += 1;
 				}
 				
+				if(num == 1) {
+					paging += "<button onclick='javascript:pagingNum(1)' disabled> 처음으로 </button>"
+				}else {
+					paging += "<button onclick='javascript:pagingNum(1)'> 처음으로 </button>"
+				}
+				
 				for(i=1; i<=repeat; i++) {
 					paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
-					$(".paging").html(paging);
 				}
+				
+				if(num == repeat){
+					paging += "<button onclick='javascript:pagingNum(" + repeat + ")' disabled> 끝으로 </button>"
+				}else {
+					paging += "<button onclick='javascript:pagingNum(" + repeat + ")'> 끝으로 </button>"
+				}
+				$(".paging").html(paging);
 				
 				 $.ajax({
 					url: "prolist?productCategorie=" + productCategorie,
@@ -104,9 +117,9 @@
 						for(i=0; i<list.length; i++) {
 							html += "<div class='product'>";
 							html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
-							html += "<span><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></span><br>";
-							html += "<span><b>" + list[i].productName + "</b></span><br>";
-							html += "<span><b>" + list[i].productPrice + "</b></span></a>";
+							html += "<div style='padding-bottom:0px;'><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></div><br>";
+							html += "<div style='text-align: center; height: 0px; '><b>" + list[i].productName + "</b></div><br>";
+							html += "<div style='text-align: center;'><b>" + list[i].productPrice + "</b></div></a>";
 							html += "</div>";
 							$(".wrapper").html(html);
 						}
@@ -146,7 +159,6 @@
 	}
 	
 	</script>
-	
 	<div>
 		색상
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
@@ -167,9 +179,9 @@
 	
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
+			<option value="oldate"> 오래된 순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
-			<option value="rating"> 높은 별점순
 			<option value="review"> 리뷰 많은순
 	</select><br>
 	

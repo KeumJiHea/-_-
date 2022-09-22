@@ -104,8 +104,8 @@ public class ProductController {
 	
 	//상품 삭제
 	@GetMapping("productDelete")
-	public void productDelete(int productNo, String productFile, HttpServletResponse response ,HttpServletRequest request) throws Exception {
-		String message = ps.productDelete(productNo, productFile, request);
+	public void productDelete(int productNo, String productFile, String productContent, HttpServletResponse response ,HttpServletRequest request) throws Exception {
+		String message = ps.productDelete(productNo, productFile, productContent, request);
 		
 		response.setContentType("text/html; charser=utf-8");
 		PrintWriter out = response.getWriter();

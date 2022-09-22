@@ -183,7 +183,7 @@
 		<b>등록된 이미지가 없습니다.</b>
 	</c:if>
 	<c:if test="${ pdto.productContent != 'nan' }">
-		<img width="500px" height="500px" src="${contextPath}/product/download?productFile=${pdto.productContent}">
+		<img src="${contextPath}/product/download?productFile=${pdto.productContent}">
 	</c:if>
 	</div><br><br>
 	
