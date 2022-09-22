@@ -37,6 +37,8 @@ import com.kg.seeot.member.service.MemberService;
 public class MemberController implements SessionName{	
 	@Autowired MemberService ms;
 	
+	@Autowired 
+	private JavaMailSender mailSender;
 
 	@GetMapping("/login")
 	public String login() { 
@@ -87,7 +89,7 @@ public class MemberController implements SessionName{
 			ms.keepLogin( (String)session.getAttribute(LOGIN), "nan");
 		}
 		session.invalidate();
-		return "redirect:/index";
+		return "redirect:login";
 	}
 	@GetMapping("register_form")
 	public String register_form() {
@@ -96,7 +98,12 @@ public class MemberController implements SessionName{
 	@PostMapping("register")
 	public String register(MemberDTO dto) {
 		
+		System.out.println(dto.getId());
+		System.out.println(dto.getPw());
+		
 		int result = ms.register(dto);
+		
+		System.out.println(result);
 		
 		if(result == 1) {
 			return "redirect:login";
@@ -135,6 +142,41 @@ public class MemberController implements SessionName{
 		response.getWriter().print(gson.toJson(data));
 	}
 	
+	@RequestMapping(value = "/mailCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public String mailCheckGET(String email) throws Exception {
+		
+		Random random = new Random();
+		//인증번호 랜덤 숫자 1~9까지 6자리 생성
+		int checkNum = random.nextInt(888888) + 111111;
+		
+		String setFrom = "zpokk@naver.com";
+        String toMail = email;
+        String title = "SeeoT 회원가입 인증 이메일 입니다.";
+        String content = 
+                "SeeoT을 방문해주셔서 감사합니다." +
+                "<br><br>" + 
+                "인증 번호는 <b>" + checkNum + "</b>입니다." + 
+                "<br><br>" + 
+                "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+        try {
+        	MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom(setFrom);
+            helper.setTo(toMail);
+            helper.setSubject(title);
+            helper.setText(content,true);
+            mailSender.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        //checkNum 형변환
+        String num = Integer.toString(checkNum);
+        return num;
+	
+	}
+	/*
 	@GetMapping("find_form")
 	public String find_form() {
 		return "find_form";
@@ -144,10 +186,22 @@ public class MemberController implements SessionName{
 		
 		return "member/find_form";
 	}
+	@PostMapping("modify")
+	public String modify(HttpServletRequest request,MemberDTO dto) {
+		
+		System.out.println(request.getParameter("id"));
+		
+		int result = ms.modify(request,dto);
+		
+		System.out.println(result);
+		
+		return "redirect:info?id="+request.getParameter("id");
+	}
 	@PostMapping("find_pw_form")
 	public String find_pw_form() {
 		return "";
 	}
+	*/
 }
 
 

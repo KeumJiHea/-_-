@@ -4,15 +4,19 @@ package com.kg.seeot.product.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.request.Request;
+import org.apache.velocity.runtime.directive.Parse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +24,14 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.board.service.ReviewService;
+import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.service.ProductFileService;
 import com.kg.seeot.product.service.ProductService;
@@ -44,6 +52,26 @@ public class ProductController {
 			ps.list(model, productCategorie);
 		}
 		return "product/list.page";
+	}
+	
+	//해당 카테고리 전체 상품 수
+	@PostMapping(value = "allCount", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public int allCount(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
+				@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
+		
+		return ps.allCount(productCategorie, chkColor_arr, chkPrice_arr);
+	}
+	
+	//list 페이지에 보여질 상품
+	@PostMapping(value = "prolist", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, 
+			@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
+		String orderBy = request.getParameter("orderBy");
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+		return ps.prolist(orderBy, productCategorie, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	
 	//상품 이미지 로드
@@ -100,6 +128,7 @@ public class ProductController {
 	@PostMapping("productModify")
 	public void productModify(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String message = ps.productModify(mul, request);
+		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(message);
@@ -155,5 +184,38 @@ public class ProductController {
 		out.print(message);
 	}
 	
-
+	//상품 상세페이지 남은 재고 가져오기
+	@GetMapping(value = "proStackGet", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public ProductManageDTO proStackGet(ProductManageDTO mdto) {
+		return ps.proStackGet(mdto);
+	}
+	
+	//관리자 페이지 상품 전체 리스트 및 카테고리 리스트 출력
+	@GetMapping("productList")
+	public String productList(Model model) {
+		ps.allList(model);
+		return "admin/productList";
+	}
+	
+	//관리자 페이지 상품 검색
+	@PostMapping("searchProduct")
+	public String searchProduct(Model model, @RequestParam(value="search") String search, @RequestParam(value="val") String val) {
+		switch(search) {
+		case "productNo":
+			int productNo = Integer.parseInt(val);
+			ps.productNoList(model, productNo);
+			break;
+		case "productName":
+			String productName = val;
+			ps.productNameList(model, productName);
+			break;
+		case "productCategorie":
+			int productCategorie = Integer.parseInt(val);
+			ps.list(model, productCategorie);
+			break;
+		}
+		return "admin/productList";
+	}
+	
 }

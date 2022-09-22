@@ -40,6 +40,9 @@ public class MemberServiceImpl implements MemberService{
 		
 		dto.setPw( seq );
 		
+		System.out.println(dto.getId());
+		System.out.println(dto.getPw());
+		
 		try {
 			return mapper.register( dto );
 		} catch (Exception e) {
@@ -63,6 +66,28 @@ public class MemberServiceImpl implements MemberService{
 	public int idCheck(String id) throws Exception{
 		return mapper.idCheck(id);
 	}
+	/*public int modify(HttpServletRequest request,MemberDTO dto) {
+		dto.setId(request.getParameter("id"));
+		dto.setPw(request.getParameter("pw"));
+		dto.setName(request.getParameter("name"));
+		dto.setPhone1(request.getParameter("phone1"));
+		dto.setPhone2(request.getParameter("phone2"));
+		dto.setPhone3(request.getParameter("phone3"));
+		dto.setEmail1(request.getParameter("email1"));
+		dto.setEmail2(request.getParameter("email2"));
+		
+        String seq = en.encode(dto.getPw());
+		
+		dto.setPw( seq );
+		
+		try {
+			return mapper.modify(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	*/
 }
 
 

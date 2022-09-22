@@ -7,26 +7,10 @@
     http://mybatis.org/schema/mybatis-spring-1.2.xsd"
     xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring">
    
- 
- 	<!-- 히카리 커넥션풀 빈 등록 -->
- 	
-	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="seeot" />
-		<property name="password" value="2022" />
-   </bean>
-   
-   
-	<!-- 히카리 데이터소스 빈 등록 -->   
-	<bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
-		<constructor-arg ref="hikariConfig"/>
- 	</bean>
- 	
- 	  <!-- navermail설정 -->
+    <!-- navermail설정 -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
      <property name="host" value="smtp.naver.com"/> <!-- 메이서버 호스트 -->
-     <property name="port" value="465"/> <!-- 메이서버 포트번호 -->
+     <property name="port" value="587"/> <!-- 메이서버 포트번호 -->
      <property name="username" value="zpokk@naver.com"/> <!-- 자신의 이메일 아이디 -->
      <property name="password" value="wlsdn12!@#"/> <!-- 자신의 비밀번호 -->
      
@@ -42,8 +26,19 @@
       </props>
      </property>
     </bean>
- 	
-
+ 
+ 	<!-- 히카리 커넥션풀 빈 등록 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="seeot" />
+		<property name="password" value="2022" />
+   </bean>
+   
+	<!-- 히카리 데이터소스 빈 등록 -->   
+	<bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfig"/>
+ 	</bean>
    
 	<!-- 데이터소스 마이바티스에 등록 및 xml 위치 설정 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

@@ -29,12 +29,16 @@ import com.kg.seeot.member.service.MemberService;
 public class CartController {
 	@Autowired CartService cs;
 	@Autowired SessionName sn;
+	@Autowired MemberService ms;
 	
 	
-	@GetMapping("addcart")
-	public void addCart(HttpServletRequest request,HttpServletResponse response,int productNo) throws Exception {
+	@PostMapping(value = "addcart")
+	@ResponseBody
+	public void addCart(HttpServletRequest request,HttpServletResponse response,String productName, String productColor, String productSize , String productStack) throws Exception {
 		System.out.println("장바구니 등록 컨트롤러 동작 성공");
-		cs.addCart(productNo);
+		System.out.println("productStack : "+productStack);
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
+		cs.addCart(request, productNo,productStack,productSize,productColor);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.println("<script>alert('장바구니에 추가되었습니다!'); history.go(-1);</script>");
@@ -46,6 +50,7 @@ public class CartController {
 	public String mycart(String memberId,Model model,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		memberId = (String)session.getAttribute("loginUser");
+		ms.getUser(model, memberId);
 		cs.getCart(model, memberId);
 		return "cart/mycart.page";
 	}
@@ -56,24 +61,20 @@ public class CartController {
 		System.out.println("id : "+memberId);
 		System.out.println("no : "+productNo);
 		
-		int result = cs.deleteOneCart(memberId,productNo);
-		if(result ==1) {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('삭제되었습니다!'); location.reload();</script>");
-			out.flush(); 
-			
-		}
-		 
+		int result = cs.deleteOneCart(memberId,productNo);		 
 	}
 	
 	@PostMapping("cartchkdel")
 	@ResponseBody
-	public void cartchkdel(HttpServletRequest request,String memberId,@RequestParam(value = "productlist")String[] productlist) {
+	public void cartchkdel(HttpServletRequest request,String memberId,HttpServletResponse response) throws Exception {
 		System.out.println("선택삭제 컨트롤러 동작 성공");
-		for(int i =0; i<productlist.length;i++) {
-			System.out.println("i : "+productlist[i]);
+		int cartNum;
+		String[] cartlist = request.getParameterValues("cartlist");
+		for(int i =0; i<cartlist.length; i++) {
+			System.out.println("cartlist : "+cartlist[i]);
+			cartNum = Integer.parseInt(cartlist[i]);			
+			cs.deleteChkCart(memberId, cartNum);
 		}
-		System.out.println("id : "+memberId);
+		System.out.println("id : "+memberId);		
 	}
 }

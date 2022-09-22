@@ -1,8 +1,8 @@
 package com.kg.seeot.member.dto;
 
 public class MemberDTO {
-private String id,pw,name,phone,phone1,phone2,phone3,email,email1,email2,birth,addr1,addr2,addr3,loginCookie;
-
+private String id,pw,name,phone,phone1,phone2,phone3,email,email1,email2,
+               birth,addr1,addr2,addr3,loginCookie;
 private int verify;
 
 public String getId() {
@@ -24,19 +24,16 @@ public void setName(String name) {
 	this.name = name;
 }
 public String getPhone() {
-	if ( ! phone.equals("") ) {
+	phone = null == phone ? "" : phone;
+	
+	if ( 0 < phone.length() ) {
 		return phone;
 	}
 	
-	phone = "";
-	if(! phone2.equals("") && ! phone3.equals("")) {
-		phone = getPhone1() +"-"+ getPhone2() +"-"+ getPhone3();
+	if( 0 < phone2.length() && 0 < phone3.length() ) {
+		phone = phone1+"-"+phone2+"-"+phone3;
 	}
-	
 	return phone;
-}
-public void setPhone(String phone) {
-	this.phone = phone;
 }
 public String getPhone1() {
 	return phone1;
@@ -57,15 +54,15 @@ public void setPhone3(String phone3) {
 	this.phone3 = phone3;
 }
 public String getEmail() {
-	if(! email.equals("") ) {
+	email = null == email ? "" : email;
+	
+	if ( 0 < email.length() ) {
 		return email;
 	}
 	
-	email = "";
-	if(! email1.equals("") && ! email2.equals("")) {
+	if( 0 < email1.length() && 0 < email2.length() ) {
 		email = email1+"@"+email2;
 	}
-	
 	return email;
 }
 public void setEmail(String email) {
@@ -107,7 +104,6 @@ public String getAddr3() {
 public void setAddr3(String addr3) {
 	this.addr3 = addr3;
 }
-
 public String getLoginCookie() {
 	return loginCookie;
 }

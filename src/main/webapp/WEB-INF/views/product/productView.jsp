@@ -11,48 +11,102 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
 	var pc, ps
-	var cnt = 1
+	var cnt = 0
+	
 	function colorAdd(productColor) {
-		console.log(productColor)
+		console.log("선택 색 : " + productColor)
 		pc = productColor
 	}
 	
 	function sizeAdd(proSize) {
-		console.log(proSize)
+		console.log("선택 사이즈 : " + proSize)
 		ps = proSize
 		productSelect()
 	}
 	
-	function productSelect() {
+ 	function productSelect() {
+		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
+		
 		
 		if(pc != '' & ps != '') {
-			$("#proOrderAdd").append("<div id='"+cnt+"'>"+ pc + " / " + ps
-				+ "<input type='button' value='▼' onClick='javascript:this.form.productStack.value--;'>"
-				+ "<input type='text' name='productStack' id='productStack' placeholder='0'>"
-				+ "<input type='button' value='▲' onClick='javascript:this.form.productStack.value++;'>"
-					+" </div>")
-			cnt++
+			$.ajax({
+				url: "proStackGet",
+				type:"get",
+				data:{
+					productNo : '${pdto.productNo}',
+					productColor : pc,
+					productSize : ps
+				},
+				datatype:"json",
+				success: function(data) {
+					
+					console.log(data)
+					
+					if(data != '' ) {
+						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
+						
+						if(document.getElementById(data.productColor + data.productSize) == null) {
+							cnt++;
+							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
+									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'>"
+									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
+									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='0' class='pst'>"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>0</span> 원"
+									+ "<input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
+						}else {
+							alert('이미 추가되었습니다.')
+						}
+					}else {
+						alert('상품 재고가 없습니다.')
+					}
+	
+				}
+			})
 		}
 		pc = ''
 		ps = ''
 		
+		
+	}
+
+
+	function selProStack(){
+		$('.pst').on("propertychange change keyup paste input", function(){
+				   var selectId = $(this).attr('id')
+				   var selectStack = $(this).val();
+					var productPrice = ${pdto.productPrice}
+					var productStackPrice = selectStack * productPrice;
+					$( '#Price' + selectId).text( productStackPrice );
+			});
 	}
 	
-	function proOrderAdd() {
-		$("#proOrderAdd").hide()
+
+	function deleteSelPro(id) {
+		var delId =  $(id).attr('class')
+		console.log(delId)
+		$("div").remove("#"+delId)
+		
 	}
 	
+	
+	 function productOrder() {
+			form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/order/test2'
+			form.submit();
+	}
+	
+	 function productCart() {
+		 form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/cart/addcart'
+			form.submit();
+	}
 	</script>
+	
 	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
-	
-	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
-	<b> | 상품 관리 | </b>
-	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
-	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
-	<b> | 재고 관리 | </b>
-	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
 	
 	<table border="1">
 		<tr>
@@ -70,7 +124,14 @@
 			<th>가격</th><td colspan="2">${pdto.productPrice }</td>
 		</tr>
 		<tr>
-			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : ${pdto.productRating }</td>
+			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : 
+				<c:if test="${pdto.reviewCount == 0}">
+					0
+				</c:if>
+				<c:if test="${pdto.reviewCount != 0}">
+					${pdto.productRating/pdto.reviewCount }
+				</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">컬러</th>
@@ -78,7 +139,7 @@
 		<tr>
 			<td colspan="3">
 				<c:forEach var="mcdto" items="${mclist }">
-					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }"">${mcdto.productColor }</button>
+					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }">${mcdto.productColor }</button>
 				</c:forEach>
 			</td>
 		</tr>
@@ -96,14 +157,11 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-			<form action="${contextPath}/product/product" id="proOrderFo" method="post" enctype="multipart/form-data">
+			<form id="proOrderFo" name="profo">
 				<input type="hidden" name="productNo" value="${pdto.productNo }">
 				<input type="hidden" name="productName" value="${pdto.productName }">
 				<input type="hidden" name="productFile" value="${pdto.productFile }">
-				
-				<!-- <input type="button" value="▼" onClick="javascript:this.form.productStack.value--;">
-				<input type="text" name="productStack" id="productStack" placeholder="0">
-				<input type="button" value="▲" onClick="javascript:this.form.productStack.value++;"> -->
+				<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
 				<div id="proOrderAdd">
 				</div>
 			</form>
@@ -111,8 +169,9 @@
 		</tr>
 		<tr>
 			<td><button type="button" onclick="">찜</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td>
+			<td><button type="button" onclick="productCart()">장바구니</button></td>
+			<%-- <td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td> --%>
+			<td><button type="button" onclick="productOrder()">구매하기</button></td>
 		</tr>
 	</table>
 	<hr>
@@ -120,7 +179,12 @@
 	<div id="proContent">
 	<h2>상품 상세 정보</h2>
 	<hr>
-	${pdto.productContent }
+	<c:if test="${ pdto.productContent == 'nan' }">
+		<b>등록된 이미지가 없습니다.</b>
+	</c:if>
+	<c:if test="${ pdto.productContent != 'nan' }">
+		<img width="500px" height="500px" src="${contextPath}/product/download?productFile=${pdto.productContent}">
+	</c:if>
 	</div><br><br>
 	
 	<div id="proReview">
@@ -128,10 +192,9 @@
 	<hr>
 	<table border="1">
 		<tr>
-			<td>김**(kim*****) | 2022-08-24 | 평점 ★★★☆☆<br>후기1 입니다</td>
-		</tr>
-		<tr>
-			<td>정**(jung*****) | 2022-08-26 | 평점 ★☆☆☆☆<br>후기2 입니다</td>
+			<td>
+				<div id="review"></div>
+			</td>
 		</tr>
 	</table>
 	</div><br><br>

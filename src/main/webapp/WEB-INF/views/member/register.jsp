@@ -21,7 +21,7 @@
 				간단한 정보 입력 후 가입해보세요.<br>
 				<a href="login">로그인 페이지로 돌아가기</a>
 			</p>
-			<form action="register" method="post" name="form" class="columns">
+			<form method="post" name="form" class="columns">
 				<div class="column">
 					<div class="tag-title">필수 입력</div>
 					<div class="field input_id required">
@@ -39,12 +39,31 @@
 						<input class="pw_confirm" type="password" id="confirm_pw">
 						<div class="password-message message"></div>
 					</div>
+					<div class="field input_email required">
+							<span>이메일</span>
+							<input type="text" class="email1" name="email1">
+							@
+							<input type="text" class="email2" name="email2" >
+							<select id="domain">
+								<option value="naver.com">naver.com</option>
+								<option value="gmail.com">gmail.com</option>
+								<option value="daum.net">daum.net</option>
+								<option value="nate.com">nate.com</option>
+								<option value="kakao.com">kakao.com</option>
+								<option value="1" selected>직접입력</option>
+							</select>
+							
+							<input type="text" disabled class="input_mail_check" style="width: 300px; margin-top: 12px; background-color: white;" maxlength="6" placeholder="인증번호 입력">
+							<input type="button" class="btn_mail_check" style="margin-top: 15px; cursor: pointer; border: 1px solid #888; background-color: white;" value="인증번호 전송">
+							<input type="button" class="btn_mail_check2" style="display:none; margin-top: 15px; border: 1px solid #888; background-color: white; cursor: pointer;" value="인증번호 확인">
+							<div class="mail-message message"></div>
+						</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" name="agreement02" checked>
+						<input type="checkbox" id="agreement01" checked>
 						<a href="#" class="required">쇼핑몰 이용약관에 동의합니다.</a>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" name="agreement01" checked>
+						<input type="checkbox" id="agreement02" checked>
 						<a href="#" class="required">만 14세 이상입니다.</a>
 						<ul>
 							<li>만 14세 미만의 아동은 회원가입 시 법적대리인의 동의가 필요합니다.</li>
@@ -70,7 +89,7 @@
 						</div>
 					</div>
 					<div>
-						<button type="button" class="button" onclick="regichk()">회원가입</button>
+					    <button type="button" class="button" onclick="regichk()">회원가입</button>
 					</div>
 				</div>
 
@@ -102,20 +121,6 @@
 							<input type="text" name="phone2" maxlength="4"> 
 							<input type="text" name="phone3" maxlength="4">
 						</div>
-						<div class="field input_email">
-							<span>이메일</span>
-							<input type="text" name="email1" placeholder="이메일 주소 입력">
-							@
-							<input type="text" name="email2" >
-							<select name="domain">
-								<option value="naver.com">naver.com</option>
-								<option value="gmail.com">gmail.com</option>
-								<option value="daum.net">daum.net</option>
-								<option value="nate.com">nate.com</option>
-								<option value="kakao.com">kakao.com</option>
-								<option value="1" selected>직접입력</option>
-							</select>
-						</div>
 						<div class="field input_birth">
 							<span>생년월일</span>
 							<input type="text" name="birth" placeholder="ex)2000.01.01">
@@ -132,14 +137,64 @@
 			</form>
 		</div>
 	</div>
-	<script type="text/javascript">
 	
-		jQuery( document ).ready( function ( $ ) {
+	        
+	<script type="text/javascript">
+	       //이메일 인증번호 확인
+	       var code = "973";
+	       
+	       $('.btn_mail_check').click(function(){
+	    	   var email1 = $('.email1').val()+"@";
+	    	   var check = $('.email1').val();
+	    	   var domain = $('.email2').val();
+	    	   var email  = email1 + domain ;
+	    	   var inputChk = $('.input_mail_check');
+	    	   var btnChk = $('.btn_mail_check');
+	    	   var btnChk2 = $('.btn_mail_check2');
+	    	   if(check != "" && domain != ""){ 
+	    	   $.ajax({
+	    		   type : "GET",
+	    	       url : "mailCheck?email="+email,
+	    	       success:function(data){
+	    	    	   inputChk.attr("disabled",false);
+	    	    	   inputChk.focus();
+	    	    	   alert("인증번호가 전송되었습니다");
+	    	    	   btnChk.attr("value","인증번호 재전송");
+	    	    	   btnChk2.attr("style","display:inline; background-color:white; cursor:pointer; border:1px solid #888;");
+	    	    	   code = data;
+	    	       }
+	    	   
+	    	     });
+	    	   }
+	    	   else{
+	    		   alert("이메일을 입력해주세요");
+	    	   }
+	       });
+	       
+    	   $('.btn_mail_check2').click(function(){
+    		   var inputCode = $('.input_mail_check').val();
+	    	   var btnChk2 = $('.btn_mail_check2');
+	    	   
+	    	   if(inputCode == code){
+	    		   alert("인증번호가 확인되었습니다");
+	    	   }
+	    	   else{
+	    		   alert("인증번호가 일치하지 않습니다");
+	    	   }
+	    	   
+	       });
+	</script>
+	
+	<script type="text/javascript">
+	 
+	       //이메일 도메인 관련 활성화 코드
+	  
+		   jQuery( document ).ready( function ( $ ) {
 		    var wrapper      = $(".members-wrapper.register");
 		    var members_info = $(".members-info", wrapper );
 		    
-		    $('select[name=domain]', wrapper).on( 'change', function() {
-		    	var domain = $('select[name=domain] option:selected', wrapper).val(); //naver
+		    $('select[id=domain]', wrapper).on( 'change', function() {
+		    	var domain = $('select[id=domain] option:selected', wrapper).val(); //naver
 		         console.log(domain);
 		    	if(domain == 1){
 		    		$('input[name=email2]',wrapper).val('');
@@ -151,6 +206,7 @@
 		     });
 
 		    //비밀번호 일치여부
+		    
 		    $("input[type=password]", wrapper).on( 'keyup', function() { //키보드 입력 이벤트
 		        var password = $("input[name=pw]", wrapper).val(); //비밀번호 값
 		        var confirm_password = $("input[id=confirm_pw]", wrapper).val();
@@ -184,6 +240,7 @@
 		    });
 
 		    //추가 정보 입력 태그 클릭 이벤트
+		    
 		    $(".members-info-tag", wrapper).on( 'click', function() {
 		        if ( members_info.hasClass( 'close' ) ) { //<div class="members-info"> 태그에 close라는 클래스가 있는지 여부
 		            $( ".members-info", wrapper ).removeClass( 'close' ); //close 클래스 삭제
@@ -204,16 +261,21 @@
 		    } )
 
 		});
-   
+             //필수 사항 값 체크
       function regichk(){ 
+            	 
 	   var form = document.form;
 	   var id = $('.id_input').val();
 	   var pw = $('.pw_input').val();
 	   var pwchk = $('.pw_confirm').val();
+	   var email1 = $('.email1').val();
+	   var email2 = $('.email2').val();
+	   var inputCode = $('.input_mail_check').val();
+	   
 	   if(!form.id.value){
 		   alert("아이디는 필수 사항입니다");
 		   form.id.focus();
-		   return false;
+		   return;
 	   }else if(!form.pw.value){
 		   alert("비밀번호는 필수 사항입니다");
 		   form.pw.focus();
@@ -222,14 +284,22 @@
 		   alert("비밀번호가 일치하지 않습니다");
 		   form.pwchk.focus();
 		   return;
-	   }
-	   else if(id.length < 5 || id.length > 12){
+	   }else if(id.length < 5 || id.length > 12){
 		   alert("아이디는 5자리 ~ 12자리로 입력해주세요");
 		   form.id.focus();
 		   return;
-	   }
-	   
-	   else{
+	   }else if(!form.email1.value){
+		   alert("이메일을 입력해주세요");
+		   form.email1.focus();
+		   return;
+	   }else if(!form.email2.value){
+		   alert("이메일을 입력해주세요");
+		   form.email2.focus();
+		   return;
+	   }else if(inputCode != code){
+		   alert("이메일 인증을 진행해주세요");
+		   return;
+	   }else{
 		   alert("회원가입이 완료되었습니다");
 	       form.action = "<%=request.getContextPath()%>/member/register";
 	       form.submit();
@@ -237,6 +307,7 @@
       }
       
       //아이디 중복 체크
+      
       $('.id_input').on("propertychange change keyup paste input", function(){
     	  var memberId = $('.id_input').val();		
 	      var data = { id : memberId };

@@ -11,7 +11,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	<script>
+
+<script>
     jQuery( document ).ready( function ( $ ) {
         var wrapper = $( '.members-wrapper.myaccount' );
         var navigation = $( '.navigation', wrapper );
@@ -34,6 +35,34 @@
         } );
 
     } );
+</script>
+
+<script type="text/javascript">
+window.onload = function(){
+	var phoneList = "${info.phone}";
+	var Phone = phoneList.split("-");
+	var emailList = "${info.email}";
+	var Email = emailList.split("@");
+	
+	document.getElementById('phone1').value = Phone[1];
+	document.getElementById('phone2').value = Phone[2];
+	document.getElementById('email1').value = Email[0];
+	document.getElementById('email2').value = Email[1];
+}
+</script>
+
+<script type="text/javascript">
+function modifyChk(){
+	
+    var form = document.form;
+    var pw = $('.pw_input').val();
+    
+    if(!form.pw.value){
+    	form.pw.value = ${info.pw};
+    }
+    form.action = "<%=request.getContextPath()%>/member/modify";
+    form.submit(); 
+}
 </script>
 
 <div class="members-wrapper myaccount">
@@ -83,7 +112,7 @@
                             주문 배송
                         </div>
                     </a>
-                    <a href="#profile">
+                    <a href="#profile" class="infotab">
                         <div class="menu">
                             <div class="icon"><img src="<c:url value='/resources/images/navigation/profile.png'/>" width="50px"></div>
                             회원 정보
@@ -165,7 +194,7 @@
 
     <!-- 회원 정보 -->
     <div class="contents profile" id="profile">
-        <form action="edit_account_form" method="post" class="columns">
+        <form method="post" class="columns" name="form">
             <div class="column">
                 <div class="field input_id">
                     <span>아이디</span>
@@ -177,7 +206,7 @@
                 </div>
                 <div class="field input_phone">
                     <span>전화번호</span>
-                    <select name="part1">
+                    <select name="phone1">
                         <option value="010" selected>010</option>
                         <option value="011">011</option>
                         <option value="016">016</option>
@@ -185,14 +214,14 @@
                         <option value="019">019</option>
                         <option value="070">070</option>
                     </select>  
-                    <input type="text" name="part2" maxlength="4" value="">
-                    <input type="text" name="part3" maxlength="4" value="">
+                    <input type="text" name="phone2" maxlength="4" id="phone1">
+                    <input type="text" name="phone3" maxlength="4" id="phone2">
                 </div>
                 <div class="field input_email">
                     <span>이메일</span>
-                    <input type="text" name="email" placeholder="이메일 주소 입력" value="">
+                    <input type="text" name="email1" placeholder="이메일 주소 입력" id="email1">
                     @
-                    <input type="text" name="email2" placeholder="이메일 주소 입력" value="">
+                    <input type="text" name="email2" id="email2">
                     <select name="domain">
                         <option value="naver.com" selected>naver.com</option>
                         <option value="gmail.com">gmail.com</option>
@@ -211,12 +240,12 @@
                 <div class="field input_pw">
                     <span>비밀번호 변경</span>
                     <span style="color:#888;">비밀번호를 변경하지 않을 경우, 입력하지 마세요.</span>
-                    <input type="password" name="pw" placeholder="비밀번호">
-                    <input type="password" name="confirm_pw" placeholder="비밀번호 확인">
+                    <input type="password" name="pw" placeholder="비밀번호" class="pw_input">
+                    <input type="password" id="confirm_pw" placeholder="비밀번호 확인" class="pw_confirm">
                     <div class="password-message message"></div>
                 </div>
                 <div>
-                    <input type="submit" class="button" value="회원정보 수정">
+                    <input type="submit" class="button" value="회원정보 수정" onclick="modifyChk()">
                 </div>
             </div>
         </form>
@@ -229,15 +258,15 @@
                 <div class="field input_addr">
                     <span>기본 주소</span>
                     <div class="address">
-                        홍길동<br>
-                        (#1234) 서울시 은평구 응암동 123-12 2층
+                       ${info.id }<br>
+                       (주문번호)&nbsp;${info.addr1}&nbsp;${info.addr2}&nbsp;${info.addr3}
                     </div>
                 </div>
                 <div class="field input_addr">
                     <span>배송지 목록</span>
                     <div class="address">
-                        홍길동<br>
-                        (#1234) 서울시 은평구 응암동 123-12 2층
+                       ${info.id }<br>
+                       (주문번호)목록 구현중
                     </div>
                 </div>
             </div>

@@ -1,5 +1,9 @@
 package com.kg.seeot.product.service;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,14 @@ public class ProductServiceImpl implements ProductService{
 		model.addAttribute("list", mapper.list(productCategorie));
 	}
 	
+	public void productNameList(Model model, String productName) {
+		model.addAttribute("list", mapper.productNameList(productName));
+	}
+	
+	public void productNoList(Model model, int productNo) {
+		model.addAttribute("list", mapper.productNoList(productNo));
+	}
+	
 	public void productView(Model model, int productNo) {
 		model.addAttribute("pdto", mapper.productView(productNo));
 		model.addAttribute("mslist", mapper.managementSize(productNo));
@@ -44,7 +56,6 @@ public class ProductServiceImpl implements ProductService{
 		pdto.setProductCategorie(Integer.parseInt(mul.getParameter("productCategorie")));
 		pdto.setProductName(mul.getParameter("productName"));
 		pdto.setProductPrice(Integer.parseInt(mul.getParameter("productPrice")));
-		pdto.setProductContent(mul.getParameter("productContent"));
 		
 		mdto.setProductNo(Integer.parseInt(mul.getParameter("productNo")));
 		mdto.setProductSize(Integer.parseInt(mul.getParameter("productSize")));
@@ -52,11 +63,18 @@ public class ProductServiceImpl implements ProductService{
 		mdto.setProductStack(Integer.parseInt(mul.getParameter("productStack")));
 		
 		//이미지 처리
-		MultipartFile file = mul.getFile("productFile");
-		if( file.getSize() != 0 ) { //이미지 있는경우
-			pdto.setProductFile(pfs.saveFile(file));
+		MultipartFile file1 = mul.getFile("productFile");
+		if( file1.getSize() != 0 ) { //이미지 있는경우
+			pdto.setProductFile(pfs.saveFile(file1));
 		}else { //이미지가 없는 경우
 			pdto.setProductFile("nan");
+		}
+		
+		MultipartFile file2 = mul.getFile("productContent");
+		if( file2.getSize() != 0 ) { //이미지 있는경우
+			pdto.setProductContent(pfs.saveFile(file2));
+		}else { //이미지가 없는 경우
+			pdto.setProductContent("nan");
 		}
 		
 		int presult = 0, mresult = 0;
@@ -67,7 +85,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		if( presult == 1 && mresult == 1) { //상품 등록 성공시
 			msg = "상품이 등록되었습니다.";
-			url = request.getContextPath() + "/product/list";
+			url = request.getContextPath() + "/product/productList";
 		}else { //상품 등록 실패시
 			msg = "상품 등록에 실패하였습니다.";
 			url = request.getContextPath() + "/product/productRegister";
@@ -85,7 +103,7 @@ public class ProductServiceImpl implements ProductService{
 		if( result == 1) {
 			pfs.deleteImage(productFile);
 			msg = "상품이 삭제되었습니다.";
-			url = request.getContextPath() + "/product/list";
+			url = request.getContextPath() + "/product/productList";
 		} else {
 			msg = "상품 삭제에 실패하였습니다.";
 			url = request.getContextPath() + "productView?productNo=" + productNo;
@@ -104,14 +122,21 @@ public class ProductServiceImpl implements ProductService{
 		dto.setProductCategorie(Integer.parseInt(mul.getParameter("productCategorie")));
 		dto.setProductName(mul.getParameter("productName"));
 		dto.setProductPrice(Integer.parseInt(mul.getParameter("productPrice")));
-		dto.setProductContent(mul.getParameter("productContent"));
 		
-		MultipartFile file = mul.getFile("productFile");
-		if( file.getSize() != 0) {
-			dto.setProductFile(pfs.saveFile(file));
+		MultipartFile file1 = mul.getFile("productFile");
+		if( file1.getSize() != 0) {
+			dto.setProductFile(pfs.saveFile(file1));
 			pfs.deleteImage(mul.getParameter("originProductFile"));
 		} else {
 			dto.setProductFile(mul.getParameter("originProductFile"));
+		}
+		
+		MultipartFile file2 = mul.getFile("productContent");
+		if( file2.getSize() != 0) {
+			dto.setProductContent(pfs.saveFile(file2));
+			pfs.deleteImage(mul.getParameter("originProductContent"));
+		} else {
+			dto.setProductContent(mul.getParameter("originProductContent"));
 		}
 		
 		int result = mapper.productModify( dto );
@@ -160,6 +185,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public void managementModify_Form(int productNo, int productSize, String productColor, Model model) {
+		System.out.println(productNo);
+		System.out.println(productSize);
+		System.out.println(productColor);
 		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
 	}
 	
@@ -182,5 +210,37 @@ public class ProductServiceImpl implements ProductService{
 		}
 		return pfs.getMessage(msg, url);
 	}
-
+	
+	public ProductManageDTO proStackGet(ProductManageDTO mdto) {
+		int productNo = mdto.getProductNo();
+		int productSize = mdto.getProductSize();
+		String productColor = mdto.getProductColor();
+		return mapper.managementModify_Form(productNo, productSize, productColor);
+	}
+	
+	public int allCount(int productCategorie, String[] chkColor_arr, String[] chkPrice_arr) {
+		System.out.println("1. all 카테고리 값 : " + productCategorie);
+		System.out.println("1. all 컬러 - chkColor_arr : " + chkColor_arr);
+		System.out.println("1. all 가격 - chkPrice_arr : " + chkPrice_arr);
+		
+		return mapper.allCount(productCategorie, chkColor_arr, chkPrice_arr);
+	}
+	
+	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct, String[] chkColor_arr, String[] chkPrice_arr) {
+		System.out.println("2. list 카테고리 값 : " + productCategorie);
+		System.out.println("2. list 정렬 값 : " + orderBy);
+		System.out.println("2. list 페이징 num 값 : " + num);
+		System.out.println("2. list 보일 상품의 수 : " + pageViewProduct);
+		System.out.println("2. list 컬러 - chkColor_arr : " + chkColor_arr);
+		System.out.println("2. list 가격 - chkPrice_arr : " + chkPrice_arr);
+		
+		
+		int end = num * pageViewProduct;
+		int start = end + 1 - pageViewProduct;
+		System.out.println("start : " +  start);
+		System.out.println("end : " + end);
+		System.out.println("------------------------------------");
+		return mapper.prolist(orderBy, productCategorie, start, end, chkColor_arr, chkPrice_arr);
+	}
+	
 }

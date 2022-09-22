@@ -5,13 +5,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<script type="text/javascript">
-
-</script>
 </head>
 <body>
-	11
+
+	TEST2.jsp<br>
+	
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:forEach var="dto" items="${list }">
+		${dto.productNo }<br>
+		${dto.productFile}<br>
+		${dto.productPrice }<br>
+		${dto.productName}<br>
+		${dto.productColor}<br>
+		${dto.productSize}<br>
+		${dto.productStack}
+		<hr>
+	</c:forEach>
+	
 </body>
 </html>
