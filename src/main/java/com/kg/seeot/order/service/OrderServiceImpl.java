@@ -108,7 +108,6 @@ public class OrderServiceImpl implements OrderService{
 		model.addAttribute("list",list);
 		HttpSession session = request.getSession();
 		
-		System.out.println("cancel session "+session.getAttribute("cancel"));
 		Map map = (Map) session.getAttribute("cancel");
 		if(map!=null) {
 			String reason = (String) map.get("reason");
@@ -162,6 +161,29 @@ public class OrderServiceImpl implements OrderService{
 		om.changeStatus_finish(orderNo);
 		om.changehiStatus_finish(orderNo);
 	}
+
+	@Override
+	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword) {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.selectSearchList(dto,type,keyword);
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> orderNoSorting_ASC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderNoSorting_ASC();
+		return list;
+	}
+	@Override
+	public ArrayList<OrderDTO> orderNoSorting_DESC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderNoSorting_DESC();
+		
+		return list;
+	}
+	
 	
 	
 	

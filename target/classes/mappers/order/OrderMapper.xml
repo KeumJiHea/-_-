@@ -116,4 +116,23 @@
 		update goods_order set order_status=3 where order_status=2 and order_no=#{orderNo}
 	</update>
 	
+ 	<select id="selectSearchList" resultMap="order">
+		select * from goods_order
+		<choose>
+			<when test="t != null and t.equals('orderNo')">
+				where order_no=#{k} 
+			</when>
+			<when test="t != null and t.equals('memberId')">
+				where member_id=#{k} order by order_date DESC
+			</when>
+		</choose>
+	</select> 
+	
+	<select id="orderNoSorting_ASC" resultMap="order">
+		select * from goods_order order by order_no ASC
+	</select>
+	<select id="orderNoSorting_DESC" resultMap="order">
+		select * from goods_order order by order_no DESC
+	</select>
+	
 </mapper>
