@@ -33,7 +33,9 @@ public class ReviewRepController {
 			Model model,@RequestParam(value="num", required=false, defaultValue="1") int num ){
 		
 		System.out.println(productNo +","+ num);
-		return  rs.getRepList(model,productNo ,num);
+		List<ReviewDTO> list = rs.getRepList(model,productNo ,num);
+		
+		return  list;
 	}
 
 	/*삭제예정*/
@@ -45,6 +47,8 @@ public class ReviewRepController {
 		
 		return  rs.getRepList1(productNo );
 	}
+	
+	
 
 }
 

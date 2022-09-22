@@ -91,7 +91,7 @@ public class ReviewServiceImpl implements ReviewService {
 				//System.out.println(file.getOriginalFilename());
 			
 		//MultipartFile file = mul.getFile("reviewFile"); //꺼내와야함
-		
+		mapper.productCount(product, reviewstar);
 		/**/
 		if( file.getSize() != 0) { // file.isEmpty() != true (파일이 존재하면)  !file.isEmpty()
 			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss-");
@@ -113,15 +113,38 @@ public class ReviewServiceImpl implements ReviewService {
 			dto.setReviewFile( "nan");
 		}}
 		mapper.saveData( dto );
-		//mapper로 product테이블 카운트 증가 넣기&별점
+		
 	}
 	
 	 public void delete(int reviewNo) {
 		 mapper.delete(reviewNo);
 	 }
 	
-	
-	
+	 public String modify(MultipartHttpServletRequest mul,
+				HttpServletRequest request) {
+		System.out.println("sevieceimpl");
+		System.out.println(Integer.parseInt(mul.getParameter("reviewNo")));
+		System.out.println(mul.getParameter("reviewContent"));
+		 ReviewDTO dto = new ReviewDTO();
+		 dto.setReviewNo(Integer.parseInt( mul.getParameter("reviewNo")) );
+		 dto.setReviewContent( mul.getParameter("reviewContent") );
+
+		
+		dto.setReviewStar(Integer.parseInt(mul.getParameter("reviewStar")));
+		 MultipartFile file = mul.getFile("reviewFile");
+		 if( file.getSize() !=0) {
+			System.out.println("file");
+		 }
+		 
+		 return "serviece";
+		 
+		 // mapper.modify(reviewNo);
+	 }
+	 
+	 
+	 public void modify_form(int reviewNo, Model model) {
+		 model.addAttribute("rdto", mapper.contentView(reviewNo));
+	 }
 	
 	
 	

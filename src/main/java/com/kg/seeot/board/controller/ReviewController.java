@@ -2,6 +2,7 @@ package com.kg.seeot.board.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,19 +76,43 @@ public class ReviewController {
 	}
 	
 	@GetMapping("delete")
-	public String delete(int reviewNo) {
-		System.out.println("cotm" +reviewNo);
-		//rs.delete(reviewNo);
+	public String delete(int reviewNo,int productNo) {
+		//System.out.println("cotm" +reviewNo);
+		//System.out.println("com" +productNo);
+		rs.delete(reviewNo);
 		
-		return "review/reviewPrint";
+		return "redirect:../product/productView?productNo="+productNo;
 	}
 	
 	
-	@GetMapping("print")
-	public String print(Model model) {
+	@PostMapping("modify")
+	public void modify(MultipartHttpServletRequest mul,
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		System.out.println("controller");
+		
+		
+		String message = rs.modify(mul, request);
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print( message );
+		
+		
+		//System.out.println("con num: "+reviewNo + productNo);
+		//rs.modify(reviewNo);
+		//return "redirect:../product/productView?productNo="+productNo;
+	}
+	
+	
+	
+	@GetMapping("modify_form")
+	public String modify_form(Model model, int reviewNo) {
+		rs.modify_form(reviewNo, model);
 		//rs.reviewList(model);
-		return "review/print";
+		return "review/modify_form";
 	}
+	
+	
 }
 
 

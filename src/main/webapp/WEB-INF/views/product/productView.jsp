@@ -130,19 +130,22 @@
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
+				html += "reviewNo: "+reviewData[i].reviewNo; //나중에 지우기
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}
 				
-				html+= "<div>"+"<a href=delete?rn=>삭제</a>"+"  &nbsp ";
-				html+= "<a href=modify?>수정</a>"+"</div>";
+				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">삭제</a>"+"  &nbsp ";
+				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
 			
 				
 				html+= "<hr></div>";
 			}
-			console.log(${repeat.repeat});
+			
 			html += "<div>"+"페이지"+"</div>";
 			
+			
+		
 			$("#reply").html( html )
 			},
 		error: function(){alert("function error")}
@@ -256,6 +259,8 @@
 	 <div>
 	
 	<div id="reply"></div>
+	
+	
 	
 	</div>
 	</div><br><br>
