@@ -186,16 +186,16 @@ public class ProductController {
 		return ps.proStackGet(mdto);
 	}
 	
-	//상품 전체 리스트 및 카테고리 리스트 출력
+	//관리자 페이지 상품 전체 리스트 및 카테고리 리스트 출력
 	@GetMapping("productList")
 	public String productList(Model model) {
 		ps.allList(model);
 		return "admin/productList";
 	}
 	
+	//관리자 페이지 상품 검색
 	@PostMapping("searchProduct")
 	public String searchProduct(Model model, @RequestParam(value="search") String search, @RequestParam(value="val") String val) {
-		System.out.println(search);
 		switch(search) {
 		case "productNo":
 			int productNo = Integer.parseInt(val);
