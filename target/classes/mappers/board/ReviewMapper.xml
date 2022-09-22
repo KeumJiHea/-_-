@@ -45,13 +45,24 @@
 
 	<insert id="saveData">
 		insert into seeot_review(memberId, reviewContent, productNo, reviewFile, reviewStar, reviewNo)
-		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar}, #{reviewNo})
+		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar}, reviewNo.nextval)
 	</insert>
 	
 	<delete id="delete">
 	 delete from seeot_review where reviewNO=#{reviewNo}
 	</delete>
-
-
+	
+	<select id="contentView" resultMap="review">
+		select * from seeot_review where reviewNo=#{reviewNo}
+	</select>
+	
+	<update id="modify">
+	update seeot_reivew set 
+	</update>
+	
+	<update id="productCount">
+	update product set review_count = review_count + 1,
+	 product_rating = product_rating + #{reviewStar} where product_no =#{productNo}
+	</update>
 
 </mapper>

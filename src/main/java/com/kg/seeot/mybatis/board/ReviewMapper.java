@@ -20,5 +20,7 @@ public interface ReviewMapper {
 	public List<ReviewDTO> reviewPage(@Param("productNo")int productNo,
 			@Param("s") int start, @Param("e") int end);
 	public void delete(int reviewNo);
-	
+	public ReviewDTO contentView(int reviewNO);
+	public void modify(int reviewNo);
+	public void productCount(int productNo, int reviewStar);
 }

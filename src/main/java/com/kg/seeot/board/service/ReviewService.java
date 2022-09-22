@@ -23,4 +23,7 @@ public interface ReviewService {
 			 				,int productNo);
 	
 	 public void delete(int reviewNo);
+	 public String modify(MultipartHttpServletRequest mul,
+				HttpServletRequest request);
+	 public void modify_form(int reviewNo,Model model);
 }
