@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 <body>
 	<table class="board-list">
 		<tr class="table-head">
@@ -32,7 +33,7 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<button onclick="location.href='boardWrite'">문의하기</button>
+	<button class="button write" onclick="location.href='boardWrite'">문의하기</button>
 	
 	<div class="paging">
 		<c:forEach var="page" begin="1" end="${pagingCount }">

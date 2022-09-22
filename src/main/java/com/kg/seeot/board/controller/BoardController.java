@@ -115,9 +115,18 @@ public class BoardController{
 		return bs.getReplyList(boardNo);
 	}
 	
-	@DeleteMapping(value="deleteReply")
-	public void deleteReply() {
-		
+	@PostMapping(value="deleteReply/{replyNo}", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public int deleteReply(@PathVariable int replyNo) {
+		int result = bs.deleteReply(replyNo);
+		return result;
 	}
-
+	
+	@PostMapping(value="modifyReply/{replyNo}/{updateContent}", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public int modifyReply(@PathVariable int replyNo, @PathVariable String updateContent) {
+		System.out.println(replyNo + updateContent);
+		int result = bs.modifyReply(replyNo, updateContent);
+		return result;
+	}
 }

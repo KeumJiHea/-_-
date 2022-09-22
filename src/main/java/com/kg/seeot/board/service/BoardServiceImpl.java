@@ -180,4 +180,12 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<ReplyDTO> getReplyList(int boardNo){
 		return mapper.getReplyList(boardNo);
 	}
+	
+	public int deleteReply(int replyNo) {
+		return mapper.deleteReply(replyNo);
+	}
+	
+	public int modifyReply(int replyNo, String updateContent) {
+		return mapper.modifyReply(replyNo, updateContent);
+	}
 }

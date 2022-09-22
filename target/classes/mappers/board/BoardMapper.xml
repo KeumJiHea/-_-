@@ -101,6 +101,17 @@
 		WHERE board_no = #{boardNo}
 		ORDER BY reply_date ASC
 	</select>
+	
+	<delete id="deleteReply">
+		DELETE from seeot_reply
+		WHERE reply_no = #{replyNo}
+	</delete>
+	
+	<update id="modifyReply">
+		UPDATE seeot_reply
+	    SET	reply_content = #{updateContent}
+		WHERE reply_no = #{replyNo}
+	</update>
 
 </mapper>
 

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 <body>
 	<form id="modifyForm">
 		<input type="number" name="boardNo" value=${dto.boardNo } hidden="hidden">

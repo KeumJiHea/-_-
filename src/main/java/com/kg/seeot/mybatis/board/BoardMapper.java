@@ -22,4 +22,6 @@ public interface BoardMapper {
 	public Integer boardCount(); //페이징용 게시글 수 count
 	public void addReply(Map<String, String> map); //게시글 댓글 작성
 	public ArrayList<ReplyDTO> getReplyList(int boardNo); //게시글 댓글 가져오기
+	public int deleteReply(int replyNo); //댓글 삭제
+	public int modifyReply(@Param("replyNo") int replyNo, @Param("updateContent") String updateContent); //댓글 수정
 }

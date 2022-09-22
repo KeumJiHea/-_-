@@ -18,4 +18,6 @@ public interface BoardService {
 	public String delete(int boardNo, HttpServletRequest request);
 	public void addReply(Map<String, String> map);
 	public ArrayList<ReplyDTO> getReplyList(int boardNo);
+	public int deleteReply(int replyNo);
+	public int modifyReply(int replyNo, String updateContent);
 }

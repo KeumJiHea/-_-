@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 <body onload="getReply()">
 <table class="board">
 	<tr>
@@ -17,7 +18,7 @@
 		<td class="boardStatus">${dto.boardStatus }</td>
 	</tr>
 	<tr>
-		<td colspan="4" class="content">${dto.boardContent }</td>
+		<td colspan="4" class="boardContent">${dto.boardContent }</td>
 	</tr>
 	<tr>
 		<c:if test="${fileList != '[]' }">
@@ -35,23 +36,29 @@
 		</c:if>
 	</tr>
 </table>
+<c:if test="${dto.memberId == loginUser}">
+	<div class="board-buttons">
+		<button class="modifyBoard button" onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
+		<button class="deleteBoard button" onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
+	</div>
+</c:if>
 
 <div class="reply-box">
 	<c:if test="${loginUser == null }">
 		<label for="memberName">이름</label>
-		<input type="text" name="memberName" placeholder="비회원" readonly>
+		<input type="text" name="memberName" id="memberName" placeholder="비회원" readonly>
 		<br>
-		<textarea placeholder="로그인 시에만 댓글 작성이 가능합니다."></textarea>
-		<input type="button" class="addReply" value="작성">
+		<textarea class="replyContent" placeholder="로그인 시에만 댓글 작성이 가능합니다." readonly></textarea>
+		<input type="button" class="addReply" value="작성" disabled="disabled">
 	</c:if>
 	
 	<c:if test="${loginUser != null }">
 		<form class="replyForm">
 			<input type="hidden" name="memberId" id="memberId" value=${loginUser } readonly>
 			<label for="memberName">이름</label>
-			<input type="text" name="memberName" id="memberName" value=${loginUser }>
+			<input type="text" name="memberName" id="memberName" value=${loginUser } readonly>
 			<br>
-			<textarea name="replyContent" class="repleContent" id="replyContent" rows="5" cols="100" placeholder="댓글을 입력해주세요."></textarea>
+			<textarea name="replyContent" class="replyContent" id="replyContent" placeholder="댓글을 입력해주세요."></textarea>
 			<button type="button" class="addReply" onclick="saveReply()">작성</button>
 		</form>
 	</c:if>
@@ -59,11 +66,6 @@
 <div class="reply-list"></div>
 
 <button class="list button" onclick="location.href='boardList'">목록으로</button>
-
-<c:if test="${dto.memberId == loginUser}">
-	<button class="modifyBoard button" onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
-	<button class="deleteBoard button" onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
-</c:if>
 </body>
 <script>
 	function saveReply(){
@@ -74,7 +76,7 @@
 		
 		$.ajax({
 			type: "POST",
-			url: 'http://localhost:8085/seeot/board/reply',
+			url: '${root}/seeot/board/reply',
 			data: JSON.stringify(
 				{
 					"memberId":memberId,
@@ -86,6 +88,7 @@
 			contentType: "application/json;charset-utf8",
 			success: function(){
 				alert("댓글이 작성되었습니다.");
+				$('#replyContent').val('');
 				getReply();
 			}
 		})
@@ -94,24 +97,22 @@
 	function getReply(){
 		$.ajax({
 			type: "GET",
-			url: "http://localhost:8085/seeot/board/replyList/"+${dto.boardNo},
+			url: "${root}/seeot/board/replyList/"+${dto.boardNo},
 			dataType: "json",
 			success: function(replyList){
-				console.log(replyList);
 				let html = "";
 				if(replyList.length == 0){
 					html = "등록된 댓글이 없습니다."
 				}else{
 					replyList.forEach((reply,index)=>{
-						console.log(reply,index);
-						html += "<div class='reply'>";
-						html += "<div class='replyWriter'>"+reply.memberName+"</div>";
-						html += "<div class='replyContent'>"+reply.replyContent+"</div>";
+						html += "<div id='reply"+reply.replyNo+"'>";
+						html += "<div class='writer'>"+reply.memberName+"</div>";
+						html += "<div class='content'>"+reply.replyContent+"</div>";
 						html += "<div class='replyDate'>"+reply.replyDate+"</div>";
-						html += "<button class='modifyReply' onclick='modifyReply("+reply.replyNo+")'>수정</button>";
+						html += '<button class="modifyReply" onclick="modifyReply('+reply.replyNo+',\''+reply.memberName+'\',\''+reply.replyContent+'\')">수정</button>';
 						html += "<button class='deleteReply' onclick='deleteReply("+reply.replyNo+")'>삭제</button>";
-						html += "</div>"
-						html += "<hr>"
+						html += "</div>";
+						html += "<hr>";
 					});
 				}
 				$(".reply-list").html(html);
@@ -120,14 +121,51 @@
 		})
 	}
 	
-	function modifyReply(replyNo){
-		console.log("댓글 수정")
-	}
-	function deleteReply(replyNo){
-		console.log("댓글 삭제")
+	function modifyReply(replyNo, memberName, replyContent){
+		let modifyHtml = "";
+		
+		modifyHtml += "<div id='reply"+replyNo+"'>";
+		modifyHtml += "<div class='writer'>"+memberName+"</div>";
+		modifyHtml += "<textarea class='UpdateContent'>"+replyContent+"</textarea>";
+		modifyHtml += "<button class='modifyReply' onclick='updateReply("+replyNo+")'>수정</button>";
+		modifyHtml += "<button class='cancleReply' onclick='getReply()'>취소</button>";
+		modifyHtml += "</div>";
+		
+		$('#reply'+replyNo).replaceWith(modifyHtml);
+		$('.UpdateContent').focus();
+	};
+	
+	function updateReply(replyNo){
+		let updateContent = $('.UpdateContent').val();
+		
 		$.ajax({
-			type: "DELETE",
-			url: 
+			type: "POST",
+			url: "${root}/seeot/board/modifyReply/"+replyNo+'/'+updateContent,
+			dataType: "json",
+			success: function(result){
+				if(result==1){
+					alert("댓글이 수정되었습니다.");
+				}else{
+					alert("댓글 수정에 실패했습니다.");
+				}
+				getReply();
+			}
 		})
+	}
+	
+	function deleteReply(replyNo){
+ 		$.ajax({
+			type: "POST",
+			url: "${root}/seeot/board/deleteReply/"+replyNo,
+			dataType: "json",
+			success: function(result){
+				if(result==1){
+					alert('댓글이 삭제되었습니다.');
+				}else{
+					alert('댓글을 삭제하지 못했습니다.');
+				}
+				getReply();
+			}
+		});
 	}
 </script>
