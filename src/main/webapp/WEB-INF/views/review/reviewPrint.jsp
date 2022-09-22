@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body onload="rePrint()">
-<h4>상품후기</h4> 
+<h4>상품후기 만들면 삭제 예정 페이지</h4> 
 <hr>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

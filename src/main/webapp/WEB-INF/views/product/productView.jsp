@@ -108,14 +108,14 @@
 
 	} */
 	
-	/*리뷰 불러오기*///var reviewFile = $("input[name='reviewFile']")
+	/*리뷰 불러오기*/
 	function rePrint(){
 		
 		
 	$.ajax({
 
 		url:"../review/replyData", type:"get",
-		
+		data:{ productNo : "${pdto.productNo}"},
 		dataType :"json", //받아올 데이터 자료형
 		success : function( reviewData ){
 			
@@ -125,11 +125,7 @@
 				let wd = date.getFullYear()+"-";
 				wd += (date.getMonth()+1) + "-";
 				wd += date.getDate();
-				/*
-				wd += date.getHours()+"시";
-				wd += date.getMinutes()+"분";
-				wd += date.getSeconds()+"초";
-				*/
+				
 				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
@@ -144,7 +140,9 @@
 				
 				html+= "<hr></div>";
 			}
-			html+="<a href=../review/reviewPrint?productNo=${pdto.productNo}>후기더보기";
+			console.log(${repeat.repeat});
+			html += "<div>"+"페이지"+"</div>";
+			
 			$("#reply").html( html )
 			},
 		error: function(){alert("function error")}
@@ -240,6 +238,8 @@
 	<div id="proReview">
 	<h2>상품 후기</h2>
 	<hr>
+	<input type="hidden" id="productNo" name="productNo" value="${pdto.productNo }">
+	
 	<!-- 
 	<table border="1">
 		<tr>
@@ -253,10 +253,10 @@
 		</tr>
 	</table>
 	 -->
-	<div>
-	<input type="hidden" value="${pdto.productNo }" name="productNo">
+	 <div>
 	
 	<div id="reply"></div>
+	
 	</div>
 	</div><br><br>
 	

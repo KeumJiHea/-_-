@@ -71,13 +71,13 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar 
 									, int productNo) {
-		/**/
+		/*
 		System.out.println("reviewcontroller-service");
 		System.out.println(mul.getParameter("memberId"));
 		System.out.println(mul.getParameter("reviewContent"));
 		System.out.println(reviewStar);
 		System.out.println(productNo);
-		
+		*/
 		ReviewDTO dto = new ReviewDTO();
 		dto.setMemberId(mul.getParameter("memberId"));
 		dto.setReviewContent((mul.getParameter("reviewContent")));
@@ -113,6 +113,7 @@ public class ReviewServiceImpl implements ReviewService {
 			dto.setReviewFile( "nan");
 		}}
 		mapper.saveData( dto );
+		//mapper로 product테이블 카운트 증가 넣기&별점
 	}
 	
 	 public void delete(int reviewNo) {
