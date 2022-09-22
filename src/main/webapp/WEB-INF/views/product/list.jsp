@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 
 	<style type="text/css">
-	    .wrapper {
+	    .productWrapper {
 	    	width: 1000px;
 	        display: flex;
 	        flex-wrap: wrap;
@@ -108,11 +108,11 @@
 							html += "<span><b>" + list[i].productName + "</b></span><br>";
 							html += "<span><b>" + list[i].productPrice + "</b></span></a>";
 							html += "</div>";
-							$(".wrapper").html(html);
+							$(".productWrapper").html(html);
 						}
 						}else{
 							html = "<div><b>일치하는 상품이 없습니다.<b></div>";
-							$(".wrapper").html(html);
+							$(".productWrapper").html(html);
 							paging = ""
 							$(".paging").html(paging);
 						}
@@ -174,7 +174,7 @@
 	</select><br>
 	
 	
-	<div class="wrapper">
+	<div class="productWrapper">
 		
 	</div>
 

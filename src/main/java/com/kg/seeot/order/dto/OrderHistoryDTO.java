@@ -3,8 +3,8 @@ package com.kg.seeot.order.dto;
 import java.text.SimpleDateFormat;
 
 public class OrderHistoryDTO {
-	String hiMemberId,hiProductName,hiProductColor,hiProductFile,hiOrderAddr1,hiOrderAddr2,hiOrderDate;
-	int hiOrderNo,hiProductNo,hiProductSize,hiOrderPrice,hiOrderStatus,hiProductPrice,hiOrderStack;
+	String hiOrderNo,hiMemberId,hiProductName,hiProductColor,hiProductFile,hiOrderAddr1,hiOrderAddr2,hiOrderDate;
+	int hiProductNo,hiProductSize,hiOrderPrice,hiOrderStatus,hiProductPrice,hiOrderStack;
 	public String getHiMemberId() {
 		return hiMemberId;
 	}
@@ -48,10 +48,10 @@ public class OrderHistoryDTO {
 		SimpleDateFormat s = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		this.hiOrderDate = s.format(hiOrderDate);
 	}
-	public int getHiOrderNo() {
+	public String getHiOrderNo() {
 		return hiOrderNo;
 	}
-	public void setHiOrderNo(int hiOrderNo) {
+	public void setHiOrderNo(String hiOrderNo) {
 		this.hiOrderNo = hiOrderNo;
 	}
 	public int getHiProductNo() {
