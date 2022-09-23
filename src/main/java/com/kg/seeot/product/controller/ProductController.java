@@ -213,4 +213,17 @@ public class ProductController {
 		return "admin/productList";
 	}
 	
+	
+	
+	
+	
+	
+	
+	//상품 상세 정보
+	@GetMapping("viewTest")
+	public String viewTest(Model model, int productNo) {
+		ps.productView(model, productNo);
+		return "product/viewTest";
+	}
+	
 }

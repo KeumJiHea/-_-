@@ -38,9 +38,38 @@
 	
 	var num = 1;
 	var orderBy = 'redate';
+	var pgnum = 1;
 	
 	function pagingNum(pNum) {
 		num = pNum;
+		productList();
+	}
+	
+	function startPagNum(pNum) {
+		pgnum = pNum;
+		num = pNum;
+		productList();
+	}
+	
+	function endPagNum(pNum) {
+		if( parseInt( pNum % 5 ) == 0 ){
+			pgnum = pNum - 4 ;
+		}else {
+			pgnum = parseInt( pNum / 5 ) * 5 + 1;
+		}
+		num = pNum;
+		productList();
+	}
+	
+	function prePagNum() {
+		pgnum = pgnum - 5;
+		num = pgnum;
+		productList();
+	}
+	
+	function nextPagNum() {
+		pgnum = pgnum + 5;
+		num = pgnum;
 		productList();
 	}
 	
@@ -52,11 +81,13 @@
 	
 	
 	function productList() {
-		
-		console.log(num)
-		console.log(orderBy)
-		console.log(chkColor_arr);
-		console.log(chkPrice_arr);
+		console.log("@@@@@@ Check value @@@@@")
+		console.log("num : " + num)
+		console.log("orderBy : " + orderBy)
+		console.log("chkColor_arr : " + chkColor_arr);
+		console.log("chkPrice_arr : " + chkPrice_arr);
+		console.log("chkPrice_arr : " + chkPrice_arr);
+		console.log("pgnum : " + pgnum);
 		
 		$.ajax({
 			url: "allCount?productCategorie=" + productCategorie,
@@ -77,23 +108,41 @@
 				var repeat = parseInt(productCount / pageViewProduct);
 				if( productCount / pageViewProduct != 0) {
 					repeat += 1;
-				}
+				};
+				console.log("repeat : " + repeat)
 				
 				if(num == 1) {
-					paging += "<button onclick='javascript:pagingNum(1)' disabled> 처음으로 </button>"
-				}else {
-					paging += "<button onclick='javascript:pagingNum(1)'> 처음으로 </button>"
-				}
+					paging += "<button onclick='javascript:startPagNum(1)' disabled> 처음으로 </button>";
+					paging += "<button onclick='javascript:prePagNum()' disabled> 이전 </button>";
+				}else if(num > 5){
+					paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
+					paging += "<button onclick='javascript:prePagNum()'> 이전 </button>";
+				}else{
+					paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
+					paging += "<button onclick='javascript:prePagNum()' disabled> 이전 </button>";
+				};
 				
-				for(i=1; i<=repeat; i++) {
-					paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+				if( (pgnum+5) <= repeat ) {
+					for(i=pgnum; i<=(pgnum+4); i++) {
+						paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+					}
+				}else {
+					for(i=pgnum; i<=repeat; i++) {
+						paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+					};
 				}
 				
 				if(num == repeat){
-					paging += "<button onclick='javascript:pagingNum(" + repeat + ")' disabled> 끝으로 </button>"
+					paging += "<button onclick='javascript:nextPagNum()' disabled> 다음 </button>";
+					paging += "<button onclick='javascript:endPagNum(" + repeat + ")' disabled> 끝으로 </button>";
+				}else if( (pgnum + 5) >repeat ) {
+					paging += "<button onclick='javascript:nextPagNum()'  disabled> 다음 </button>";
+					paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
 				}else {
-					paging += "<button onclick='javascript:pagingNum(" + repeat + ")'> 끝으로 </button>"
-				}
+					paging += "<button onclick='javascript:nextPagNum()'> 다음 </button>";
+					paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
+				};
+				
 				$(".paging").html(paging);
 				
 				 $.ajax({
@@ -120,6 +169,7 @@
 							html += "<div style='padding-bottom:0px;'><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></div><br>";
 							html += "<div style='text-align: center; height: 0px; '><b>" + list[i].productName + "</b></div><br>";
 							html += "<div style='text-align: center;'><b>" + list[i].productPrice + "</b></div></a>";
+							html += "<a href='${contextPath}/product/viewTest?productNo=" + list[i].productNo + "'>Test링크입니다</a>";
 							html += "</div>";
 							$(".productWrapper").html(html);
 						}
@@ -154,6 +204,8 @@
 			var chkPrice = $(this).val();
 			chkPrice_arr.push(chkPrice);
 		})
+		num = 1;
+		pgnum = 1;
 			
 			productList();
 	}
