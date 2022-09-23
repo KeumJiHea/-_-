@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 
 	<style type="text/css">
-	    .wrapper {
+	    .productWrapper {
 	    	width: 1000px;
 	        display: flex;
 	        flex-wrap: wrap;
@@ -121,11 +121,11 @@
 							html += "<div style='text-align: center; height: 0px; '><b>" + list[i].productName + "</b></div><br>";
 							html += "<div style='text-align: center;'><b>" + list[i].productPrice + "</b></div></a>";
 							html += "</div>";
-							$(".wrapper").html(html);
+							$(".productWrapper").html(html);
 						}
 						}else{
 							html = "<div><b>일치하는 상품이 없습니다.<b></div>";
-							$(".wrapper").html(html);
+							$(".productWrapper").html(html);
 							paging = ""
 							$(".paging").html(paging);
 						}
@@ -179,14 +179,13 @@
 	
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
-			<option value="oldate"> 오래된 순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
-			<option value="review"> 리뷰 많은순
+			<option value="rating"> 높은 별점순
 	</select><br>
 	
 	
-	<div class="wrapper">
+	<div class="productWrapper">
 		
 	</div>
 
@@ -194,6 +193,5 @@
 	
 	</div>
 	
-
 </body>
 </html>

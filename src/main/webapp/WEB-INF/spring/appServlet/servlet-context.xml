@@ -41,7 +41,8 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/cart/mycart"/> 
+			<mapping path="/cart/mycart"/>
+			<mapping path="/board/boardWrite"/>
 			<beans:ref bean="loginChk"/>
 		</interceptor>
 	</interceptors>
