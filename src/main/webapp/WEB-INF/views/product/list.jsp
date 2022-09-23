@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<<<<<<< HEAD
 
 	<style type="text/css">
 	    .wrapper {
@@ -148,6 +149,12 @@
 			var chkColor = $(this).val();
 			chkColor_arr.push(chkColor);
 		})
+=======
+</head>
+<body>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+>>>>>>> 29040d9b2b90b1a098d7d36cbbb283e95f962e00
 		
 		chkPrice_arr = [];
 		$("input[name=Price]:checked").each(function(){
@@ -177,6 +184,7 @@
 		<hr>
 	</div><br>
 	
+<<<<<<< HEAD
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
 			<option value="oldate"> 오래된 순
@@ -195,5 +203,40 @@
 	</div>
 	
 
+=======
+	<hr>
+	<table border="1">
+		<tr>
+			<th>상품이미지</th>
+			<th>이름</th>
+			<th>상품가격</th>
+			<th>리뷰수</th>
+			<th>상품별점</th>
+		</tr>
+		<c:if test="${list.size() == 0 }">
+				<tr>
+					<th colspan="12">등록된 상품이 없습니다.</th>
+				</tr>
+		</c:if>
+		
+		<c:forEach var="dto" items="${list }">
+			<tr>
+				<c:if test="${ dto.productFile == 'nan' }">
+					<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }"><b>등록된 이미지가 없습니다.</b></a></td>
+				</c:if>
+				<c:if test="${ dto.productFile != 'nan' }">
+					<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }"><img width="200px" height="100px" src="${contextPath}/product/download?productFile=${dto.productFile}"></a></td>
+				</c:if>
+				<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }">${dto.productName }</a></td>
+				<td>${dto.productPrice }</td>
+				<td>${dto.reviewCount }</td>
+				<td>${dto.productRating }</td>
+			</tr>
+		</c:forEach>
+		
+	</table>
+	
+	<button onclick="location.href='productRegister'">상품 추가</button>
+>>>>>>> 29040d9b2b90b1a098d7d36cbbb283e95f962e00
 </body>
 </html>

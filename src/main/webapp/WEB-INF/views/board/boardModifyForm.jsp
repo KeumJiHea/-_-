@@ -24,8 +24,7 @@
 <body>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<!-- <c:import url="../default/header.jsp" /> 
-<div style="width:300px; margin: 0 auto;">-->
+
 <form action="${contextPath}/board/modify" enctype="multipart/form-data" method="post" >
 	<input type="hidden" name="memberId" value="${dto.memberId}">
 	<input type="hidden" name="boardFile" value="${dto.boardFile}"><!--  -->
