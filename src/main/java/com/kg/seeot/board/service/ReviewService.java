@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.board.dto.ReviewDTO;
@@ -26,4 +27,7 @@ public interface ReviewService {
 	 public String modify(MultipartHttpServletRequest mul,
 				HttpServletRequest request);
 	 public void modify_form(int reviewNo,Model model);
+	 
+	 public ReviewDTO saveFile(MultipartFile file);
+	 public String getMessage(String msg, String url);
 }

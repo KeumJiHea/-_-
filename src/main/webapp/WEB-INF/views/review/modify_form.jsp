@@ -3,8 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
    function readURL(input) {
@@ -26,18 +28,33 @@
 <body>
 modify
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<form action="modify" enctype="multipart/form-data" method="post" >
-	<input type="text" name="writeNo" value="${rdto.reviewNo}">
-	<input type="text" name="reviewFile" value="${rdto.reviewFile}">
-	아이디 <input type="text" name="memberId" value="${rdto.memberId }"><br>
-	 작성일<input type="text" name="reviewDate" value="${rdto.reviewDate }"><br>
-	  별점<input type="text" name="reviewStar" value="${rdto.reviewStar }"><br>
+<form action="modify" enctype="multipart/form-data" method="post" name="modify" >
+	<input type="hidden" name="reviewNo" value="${rdto.reviewNo }">
+	<input type="hidden" name="productNo" value="${rdto.productNo }">
+	아이디 <input type="text" name="memberId" value="${rdto.memberId }" readonly="readonly"><br>
+	 작성일<input type="text" name="reviewDate" value="${rdto.reviewDate }" readonly="readonly"><br>
+	 
+	  
+	  <fieldset> 
+	<span class="text-bold">별점을 선택해주세요</span>
+		<input type="radio" name="reviewStar" value=1 id="rate1">
+		<label for="rate1">★</label>
+		<input type="radio" name="reviewStar" value=2 id="rate2">
+		<label for="rate2">★</label>
+		<input type="radio" name="reviewStar" value=3 id="rate3">
+		<label for="rate3">★</label>
+		<input type="radio" name="reviewStar" value=4 id="rate4">
+		<label for="rate4">★</label>
+		<input type="radio" name="reviewStar" value=5 id="rate5">
+		<label for="rate5">★</label>
+	</fieldset>
+	
 	   내용<input type="text" name="reviewContent" value="${rdto.reviewContent }"><br>
-	   <input type="text" name="reviewFile" value="${rdto.reviewFile}"><br>
+	   <input type="hidden" name="reviewFile" value="${rdto.reviewFile }"><br>
 	   
 	   <img width="200px" height="100px" id="preview"
-		src="download?file=${rdto.reviewFile}">
-		<input type="file" name="imageFileName" onchange="readURL(this)">
+		src="download?file=${rdto.reviewFile}"  >
+		<input type="file" name="reviewFile" onchange="readURL(this)" >
 		
 		<input type="submit" value="수정하기">
 	<input type="button" onclick="history.back()" value="이전으로 돌아가기">

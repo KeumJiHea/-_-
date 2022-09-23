@@ -45,11 +45,11 @@ public class ReviewController {
 	@PostMapping("reviewSave")
 	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar
 								, int productNo) {
-		/*
+		/**/
 		System.out.println("reviewcontroller");
 		System.out.println("reviewStar: "+ reviewStar);
 		System.out.println("productNo: "+ productNo);
-		*/
+		
 		rs.fileProcess( mul , reviewStar , productNo );
 		
 		String id = mul.getParameter("memberId"); 
@@ -90,7 +90,7 @@ public class ReviewController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		System.out.println("controller");
-		
+	
 		
 		String message = rs.modify(mul, request);
 		response.setContentType("text/html; charset=utf-8");
