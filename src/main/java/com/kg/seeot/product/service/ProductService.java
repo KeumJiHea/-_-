@@ -14,8 +14,10 @@ public interface ProductService {
 	public void allList(Model model);
 	public void list(Model model, int productCategorie);
 	public void productView(Model model, int productNo);
+	public void productNameList(Model model, String productName);
+	public void productNoList(Model model, int productNo);
 	public String productSave(MultipartHttpServletRequest mul, HttpServletRequest request);
-	public String productDelete(int productNo, String productFile, HttpServletRequest request);
+	public String productDelete(int productNo, String productFile, String productContent, HttpServletRequest request);
 	
 	public void productModify_Form(int productNo, Model model);
 	public String productModify(MultipartHttpServletRequest mul, HttpServletRequest request);
@@ -27,6 +29,7 @@ public interface ProductService {
 	
 	public ProductManageDTO proStackGet(ProductManageDTO mdto);
 	
-	public List<ProductDTO> prolist(String orderBy);
+	public int allCount(int productCategorie, String[] chkColor_arr, String[] chkPrice_arr);
+	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct, String[] chkColor_arr, String[] chkPrice_arr);
 	
 }

@@ -26,26 +26,6 @@
        
 	<select id="allList" resultMap="product">
 		select * from product
-		<!-- 	<choose>
-				<when test="null" or test="">
-				
-				</when>
-				<when test="orderBy.equals('redate')">
-					order by product_date desc
-				</when>
-				<when test="orderBy.equals('lprice')">
-					order by product_price asc, product_date desc
-				</when>
-				<when test="orderBy.equals('hprice')">
-					order by product_price desc, product_date desc
-				</when>
-				<when test="orderBy.equals('rating')">
-					order by product_rating desc
-				</when>
-				<when test="orderBy.equals('review')">
-					order by review_count desc
-				</when>
-			</choose> -->
 	</select>
 	
 	<select id="list" resultMap="product">
@@ -54,6 +34,14 @@
 	
 	<select id="productView" resultMap="product">
 		select * from product where product_no = #{productNo}
+	</select>
+	
+	<select id="productNoList" resultMap="product">
+		select * from product where product_no = #{productNo}
+	</select>
+	
+	<select id="productNameList" resultMap="product">
+		select * from product where UPPER(product_name) like UPPER('%' || #{productName} || '%')
 	</select>
 	
 	<select id="managementSize" resultMap="product_management">
@@ -98,28 +86,286 @@
 		update product_management set product_stack=#{moProductStack}, product_size=#{moProductSize}, product_color=#{moProductColor} where product_no=#{productNo} and product_stack=#{productStack} and product_size=#{productSize} and product_color=#{productColor}
 	</update>
 	
-	<select id="proList" resultMap="product">
-		select * from product
-		 	<choose>
-		 		<when test="orderBy.equals('lprice')">
-					order by product_price asc, product_date desc
-				</when>
- 				<when test="orderBy.equals('redate')">
-					order by product_date desc
-				</when>
-				<when test="orderBy.equals('hprice')">
-					order by product_price desc, product_date desc
-				</when>
-				<when test="orderBy.equals('rating')">
-					order by product_rating desc
-				</when>
-				<when test="orderBy.equals('review')">
-					order by review_count desc
-				</when>
-				<otherwise>
-				
-				</otherwise>
-			</choose>
+	<select id="allCount" resultType="Integer">
+		<if test="chkColor_arr == null">
+			select count(*) from product
+				<if test="productCategorie != 0">
+					where product_categorie = #{productCategorie} 
+						<if test="chkPrice_arr != null">
+								<trim prefix="and (" prefixOverrides="or" suffix=")">
+									<foreach collection="chkPrice_arr" item="chkPrice">
+										<choose>
+											<when test="chkPrice.equals('PR1')">
+												product_price between 0 and 10000
+											</when>
+											<when test="chkPrice.equals('PR2')">
+												or product_price between 10000 and 30000
+											</when>
+											<when test="chkPrice.equals('PR3')">
+												or product_price between 30000 and 50000
+											</when>
+											<when test="chkPrice.equals('PR4')">
+												or product_price between 50000 and 100000
+											</when>
+											<when test="chkPrice.equals('PR5')">
+												or product_price between 100000 and 999999999
+											</when>
+										</choose>
+									</foreach>
+								</trim>
+							</if>
+				</if>
+				<if test="productCategorie == 0">
+						<if test="chkPrice_arr != null">
+							<trim prefix="where (" prefixOverrides="or" suffix=")">
+								<foreach collection="chkPrice_arr" item="chkPrice">
+									<choose>
+										<when test="chkPrice.equals('PR1')">
+											product_price between 0 and 10000
+										</when>
+										<when test="chkPrice.equals('PR2')">
+											or product_price between 10000 and 30000
+										</when>
+										<when test="chkPrice.equals('PR3')">
+											or product_price between 30000 and 50000
+										</when>
+										<when test="chkPrice.equals('PR4')">
+											or product_price between 50000 and 100000
+										</when>
+										<when test="chkPrice.equals('PR5')">
+											or product_price between 100000 and 999999999
+										</when>
+									</choose>
+								</foreach>
+							</trim>
+						</if>
+				</if>
+		</if>
+		<if test="chkColor_arr != null">
+			select count(*) from (select distinct A.* from product A join product_management B on A.product_no = B.product_no
+				<if test="productCategorie != 0">
+					where A.product_categorie = #{productCategorie} 
+					<if test="chkPrice_arr != null">
+						<trim prefix="and (" prefixOverrides="or" suffix=")">
+							<foreach collection="chkPrice_arr" item="chkPrice">
+								<choose>
+									<when test="chkPrice.equals('PR1')">
+										A.product_price between 0 and 10000
+									</when>
+									<when test="chkPrice.equals('PR2')">
+										or A.product_price between 10000 and 30000
+									</when>
+									<when test="chkPrice.equals('PR3')">
+										or A.product_price between 30000 and 50000
+									</when>
+									<when test="chkPrice.equals('PR4')">
+										or A.product_price between 50000 and 100000
+									</when>
+									<when test="chkPrice.equals('PR5')">
+										or A.product_price between 100000 and 999999999
+									</when>
+								</choose>
+							</foreach>
+						</trim>
+					</if>
+					<foreach collection="chkColor_arr" item="chkColor" open="and B.product_color in (" separator="," close=")">
+						#{chkColor}
+					</foreach>
+				</if>
+				<if test="productCategorie == 0">
+					<if test="chkPrice_arr != null">
+						<trim prefix="where (" prefixOverrides="or" suffix=")">
+							<foreach collection="chkPrice_arr" item="chkPrice">
+								<choose>
+									<when test="chkPrice.equals('PR1')">
+										A.product_price between 0 and 10000
+									</when>
+									<when test="chkPrice.equals('PR2')">
+										or A.product_price between 10000 and 30000
+									</when>
+									<when test="chkPrice.equals('PR3')">
+										or A.product_price between 30000 and 50000
+									</when>
+									<when test="chkPrice.equals('PR4')">
+										or A.product_price between 50000 and 100000
+									</when>
+									<when test="chkPrice.equals('PR5')">
+										or A.product_price between 100000 and 999999999
+									</when>
+								</choose>
+							</foreach>
+						</trim>
+						<foreach collection="chkColor_arr" item="chkColor" open="and B.product_color in (" separator="," close=")">
+							#{chkColor}
+						</foreach>
+					</if>
+					<if test="chkPrice_arr == null">
+						<foreach collection="chkColor_arr" item="chkColor" open="where B.product_color in (" separator="," close=")">
+							#{chkColor}
+						</foreach>
+					</if>
+				</if>
+				) C
+		</if>
 	</select>
+	
+	<select id="prolist" resultMap="product">
+			<if test="chkColor_arr == null">
+			select B.* from(select rownum rn, A.* from(select * from product 
+				<if test="productCategorie != 0">
+					where product_categorie = #{productCategorie} 
+						<if test="chkPrice_arr != null">
+								<trim prefix="and (" prefixOverrides="or" suffix=")">
+									<foreach collection="chkPrice_arr" item="chkPrice">
+										<choose>
+											<when test="chkPrice.equals('PR1')">
+												product_price between 0 and 10000
+											</when>
+											<when test="chkPrice.equals('PR2')">
+												or product_price between 10000 and 30000
+											</when>
+											<when test="chkPrice.equals('PR3')">
+												or product_price between 30000 and 50000
+											</when>
+											<when test="chkPrice.equals('PR4')">
+												or product_price between 50000 and 100000
+											</when>
+											<when test="chkPrice.equals('PR5')">
+												or product_price between 100000 and 999999999
+											</when>
+										</choose>
+									</foreach>
+								</trim>
+							</if>
+				</if>
+				<if test="productCategorie == 0">
+						<if test="chkPrice_arr != null">
+							<trim prefix="where (" prefixOverrides="or" suffix=")">
+								<foreach collection="chkPrice_arr" item="chkPrice">
+									<choose>
+										<when test="chkPrice.equals('PR1')">
+											product_price between 0 and 10000
+										</when>
+										<when test="chkPrice.equals('PR2')">
+											or product_price between 10000 and 30000
+										</when>
+										<when test="chkPrice.equals('PR3')">
+											or product_price between 30000 and 50000
+										</when>
+										<when test="chkPrice.equals('PR4')">
+											or product_price between 50000 and 100000
+										</when>
+										<when test="chkPrice.equals('PR5')">
+											or product_price between 100000 and 999999999
+										</when>
+									</choose>
+								</foreach>
+							</trim>
+						</if>
+				</if>
+				<choose>
+					<when test="orderBy.equals('redate')">
+						order by product_date desc
+					</when>
+					<when test="orderBy.equals('oldate')">
+						order by product_date asc
+					</when>
+					<when test="orderBy.equals('hprice')">
+						order by product_price desc, product_date desc
+					</when>
+					<when test="orderBy.equals('lprice')">
+						order by product_price asc, product_date desc
+					</when>
+					<when test="orderBy.equals('review')">
+						order by review_count desc, product_date desc
+					</when>
+				</choose>
+				)A)B where rn between #{start} and #{end}
+		</if>
+		<if test="chkColor_arr != null">
+			select D.* from(select rownum rn, C.* from(select distinct A.* from product A join product_management B on A.product_no = B.product_no
+				<if test="productCategorie != 0">
+					where A.product_categorie = #{productCategorie} 
+					<if test="chkPrice_arr != null">
+						<trim prefix="and (" prefixOverrides="or" suffix=")">
+							<foreach collection="chkPrice_arr" item="chkPrice">
+								<choose>
+									<when test="chkPrice.equals('PR1')">
+										A.product_price between 0 and 10000
+									</when>
+									<when test="chkPrice.equals('PR2')">
+										or A.product_price between 10000 and 30000
+									</when>
+									<when test="chkPrice.equals('PR3')">
+										or A.product_price between 30000 and 50000
+									</when>
+									<when test="chkPrice.equals('PR4')">
+										or A.product_price between 50000 and 100000
+									</when>
+									<when test="chkPrice.equals('PR5')">
+										or A.product_price between 100000 and 999999999
+									</when>
+								</choose>
+							</foreach>
+						</trim>
+					</if>
+					<foreach collection="chkColor_arr" item="chkColor" open="and B.product_color in (" separator="," close=")">
+						#{chkColor}
+					</foreach>
+				</if>
+				<if test="productCategorie == 0">
+					<if test="chkPrice_arr != null">
+						<trim prefix="where (" prefixOverrides="or" suffix=")">
+							<foreach collection="chkPrice_arr" item="chkPrice">
+								<choose>
+									<when test="chkPrice.equals('PR1')">
+										A.product_price between 0 and 10000
+									</when>
+									<when test="chkPrice.equals('PR2')">
+										or A.product_price between 10000 and 30000
+									</when>
+									<when test="chkPrice.equals('PR3')">
+										or A.product_price between 30000 and 50000
+									</when>
+									<when test="chkPrice.equals('PR4')">
+										or A.product_price between 50000 and 100000
+									</when>
+									<when test="chkPrice.equals('PR5')">
+										or A.product_price between 100000 and 999999999
+									</when>
+								</choose>
+							</foreach>
+						</trim>
+						<foreach collection="chkColor_arr" item="chkColor" open="and B.product_color in (" separator="," close=")">
+							#{chkColor}
+						</foreach>
+					</if>
+					<if test="chkPrice_arr == null">
+						<foreach collection="chkColor_arr" item="chkColor" open="where B.product_color in (" separator="," close=")">
+							#{chkColor}
+						</foreach>
+					</if>
+				</if>
+				<choose>
+					<when test="orderBy.equals('redate')">
+						order by product_date desc
+					</when>
+					<when test="orderBy.equals('hprice')">
+						order by product_price desc, product_date desc
+					</when>
+					<when test="orderBy.equals('lprice')">
+						order by product_price asc, product_date desc
+					</when>
+					<when test="orderBy.equals('rating')">
+						order by product_rating desc, product_date desc
+					</when>
+					<when test="orderBy.equals('review')">
+						order by review_count desc, product_date desc
+					</when>
+				</choose>
+				)C)D where rn between #{start} and #{end}
+		</if>
+	</select>
+
 	
 </mapper>

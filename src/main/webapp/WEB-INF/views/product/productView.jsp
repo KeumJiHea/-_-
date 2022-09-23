@@ -108,13 +108,6 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
-	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
-	<b> | 상품 관리 | </b>
-	<button type="button" onclick="location.href='productModify_Form?productNo=${pdto.productNo}'" >상품 정보 수정</button>
-	<button type="button" onclick="location.href='productDelete?productNo=${pdto.productNo}&productFile=${pdto.productFile }'">상품 삭제</button>
-	<b> | 재고 관리 | </b>
-	<button type="button" onclick="location.href='managementView?productNo=${pdto.productNo}'" >상품 재고 관리</button>
-	
 	<table border="1">
 		<tr>
 			<td rowspan="10">
@@ -190,7 +183,7 @@
 		<b>등록된 이미지가 없습니다.</b>
 	</c:if>
 	<c:if test="${ pdto.productContent != 'nan' }">
-		<img width="500px" height="500px" src="${contextPath}/product/download?productFile=${pdto.productContent}">
+		<img src="${contextPath}/product/download?productFile=${pdto.productContent}">
 	</c:if>
 	</div><br><br>
 	
