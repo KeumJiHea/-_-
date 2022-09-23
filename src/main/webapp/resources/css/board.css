@@ -19,6 +19,15 @@
 
 .boardTitle{
     width: 600px;
+	text-align: left;
+}
+
+.boardTitle a{
+	font-size: 1.2rem;
+}
+
+.replyCount{
+	color: rgb(33,33,33,0.6)
 }
 
 .button{
@@ -33,6 +42,10 @@
 
 .paging{
 	text-align: center;
+	padding: 10px;
+}
+.paging a{
+	padding: 5px;
 }
 
 .board{

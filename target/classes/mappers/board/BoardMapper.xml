@@ -11,8 +11,8 @@
 		<result property="boardContent" column="board_content" />
 		<result property="boardDate" column="board_date" />
 		<result property="boardQnAType" column="board_qnatype"/>
-		<result property="boardStatus" column="board_status"/>
 		<result property="boardHit" column="board_hit"/>
+		<result property="replyCount" column="reply_count"/>
 	</resultMap>
 	
 	<resultMap type="com.kg.seeot.board.dto.FileDTO" id="file">
@@ -34,7 +34,7 @@
 		SELECT B.* from(
 		SELECT rownum rn, A.* from(
 		SELECT * from seeot_board
-		order by board_no desc)A)B
+		ORDER BY board_no DESC)A)B
 		WHERE rn between #{startPage} and #{endPage}
 	</select>
 	
@@ -53,8 +53,8 @@
 	</select>
 
 	<insert id="boardWrite">
-	    INSERT into seeot_board(member_id, member_name, board_no, board_title, board_content, board_qnatype, board_status)
-		VALUES(#{memberId}, #{memberName}, board_seq.nextval, #{boardTitle}, #{boardContent}, #{boardQnAType}, #{boardStatus})
+	    INSERT into seeot_board(member_id, member_name, board_no, board_title, board_content, board_qnatype)
+		VALUES(#{memberId}, #{memberName}, board_seq.nextval, #{boardTitle}, #{boardContent}, #{boardQnAType})
 		
 		<selectKey keyProperty="boardNo" order="AFTER" resultType="int">
 			SELECT board_seq.currval from dual
@@ -111,6 +111,20 @@
 		UPDATE seeot_reply
 	    SET	reply_content = #{updateContent}
 		WHERE reply_no = #{replyNo}
+	</update>
+	
+	<update id="replyCount">
+		UPDATE seeot_board b
+		SET b.reply_count = (select count(*)
+		                    from seeot_reply
+		                    where board_no = #{boardNo})
+		WHERE b.board_no = #{boardNo}
+	</update>
+	
+	<update id="upHit">
+		UPDATE seeot_board
+		SET board_hit = board_hit+1
+		WHERE board_no = #{boardNo}
 	</update>
 
 </mapper>

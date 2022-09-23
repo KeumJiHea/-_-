@@ -24,4 +24,6 @@ public interface BoardMapper {
 	public ArrayList<ReplyDTO> getReplyList(int boardNo); //게시글 댓글 가져오기
 	public int deleteReply(int replyNo); //댓글 삭제
 	public int modifyReply(@Param("replyNo") int replyNo, @Param("updateContent") String updateContent); //댓글 수정
+	public Integer replyCount(@Param("boardNo") int boardNo); //댓글 개수 count
+	public int upHit(int boardNo); //조회수
 }

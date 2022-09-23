@@ -38,14 +38,5 @@
 <div class="banners">
 	<img class="banner" src="<%=request.getContextPath() %>/resources/images/slide02.jpg">
 </div>
-
-<div class="item">
-	<div class="section-name">겨울 추천템</div>
-	<div class="items season-items">
-		<img src="<%=request.getContextPath() %>/resources/images/20220823_3_30001.jpg">
-		<img src="<%=request.getContextPath() %>/resources/images/20220823_3_30002.jpg">
-		<img src="<%=request.getContextPath() %>/resources/images/20220823_3_30003.jpg">
-	</div>
-</div>
 </body>
 <script src="<%=request.getContextPath() %>/resources/js/main.js"></script>

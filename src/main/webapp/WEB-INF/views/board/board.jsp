@@ -12,10 +12,10 @@
 		<td class="memberName">${dto.memberName }</td>
 	</tr>
 	<tr>
+		<th>상담 유형</th>
+		<td class="title">${dto.boardQnAType }</td>
 		<th>문의 일시</th>
 		<td class="boardDate">${dto.boardDate }</td>
-		<th>처리 상태</th>
-		<td class="boardStatus">${dto.boardStatus }</td>
 	</tr>
 	<tr>
 		<td colspan="4" class="boardContent">${dto.boardContent }</td>
@@ -110,7 +110,7 @@
 						html += "<div class='content'>"+reply.replyContent+"</div>";
 						html += "<div class='replyDate'>"+reply.replyDate+"</div>";
 						html += '<button class="modifyReply" onclick="modifyReply('+reply.replyNo+',\''+reply.memberName+'\',\''+reply.replyContent+'\')">수정</button>';
-						html += "<button class='deleteReply' onclick='deleteReply("+reply.replyNo+")'>삭제</button>";
+						html += '<button class="deleteReply" onclick="deleteReply('+reply.replyNo+',\''+reply.boardNo+'\')">삭제</button>';
 						html += "</div>";
 						html += "<hr>";
 					});
@@ -153,10 +153,10 @@
 		})
 	}
 	
-	function deleteReply(replyNo){
+	function deleteReply(replyNo, boardNo){
  		$.ajax({
 			type: "POST",
-			url: "${root}/seeot/board/deleteReply/"+replyNo,
+			url: "${root}/seeot/board/deleteReply/"+replyNo+'/'+boardNo,
 			dataType: "json",
 			success: function(result){
 				if(result==1){
