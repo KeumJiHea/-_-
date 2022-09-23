@@ -30,4 +30,5 @@ public interface ReviewService {
 	 
 	 public ReviewDTO saveFile(MultipartFile file);
 	 public String getMessage(String msg, String url);
+	 public void productModify(int reviewNo);
 }

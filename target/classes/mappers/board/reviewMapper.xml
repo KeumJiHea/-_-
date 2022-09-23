@@ -66,6 +66,10 @@
 	 product_rating=product_rating+#{reviewStar} where product_no=#{productNo}
 	</update>
 	
+	<update id="productmodify">
+	update product set review_count=review_count-1,
+		product_rating=product_rating-#{modifyStar} where product_no=#{modifyProductNo}
+	</update>
 	
 
 </mapper>

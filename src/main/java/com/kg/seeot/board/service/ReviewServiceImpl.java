@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
 		int pageLetter = 5;
 		int allCount = mapper.getCount(productNo);
 		
-		System.out.println(allCount);
+		//System.out.println(allCount);
 		
 		int repeat = allCount / pageLetter;
 		if( allCount % pageLetter != 0 )
@@ -50,11 +50,11 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		int end = num * pageLetter;
 		int start = end + 1 - pageLetter;
-		
+		/*
 		System.out.println(repeat);
 		System.out.println(start);
 		System.out.println(end);
-		
+		*/
 		model.addAttribute("repeat", repeat);
 		model.addAttribute("page", mapper.reviewPage(productNo, start, end ));
 		return mapper.reviewPage(productNo, start, end );
@@ -137,7 +137,7 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		ReviewServiceImpl rs = new ReviewServiceImpl();
 		System.out.println("productModify전 reviewNo"+reviewNo);
-		//rs.productModify(reviewNo);
+		rs.productModify(reviewNo);
 		mapper.productCount(productNo, reviewStar);
 		 ReviewDTO dto = new ReviewDTO();
 		 
@@ -231,23 +231,30 @@ public class ReviewServiceImpl implements ReviewService {
 			message += "location.href='" + url + "';</script>";
 			return message;
 	 }
-	 /*
+	 /**/
 	 public void productModify(int reviewNo) {
 		 System.out.println("productmodify");
-		 System.out.println(reviewNo);
-		 ReviewDTO rdto = mapper.contentView(reviewNo);
-			int modifyStar = rdto.getReviewStar();
-			int modifyProductNo = rdto.getProductNo();
-			System.out.println("modify Star"+modifyStar);
+		 System.out.println(reviewNo);  //여기까지 출력
+		 
+		 ReviewDTO dto = mapper.contentView(reviewNo);
+		 
+		 System.out.println("dto불러오기");
+		 System.out.println(dto.getReviewStar());
+		 
+			int modifyStar = dto.getReviewStar();
+			int modifyProductNo = dto.getProductNo();
+			
+			System.out.println("modify Star: "+modifyStar);
 			System.out.println("modifyProductNO: "+modifyProductNo);
-			//product 기존 내용 삭제
+			
+			System.out.println("product 기존 내용 삭제하기");
 			mapper.productmodify(modifyProductNo, modifyStar);
-			System.out.println("product 수정 완료");
+			System.out.println("product 수정(삭제) 완료");
 		
 			
 			
 	 }
-	 */
+	 
 	
 
 }
