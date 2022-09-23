@@ -183,6 +183,34 @@ public class OrderServiceImpl implements OrderService{
 		
 		return list;
 	}
+
+	@Override
+	public ArrayList<OrderDTO> memberIdSorting_ASC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.memberIdSorting_ASC();
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> memberIdSorting_DESC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.memberIdSorting_DESC();
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> orderPriceSorting_ASC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderPriceSorting_ASC();
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> orderPriceSorting_DESC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderPriceSorting_DESC();
+		return list;
+	}
 	
 	
 	

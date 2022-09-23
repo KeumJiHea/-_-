@@ -158,11 +158,13 @@ public class OrderController {
 	@PostMapping("sorting")
 	@ResponseBody
 	public ArrayList<OrderDTO> sorting(String sort) {
-		System.out.println(sort);
-		if(sort.equals("1")) {
-			return os.orderNoSorting_ASC();
-		}else if(sort.equals("0")) {
-			return os.orderNoSorting_DESC();			
+		switch(sort) {
+		case "0" : return os.orderNoSorting_DESC();
+		case "1" : return os.orderNoSorting_ASC();
+		case "2" : return os.memberIdSorting_DESC();
+		case "3" : return os.memberIdSorting_ASC();
+		case "4" : return os.orderPriceSorting_DESC();
+		case "5" : return os.orderPriceSorting_ASC();
 		}
 		return null;
 	}

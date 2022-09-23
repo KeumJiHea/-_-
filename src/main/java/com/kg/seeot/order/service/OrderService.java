@@ -32,4 +32,8 @@ public interface OrderService {
 	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword);
 	public ArrayList<OrderDTO> orderNoSorting_ASC();
 	public ArrayList<OrderDTO> orderNoSorting_DESC();
+	public ArrayList<OrderDTO> memberIdSorting_ASC();
+	public ArrayList<OrderDTO> memberIdSorting_DESC();
+	public ArrayList<OrderDTO> orderPriceSorting_ASC();
+	public ArrayList<OrderDTO> orderPriceSorting_DESC();
 }

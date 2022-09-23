@@ -210,12 +210,7 @@
 				$('#tbody').empty();
 				if(result.length>=1){
 					
-					result.forEach(function(list,index){
-						
-						console.log(list)
-						console.log(list.orderNo)
-						console.log(typeof list)
-						
+					result.forEach(function(list,index){						
 						str='<tr>'
 						str+="<th id='no"+index+"'>"+list.orderNo+"</th>"
 						str+="<th id='id"+index+"'>"+list.memberId+"</th>"
@@ -290,198 +285,586 @@
 			}
 		})
 	}	
+	var sortlist = new Array();
+	$(document).ready(function(){
+		$("#ordersection").attr('class','desc');
+		$("#ordersection").children().attr('id','nosort');
+		$("#ordersection").children().attr('class','sort');
+		$("#idsection").attr('class','desc');
+		$("#idsection").children().attr('id','idsort');
+		$("#idsection").children().attr('class','sort');
+		$("#totalsection").attr('class','desc');
+		$("#totalsection").children().attr('id','totalsort');
+		$("#totalsection").children().attr('class','sort');
+		sortlist.push()
+	})
 	
 	
-	$("#ordersection").attr('class','desc');
- 	$(document).on('click','#ordersection',function(){
- 		if($("#ordersection").attr('class')=='desc'){
- 			$.ajax({
- 				url:'sorting',
- 				type:"post",
- 				data:{sort:1},
- 				success : function(desclist){
- 					//테이블 초기화
- 					$('#tbody').empty();
- 					if(desclist.length>=1){
- 						
- 						desclist.forEach(function(desclist,index){
- 							
- 							console.log(desclist)
- 							console.log(desclist.orderNo)
- 							console.log(typeof desclist)
- 							
- 							str='<tr>'
- 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
- 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
- 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
- 							str+="<td>"+desclist.orderStack+"</td>"
- 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
- 							str+="<th id='total"+index+"'>1</th>"
- 							str+="<th id='status"+index+"'>"
- 							if(desclist.orderStatus ==1){
- 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
- 							}else if(desclist.orderStatus == 0){
- 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
- 							}else if(desclist.orderStatus == -1){
- 								str+="취소완료"
- 							}else if(desclist.orderStatus == 2){
- 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
- 							}else if(desclist.orderStatus == 3){
- 								str+="배송완료</th>"
- 							}
- 							str+="</tr>"
- 							$('#tbody').append(str);
- 							var alist = new Array();
- 							for(i=0;i<$("#tbody tr").length;i++){
- 								var sum = 0;
- 									if(i>$("#tbody tr").length){
- 										i=$("#tbody tr").length
- 									}
- 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
- 										if(cnt++){
- 											j++;
- 										}
- 											sum += parseInt($("#price"+i).text())									
- 											alist.push(sum)					
- 									}			
- 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
- 											if(j!=0){						
- 												sum += parseInt($("#price"+i).text())
- 												alist.push(sum)
- 												var total = alist.reduce(function(a,b){ return a+b;},0);
- 												$("#no"+(i-j)).attr('rowspan',cnt);
- 												$("#no"+(i-j)).attr('class','start');	
- 												$("#no0").attr('class','start');	
- 												$("#id"+(i-j)).attr('rowspan',cnt);
- 												$("#id"+(i-j)).attr('class','start');	
- 												$("#id0").attr('class','start');	
- 												$("#status"+(i-j)).attr('rowspan',cnt);
- 												$("#status"+(i-j)).attr('class','start');
- 												$("#status0").attr('class','start');
- 												$("#total"+(i-j)).attr('rowspan',cnt);
- 												$("#total"+(i-j)).attr('class','start');
- 												$("#total0").attr('class','start');
- 												$("#total"+(i-j)).text(total);						
- 											}
- 											alist = [];
- 											
- 											if(j==0&&cnt==1&&i!=0){
- 												sum += parseInt($("#price"+i).text())
- 												alist.push(sum)
- 												$("#no"+(i-j)).attr('class','start');
- 												$("#id"+(i-j)).attr('class','start');
- 												$("#status"+(i-j)).attr('class','start');
- 												$("#total"+(i-j)).attr('class','start');
- 												$("#total0").attr('class','start');
- 												$("#total"+(i-j)).text(alist[0]);
- 												
- 											}
- 											alist = [];
- 											cnt=1;
- 											if(cnt=1){
- 												j=0;
- 											}
- 										}
- 								}
- 						})
- 					}
- 							$("#ordersection").attr('class','asc');
- 				}
- 		
- 			})
-
- 		}else if($("#ordersection").attr('class') !='desc'){
- 			$.ajax({
- 				url:'sorting',
- 				type:"post",
- 				data:{sort:0},
- 				success : function(asclist){
- 					//테이블 초기화
- 					$('#tbody').empty();
- 					if(asclist.length>=1){
- 						
- 						asclist.forEach(function(asclist,index){
- 							
- 							console.log(asclist)
- 							console.log(asclist.orderNo)
- 							console.log(typeof asclist)
- 							
- 							str='<tr>'
- 							str+="<th id='no"+index+"'>"+asclist.orderNo+"</th>"
- 							str+="<th id='id"+index+"'>"+asclist.memberId+"</th>"
- 							str+="<td><img width='30px' height='30px' src='"+asclist.productFile+"'>"+asclist.productName+" / "+asclist.productColor+" "+asclist.productSize+"</td>"
- 							str+="<td>"+asclist.orderStack+"</td>"
- 							str+="<td id='price"+index+"'>"+asclist.productPrice+"</td>"
- 							str+="<th id='total"+index+"'>1</th>"
- 							str+="<th id='status"+index+"'>"
- 							if(asclist.orderStatus ==1){
- 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
- 							}else if(asclist.orderStatus == 0){
- 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
- 							}else if(asclist.orderStatus == -1){
- 								str+="취소완료"
- 							}else if(asclist.orderStatus == 2){
- 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
- 							}else if(asclist.orderStatus == 3){
- 								str+="배송완료</th>"
- 							}
- 							str+="</tr>"
- 							$('#tbody').append(str);
- 							var blist = new Array();
- 							for(i=0;i<$("#tbody tr").length;i++){
- 								var sum = 0;
- 									if(i>$("#tbody tr").length){
- 										i=$("#tbody tr").length
- 									}
- 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
- 										if(cnt++){
- 											j++;
- 										}
- 											sum += parseInt($("#price"+i).text())									
- 											blist.push(sum)					
- 									}			
- 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
- 											if(j!=0){						
- 												sum += parseInt($("#price"+i).text())
- 												blist.push(sum)
- 												var total = blist.reduce(function(a,b){ return a+b;},0);
- 												$("#no"+(i-j)).attr('rowspan',cnt);
- 												$("#no"+(i-j)).attr('class','start');	
- 												$("#no0").attr('class','start');	
- 												$("#id"+(i-j)).attr('rowspan',cnt);
- 												$("#id"+(i-j)).attr('class','start');	
- 												$("#status"+(i-j)).attr('rowspan',cnt);
- 												$("#status"+(i-j)).attr('class','start');
- 												$("#total"+(i-j)).attr('rowspan',cnt);
- 												$("#total"+(i-j)).attr('class','start');
- 												$("#total"+(i-j)).text(total);						
- 											}
- 											blist = [];
- 											
- 											if(j==0&&cnt==1&&i!=0){
- 												sum += parseInt($("#price"+i).text())
- 												blist.push(sum)
- 												$("#no"+(i-j)).attr('class','start');
- 												$("#id"+(i-j)).attr('class','start');
- 												$("#status"+(i-j)).attr('class','start');
- 												$("#total"+(i-j)).attr('class','start');
- 												$("#total"+(i-j)).text(blist[0]);
- 												
- 											}
- 											blist = [];
- 											cnt=1;
- 											if(cnt=1){
- 												j=0;
- 											}
- 										}
- 								}
- 						})
- 					}
- 					$("#ordersection").attr('class','desc');		
- 				}
- 		
- 			})
- 		}
+ 	$(document).on('click','.sort',function(){						
+ 		if($(this).parent().attr('id')=='ordersection' && $(this).attr('id')=='nosort'){
+ 			console.log($(this).parent().attr('id'))
+ 			console.log($(this).attr('id')=='nosort')
+ 			console.log(this)
+	 		if($("#ordersection").attr('class')=='desc'){
+	 			$.ajax({
+	 				url:'sorting',
+	 				type:"post",
+	 				data:{sort:1},
+	 				success : function(desclist){
+	 					$('#tbody').empty();
+	 					if(desclist.length>=1){	 						
+	 						desclist.forEach(function(desclist,index){								
+	 							str='<tr>'
+	 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
+	 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
+	 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+	 							str+="<td>"+desclist.orderStack+"</td>"
+	 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+	 							str+="<th id='total"+index+"'>1</th>"
+	 							str+="<th id='status"+index+"'>"
+	 							if(desclist.orderStatus ==1){
+	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+	 							}else if(desclist.orderStatus == 0){
+	 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+	 							}else if(desclist.orderStatus == -1){
+	 								str+="취소완료"
+	 							}else if(desclist.orderStatus == 2){
+	 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+	 							}else if(desclist.orderStatus == 3){
+	 								str+="배송완료</th>"
+	 							}
+	 							str+="</tr>"
+	 							$('#tbody').append(str);
+	 							var alist = new Array();
+	 							for(i=0;i<$("#tbody tr").length;i++){
+	 								var sum = 0;
+	 									if(i>$("#tbody tr").length){
+	 										i=$("#tbody tr").length
+	 									}
+	 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+	 										if(cnt++){
+	 											j++;
+	 										}
+	 											sum += parseInt($("#price"+i).text())									
+	 											alist.push(sum)					
+	 									}			
+	 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+	 											if(j!=0){						
+	 												sum += parseInt($("#price"+i).text())
+	 												alist.push(sum)
+	 												var total = alist.reduce(function(a,b){ return a+b;},0);
+	 												$("#no"+(i-j)).attr('rowspan',cnt);
+	 												$("#no"+(i-j)).attr('class','start');	
+	 												$("#no0").attr('class','start');	
+	 												$("#id"+(i-j)).attr('rowspan',cnt);
+	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#id0").attr('class','start');	
+	 												$("#status"+(i-j)).attr('rowspan',cnt);
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
+	 												$("#total"+(i-j)).attr('rowspan',cnt);
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(total);						
+	 												$("#total0").text(total);						
+	 											}
+	 											alist = [];
+	 											
+	 											if(j==0&&cnt==1&&i!=0){
+	 												sum += parseInt($("#price"+i).text())
+	 												alist.push(sum)
+	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(alist[0]);
+	 												$("#total0").text(alist[0]);
+	 												
+	 											}
+	 											alist = [];
+	 											cnt=1;
+	 											if(cnt=1){
+	 												j=0;
+	 											}
+	 										}
+	 								}
+	 						})
+	 					}
+	 							$("#ordersection").attr('class','asc');
+	 				}
+	 		
+	 			})
+	
+	 		}else if($("#ordersection").attr('class') !='desc'){
+	 			$.ajax({
+	 				url:'sorting',
+	 				type:"post",
+	 				data:{sort:0},
+	 				success : function(asclist){
+	 					//테이블 초기화
+	 					$('#tbody').empty();
+	 					if(asclist.length>=1){
+	 						
+	 						asclist.forEach(function(asclist,index){
+	 							
+	 							str='<tr>'
+	 							str+="<th id='no"+index+"'>"+asclist.orderNo+"</th>"
+	 							str+="<th id='id"+index+"'>"+asclist.memberId+"</th>"
+	 							str+="<td><img width='30px' height='30px' src='"+asclist.productFile+"'>"+asclist.productName+" / "+asclist.productColor+" "+asclist.productSize+"</td>"
+	 							str+="<td>"+asclist.orderStack+"</td>"
+	 							str+="<td id='price"+index+"'>"+asclist.productPrice+"</td>"
+	 							str+="<th id='total"+index+"'>1</th>"
+	 							str+="<th id='status"+index+"'>"
+	 							if(asclist.orderStatus ==1){
+	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+	 							}else if(asclist.orderStatus == 0){
+	 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+	 							}else if(asclist.orderStatus == -1){
+	 								str+="취소완료"
+	 							}else if(asclist.orderStatus == 2){
+	 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+	 							}else if(asclist.orderStatus == 3){
+	 								str+="배송완료</th>"
+	 							}
+	 							str+="</tr>"
+	 							$('#tbody').append(str);
+	 							var blist = new Array();
+	 							for(i=0;i<$("#tbody tr").length;i++){
+	 								var sum = 0;
+	 									if(i>$("#tbody tr").length){
+	 										i=$("#tbody tr").length
+	 									}
+	 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+	 										if(cnt++){
+	 											j++;
+	 										}
+	 											sum += parseInt($("#price"+i).text())									
+	 											blist.push(sum)					
+	 									}			
+	 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+	 											if(j!=0){						
+	 												sum += parseInt($("#price"+i).text())
+	 												blist.push(sum)
+	 												var total = blist.reduce(function(a,b){ return a+b;},0);
+	 												$("#no"+(i-j)).attr('rowspan',cnt);
+	 												$("#no"+(i-j)).attr('class','start');	
+	 												$("#no0").attr('class','start');	
+	 												$("#id"+(i-j)).attr('rowspan',cnt);
+	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#status"+(i-j)).attr('rowspan',cnt);
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).attr('rowspan',cnt);
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).text(total);						
+	 												$("#total0").text(total);						
+	 											}
+	 											blist = [];
+	 											
+	 											if(j==0&&cnt==1&&i!=0){
+	 												sum += parseInt($("#price"+i).text())
+	 												blist.push(sum)
+	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).text(blist[0]);
+	 												$("#total0").text(blist[0]);
+	 												
+	 											}
+	 											blist = [];
+	 											cnt=1;
+	 											if(cnt=1){
+	 												j=0;
+	 											}
+	 										}
+	 								}
+	 						})
+	 					}
+	 					$("#ordersection").attr('class','desc');		
+	 				}
+	 		
+	 			})
+	 		}
+	 	}else if($(this).parent().attr('id')=='idsection' && $(this).attr('id')=='idsort'){
+	 		console.log($(this).parent().attr('id'))
+ 			console.log($(this).attr('id')=='idsort')
+ 			console.log(this)
+	 		if($("#idsection").attr('class')=='desc'){
+	 			$.ajax({
+	 				url:'sorting',
+	 				type:"post",
+	 				data:{sort:2},
+	 				success : function(desclist){
+	 					$('#tbody').empty();
+	 					if(desclist.length>=1){	 						
+	 						desclist.forEach(function(desclist,index){								
+	 							str='<tr>'
+	 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
+	 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
+	 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+	 							str+="<td>"+desclist.orderStack+"</td>"
+	 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+	 							str+="<th id='total"+index+"'>1</th>"
+	 							str+="<th id='status"+index+"'>"
+	 							if(desclist.orderStatus ==1){
+	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+	 							}else if(desclist.orderStatus == 0){
+	 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+	 							}else if(desclist.orderStatus == -1){
+	 								str+="취소완료"
+	 							}else if(desclist.orderStatus == 2){
+	 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+	 							}else if(desclist.orderStatus == 3){
+	 								str+="배송완료</th>"
+	 							}
+	 							str+="</tr>"
+	 							$('#tbody').append(str);
+	 							var clist = new Array();
+	 							for(i=0;i<$("#tbody tr").length;i++){
+	 								var sum = 0;
+	 									if(i>$("#tbody tr").length){
+	 										i=$("#tbody tr").length
+	 									}
+	 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+	 										if(cnt++){
+	 											j++;
+	 										}
+	 											sum += parseInt($("#price"+i).text())									
+	 											clist.push(sum)					
+	 									}			
+	 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+	 											if(j!=0){						
+	 												sum += parseInt($("#price"+i).text())
+	 												clist.push(sum)
+	 												var total = clist.reduce(function(a,b){ return a+b;},0);
+	 												$("#no"+(i-j)).attr('rowspan',cnt);
+	 												$("#no"+(i-j)).attr('class','start');	
+	 												$("#no0").attr('class','start');	
+	 												$("#id"+(i-j)).attr('rowspan',cnt);
+	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#id0").attr('class','start');	
+	 												$("#status"+(i-j)).attr('rowspan',cnt);
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
+	 												$("#total"+(i-j)).attr('rowspan',cnt);
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(total);						
+	 												$("#total0").text(total);						
+	 											}
+	 											clist = [];
+	 											
+	 											if(j==0&&cnt==1&&i!=0){
+	 												sum += parseInt($("#price"+i).text())
+	 												clist.push(sum)
+	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(clist[0]);
+	 												$("#total0").text(clist[0]);
+	 												
+	 											}
+	 											clist = [];
+	 											cnt=1;
+	 											if(cnt=1){
+	 												j=0;
+	 											}
+	 										}
+	 								}
+	 						})
+	 					}
+	 							$("#idsection").attr('class','asc');
+	 				}
+	 		
+	 			})
+	
+	 		}else if($("#idsection").attr('class') !='desc'){
+	 			$.ajax({
+	 				url:'sorting',
+	 				type:"post",
+	 				data:{sort:3},
+	 				success : function(asclist){
+	 					//테이블 초기화
+	 					$('#tbody').empty();
+	 					if(asclist.length>=1){
+	 						
+	 						asclist.forEach(function(asclist,index){
+	 							
+	 							str='<tr>'
+	 							str+="<th id='no"+index+"'>"+asclist.orderNo+"</th>"
+	 							str+="<th id='id"+index+"'>"+asclist.memberId+"</th>"
+	 							str+="<td><img width='30px' height='30px' src='"+asclist.productFile+"'>"+asclist.productName+" / "+asclist.productColor+" "+asclist.productSize+"</td>"
+	 							str+="<td>"+asclist.orderStack+"</td>"
+	 							str+="<td id='price"+index+"'>"+asclist.productPrice+"</td>"
+	 							str+="<th id='total"+index+"'>1</th>"
+	 							str+="<th id='status"+index+"'>"
+	 							if(asclist.orderStatus ==1){
+	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+	 							}else if(asclist.orderStatus == 0){
+	 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+	 							}else if(asclist.orderStatus == -1){
+	 								str+="취소완료"
+	 							}else if(asclist.orderStatus == 2){
+	 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+	 							}else if(asclist.orderStatus == 3){
+	 								str+="배송완료</th>"
+	 							}
+	 							str+="</tr>"
+	 							$('#tbody').append(str);
+	 							var dlist = new Array();
+	 							for(i=0;i<$("#tbody tr").length;i++){
+	 								var sum = 0;
+	 									if(i>$("#tbody tr").length){
+	 										i=$("#tbody tr").length
+	 									}
+	 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+	 										if(cnt++){
+	 											j++;
+	 										}
+	 											sum += parseInt($("#price"+i).text())									
+	 											dlist.push(sum)					
+	 									}			
+	 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+	 											if(j!=0){						
+	 												sum += parseInt($("#price"+i).text())
+	 												dlist.push(sum)
+	 												var total = dlist.reduce(function(a,b){ return a+b;},0);
+	 												$("#no"+(i-j)).attr('rowspan',cnt);
+	 												$("#no"+(i-j)).attr('class','start');	
+	 												$("#no0").attr('class','start');	
+	 												$("#id"+(i-j)).attr('rowspan',cnt);
+	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#id0").attr('class','start');	
+	 												$("#status"+(i-j)).attr('rowspan',cnt);
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).attr('rowspan',cnt);
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).text(total);						
+	 												$("#total0").text(total);						
+	 											}
+	 											dlist = [];
+	 											
+	 											if(j==0&&cnt==1&&i!=0){
+	 												sum += parseInt($("#price"+i).text())
+	 												dlist.push(sum)
+	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(dlist[0]);
+	 												$("#total0").text(dlist[0]);
+	 												
+	 											}
+	 											dlist = [];
+	 											cnt=1;
+	 											if(cnt=1){
+	 												j=0;
+	 											}
+	 										}
+	 								}
+	 						})
+	 					}
+	 					$("#idsection").attr('class','desc');		
+	 				}
+	 		
+	 			})
+	 		}
+	 	}else if($(this).parent().attr('id')=='totalsection' && $(this).attr('id')=='totalsort'){
+	 		console.log($(this).parent().attr('id'))
+ 			console.log($(this).attr('id')=='totalsection')
+ 			console.log(this)
+	 		if($("#totalsection").attr('class')=='desc'){
+	 			$.ajax({
+	 				url:'sorting',
+	 				type:"post",
+	 				data:{sort:4},
+	 				success : function(desclist){
+	 					$('#tbody').empty();
+	 					if(desclist.length>=1){	 						
+	 						desclist.forEach(function(desclist,index){								
+	 							str='<tr>'
+	 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
+	 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
+	 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+	 							str+="<td>"+desclist.orderStack+"</td>"
+	 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+	 							str+="<th id='total"+index+"'>1</th>"
+	 							str+="<th id='status"+index+"'>"
+	 							if(desclist.orderStatus ==1){
+	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+	 							}else if(desclist.orderStatus == 0){
+	 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+	 							}else if(desclist.orderStatus == -1){
+	 								str+="취소완료"
+	 							}else if(desclist.orderStatus == 2){
+	 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+	 							}else if(desclist.orderStatus == 3){
+	 								str+="배송완료</th>"
+	 							}
+	 							str+="</tr>"
+	 							$('#tbody').append(str);
+	 							var elist = new Array();
+	 							for(i=0;i<$("#tbody tr").length;i++){
+	 								var sum = 0;
+	 									if(i>$("#tbody tr").length){
+	 										i=$("#tbody tr").length
+	 									}
+	 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+	 										if(cnt++){
+	 											j++;
+	 										}
+	 											sum += parseInt($("#price"+i).text())									
+	 											elist.push(sum)					
+	 									}			
+	 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+	 											if(j!=0){						
+	 												sum += parseInt($("#price"+i).text())
+	 												elist.push(sum)
+	 												var total = elist.reduce(function(a,b){ return a+b;},0);
+	 												$("#no"+(i-j)).attr('rowspan',cnt);
+	 												$("#no"+(i-j)).attr('class','start');	
+	 												$("#no0").attr('class','start');	
+	 												$("#id"+(i-j)).attr('rowspan',cnt);
+	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#id0").attr('class','start');	
+	 												$("#status"+(i-j)).attr('rowspan',cnt);
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
+	 												$("#total"+(i-j)).attr('rowspan',cnt);
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(total);						
+	 												$("#total0").text(total);						
+	 											}
+	 											elist = [];
+	 											
+	 											if(j==0&&cnt==1&&i!=0){
+	 												sum += parseInt($("#price"+i).text())
+	 												elist.push(sum)
+	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#no0").attr('class','start');
+	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(elist[0]);
+	 												$("#total0").text(elist[0]);
+	 												
+	 											}
+	 											elist = [];
+	 											cnt=1;
+	 											if(cnt=1){
+	 												j=0;
+	 											}
+	 										}
+	 								}
+	 						})
+	 					}
+	 							$("#totalsection").attr('class','asc');
+	 				}
+	 		
+	 			})
+	
+	 		}else if($("#totalsection").attr('class') !='desc'){
+	 			$.ajax({
+	 				url:'sorting',
+	 				type:"post",
+	 				data:{sort:5},
+	 				success : function(asclist){
+	 					//테이블 초기화
+	 					$('#tbody').empty();
+	 					if(asclist.length>=1){	 						
+	 						asclist.forEach(function(asclist,index){	 							
+	 							str='<tr>'
+	 							str+="<th id='no"+index+"'>"+asclist.orderNo+"</th>"
+	 							str+="<th id='id"+index+"'>"+asclist.memberId+"</th>"
+	 							str+="<td><img width='30px' height='30px' src='"+asclist.productFile+"'>"+asclist.productName+" / "+asclist.productColor+" "+asclist.productSize+"</td>"
+	 							str+="<td>"+asclist.orderStack+"</td>"
+	 							str+="<td id='price"+index+"'>"+asclist.productPrice+"</td>"
+	 							str+="<th id='total"+index+"'>1</th>"
+	 							str+="<th id='status"+index+"'>"
+	 							if(asclist.orderStatus ==1){
+	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+	 							}else if(asclist.orderStatus == 0){
+	 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+	 							}else if(asclist.orderStatus == -1){
+	 								str+="취소완료"
+	 							}else if(asclist.orderStatus == 2){
+	 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+	 							}else if(asclist.orderStatus == 3){
+	 								str+="배송완료</th>"
+	 							}
+	 							str+="</tr>"
+	 							$('#tbody').append(str);
+	 							var flist = new Array();
+	 							for(i=0;i<$("#tbody tr").length;i++){
+	 								var sum = 0;
+	 									if(i>$("#tbody tr").length){
+	 										i=$("#tbody tr").length
+	 									}
+	 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+	 										if(cnt++){
+	 											j++;
+	 										}
+	 											sum += parseInt($("#price"+i).text())									
+	 											flist.push(sum)					
+	 									}			
+	 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+	 											if(j!=0){						
+	 												sum += parseInt($("#price"+i).text())
+	 												flist.push(sum)
+	 												var total = flist.reduce(function(a,b){ return a+b;},0);
+	 												$("#no"+(i-j)).attr('rowspan',cnt);
+	 												$("#no"+(i-j)).attr('class','start');	
+	 												$("#no0").attr('class','start');	
+	 												$("#id"+(i-j)).attr('rowspan',cnt);
+	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#status"+(i-j)).attr('rowspan',cnt);
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).attr('rowspan',cnt);
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total"+(i-j)).text(total);						
+	 												$("#total0").text(total);						
+	 											}
+	 											flist = [];
+	 											
+	 											if(j==0&&cnt==1&&i!=0){
+	 												sum += parseInt($("#price"+i).text())
+	 												flist.push(sum)
+	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
+	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
+	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
+	 												$("#total"+(i-j)).text(flist[0]);
+	 												$("#total0").text(flist[0]);
+	 												
+	 											}
+	 											flist = [];
+	 											cnt=1;
+	 											if(cnt=1){
+	 												j=0;
+	 											}
+	 										}
+	 								}
+	 						})
+	 					}
+	 					$("#totalsection").attr('class','desc');		
+	 				}
+	 		
+	 			})
+	 		}
+	 	}
 	}) 
 	
 </script>
@@ -507,9 +890,9 @@
 	<form id="searchform">
 		<select name="type"><option value="orderNo">주문번호</option><option value="memberId">아이디</option></select><input type="text" name="keyword"><button type="button" onclick="getSearchList()">검색</button>
 	</form>
-	<table border="1">
-		<tr>
-			<td id="ordersection">주문번호<img src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td id="idsection" class="desc">아이디<img src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td id="totalsection" class="desc">총 주문 금액<img src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td class="status">주문상태</td>
+	<table border="1" id="table">
+		<tr>		
+			<td id="ordersection">주문번호<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td id="idsection">아이디<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td id="totalsection">총 주문 금액<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td class="status">주문상태</td>
 		</tr>
 		<tbody id="tbody">
 			<c:forEach var="odto" items="${list }" varStatus="status">				

@@ -32,4 +32,8 @@ public interface OrderMapper {
 	public ArrayList<OrderDTO> selectSearchList(@Param("d")OrderDTO dto,@Param("t")String type,@Param("k")String keyword);
 	public ArrayList<OrderDTO> orderNoSorting_ASC();
 	public ArrayList<OrderDTO> orderNoSorting_DESC();
+	public ArrayList<OrderDTO> memberIdSorting_ASC();
+	public ArrayList<OrderDTO> memberIdSorting_DESC();
+	public ArrayList<OrderDTO> orderPriceSorting_ASC();
+	public ArrayList<OrderDTO> orderPriceSorting_DESC();
 }
