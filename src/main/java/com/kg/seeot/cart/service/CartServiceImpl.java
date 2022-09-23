@@ -18,37 +18,24 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public void addCart(HttpServletRequest request, int productNo,String orderStack,String productSize, String productColor) {
+	public void addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
 		System.out.println("productNo : "+productNo);
-		System.out.println("productStack : "+orderStack);
+		System.out.println("productStack : "+productStack);
 		System.out.println("productSize : "+productSize);
 		System.out.println("productColor : "+productColor);
-		
-		String[] a = productColor.split(",");
-		String[] b = productSize.split(",");
-		String[] c = orderStack.split(",");
-		
-		List<ProductOrderDTO> list = new ArrayList<ProductOrderDTO>();
-		for(int i=0; i<a.length ;i++) {
-			ProductOrderDTO dto = new ProductOrderDTO();
-			dto.setProductNo(productNo);
-			dto.setProductName(request.getParameter("productName"));
-			dto.setProductFile(request.getParameter("productFile"));
-			dto.setProductPrice(Integer.parseInt(request.getParameter("productPrice")));
-			dto.setProductColor(a[i]);
-			dto.setProductSize(Integer.parseInt(b[i]));
-			dto.setProductStack(Integer.parseInt(c[i]));
-			
-			int result = 0;
-			cm.addCart_p(dto.getProductNo());
-			cm.addCart_m(productNo,dto.getProductSize(),productColor);
-			result = cm.addOrderStack(dto.getProductStack(), productNo);
-			if(result==1) {
-				System.out.println("카트 데이터 주입성공");
-				System.out.println("orderstack : "+orderStack);
-			}
-			
-			}
+		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
+		for(int i =0; i<list.size();i++) {
+			System.out.println("list"+i+" : "+list.get(i).getProductColor());
+			System.out.println("list"+i+" : "+list.get(i).getProductSize());
+			System.out.println("list"+i+" : "+list.get(i).getProductStack());
+			productSize = list.get(i).getProductSize();
+			productColor = list.get(i).getProductColor();
+			productStack = list.get(i).getProductStack();
+			cm.addCart_p(productNo,productSize,productColor,productStack);
+			cm.addCart_m(productNo,productSize,productColor);
+		}
+		System.out.println("카트 데이터 주입성공");
+		System.out.println("orderstack : "+productStack);
 		
 		
 	}
@@ -74,5 +61,32 @@ public class CartServiceImpl implements CartService{
 		return result;
 	}
 	
+	public List<ProductOrderDTO> productOrder(HttpServletRequest req, String productColor, String productSize, String productStack) {
+		String[] a = productColor.split(",");
+		String[] b = productSize.split(",");
+		String[] c = productStack.split(",");
+		
+		List<ProductOrderDTO> list = new ArrayList<ProductOrderDTO>();
+		for(int i=0; i<a.length ;i++) {
+			ProductOrderDTO dto = new ProductOrderDTO();
+			dto.setProductNo(Integer.parseInt(req.getParameter("productNo")));
+			dto.setProductName(req.getParameter("productName"));
+			dto.setProductFile(req.getParameter("productFile"));
+			dto.setProductPrice(Integer.parseInt(req.getParameter("productPrice")));
+			dto.setProductColor(a[i]);
+			dto.setProductSize(b[i]);
+			dto.setProductStack(c[i]);
+			list.add(dto);
+			}
+		
+		return list;
+		
+	}
+
+	@Override
+	public void alldel(String memberId) {
+		cm.alldel(memberId);
+		
+	}
 	
 }

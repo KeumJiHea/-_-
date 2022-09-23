@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class OrderDTO {
-	int orderPrice,productNo,productPrice,orderStack,productSize;
-	String orderNo,orderAddr1,orderAddr2,orderAddr3,productName,productFile,memberId,orderDate,productColor;
+	int orderPrice,productNo,productPrice,orderStack,productSize,orderStatus;
+	String orderNo,orderAddr1,orderAddr2,orderAddr3,productName,productFile,memberId,orderDate,productColor,keyword,type;
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -90,6 +90,24 @@ public class OrderDTO {
 	}
 	public void setProductColor(String productColor) {
 		this.productColor = productColor;
+	}
+	public int getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

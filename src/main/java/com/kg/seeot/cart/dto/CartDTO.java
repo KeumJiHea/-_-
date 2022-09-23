@@ -1,7 +1,7 @@
 package com.kg.seeot.cart.dto;
 
 public class CartDTO {
-	private int productNo,cartPrice,productPrice,orderStack,cartNum,productSize;
+	private int productNo,cartPrice,productPrice,productStack,cartNum,productSize;
 	private String memberId,productName,productFile,productColor;
 	public int getProductNo() {
 		return productNo;
@@ -21,11 +21,11 @@ public class CartDTO {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
-	public int getOrderStack() {
-		return orderStack;
+	public int getproductStack() {
+		return productStack;
 	}
-	public void setOrderStack(int orderStack) {
-		this.orderStack = orderStack;
+	public void setproductStack(int productStack) {
+		this.productStack = productStack;
 	}
 	public String getMemberId() {
 		return memberId;
