@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.logging.LogException;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -52,18 +54,17 @@ public class MemberController implements SessionName{
 		if(result == 0) {
 			rs.addAttribute("id",request.getParameter("id"));
 			rs.addAttribute("autoLogin", request.getParameter("autoLogin"));
-
-		return "redirect:successLogin";
+			
+			return "redirect:successLogin";
 		}
-			return "redirect:login";
+			request.setAttribute("msg","아이디 또는 비밀번호를 확인해주세요");
+			request.setAttribute("url","login");
+			return "member/alert";
 	}
 	@GetMapping("successLogin")
 	public String successLogin(@RequestParam String id,
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
-		if(id.equals("admin")) {
-			return "admin/admin";
-		}
 
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
@@ -74,8 +75,18 @@ public class MemberController implements SessionName{
 
 			ms.keepLogin(id, id);
 		}
+		if(id.equals("admin")) {
+			
+			session.setAttribute(LOGIN, id);
+			session.setMaxInactiveInterval(24*60*60);
+			return "admin/admin";
+		}
 		session.setAttribute(LOGIN, id);
-		return "home.page";
+
+		session.setMaxInactiveInterval(24*60*60);
+		return "member/successLogin";
+		
+
 	}
 	@GetMapping("logout")
 	public String logout( HttpSession session,
@@ -102,12 +113,12 @@ public class MemberController implements SessionName{
 		
 		//회원가입 alert
 		if(1 == result) {
-			request.setAttribute("rmsg","회원가입 완료되었습니다");
-			request.setAttribute("rurl","login");
+			request.setAttribute("msg","회원가입 완료되었습니다");
+			request.setAttribute("url","login");
 			return "member/alert";
 		}
-			request.setAttribute("rmsg","입력 정보를 다시 확인해주세요");
-			request.setAttribute("rurl","register");
+			request.setAttribute("msg","입력 정보를 다시 확인해주세요");
+			request.setAttribute("url","register");
 			return "member/alert";
 	}
 	
@@ -177,13 +188,26 @@ public class MemberController implements SessionName{
         return num;
 	
 	}
+	@PostMapping("edit_addr")
+	public String edit_addr(HttpServletRequest request,MemberDTO dto) {
+		
+		int result = ms.edit_addr(request,dto);
+		
+		//배송지 수정 alert
+				if(1 == result) {
+					request.setAttribute("msg","배송지 수정이 완료되었습니다");
+					request.setAttribute("url","info?id="+request.getParameter("id"));
+					return "member/alert";
+				}
+					request.setAttribute("msg","정보를 다시 확인해주세요");
+					request.setAttribute("url","info?id="+request.getParameter("id"));
+					return "member/alert";
+	}
 	
-	@PostMapping("modify")
+	@RequestMapping(value = "/modify",method = RequestMethod.POST)
 	public String modify(HttpServletRequest request,MemberDTO dto) {
 		
 		int result = ms.modify(request,dto);
-		
-		System.out.println(result);
 		
 		//정보 수정 alert
 		if(1 == result) {
@@ -195,23 +219,51 @@ public class MemberController implements SessionName{
 			request.setAttribute("url","info?id="+request.getParameter("id"));
 			return "member/alert";
 	}
-	
-	/*
-	@GetMapping("find_form")
-	public String find_form() {
-		return "find_form";
+	@GetMapping("id_find_form")
+	public String id_find_form() {
+			return "member/id_find_form";
 	}
-	@PostMapping("find_id_form")
-	public String find_id_form(String id) {
+	
+	@RequestMapping(value = "/id_find",method = RequestMethod.POST)
+	@ResponseBody
+	public String id_find(@RequestParam("name") String name , @RequestParam("email") String email) {
 		
-		return "member/find_form";
+		String result = ms.id_find(name, email);
+		
+		return result;
 	}
 	
-	@PostMapping("find_pw_form")
-	public String find_pw_form() {
-		return "";
+	@GetMapping("pw_find_form")
+	public String pw_find_form() {
+		return "member/pw_find_form";
 	}
-	*/
+	
+	@RequestMapping(value = "/pw_find",method = RequestMethod.POST)
+	@ResponseBody
+	public String pw_find(@RequestParam("id") String id , @RequestParam("email") String email) {
+		
+		String result = ms.pw_find(id, email);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "change_pw" , method = RequestMethod.POST)
+	public String change_pw(HttpServletRequest request , MemberDTO dto) {
+		
+		int result = ms.change_pw(request,dto);
+		
+		System.out.println(result);
+		
+		//정보 수정 alert
+		if(1 == result) {
+			request.setAttribute("msg","비밀번호 설정이 완료되었습니다");
+			request.setAttribute("url","login");
+			return "member/alert";
+		}
+			request.setAttribute("msg","정보를 다시 확인해주세요");
+			request.setAttribute("url","pw_find_form");
+			return "member/alert";
+	}
 }
 
 

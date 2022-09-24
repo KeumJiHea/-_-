@@ -24,6 +24,10 @@
 			<form method="post" name="form" class="columns">
 				<div class="column">
 					<div class="tag-title">필수 입력</div>
+					<div class="field input_name required" >
+						<span>이름</span>
+						<input type="text" name="name" class="name" maxlength="4">
+					</div>
 					<div class="field input_id required">
 						<span>아이디</span> 
 						<input class="id_input" type="text" name="id" maxlength="12">
@@ -84,10 +88,6 @@
 					</div>
 
 					<div class="members-info close">
-						<div class="field input_name">
-							<span>이름</span>
-							<input type="text" name="name">
-						</div>
 						<div class="field input_birth">
 							<span>생년월일</span>
 							<input type="text" name="birth" placeholder="ex)2000.01.01">
@@ -101,11 +101,11 @@
 						</div>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" id="agreement01" checked>
+						<input type="checkbox" name="pointCheck" id="agreement01" checked>
 						<a href="#" class="required">쇼핑몰 이용약관에 동의합니다.</a>
 					</div>
 					<div class="login-checkbox agreement">
-						<input type="checkbox" id="agreement02" checked>
+						<input type="checkbox" name="pointCheck2" id="agreement02" checked>
 						<a href="#" class="required">만 14세 이상입니다.</a>
 						<ul>
 							<li>만 14세 미만의 아동은 회원가입 시 법적대리인의 동의가 필요합니다.</li>
@@ -274,13 +274,18 @@
 	   var phone1 = $('.phone1').val();
 	   var phone2 = $('.phone2').val();
 	   var phone3 = $('.phone3').val();
+	   var name = $('.name').val();
 	   
-	   if(!form.id.value){
-		   alert("아이디는 필수 사항입니다");
+	   if(!form.name.value){
+		   alert("이름을 입력해주세요");
+		   form.name.focus();
+		   return;
+	   }else if(!form.id.value){
+		   alert("아이디를 입력해주세요");
 		   form.id.focus();
 		   return;
 	   }else if(!form.pw.value){
-		   alert("비밀번호는 필수 사항입니다");
+		   alert("비밀번호를 입력해주세요");
 		   form.pw.focus();
 		   return;
 	   }else if( pw != pwchk){
@@ -305,7 +310,13 @@
 	   }else if(!form.phone1.value && !form.phone2.value && !form.phone3.value){
 		   alert("전화번호를 입력해주세요");
 		   return;
-	   }
+	   }else if ($("input:checkbox[name=pointCheck]").is(":checked") != true) {
+           alert("쇼핑몰 이용약관에 동의해주세요");
+           return;
+       }else if ($("input:checkbox[name=pointCheck2]").is(":checked") != true) {
+           alert("쇼핑몰 이용약관에 동의해주세요");
+           return;
+       }
 	   else{
 	       form.action = "<%=request.getContextPath()%>/member/register";
 	       form.submit();
