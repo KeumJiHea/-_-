@@ -11,22 +11,33 @@ import org.springframework.ui.Model;
 
 import com.kg.seeot.cart.dto.CartDTO;
 import com.kg.seeot.mybatis.cart.CartMapper;
+import com.kg.seeot.product.dto.ProductOrderDTO;
 
 @Service
 public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public void addCart(int productNo,int orderStack) {
+	public void addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
 		System.out.println("productNo : "+productNo);
-		System.out.println("productStack : "+orderStack);
-		int result = 0;
-		cm.addCart_p(productNo);
-		result = cm.addOrderStack(orderStack, productNo);
-		if(result==1) {
-			System.out.println("카트 데이터 주입성공");
-			System.out.println("orderstack : "+orderStack);
+		System.out.println("productStack : "+productStack);
+		System.out.println("productSize : "+productSize);
+		System.out.println("productColor : "+productColor);
+		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
+		for(int i =0; i<list.size();i++) {
+			System.out.println("list"+i+" : "+list.get(i).getProductColor());
+			System.out.println("list"+i+" : "+list.get(i).getProductSize());
+			System.out.println("list"+i+" : "+list.get(i).getProductStack());
+			productSize = list.get(i).getProductSize();
+			productColor = list.get(i).getProductColor();
+			productStack = list.get(i).getProductStack();
+			cm.addCart_p(productNo,productSize,productColor,productStack);
+			cm.addCart_m(productNo,productSize,productColor);
 		}
+		System.out.println("카트 데이터 주입성공");
+		System.out.println("orderstack : "+productStack);
+		
+		
 	}
 
 	@Override
@@ -50,5 +61,32 @@ public class CartServiceImpl implements CartService{
 		return result;
 	}
 	
+	public List<ProductOrderDTO> productOrder(HttpServletRequest req, String productColor, String productSize, String productStack) {
+		String[] a = productColor.split(",");
+		String[] b = productSize.split(",");
+		String[] c = productStack.split(",");
+		
+		List<ProductOrderDTO> list = new ArrayList<ProductOrderDTO>();
+		for(int i=0; i<a.length ;i++) {
+			ProductOrderDTO dto = new ProductOrderDTO();
+			dto.setProductNo(Integer.parseInt(req.getParameter("productNo")));
+			dto.setProductName(req.getParameter("productName"));
+			dto.setProductFile(req.getParameter("productFile"));
+			dto.setProductPrice(Integer.parseInt(req.getParameter("productPrice")));
+			dto.setProductColor(a[i]);
+			dto.setProductSize(b[i]);
+			dto.setProductStack(c[i]);
+			list.add(dto);
+			}
+		
+		return list;
+		
+	}
+
+	@Override
+	public void alldel(String memberId) {
+		cm.alldel(memberId);
+		
+	}
 	
 }

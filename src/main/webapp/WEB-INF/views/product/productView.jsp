@@ -69,11 +69,11 @@
 		ps = ''
 		
 	}
-	
+
+
 	function selProStack(){
 		$('.pst').on("propertychange change keyup paste input", function(){
 				   var selectId = $(this).attr('id')
-				   console.log("11"+selectId)
 				   var selectStack = $(this).val();
 					var productPrice = ${pdto.productPrice}
 					var productStackPrice = selectStack * productPrice;
@@ -101,10 +101,11 @@
 	 function productOrder() {
 			form = document.profo;
 			form.method = "post";
-			form.action = '${pageContext.request.contextPath }/order/test2'
+			form.action = '${pageContext.request.contextPath }/order/ordermain'
 			form.submit();
 	}
 	
+<<<<<<< HEAD
 	/* function productCart() {
 
 	} */
@@ -156,6 +157,14 @@
 	
 	
 }
+=======
+	 function productCart() {
+		 form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/cart/addcart'
+			form.submit();
+	}
+>>>>>>> 13e86d2e9e18a0dbb806b1c9c737c737f6058f2d
 	</script>
 	
 	
@@ -185,7 +194,14 @@
 			<th>가격</th><td colspan="2">${pdto.productPrice }</td>
 		</tr>
 		<tr>
-			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : ${pdto.productRating }</td>
+			<td colspan="3">리뷰 수 : ${pdto.reviewCount } / 별점 : 
+				<c:if test="${pdto.reviewCount == 0}">
+					0
+				</c:if>
+				<c:if test="${pdto.reviewCount != 0}">
+					${pdto.productRating/pdto.reviewCount }
+				</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="3">컬러</th>
@@ -227,7 +243,7 @@
 		</tr>
 		<tr>
 			<td><button type="button" onclick="">찜</button></td>
-			<td><button type="button" onclick="location.href='${contextPath}/cart/addcart?productNo=${pdto.productNo }'">장바구니</button></td>
+			<td><button type="button" onclick="productCart()">장바구니</button></td>
 			<%-- <td><button type="button" onclick="location.href='${contextPath}/order/ordermain?productNo=${pdto.productNo }'">구매하기</button></td> --%>
 			<td><button type="button" onclick="productOrder()">구매하기</button></td>
 		</tr>
@@ -248,10 +264,9 @@
 	<!-- 
 	<table border="1">
 		<tr>
-			<td>김**(kim*****) | 2022-08-24 | 평점 ★★★☆☆<br>후기1 입니다</td>
-		</tr>
-		<tr>
-			<td>정**(jung*****) | 2022-08-26 | 평점 ★☆☆☆☆<br>후기2 입니다</td>
+			<td>
+				<div id="review"></div>
+			</td>
 		</tr>
 		<tr>
 		

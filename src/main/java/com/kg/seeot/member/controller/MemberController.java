@@ -66,6 +66,13 @@ public class MemberController implements SessionName{
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
 
+		if(id.equals("admin")) {
+			session.setAttribute(LOGIN, id);
+			session.setMaxInactiveInterval(24*60*60);
+			return "admin/admin";
+		}
+
+
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
 			Cookie cookie = new Cookie("loginCookie", id);
@@ -84,8 +91,7 @@ public class MemberController implements SessionName{
 		session.setAttribute(LOGIN, id);
 
 		session.setMaxInactiveInterval(24*60*60);
-		return "member/successLogin";
-		
+		return "home.page";
 
 	}
 	@GetMapping("logout")
