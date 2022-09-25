@@ -70,14 +70,19 @@
 	}
 
 
-	function selProStack(){
+ 	function selProStack(){
 		$('.pst').on("propertychange change keyup paste input", function(){
-				   var selectId = $(this).attr('id')
-				   var selectStack = $(this).val();
-					var productPrice = ${pdto.productPrice}
-					var productStackPrice = selectStack * productPrice;
-					$( '#Price' + selectId).text( productStackPrice );
+				var selectId = $(this).attr('id')
+				var selectStack = $(this).val();
+				var productPrice = ${pdto.productPrice}
+				var productStackPrice = selectStack * productPrice;
+				$( '#Price' + selectId).text( productStackPrice );
+				if(selectStack == 11) {
+					alert('최대 10개까지 구매가 가능합니다.');
+					$('#' + selectId).val('10');
+				}
 			});
+		
 	}
 	
 
@@ -90,17 +95,27 @@
 	
 	
 	 function productOrder() {
-			form = document.profo;
-			form.method = "post";
-			form.action = '${pageContext.request.contextPath }/order/ordermain'
+		form = document.profo;
+		form.method = "post";
+		form.action = '${pageContext.request.contextPath }/order/ordermain'
+		var name = $('.pst').attr('name');
+		if(name == null){
+			alert('구매 상품을 선택해주세요')
+		}else{
 			form.submit();
+		}
 	}
 	
 	 function productCart() {
-		 form = document.profo;
-			form.method = "post";
-			form.action = '${pageContext.request.contextPath }/cart/addcart'
+		form = document.profo;
+		form.method = "post";
+		form.action = '${pageContext.request.contextPath }/cart/addcart'
+		var name = $('.pst').attr('name');
+		if(name == null){
+			alert('구매 상품을 선택해주세요')
+		}else{
 			form.submit();
+		}
 	}
 	
 	/*리뷰 불러오기*/
