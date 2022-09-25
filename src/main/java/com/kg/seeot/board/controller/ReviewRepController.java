@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kg.seeot.board.dto.ReviewDTO;
 import com.kg.seeot.board.service.ReviewService;
 
-@RestController //값만 받아온다
+@RestController 
 @RequestMapping("review")
 public class ReviewRepController {
 	@Autowired ReviewService rs;
@@ -33,9 +33,8 @@ public class ReviewRepController {
 			Model model,@RequestParam(value="num", required=false, defaultValue="1") int num ){
 		
 		System.out.println(productNo +","+ num);
-		List<ReviewDTO> list = rs.getRepList(model,productNo ,num);
 		
-		return  list;
+		return rs.getRepList(model,productNo ,num);
 	}
 
 	/*삭제예정*/
@@ -43,7 +42,7 @@ public class ReviewRepController {
 	public List<ReviewDTO> replyData(//@PathVariable int productNo
 			){
 		//System.out.println("reviewRepController");
-		int productNo = 10001;
+		int productNo = 10002;
 		
 		return  rs.getRepList1(productNo );
 	}

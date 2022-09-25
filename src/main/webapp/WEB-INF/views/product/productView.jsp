@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body  onload="rePrint()">
+<body onload="rePrint()">
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
@@ -118,7 +119,7 @@
 		data:{ productNo : "${pdto.productNo}"},
 		dataType :"json", //받아올 데이터 자료형
 		success : function( reviewData ){
-			
+			console.log(reviewData)
 			let html = ""
 		for( i=0; i<reviewData.length; i++){
 				let date = new Date( reviewData[i].reviewDate )
@@ -134,8 +135,9 @@
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}
-				
-				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">삭제</a>"+"  &nbsp ";
+				//
+				<c:if test="${sessionScope.loginUser == reviewData[i].memberId}"></c:if>
+				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+"&reviewStar="+reviewData[i].reviewStar+">삭제</a>"+"  &nbsp ";
 				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
 			
 				
@@ -157,7 +159,7 @@
 	</script>
 	
 	
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
 	<button type="button" onclick="location.href='list'" >상품 리스트로 가기</button>
