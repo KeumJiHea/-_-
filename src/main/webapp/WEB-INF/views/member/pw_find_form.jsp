@@ -8,6 +8,7 @@
 <title>비밀번호 찾기</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link href="<c:url value='/resources/css/members.css'/>"rel="stylesheet">
 </head>
 <body>
 <form name="form">

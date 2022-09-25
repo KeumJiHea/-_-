@@ -56,6 +56,9 @@
 	<update id="change_pw">
 		update seeot_member set member_pw=#{pw} where member_id=#{id}
 	</update>
+	<insert id="kakaoreg">
+		insert into seeot_member (member_id,member_email) values (#{id},#{email})
+	</insert>
 </mapper>
 
 

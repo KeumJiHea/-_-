@@ -188,7 +188,6 @@
 	<script type="text/javascript">
 	 
 	       //이메일 도메인 관련 활성화 코드
-	  
 		   jQuery( document ).ready( function ( $ ) {
 		    var wrapper      = $(".members-wrapper.register");
 		    var members_info = $(".members-info", wrapper );

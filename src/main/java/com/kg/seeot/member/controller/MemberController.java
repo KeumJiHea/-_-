@@ -1,6 +1,8 @@
 package com.kg.seeot.member.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -15,6 +17,9 @@ import org.apache.ibatis.logging.LogException;
 import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -27,7 +32,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UrlPathHelper;
 
 import com.google.gson.Gson;
 import com.kg.seeot.common.SessionName;
@@ -262,8 +269,25 @@ public class MemberController implements SessionName{
 			request.setAttribute("url","pw_find_form");
 			return "member/alert";
 	}
+	
+	@RequestMapping( value = "kakaoLoginPro.do", method = RequestMethod.POST )
+	public void kakaoLoginPro(HttpServletResponse response, @RequestParam Map<String, Object> paramMap, HttpSession session) throws SQLException, Exception {
+		System.out.println("paramMap : "+paramMap);
+		
+		Gson gson = new Gson();
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int kakaoConnectionCheck = ms.kakaoConnectionCheck(paramMap);
+		if(kakaoConnectionCheck == 0) {
+			session.setAttribute(LOGIN, paramMap.get("id"));
+			session.setMaxInactiveInterval(24*60*60);
+			resultMap.put("id", "kakao_" + paramMap.get("id"));
+			resultMap.put("JavaData", "login");
+		}
+		
+		response.getWriter().print(gson.toJson(resultMap));
+	}
 }
-
 
 
 

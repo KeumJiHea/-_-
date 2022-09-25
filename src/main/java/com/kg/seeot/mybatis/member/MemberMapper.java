@@ -26,4 +26,5 @@ public String id_find(@Param("name") String name,@Param("email")String email);
 public String pw_find(@Param("id") String id,@Param("email")String email);
 
 public int change_pw(MemberDTO dto);
+public int kakaoreg(MemberDTO dto);
 }

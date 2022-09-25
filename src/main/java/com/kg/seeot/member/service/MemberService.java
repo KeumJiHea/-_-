@@ -1,8 +1,11 @@
 package com.kg.seeot.member.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kg.seeot.member.dto.MemberDTO;
 
@@ -20,4 +23,5 @@ public interface MemberService {
      public String id_find(String name, String email);
      public String pw_find(String id, String email);
      public int change_pw(HttpServletRequest request,MemberDTO dto);
+     public int kakaoConnectionCheck(Map<String, Object> paramMap);
 }
