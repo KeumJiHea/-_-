@@ -17,6 +17,7 @@ README.md
 .classpath
 .project
 .pom.xml
+.pom.properties
 # External tool builders
 .externalToolBuilders/
 
