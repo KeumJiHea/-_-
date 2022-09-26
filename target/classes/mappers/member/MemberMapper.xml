@@ -50,6 +50,15 @@
 	<update id="modify">
 		update seeot_member set member_name=#{name},member_pw=#{pw},member_phone=#{phone},member_email=#{email},member_birth=#{birth} where member_id=#{id}
 	</update>
+	<update id="edit_addr">
+		update seeot_member set member_addr1=#{addr1},member_addr2=#{addr2},member_addr3=#{addr3} where member_id=#{id}
+	</update>
+	<update id="change_pw">
+		update seeot_member set member_pw=#{pw} where member_id=#{id}
+	</update>
+	<insert id="kakaoreg">
+		insert into seeot_member (member_id,member_email) values (#{id},#{email})
+	</insert>
 </mapper>
 
 
