@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body  onload="rePrint()">
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
@@ -104,12 +104,65 @@
 			form.submit();
 	}
 	
+<<<<<<< HEAD
 	 function productCart() {
 		 form = document.profo;
 			form.method = "post";
 			form.action = '${pageContext.request.contextPath }/cart/addcart'
 			form.submit();
 	}
+=======
+	/* function productCart() {
+
+	} */
+	
+	/*리뷰 불러오기*/
+	function rePrint(){
+		
+		
+	$.ajax({
+
+		url:"../review/replyData", type:"get",
+		data:{ productNo : "${pdto.productNo}"},
+		dataType :"json", //받아올 데이터 자료형
+		success : function( reviewData ){
+			
+			let html = ""
+		for( i=0; i<reviewData.length; i++){
+				let date = new Date( reviewData[i].reviewDate )
+				let wd = date.getFullYear()+"-";
+				wd += (date.getMonth()+1) + "-";
+				wd += date.getDate();
+				
+				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
+				html += "<b>작성일 : </b>"+ wd+" &nbsp";
+				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
+				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
+				html += "reviewNo: "+reviewData[i].reviewNo; //나중에 지우기
+				if(reviewData[i].reviewFile != 'nan'){
+					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
+				}
+				
+				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">삭제</a>"+"  &nbsp ";
+				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
+			
+				
+				html+= "<hr></div>";
+			}
+			
+			html += "<div>"+"페이지"+"</div>";
+			
+			
+		
+			$("#reply").html( html )
+			},
+		error: function(){alert("function error")}
+			
+	})
+	
+	
+}
+>>>>>>> b7a0f6ba7e2211adfee87d054554d607be18aca1
 	</script>
 	
 	
@@ -204,13 +257,27 @@
 	<div id="proReview">
 	<h2>상품 후기</h2>
 	<hr>
+	<input type="hidden" id="productNo" name="productNo" value="${pdto.productNo }">
+	
+	<!-- 
 	<table border="1">
 		<tr>
 			<td>
 				<div id="review"></div>
 			</td>
 		</tr>
+		<tr>
+		
+		</tr>
 	</table>
+	 -->
+	 <div>
+	
+	<div id="reply"></div>
+	
+	
+	
+	</div>
 	</div><br><br>
 	
 	<div id="changeGuide">

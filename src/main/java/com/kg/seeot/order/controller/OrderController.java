@@ -37,12 +37,15 @@ public class OrderController {
 	@PostMapping("ordermain") 
 	public String orderMain(int productNo,Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
 		System.out.println("컨트롤러 동작 성공");
+
 		HttpSession session = req.getSession();
 		String memberId = (String)session.getAttribute("loginUser");
 		os.productOrder(model, req, productColor, productSize, productStack);
 		ms.getUser(model, memberId);
 		return "/order/orderMain";
+
 	}
+
 	
 	//들어오는 모든 주문처리
 	@PostMapping(value = "orderchk", produces = "application/json; charset=utf-8")

@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>세상에서 제일 쉬운 옷 쇼핑 시옷</title>    
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- 폰트어썸 -->
 	<script src="https://kit.fontawesome.com/7bffe1de66.js" crossorigin="anonymous"></script>

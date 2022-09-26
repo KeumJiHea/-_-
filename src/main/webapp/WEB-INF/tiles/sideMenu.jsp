@@ -5,7 +5,7 @@
 		<i class="fa-solid fa-clock-rotate-left"></i>
 		<h3>최근 상품</h3>
 	</div>
-	<div class="cartBtn">
+	<div class="cartBtn" onclick="location.href='<%=request.getContextPath() %>/cart/mycart'">
 		<i class="fa-solid fa-cart-shopping"></i>
 		<h3>장바구니</h3>
 	</div>
