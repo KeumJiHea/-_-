@@ -25,6 +25,14 @@ ul {
     list-style:none;
 }
 
+textarea{
+	font-family: Noto Sans KR;
+}
+
+::placeholder{
+	font-family: Noto Sans KR;
+}
+
 a {
     margin:0;
     padding:0;

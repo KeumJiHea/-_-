@@ -53,7 +53,7 @@ public class CartController {
 		memberId = (String)session.getAttribute("loginUser");
 		ms.getUser(model, memberId);
 		cs.getCart(model, memberId);
-		return "cart/mycart.page";
+		return "cart/mycart";
 	}
 	
 	// 장바구니 한개삭제

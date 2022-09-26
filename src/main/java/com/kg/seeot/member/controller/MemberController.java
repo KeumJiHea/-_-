@@ -51,7 +51,7 @@ public class MemberController implements SessionName{
 
 	@GetMapping("/login")
 	public String login() { 
-		return "member/login.page"; 
+		return "member/login"; 
 	}
 
 	@PostMapping("/login_check")
@@ -72,11 +72,6 @@ public class MemberController implements SessionName{
 	public String successLogin(@RequestParam String id,
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
-		if(id.equals("admin")) {
-			session.setAttribute(LOGIN, id);
-			session.setMaxInactiveInterval(24*60*60);
-			return "admin/admin";
-		}
 
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
@@ -116,7 +111,7 @@ public class MemberController implements SessionName{
 	}
 	@GetMapping("register_form")
 	public String register_form() {
-		return "member/register.page";
+		return "member/register";
 	}
 	@PostMapping("register")
 	public String register(HttpServletRequest request, MemberDTO dto) {

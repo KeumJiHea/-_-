@@ -44,8 +44,8 @@ public class OrderController {
 		ms.getUser(model, memberId);
 		return "/order/orderMain";
 
-	}
 
+	}
 	
 	//들어오는 모든 주문처리
 	@PostMapping(value = "orderchk", produces = "application/json; charset=utf-8")
