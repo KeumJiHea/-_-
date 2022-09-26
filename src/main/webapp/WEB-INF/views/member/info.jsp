@@ -9,9 +9,13 @@
 <title>마이페이지</title>
 <link href="<c:url value='/resources/css/members.css'/>"rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/daum_post.js"></script>
 </head>
 <body>
-	<script>
+
+
+<script>
     jQuery( document ).ready( function ( $ ) {
         var wrapper = $( '.members-wrapper.myaccount' );
         var navigation = $( '.navigation', wrapper );
@@ -34,13 +38,71 @@
         } );
 
     } );
+  
 </script>
+
+<script type="text/javascript">
+window.onload = function(){
+	var phoneList    = "${info.phone}";
+	var Phone		 = phoneList.split("-");
+	var emailList    = "${info.email}";
+	var Email        = emailList.split("@");
+	
+	document.getElementById('phone0').value = Phone[0];
+	document.getElementById('phone1').value = Phone[1];
+	document.getElementById('phone2').value = Phone[2];
+	document.getElementById('email1').value = Email[0];
+	document.getElementById('email2').value = Email[1];
+}
+</script>
+
+<script type="text/javascript">
+
+//필수 입력 체크
+
+function modiChk(){
+	
+	var form = document.form;
+	var pw = $('.pw_input').val();
+	var pwchk = $('.pw_confirm').val();
+	var pwRegex =  /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+	var passWordTest = pwRegex.test($('.pw_input').val());
+	
+	if(pw == ""){
+		alert('비밀번호 입력은 필수입니다');
+		form.pw.focus();
+		return;
+	}
+	else if(pwchk == ""){
+		alert('비밀번호 확인은 필수입니다');
+		form.pwchk.focus();
+		return;
+	}
+	else if(pw != pwchk){
+		alert('비밀번호가 일치하지 않습니다');
+		form.pwchk.focus();
+		return;
+	}
+	else if(!passWordTest){
+		alert('비밀번호는 8~16 영문자 숫자, 특수문자 포함하여 입력해주세요');
+		form.pw.value = "";
+		form.pwchk.value = "";
+		form.pw.focus();
+		return;
+	}
+	else{
+	form.method="post";
+	form.action="<%=request.getContextPath()%>/member/modify";
+	form.submit();
+	}
+}
+</script> 
 
 <div class="members-wrapper myaccount">
     <h1 class="myaccount-title">마이페이지</h1>
     <div class="navigation">
         <ul>
-            <li class=""><a href="#orders">주문 배송</a></li>
+            <li class=""><a href="#orders">주문 내역</a></li>
             <li class=""><a href="#profile">회원 정보</a></li>
             <li class=""><a href="#address">주소 관리</a></li>
             <li class=""><a href="#coupon">쿠폰 목록</a></li>
@@ -64,11 +126,11 @@
             <div class="right">
                 <div class="point">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/point.png'/>" width="40px"></div>
-                    포인트<span>1,000</span>
+                    <a href="#" style="color: white;">문의 하기</a>
                 </div>
                 <div class="coupon">
-                    <div class="icon"><img src="<c:url value='/resources/images/navigation/coupon.png'/>" width="40px"></div>
-                    쿠폰<span>(2)</span>
+                    <div class="icon"><img src="<c:url value='/resources/images/navigation/review.png'/>" width="40px"></div>
+                    <a href="#" style="color: white;">나의 후기</a>
                 </div>
             </div>
         </div>
@@ -83,7 +145,7 @@
                             주문 배송
                         </div>
                     </a>
-                    <a href="#profile">
+                    <a href="#profile" class="infotab">
                         <div class="menu">
                             <div class="icon"><img src="<c:url value='/resources/images/navigation/profile.png'/>" width="50px"></div>
                             회원 정보
@@ -111,7 +173,7 @@
                         <th class="date">주문일자</th>
                         <th class="product-title">상품명</th>
                         <th class="price">결제금액</th>
-                        <th class="action">상품상세</th>
+                        <th class="action">후기작성</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,13 +181,13 @@
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                     <tr>
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -142,7 +204,7 @@
                         <th class="date">주문일자</th>
                         <th class="product-title">상품명</th>
                         <th class="price">결제금액</th>
-                        <th class="action">상품상세</th>
+                        <th class="action">후기작성</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -150,13 +212,13 @@
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                     <tr>
                         <td>2022.09.03</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
-                        <td><a href="">조회</a></td>
+                        <td><a href="">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -165,34 +227,31 @@
 
     <!-- 회원 정보 -->
     <div class="contents profile" id="profile">
-        <form action="edit_account_form" method="post" class="columns">
+        <form class="columns" name="form" method="post" action="<%=request.getContextPath()%>/member/modify">
             <div class="column">
-                <div class="field input_id">
-                    <span>아이디</span>
-                    <input type="text" name="id" value=${info.id} readonly>
-                </div>
-                <div class="field input_name">
+              	 <div class="field input_name">
                     <span>이름</span>
                     <input type="text" name="name" value="${info.name}">
                 </div>
+                <div class="field input_id">
+                    <span>아이디</span>
+                    <input type="text" name="id" value="${info.id}" readonly>
+                </div>
+                <div class="field input_birth">
+                    <span>생년월일</span>
+                    <input type="text" name="birth" placeholder="ex)2000.01.01" value="${info.birth}">
+                </div>
                 <div class="field input_phone">
                     <span>전화번호</span>
-                    <select name="part1">
-                        <option value="010" selected>010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                        <option value="017">017</option>
-                        <option value="019">019</option>
-                        <option value="070">070</option>
-                    </select>  
-                    <input type="text" name="part2" maxlength="4" value="">
-                    <input type="text" name="part3" maxlength="4" value="">
+                    <input type="text" name="phone1" maxlength="3" id="phone0">  
+                    <input type="text" name="phone2" maxlength="4" id="phone1">
+                    <input type="text" name="phone3" maxlength="4" id="phone2">
                 </div>
                 <div class="field input_email">
                     <span>이메일</span>
-                    <input type="text" name="email" placeholder="이메일 주소 입력" value="">
+                    <input type="text" name="email1" placeholder="이메일 주소 입력" id="email1">
                     @
-                    <input type="text" name="email2" placeholder="이메일 주소 입력" value="">
+                    <input type="text" name="email2" id="email2">
                     <select name="domain">
                         <option value="naver.com" selected>naver.com</option>
                         <option value="gmail.com">gmail.com</option>
@@ -202,21 +261,18 @@
                         <option value="1" selected>직접입력</option>
                     </select>
                 </div>
-                <div class="field input_birth">
-                    <span>생년월일</span>
-                    <input type="text" name="birth" placeholder="ex)2000.01.01" value="${info.birth}">
-                </div>
             </div>
             <div class="column">
                 <div class="field input_pw">
                     <span>비밀번호 변경</span>
-                    <span style="color:#888;">비밀번호를 변경하지 않을 경우, 입력하지 마세요.</span>
-                    <input type="password" name="pw" placeholder="비밀번호">
-                    <input type="password" name="confirm_pw" placeholder="비밀번호 확인">
-                    <div class="password-message message"></div>
+                    <span style="color:#888;">회원 정보 수정시 비밀번호는 필수 입력 사항입니다.</span><br>
+                    <input type="password" name="pw" placeholder="최소 8자 최대 16자 영문자 숫자, 특수문자 포함" class="pw_input">
+                    <div class="passwordchk-message"></div>
+                    <input type="password" placeholder="비밀번호 확인" name="pwchk" id="confirm_pw" class="pw_confirm">
+                    <div class="password-message"></div>
                 </div>
                 <div>
-                    <input type="submit" class="button" value="회원정보 수정">
+            	  	 <button type="button" class="button" onclick="modiChk()">회원정보 수정</button>
                 </div>
             </div>
         </form>
@@ -224,26 +280,20 @@
 
     <!-- 주소 관리 -->
     <div class="contents address" id="address">
-        <form action="edit_account_form" method="post" class="columns">
+        <form action="<%=request.getContextPath()%>/member/edit_addr" method="post" class="columns">
             <div class="column">
                 <div class="field input_addr">
                     <span>기본 주소</span>
                     <div class="address">
-                        홍길동<br>
-                        (#1234) 서울시 은평구 응암동 123-12 2층
-                    </div>
-                </div>
-                <div class="field input_addr">
-                    <span>배송지 목록</span>
-                    <div class="address">
-                        홍길동<br>
-                        (#1234) 서울시 은평구 응암동 123-12 2층
+                       ${info.id }<br>
+                       (주문번호)&nbsp;${info.addr1}&nbsp;${info.addr2}&nbsp;${info.addr3}
                     </div>
                 </div>
             </div>
             <div class="column">
                 <div class="field input_addr">
-                    <span>배송지 추가</span>
+                <input type="hidden" value="${info.id}" name="id">
+                    <span>배송지 변경</span>
                     <input type="text" readonly id="addr1" name="addr1" placeholder="우편번호">
                     <button type="button" onclick="daumPost()">주소 검색</button>
                     <input type="text" readonly id="addr2" name="addr2" placeholder="주소">

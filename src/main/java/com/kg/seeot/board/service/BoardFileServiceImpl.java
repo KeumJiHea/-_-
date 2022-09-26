@@ -7,6 +7,8 @@ import java.util.Calendar;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kg.seeot.board.dto.FileDTO;
+
 @Service
 public class BoardFileServiceImpl implements BoardFileService {
 	public String getMessage(String msg, String url) {
@@ -16,9 +18,12 @@ public class BoardFileServiceImpl implements BoardFileService {
 		return message;
 	}
 
-	public String saveFile(MultipartFile file) {
+	public FileDTO saveFile(MultipartFile file) {
+		FileDTO fdto = new FileDTO();
+
 		SimpleDateFormat simpl = new SimpleDateFormat("yyyyMMddHHmmss-");
 		Calendar calendar = Calendar.getInstance();
+		
 		String fileOriginName = file.getOriginalFilename();
 		String fileSaveName = simpl.format(calendar.getTime()) + fileOriginName;
 		File saveFile = new File(IMAGE_REPO + "/" + fileSaveName);
@@ -28,11 +33,19 @@ public class BoardFileServiceImpl implements BoardFileService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return fileSaveName;
+		
+		if(file.getSize() != 0) {
+			fdto.setFileOriginName(fileOriginName);
+			fdto.setFileSaveName(fileSaveName);
+		}else {
+			fdto.setFileOriginName("NaN");
+			fdto.setFileSaveName("NaN");
+		}
+		return fdto;
 	}
 
-	public void deleteImage(String fName) {
-		File dFile = new File(IMAGE_REPO + "/" + fName);
-		dFile.delete();
+	public void deleteImage(String imageName) {
+		File deleteImage = new File(IMAGE_REPO + "/" + imageName);
+		deleteImage.delete();
 	}
 }

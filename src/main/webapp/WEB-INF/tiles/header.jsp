@@ -82,10 +82,12 @@
 <div class="modal-search">
 	<i class="fa-solid fa-xmark close-search"></i>
 	<div class="search">
-		<div class="field">
-			<input type="search" placeholder="검색어를 입력하세요">
-			<input type="button" value="검색">
-		</div>
+		<form id="searchForm" action="${contextPath }/search" method="GET">
+			<div class="field">
+				<input type="search" name="keyword" placeholder="검색어를 입력하세요">
+				<input type="submit" value="검색">
+			</div>
+		</form>
 	</div>
 </div>
 

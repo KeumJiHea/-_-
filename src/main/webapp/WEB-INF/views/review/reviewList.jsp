@@ -48,7 +48,7 @@
 <title>Insert title here</title>
 </head>
 
-<body >
+<body>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -56,29 +56,31 @@ function review(){
 	var queryString = $('reviewForm').serialize();
 	var memberId = "seeotuser"
 	var productNo = 10001
-	var reviewFile = "nan"
+//	var reviewFile=$("textarea[name='reviewFile']")
+	var reviewFile = "nan" //이미지 저장 기능 만드고 주석으로바꾸기
 //	var memberId = $("input[name='memberId']").val()  //회원아이디 입력받게 만들기
 	var reviewContent = $("textarea[name='reviewContent']").val()
-	var rating =$('[name=reviewStar]:checked').val() 
-	var reviewStar=1
+	var reviewStar =$('[name=reviewStar]:checked').val() 
+	
 	
 	//	var formData = new FormData();
 	// formData.append('file', $('#uploadFile')[0].files[0]);
 
 	//var reviewFile =$("file[name='reviewFile']").val     reviewFile:reviewFile
 	
-	var form = {memberId: memberId, reviewContent: reviewContent 
-			,productNo:productNo, reviewFile:reviewFile, rating:rating, reviewStar:reviewStar }
+	var form = {memberId:memberId, reviewContent:reviewContent 
+			,productNo:productNo, reviewFile:reviewFile, reviewStar:reviewStar }
 
 	console.log(form)
-	// console.log( typeof form)
+	
 	$.ajax({
 	url:"addReview" , type:"post",
 	contentType:"application/json; charset=utf-8",
 	data:JSON.stringify(form),
 	dataType:"json",
-	success:function(){
-		alert('리뷰등록')
+	success:function(data){
+		alert('리뷰등록');
+		replyData();
 	},error:function(data){alert('문제발생'), console.log(form)}
 })
 
@@ -96,6 +98,31 @@ function readURL(input) {
        }
    }
 }  
+function replyData(){
+	console.log('reply')
+	$.ajax({
+		//url: "replyData?productNo="+${dto.productNo} //productNo으로 리뷰그룹 나누기
+		url: "replyData/"+${dto.productNo}, type: "get",
+		dataType:"json",
+		success:function(rep){
+			console.log(rep)
+			let html = ""
+			for(i=0; i<rep.length; i++){
+				let date = new Date(rep[i].reviewDate)
+				let wd = date.getFullYear()+"년";
+				wd += (date.getMonth()+1) + "월";  //0월부터 시작
+				wd += date.getDate()+"일"
+				
+				html += "<div align='left'><b>아이디 : </b>"+rep[i].reviewId+"님 / "
+				html += "<b>작성일 : </b>"+ wd +"<br>"
+				html += "<b>별점 : </b>"+rep[i].reviewStar+"<br>"
+				html += "<b>내용 : </b>"+rep[i].reviewContent+"<hr></div>"
+			}
+			$("#review").html( html )
+		}
+	})
+}
+
 //댓글불러오기 때  data.length 넣어서 리뷰수 적어주기
  </script>
 
@@ -116,14 +143,14 @@ function readURL(input) {
 <div>
             <div>
                 <span><strong>REVIEW</strong></span> <span id="cCnt"></span><hr>
-            </div>
+            </div><!-- cCnt 댓글 개수, 리뷰 평균점수 표현 -->
             </div>
 
  	<form class="mb-3" name="reviewForm" id="reviewForm" >
  	<!--  action="${contextPath}/review/reviwSave" method="post" enctype="multipart/form-data"-->
  
-	<fieldset>
-	<input type="text" name="memberId" value="${dto.memberId }">
+	<fieldset> 
+	<!--<input type="text" name="memberId" value="${dto.memberId }"> -->
 		<span class="text-bold">별점을 선택해주세요</span>
 		<input type="radio" name="reviewStar" value=5 id="rate1"><label
 			for="rate1">★</label>
@@ -143,16 +170,17 @@ function readURL(input) {
 	<input type="hidden" id="productNo" value="${dto.productNo }"> -->
 		<textarea class="reviewContent" type="text" id="reviewContent" name="reviewContent"
 				  placeholder="리뷰작성"></textarea>
-				  <!-- 
+				  <!-- --> 
 	<c:if test="${ dto.reviewFile == '' }"> <b>이미지가 없습니다</b> </c:if>
 	<c:if test="${ dto.reviewFile != 'nan' }">			
 	<input type="file" name="reviewFile" id="reviewFile" onchange="readURL(this);" /> 
 	</c:if>
-	 -->
+	
 	<form>
 	
 	</form>
 	<input type="button" onclick="review()" value="후기등록">
+	<input type="button" onclick="replyData()" value="replydata">
 	
 	<div id=review></div>
 	</div>

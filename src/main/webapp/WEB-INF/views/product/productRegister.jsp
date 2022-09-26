@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-	<style type="text/css">
+	<!-- <style type="text/css">
 		.ck-editor__editable { height: 300px; }
-	</style>
+	</style> -->
 	
 </head>
 <body>
@@ -27,6 +27,18 @@
 				}
 			}
 		}
+		
+		/* var cnt=1;
+		function addFile(){
+			$("#addfile").append("<div id='productContent"+cnt+"'><input type='file' name='productContent'>"
+			         +"<input type='button' value='삭제' onclick='delFile()'> </div>")
+			cnt++
+		}
+		
+		function delFile(){
+			cnt--
+			$("#productContent"+cnt).remove()
+		} */
 		
 		function chkData() {
 			if (document.getElementById('productNo').value == "") {
@@ -104,20 +116,23 @@
 		<hr>
 		
 		<b>상품 설명</b><br>
-		<textarea name="productContent" id="productContent"></textarea>
+		<input type="file" name="productContent" />
+		<!-- <textarea name="productContent" id="productContent"></textarea> -->
+		<!-- <input type="button" value="설명 이미지 추가" onclick="addFile()"><br>
+		<div id="addfile"></div> -->
 		
 		<hr>
 		<button type="button" onclick="chkData()">상품 등록</button>
-		<button type="button" onclick="location.href='list'">등록 취소</button>
+		<button type="button" onclick="location.href='productList'">등록 취소</button>
 	</form>
 
-	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+<!-- 	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
 	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/translations/ko.js"></script>
 	<script type="text/javascript">
 		ClassicEditor.create( document.querySelector( '#productContent' ), {
 	    	language: "ko"
 		});
-	</script>
+	</script> -->
 	
 
 </body>

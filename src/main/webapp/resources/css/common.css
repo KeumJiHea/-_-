@@ -18,12 +18,19 @@ time, mark, audio, video {
     border:0;
     outline:0;
     font-size:100%;
-    vertical-align:baseline;
     background:transparent;
 }
 
 ul {
     list-style:none;
+}
+
+textarea{
+	font-family: Noto Sans KR;
+}
+
+::placeholder{
+	font-family: Noto Sans KR;
 }
 
 a {

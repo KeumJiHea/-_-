@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 
 public class BoardDTO {
 	private String memberId, memberName, boardTitle, boardContent, boardDate;
-	private int boardNo, boardGroup, boardIndent;
-	private String boardQnAType, boardStatus;
+	private int boardNo, boardHit, replyCount;
+	private String boardQnAType;
 
 //1:1문의 게시판
 	public String getMemberId() {
@@ -45,7 +45,6 @@ public class BoardDTO {
 		return boardDate;
 	}
 
-//public void setBoardDate(String boardDate) { this.boardDate = boardDate; }
 	public void setBoardDate(Timestamp boardDate) {
 		SimpleDateFormat s = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		this.boardDate = s.format(boardDate);
@@ -59,22 +58,6 @@ public class BoardDTO {
 		this.boardNo = boardNo;
 	}
 
-	public int getBoardGroup() {
-		return boardGroup;
-	}
-
-	public void setBoardGroup(int boardGroup) {
-		this.boardGroup = boardGroup;
-	}
-
-	public int getBoardIndent() {
-		return boardIndent;
-	}
-
-	public void setBoardIndent(int boardIndent) {
-		this.boardIndent = boardIndent;
-	}
-
 	public String getBoardQnAType() {
 		return boardQnAType;
 	}
@@ -83,12 +66,20 @@ public class BoardDTO {
 		this.boardQnAType = boardQnAType;
 	}
 
-	public String getBoardStatus() {
-		return boardStatus;
+	public int getBoardHit() {
+		return boardHit;
 	}
 
-	public void setBoardStatus(String boardStatus) {
-		this.boardStatus = boardStatus;
+	public void setBoardHit(int boardHit) {
+		this.boardHit = boardHit;
+	}
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 
 }

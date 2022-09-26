@@ -1,8 +1,8 @@
 package com.kg.seeot.cart.dto;
 
 public class CartDTO {
-	private int productNo,cartPrice,productPrice,orderStack;
-	private String memberId,productName,productFile;
+	private int productNo,cartPrice,productPrice,productStack,cartNum,productSize;
+	private String memberId,productName,productFile,productColor;
 	public int getProductNo() {
 		return productNo;
 	}
@@ -21,11 +21,11 @@ public class CartDTO {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
-	public int getOrderStack() {
-		return orderStack;
+	public int getproductStack() {
+		return productStack;
 	}
-	public void setOrderStack(int orderStack) {
-		this.orderStack = orderStack;
+	public void setproductStack(int productStack) {
+		this.productStack = productStack;
 	}
 	public String getMemberId() {
 		return memberId;
@@ -44,6 +44,24 @@ public class CartDTO {
 	}
 	public void setProductFile(String productFile) {
 		this.productFile = productFile;
+	}
+	public int getCartNum() {
+		return cartNum;
+	}
+	public void setCartNum(int cartNum) {
+		this.cartNum = cartNum;
+	}
+	public int getProductSize() {
+		return productSize;
+	}
+	public void setProductSize(int productSize) {
+		this.productSize = productSize;
+	}
+	public String getProductColor() {
+		return productColor;
+	}
+	public void setProductColor(String productColor) {
+		this.productColor = productColor;
 	}
 	
 	

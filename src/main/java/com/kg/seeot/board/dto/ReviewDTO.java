@@ -10,6 +10,8 @@ private int reviewStar=1, productNo;
 public String getReviewDate() {
 	return reviewDate;
 }
+
+
 /*
 public void setReviewDate(String reviewDate) {
 	this.reviewDate = reviewDate;
@@ -18,7 +20,7 @@ public void setReviewDate(String reviewDate) {
 public void setReviewDate(Timestamp  reviewDate) {
 	SimpleDateFormat s = 
 			new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-	this. reviewDate = s.format( reviewDate );
+	this.reviewDate = s.format( reviewDate );
 }
 
 

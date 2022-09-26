@@ -88,3 +88,15 @@ body{
 	width: 60vw;
 	margin: 30px auto 10px;
 }
+
+.searchWrapper {
+	width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.searchList {
+    width: calc( 100% / 4 - 10px );
+    justify-content: space-between;
+    background-color: #ddd;
+    margin: 5px;
+}
