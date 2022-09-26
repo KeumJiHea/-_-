@@ -19,6 +19,7 @@
 	        margin: 5px;
 	        
 	    }
+	    #filter { display: none; height: 100px; }
 	</style>
 </head>
 <body onload=productList();>
@@ -169,7 +170,6 @@
 							html += "<div style='padding-bottom:0px;'><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></div><br>";
 							html += "<div style='text-align: center; height: 0px; '><b>" + list[i].productName + "</b></div><br>";
 							html += "<div style='text-align: center;'><b>" + list[i].productPrice + "</b></div></a>";
-							html += "<a href='${contextPath}/product/viewTest?productNo=" + list[i].productNo + "'>Test링크입니다</a>";
 							html += "</div>";
 							$(".productWrapper").html(html);
 						}
@@ -210,8 +210,12 @@
 			productList();
 	}
 	
+	function filter() {
+		$('#filter').slideToggle("slow")
+	}
 	</script>
-	<div>
+	<div><input type="button" value="필터" onclick="filter()"></div>
+	<div id="filter">
 		색상
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
 		<input type="checkbox" name="Color" value="GREEN" onchange="selectSearch()"> GREEN
@@ -228,14 +232,14 @@
 		<input type="checkbox" name="Price" value="PR5" onchange="selectSearch()">10만원이상
 		<hr>
 	</div><br>
-	
+	<div id="order" align="right">
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
 			<option value="rating"> 높은 별점순
-	</select><br>
-	
+	</select>
+	</div>
 	
 	<div class="productWrapper">
 		
