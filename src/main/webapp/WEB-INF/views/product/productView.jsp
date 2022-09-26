@@ -9,6 +9,32 @@
 <body>
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 	<script type="text/javascript">
+	 
+	jQuery( document ).ready( function ( $ ) {
+		var isVisible = false;
+
+		$(window).on('scroll',function() {
+		    if (checkVisible($('#changeGuide'))&&!isVisible) {
+		    	$('.pronav').attr("style","position: fixed;");
+		        isVisible=true;
+		    }else{
+		    	
+		    }
+		});
+		
+		function checkVisible( elm, eval ) {
+		    eval = eval || "object visible";
+		    var viewportHeight = $(window).height(), // Viewport Height
+		        scrolltop = $(window).scrollTop(), // Scroll Top
+		        y = $(elm).offset().top,
+		        elementHeight = $(elm).height();   
+		    
+		    if (eval == "object visible") return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
+		    if (eval == "above") return ((y < (viewportHeight + scrolltop)));
+		}
+	 });
+	</script> -->
 	<script type="text/javascript">
 	var pc, ps
 	var cnt = 0
@@ -49,8 +75,8 @@
 							cnt++;
 							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
 									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'>"
-									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
-									+ "<input type='button' value='▲' onClick='stackUp(this)' class='productStack" + cnt + "'>"
+									+ "<input type='hidden' name='productSize' value='" + data.productSize + "' id='productSize'>"
+								 	+ "<input type='button' value='▲' onClick='stackUp(this)' class='productStack" + cnt + "'>"
 									+ "<input type='hidden' id='MaxproductStack" + cnt + "' value='" + data.productStack + "'>"
 									+ "<input type='input' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
 									+ "<input type='button' value='▼' onClick='stackDown(this)' class ='productStack" + cnt + "'>"
@@ -139,6 +165,10 @@
 		}
 	}
 	
+	
+	   
+	  
+	 
 	/*리뷰 불러오기*/
 	/* function rePrint(){
 		
@@ -185,9 +215,12 @@
 	
 	
 } */
+
+	
+	
 	</script>
 	
-	
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
@@ -212,7 +245,8 @@
 					0
 				</c:if>
 				<c:if test="${pdto.reviewCount != 0}">
-					${pdto.productRating/pdto.reviewCount }
+					<fmt:formatNumber value="${pdto.productRating/pdto.reviewCount}" pattern=".00"/>
+					
 				</c:if>
 			</td>
 		</tr>
@@ -253,11 +287,66 @@
 			<td><button type="button" onclick="productOrder()">구매하기</button></td>
 		</tr>
 	</table>
-	<hr>
 	
 	<div id="proContent">
-	<h2>상품 상세 정보</h2>
+	<div class="pronav_form" style="display:flex; ">
+	<span>상품 상세 정보</span>
+	<div class="pronav" style="margin-left: 20px;">
+	<a href="#top">최상위로</a>
+	<a href="#proContent">상세정보</a>
+	<a href="#proReview">상품 후기</a>
+	<a href="#changeGuide">배송/교환/환불</a>
+	</div>
+	</div>
 	<hr>
+	<!-- test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br>
+	test <br> -->
 	<c:if test="${ pdto.productContent == 'nan' }">
 		<b>등록된 이미지가 없습니다.</b>
 	</c:if>
@@ -313,10 +402,7 @@
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<a href="#top">최상위로</a>
-	<a href="#proContent">상세정보</a>
-	<a href="#proReview">상품 후기</a>
-	<a href="#changeGuide">배송/교환/환불</a>
+	
 	
 
 </body>

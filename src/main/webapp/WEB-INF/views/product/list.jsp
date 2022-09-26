@@ -8,21 +8,24 @@
 
 	<style type="text/css">
 	    .productWrapper {
-	    	width: 1000px;
+	    	width: 1500px;
 	        display: flex;
 	        flex-wrap: wrap;
 	    }
 	    .product {
 	        width: calc( 100% / 4 - 10px );
 	        justify-content: space-between;
-	        background-color: #ddd;
 	        margin: 5px;
+	        text-align: center;
 	        
 	    }
-	    #filter { display: none; height: 100px; }
+	    #filter { 
+	    	display: none; height: 100px;
+	    	}
 	</style>
 </head>
 <body onload=productList();>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
@@ -168,11 +171,15 @@
 							html += "<div class='product'>";
 							html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
 							html += "<div style='padding-bottom:0px;'><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></div><br>";
+							
+							const Price = list[i].productPrice;
+							let productPrice = Price.toLocaleString();
+							
 							html += "<div style='text-align: center; height: 0px; '><b>" + list[i].productName + "</b></div><br>";
-							html += "<div style='text-align: center;'><b>" + list[i].productPrice + "</b></div></a>";
+							html += "<div style='text-align: center;'><b>" + productPrice + "</b></div></a>";
 							html += "</div>";
 							$(".productWrapper").html(html);
-						}
+							}
 						}else{
 							html = "<div><b>일치하는 상품이 없습니다.<b></div>";
 							$(".productWrapper").html(html);
@@ -188,7 +195,6 @@
 		})
 		
 	}
-	
 	
 	var chkColor_arr = [];
 	var chkPrice_arr = [];
@@ -214,9 +220,9 @@
 		$('#filter').slideToggle("slow")
 	}
 	</script>
-	<div><input type="button" value="필터" onclick="filter()"></div>
+	<div><button onclick="filter()">Filter</button></div>
 	<div id="filter">
-		색상
+		Color | 
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
 		<input type="checkbox" name="Color" value="GREEN" onchange="selectSearch()"> GREEN
 		<input type="checkbox" name="Color" value="BLUE" onchange="selectSearch()"> BLUE
@@ -224,7 +230,7 @@
 		<input type="checkbox" name="Color" value="BLACK" onchange="selectSearch()"> BLACK
 		<input type="checkbox" name="Color" value="WHITE" onchange="selectSearch()"> WHITE
 		<hr>
-		가격범위
+		Price | 
 		<input type="checkbox" name="Price" value="PR1" onchange="selectSearch()">1만원이하
 		<input type="checkbox" name="Price" value="PR2" onchange="selectSearch()">1~3만원
 		<input type="checkbox" name="Price" value="PR3" onchange="selectSearch()">3만원~5만원
@@ -245,7 +251,7 @@
 		
 	</div>
 
-	<div class="paging">
+	<div class="paging" align="center">
 	
 	</div>
 	
