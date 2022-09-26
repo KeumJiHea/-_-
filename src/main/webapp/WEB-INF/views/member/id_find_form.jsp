@@ -15,7 +15,7 @@
 
 <div class="members-wrapper id-find">
 	<form name="form">
-		<h3>이메일 본인확인</h3>
+		<h3>아이디 찾기 (이메일 본인인증)</h3>
 		<div class="field input_name required">
 			<span>이름</span>
 			<input type="text" class="name" name="name">

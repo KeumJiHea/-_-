@@ -40,6 +40,10 @@
 	    select * from seeot_member
 	</select>
 	
+	<delete id="member_delete">
+		delete from seeot_member where member_id=#{id} and member_pw=#{pw}
+	</delete>
+	
 	<delete id="delete">
 	    delete from seeot_member where member_id=#{id}
 	</delete>

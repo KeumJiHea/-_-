@@ -63,6 +63,14 @@ public class MemberServiceImpl implements MemberService{
 	public void delete(String id) {
 		mapper.delete(id);
 	}
+	public int member_delete(MemberDTO dto) {
+		try {
+			return mapper.member_delete(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	public int idCheck(String id) throws Exception{
 		return mapper.idCheck(id);
 	}
