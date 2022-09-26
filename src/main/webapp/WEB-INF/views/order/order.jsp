@@ -94,6 +94,7 @@ $(document).on('click',".fcancel",function(){
 		</div>
 	</div>
 </div>
+${sessionScope.loginUser }
 <table border="1" id="ordertable">
 	<tr>
 		<th>주문번호</th><th>이미지</th><th>상품명/옵션</th><th>상품금액</th><th>수량</th><th>주문상태</th><th>확인/리뷰</th>

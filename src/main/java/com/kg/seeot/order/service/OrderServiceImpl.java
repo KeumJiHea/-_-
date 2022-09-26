@@ -18,6 +18,7 @@ import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.dto.ProductOrderDTO;
 import com.kg.seeot.member.service.MemberService;
 import com.kg.seeot.mybatis.order.OrderMapper;
+import com.kg.seeot.mybatis.product.ProductMapper;
 import com.kg.seeot.order.dto.CancelDTO;
 import com.kg.seeot.order.dto.OrderDTO;
 import com.kg.seeot.order.dto.OrderHistoryDTO;
@@ -26,10 +27,12 @@ import com.kg.seeot.order.dto.OrderHistoryDTO;
 public class OrderServiceImpl implements OrderService{
 	@Autowired OrderMapper om;
 	@Autowired OrderService os;
+	@Autowired ProductMapper pm;
 	
 	@Override
 	public void addOrder(OrderDTO dto) {
 		om.addOrder(dto);
+		pm.orderaddmodify(dto.getOrderStack(), dto.getProductNo(), dto.getProductSize(), dto.getProductColor());
 	}
 	
 	@Override
@@ -79,10 +82,20 @@ public class OrderServiceImpl implements OrderService{
 	public void cancel(HttpServletRequest request,String orderNo, String memberId,String reason) {
 		HttpSession session = request.getSession();
 		memberId = (String)session.getAttribute("loginUser");
+		ArrayList<OrderDTO> list = om.getCancelOrder(orderNo);
 		String admin = "admin";
 		if(memberId.equals(admin)) {
 			om.changeStatus_canceled(orderNo);
 			om.changehiStatus_canceled(orderNo);
+			for(int i=0; i<list.size();i++) {
+				int productNo = list.get(i).getProductNo();
+				int productSize = list.get(i).getProductSize();
+				String productColor = list.get(i).getProductColor(); 
+				int orderStack = list.get(i).getOrderStack();
+				pm.ordercancelmodify(orderStack, productNo, productSize, productColor);
+			}
+			
+			om.orderdel(orderNo);
 		}else {
 			System.out.println("orderNo : "+orderNo);
 			System.out.println("memberId : "+memberId);
@@ -92,9 +105,10 @@ public class OrderServiceImpl implements OrderService{
 			map.put("memberId", memberId);
 			map.put("reason", reason);
 			session.setAttribute("cancel", map);
-			om.changeStatus_canceling(orderNo, memberId);	
+			om.changeStatus_canceling(orderNo);	
+			om.changehiStatus_canceling(orderNo);
 			om.addcancel_1(memberId, orderNo, reason);
-			om.addcancel_2(orderNo);
+			//om.addcancel_2(orderNo);
 			
 		}
 		
@@ -140,7 +154,7 @@ public class OrderServiceImpl implements OrderService{
 	public void getOrder(String memberId, String orderNo) {
 		System.out.println("memberId : "+memberId);
 		System.out.println("orderNo : "+orderNo);
-		om.getOrder(memberId,orderNo);
+		om.getOrder(orderNo);
 	}
 
 	@Override

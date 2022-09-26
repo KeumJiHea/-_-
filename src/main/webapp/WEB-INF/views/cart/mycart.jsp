@@ -310,7 +310,7 @@ function setaddr(){
 </script>
 </head>
 <body>
-
+	<br><br><br>
 	<div align="center">
 		<form action="${contextPath}/order/cartorder" method="post">
 			<table id="cartTable" border="1">

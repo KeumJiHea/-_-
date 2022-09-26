@@ -58,7 +58,11 @@
 	</select>
 	
 	<select id="getOrder" resultMap="order">
-		select * from goods_order where memberId=#{m} and order_no=#{o}
+		select * from goods_order where order_no=#{orderNo}
+	</select>
+	
+	<select id="getCancelOrder" resultMap="order">
+		select * from goods_order where order_no=#{orderNo}
 	</select>
 	
 	<select id="getOrders" resultMap="order">
@@ -70,11 +74,15 @@
 	</select>
 	
 	<insert id="addcancel_1">
-		insert into cancel member_id=#{m}, order_no=#{o} and reason=#{r}
+		insert into cancel values(#{m}, #{o}, #{r})
 	</insert>
 	
-	<delete id="addcancel_2">
+<!-- 	<delete id="addcancel_2">
 	DELETE FROM cancel a WHERE ROWID > (SELECT MIN(ROWID) FROM cancel b WHERE b.#{orderNo} = a.#{orderNo});
+	</delete> -->
+	
+	<delete id="orderdel">
+		delete from goods_order where order_no=#{orderNo}
 	</delete>
 	
 	<select id="getcancel" resultMap="cdto">
@@ -83,7 +91,7 @@
 	
 	<!-- 취소중 -->
 	<update id="changehiStatus_canceling">
-		update order_history set hiorder_status=0 where himember_id=#{m} and hiorder_status=1 and order_no=#{o}
+		update order_history set hiorder_status=0 where hiorder_status=1 and hiorder_no=#{o}
 	</update>
 	<!-- 취소됨 -->
 	<update id="changehiStatus_canceled">
@@ -101,7 +109,7 @@
 	
 	<!-- 취소중 -->
 	<update id="changeStatus_canceling">
-		update goods_order set order_status=0 where member_id=#{m} and order_status=1 and order_no=#{o}
+		update goods_order set order_status=0 where order_status=1 and order_no=#{o}
 	</update>
 	<!-- 취소됨 -->
 	<update id="changeStatus_canceled">

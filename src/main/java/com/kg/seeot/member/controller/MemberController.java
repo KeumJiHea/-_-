@@ -90,9 +90,7 @@ public class MemberController implements SessionName{
 		}
 		session.setAttribute(LOGIN, id);
 		session.setMaxInactiveInterval(24*60*60);
-
-
-		return "member/successLogin";
+		return "home.page";
 		
 	}
 	@GetMapping("logout")
@@ -290,15 +288,3 @@ public class MemberController implements SessionName{
 		response.getWriter().print(gson.toJson(resultMap));
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-

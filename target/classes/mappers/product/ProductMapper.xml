@@ -86,6 +86,13 @@
 		update product_management set product_stack=#{moProductStack}, product_size=#{moProductSize}, product_color=#{moProductColor} where product_no=#{productNo} and product_stack=#{productStack} and product_size=#{productSize} and product_color=#{productColor}
 	</update>
 	
+	<update id="orderaddmodify">
+		update product_management set product_stack = product_stack-#{o} where product_no=#{n} and product_size=#{s} and product_color=#{c}
+	</update>
+	<update id="ordercancelmodify">
+		update product_management set product_stack = product_stack+#{o} where product_no=#{n} and product_size=#{s} and product_color=#{c}
+	</update>
+	
 	<select id="allCount" resultType="Integer">
 		<if test="chkColor_arr == null">
 			select count(*) from product

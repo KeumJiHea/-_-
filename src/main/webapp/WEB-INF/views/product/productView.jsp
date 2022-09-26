@@ -50,39 +50,60 @@
 							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
 									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'>"
 									+ "<input type='hidden' name='productSize' value='" + data.productSize + "'>"
-									+ "<input type='number' min='1' max='" + data.productStack + "'  onchange='selProStack()' name='productStack' id='productStack" + cnt + "' value='0' class='pst'>"
-									+ "금액 <span id='PriceproductStack" + cnt + "'>0</span> 원"
+									+ "<input type='button' value='▲' onClick='stackUp(this)' class='productStack" + cnt + "'>"
+									+ "<input type='hidden' id='MaxproductStack" + cnt + "' value='" + data.productStack + "'>"
+									+ "<input type='input' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
+									+ "<input type='button' value='▼' onClick='stackDown(this)' class ='productStack" + cnt + "'>"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>" + ${pdto.productPrice} + "</span> 원"
 									+ "<input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
 						}else {
-							alert('이미 추가되었습니다.')
+							alert('이미 추가되었습니다.');
 						}
 					}else {
-						alert('상품 재고가 없습니다.')
+						alert('상품 재고가 없습니다.');
 					}
 	
 				}
-			})
-		}
+			});
+		};
 		pc = ''
 		ps = ''
 		
 		
+	};
+
+
+ 	function stackUp(product_id) {
+		var product_id =  $(product_id).attr('class')
+		console.log("@@@@ product_id : " + product_id)
+		stack = $("#" + product_id).val();
+		Maxstack = $("#Max" + product_id).val();
+		stack++;
+		if(stack > Maxstack) {
+			alert('최대 구매 수량은 ' + Maxstack + '개 입니다.')
+			stack = Maxstack;
+		}
+		var productPrice = ${pdto.productPrice};
+		var productStackPrice = stack * productPrice;
+		console.log("@@@@ stack : " + stack)
+		$('#' + product_id).val(stack);
+		$( '#Price' + product_id).text( productStackPrice );
 	}
-
-
- 	function selProStack(){
-		$('.pst').on("propertychange change keyup paste input", function(){
-				var selectId = $(this).attr('id')
-				var selectStack = $(this).val();
-				var productPrice = ${pdto.productPrice}
-				var productStackPrice = selectStack * productPrice;
-				$( '#Price' + selectId).text( productStackPrice );
-				if(selectStack == 11) {
-					alert('최대 10개까지 구매가 가능합니다.');
-					$('#' + selectId).val('10');
-				}
-			});
-		
+	
+	function stackDown(product_id) {
+		var product_id =  $(product_id).attr('class')
+		console.log("@@@@ product_id : " + product_id)
+		stack = $("#" + product_id).val();
+		stack--;
+		if(stack <= 0) {
+			alert('최소 구매 수량은 1개 입니다.')
+			stack = 1;
+		}
+		var productPrice = ${pdto.productPrice};
+		var productStackPrice = stack * productPrice;
+		console.log("@@@@ stack : " + stack)
+		$('#' + product_id).val(stack);
+		$( '#Price' + product_id).text( productStackPrice );
 	}
 	
 
@@ -105,11 +126,7 @@
 			form.submit();
 		}
 	}
-
-	/* function productCart() {
-
-	} */
-
+	
 	 function productCart() {
 		form = document.profo;
 		form.method = "post";
@@ -121,7 +138,6 @@
 			form.submit();
 		}
 	}
-
 	
 	/*리뷰 불러오기*/
 	/* function rePrint(){
@@ -168,12 +184,7 @@
 	})
 	
 	
-<<<<<<< HEAD
-}
->>>>>>> b7a0f6ba7e2211adfee87d054554d607be18aca1
-=======
 } */
->>>>>>> e5b87171ab4a34295709666c08385d773f775e49
 	</script>
 	
 	
