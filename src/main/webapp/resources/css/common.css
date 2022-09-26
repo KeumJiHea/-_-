@@ -98,7 +98,7 @@ button:hover{
 	display: inline-block;
 }
 .category li a{
-	padding: 21px 20px; 27px;
+	padding: 21px 20px 27px;
 }
 .category li a span{
 	padding: 21px 0 5px;
@@ -241,7 +241,7 @@ button:hover{
 	background-color: #e9eef0;
 	width: 100px;
 	right: 15px;
-	top: 50%;
+	top: 30%;
 	position: fixed;
 	padding: 10px;
 	border: 1px solid gray;
@@ -251,15 +251,18 @@ button:hover{
 .side-menu{
 	text-align: center;
 }
+
 .recentBtn{
 	padding: 10px;
 	border-radius: 1rem;
 }
-.cartBtn{
-	padding: 10px;
-	border-radius: 1rem;
+
+.thumb a img{
+	width: 80px;
+	height: 80px;
 }
-.likeBtn{
+
+.cartBtn{
 	padding: 10px;
 	border-radius: 1rem;
 }
@@ -267,7 +270,7 @@ button:hover{
 	padding: 10px;
 	border-radius: 1rem;
 }
-.recentBtn:hover, .topBtn:hover, .likeBtn:hover, .cartBtn:hover{
+.topBtn:hover, .cartBtn:hover{
 	background-color: #c7cbcd;
 }
 .side-menu i{

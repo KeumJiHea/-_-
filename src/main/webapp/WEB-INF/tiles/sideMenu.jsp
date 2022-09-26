@@ -3,10 +3,10 @@
 <div class="side-menu">
 	<div class="recentBtn">
 		<i class="fa-solid fa-clock-rotate-left"></i>
-		<h3>최근 상품</h3>
-		<c:forEach var="product" items="${recentList }">
-			<div>${product.productName }</div>
-		</c:forEach>
+		<h3>최근 본 상품</h3>
+		<div class="recentList">
+			<ul></ul>
+		</div>
 	</div>
 	<div class="cartBtn" onclick="location.href='<%=request.getContextPath() %>/cart/mycart'">
 		<i class="fa-solid fa-cart-shopping"></i>
