@@ -95,11 +95,10 @@ public class ReviewServiceImpl implements ReviewService {
 				//System.out.println(file.getOriginalFilename());
 			
 		//MultipartFile file = mul.getFile("reviewFile"); //꺼내와야함
-<<<<<<< HEAD
+
 		
-=======
+
 		//mapper.productCount(product, reviewstar);
->>>>>>> e5b87171ab4a34295709666c08385d773f775e49
 		/**/
 		if( file.getSize() != 0) { // file.isEmpty() != true (파일이 존재하면)  !file.isEmpty()
 			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss-");
@@ -260,10 +259,9 @@ public class ReviewServiceImpl implements ReviewService {
 	 }
 	 
 	
-<<<<<<< HEAD
 
-}
-=======
+
+
 //	
 //	public void add(@RequestParam(value="reviewStar") int reviewStar)
 	/*
@@ -288,4 +286,4 @@ public class ReviewServiceImpl implements ReviewService {
 	 * bfs.getMessage(msg, url); }
 	 */
 }
->>>>>>> e5b87171ab4a34295709666c08385d773f775e49
+
