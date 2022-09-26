@@ -91,12 +91,12 @@
 	
 				}
 			});
-		};
+		}
 		pc = ''
 		ps = ''
 		
 		
-	};
+	}
 
 
  	function stackUp(product_id) {
@@ -354,6 +354,9 @@
 		<img src="${contextPath}/product/download?productFile=${pdto.productContent}">
 	</c:if>
 	</div><br><br>
+	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 	<div id="proReview">
 	<h2>상품 후기</h2>

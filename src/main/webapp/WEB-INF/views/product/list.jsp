@@ -21,7 +21,27 @@
 	    }
 	    #filter { 
 	    	display: none; height: 100px;
-	    	}
+    	}
+    	
+	    select {
+	    width: 200px;
+	    padding: .8em .5em;
+	    border: 1px solid #999;
+	    font-family: inherit; 
+	    background: url('<%=request.getContextPath() %>/resources/images/arrow.jpg') no-repeat 95% 50%;
+	    border-radius: 0px;
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+	    appearance: none;
+	    }
+	    select::-ms-expand {
+	    	display: none;
+	    }
+	    
+	    img:hover {
+	    	transition: all 0.1s linear;
+	    	transform: scale(1.1);
+	    }
 	</style>
 </head>
 <body onload=productList();>
@@ -117,33 +137,33 @@
 				
 				if(num == 1) {
 					paging += "<button onclick='javascript:startPagNum(1)' disabled> 처음으로 </button>";
-					paging += "<button onclick='javascript:prePagNum()' disabled> 이전 </button>";
+					paging += "&nbsp; <button onclick='javascript:prePagNum()' disabled> 이전 </button> &nbsp;";
 				}else if(num > 5){
 					paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
-					paging += "<button onclick='javascript:prePagNum()'> 이전 </button>";
+					paging += "&nbsp; <button onclick='javascript:prePagNum()'> 이전 </button> &nbsp;";
 				}else{
 					paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
-					paging += "<button onclick='javascript:prePagNum()' disabled> 이전 </button>";
+					paging += "&nbsp; <button onclick='javascript:prePagNum()' disabled> 이전 </button> &nbsp;";
 				};
 				
 				if( (pgnum+5) <= repeat ) {
 					for(i=pgnum; i<=(pgnum+4); i++) {
-						paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+						paging += "&nbsp; <a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
 					}
 				}else {
 					for(i=pgnum; i<=repeat; i++) {
-						paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+						paging += "&nbsp; <a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
 					};
 				}
 				
 				if(num == repeat){
-					paging += "<button onclick='javascript:nextPagNum()' disabled> 다음 </button>";
+					paging += "&nbsp; <button onclick='javascript:nextPagNum()' disabled> 다음 </button> &nbsp;";
 					paging += "<button onclick='javascript:endPagNum(" + repeat + ")' disabled> 끝으로 </button>";
 				}else if( (pgnum + 5) >repeat ) {
-					paging += "<button onclick='javascript:nextPagNum()'  disabled> 다음 </button>";
+					paging += "&nbsp; <button onclick='javascript:nextPagNum()'  disabled> 다음 </button> &nbsp;";
 					paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
 				}else {
-					paging += "<button onclick='javascript:nextPagNum()'> 다음 </button>";
+					paging += "&nbsp; <button onclick='javascript:nextPagNum()'> 다음 </button> &nbsp;";
 					paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
 				};
 				
@@ -220,8 +240,11 @@
 		$('#filter').slideToggle("slow")
 	}
 	</script>
+	
+	<hr>
 	<div><button onclick="filter()">Filter</button></div>
 	<div id="filter">
+	<hr>
 		Color | 
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
 		<input type="checkbox" name="Color" value="GREEN" onchange="selectSearch()"> GREEN
@@ -246,6 +269,7 @@
 			<option value="rating"> 높은 별점순
 	</select>
 	</div>
+	<br>
 	
 	<div class="productWrapper">
 		
