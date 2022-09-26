@@ -102,7 +102,7 @@ function requestPay() {
         pay_method: "card",
         merchant_uid: num,   //주문번호
         name: namelist[0],
-        amount: 100,//$('#total_price').text()
+        amount: $('#total_price').text(),
         buyer_email: "${info.email}",
         buyer_name: "${info.name}",
         buyer_tel: "{info.phone}",
@@ -163,6 +163,7 @@ function daumPost(){
         }
     }).open();
 }
+
 function setaddr(){
 	if($("input:checkbox[name=orderaddr]").is(":checked")){
 		$("#postcode").val('${info.addr1}');

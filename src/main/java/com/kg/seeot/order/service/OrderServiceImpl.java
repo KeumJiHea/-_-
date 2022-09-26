@@ -142,25 +142,23 @@ public class OrderServiceImpl implements OrderService{
 			String reason = cdto.getReason();
 			memberId = cdto.getMemberId();
 			orderNo = cdto.getOrderNo();					
-			System.out.println(memberId);
-			System.out.println(orderNo);
-			System.out.println(reason);
 			session.setAttribute("reason", reason);
 		}
 		
 	}
 
 	@Override
-	public void getOrder(String memberId, String orderNo) {
-		System.out.println("memberId : "+memberId);
-		System.out.println("orderNo : "+orderNo);
-		om.getOrder(orderNo);
+	public void getOrder(Model model,String memberId, String orderNo) {
+		OrderDTO dto = om.getOrder(orderNo);
+		model.addAttribute("dto",dto);
+		
 	}
 
 	@Override
-	public void getOrders(String memberId) {
-		System.out.println("memberId : "+memberId);
-		om.getOrders(memberId);
+	public void getOrders(Model model,String memberId) {
+		ArrayList<OrderDTO> list = om.getOrders(memberId);
+		model.addAttribute("list",list);
+		
 		
 	}
 

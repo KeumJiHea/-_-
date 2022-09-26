@@ -64,7 +64,6 @@ $(document).ready(function(){
 	}
 		$("#total_price").text(first);
 })
-
 function checkAll() {
 	if($("#orderAllCheck").on("change")[0].checked) {
 		$("input[name=orderChkbox]").prop("checked", true);
@@ -72,17 +71,14 @@ function checkAll() {
 		$("input[name=orderChkbox]").prop("checked", false);
 	}
 }
-
 $(document).ready(function() {
 	$("#orderAllCheck").click(function() {
 		if($("#orderAllCheck").is(":checked")) $("input[name=orderChkbox]").prop("checked", true);
 		else $("input[name=orderChkbox]").prop("checked", false);
 	});
-
 	$("input[name=orderChkbox]").click(function() {
 		var total = $("input[name=orderChkbox]").length;
 		var checked = $("input[name=orderChkbox]:checked").length;
-
 		if(total != checked){
 			$("#orderAllCheck").prop("checked", false);
 		}
@@ -92,18 +88,17 @@ $(document).ready(function() {
 	});
 });
 	 
-    $(document).on('click',".deletebtn",function(){ 
-	                       
-		var str = ""            
-		var tdArr = new Array();    // 배열 선언            
-		var checkBtn = $(this);
-		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
-		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
-		var tr = checkBtn.parent().parent();    
-		var td = tr.children(); 
-
-		// td.eq(index)를 통해 값을 가져올 수도 있다.    
-		var no = td.eq(1).text();    
+    $(document).on('click',".deletebtn",function(){ 
+	                       
+		var str = ""            
+		var tdArr = new Array();    // 배열 선언            
+		var checkBtn = $(this);
+		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
+		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
+		var tr = checkBtn.parent().parent();    
+		var td = tr.children(); 
+		// td.eq(index)를 통해 값을 가져올 수도 있다.    
+		var no = td.eq(1).text();    
 		console.log(no);
 		if(confirm(td.eq(3).text()+' 상품을 장바구니에서 삭제 하시겠습니까?')){
 			$.ajax({
@@ -123,19 +118,18 @@ $(document).ready(function() {
 			alert('삭제가 취소되었습니다.')
 		}
 });
-
-	var cartlist = new Array();        
-$(document).on('click','.chkdel',function(){                     
-	    // 체크된 체크박스 값을 가져온다            
-/* 		// checkbox.parent() : checkbox의 부모는 <td>이다.        
-		// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.        
-		var tr = checkbox.parent().parent().eq(i);        
-		var td = tr.children();                       
-		// 체크된 row의 모든 값을 배열에 담는다.        
-		rowData.push(tr.text());                        
-		// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-		        
-		var no = td.eq(1).text();  */     
+	var cartlist = new Array();        
+$(document).on('click','.chkdel',function(){                     
+	    // 체크된 체크박스 값을 가져온다            
+/* 		// checkbox.parent() : checkbox의 부모는 <td>이다.        
+		// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.        
+		var tr = checkbox.parent().parent().eq(i);        
+		var td = tr.children();                       
+		// 체크된 row의 모든 값을 배열에 담는다.        
+		rowData.push(tr.text());                        
+		// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+		        
+		var no = td.eq(1).text();  */     
 		
 		$("input:checkbox[name=orderChkbox]:checked").each(function(i) {
 			var no = $(this).val();
@@ -143,12 +137,12 @@ $(document).on('click','.chkdel',function(){                  
 			cartlist.push(no);
 		});
 /* 		for(i=1; i<=${cart.size()}; i++){	
-				var no = $("input:checkbox[name='orderChkbox']:checked").val()                      
-		// 가져온 값을 배열에 담는다.        
+				var no = $("input:checkbox[name='orderChkbox']:checked").val()                      
+		// 가져온 값을 배열에 담는다.        
 				
 		} */
 			
-		                             
+		                             
 		if(confirm('선택된 상품을 장바구니에서 삭제하시겠습니까?')){
 			$.ajax({
 				url: "cartchkdel",
@@ -168,8 +162,8 @@ $(document).on('click','.chkdel',function(){                  
 			})
 		}else{
 			alert('삭제가 취소되었습니다.')
-		}          		
-	  
+		}          		
+	  
 });
 	
 	function alldel(){

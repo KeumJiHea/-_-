@@ -11,9 +11,9 @@ import com.kg.seeot.order.dto.OrderHistoryDTO;
 public interface OrderMapper {
 	public void addOrder(OrderDTO dto);
 	public void addOrderHistory(OrderHistoryDTO hdto);
-	public void getOrder(String orderNo);
+	public OrderDTO getOrder(String orderNo);
+	public ArrayList<OrderDTO> getOrders(String memberId);
 	public ArrayList<OrderDTO> getCancelOrder(String orderNo);
-	public void getOrders(String memberId);
 	public ArrayList<OrderDTO> getAllOrders();
 	
 	public void addcancel_1(@Param("m") String memberId,@Param("o") String orderNo, @Param("r") String reason);	
