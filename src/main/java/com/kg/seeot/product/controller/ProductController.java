@@ -46,7 +46,7 @@ public class ProductController {
 	//상품 전체 리스트 및 카테고리 리스트 출력
 	@GetMapping("list")
 	public String list() {
-		return "product/list";
+		return "product/list.page";
 	}
 	
 	//해당 카테고리 전체 상품 수
