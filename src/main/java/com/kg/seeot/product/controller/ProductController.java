@@ -45,12 +45,7 @@ public class ProductController {
 	
 	//상품 전체 리스트 및 카테고리 리스트 출력
 	@GetMapping("list")
-	public String list(Model model, @RequestParam(value="productCategorie", required = false, defaultValue = "0")  int productCategorie) {
-		if(productCategorie == 0) {
-			ps.allList(model);
-		}else {
-			ps.list(model, productCategorie);
-		}
+	public String list() {
 		return "product/list.page";
 	}
 	
@@ -109,8 +104,8 @@ public class ProductController {
 	
 	//상품 삭제
 	@GetMapping("productDelete")
-	public void productDelete(int productNo, String productFile, HttpServletResponse response ,HttpServletRequest request) throws Exception {
-		String message = ps.productDelete(productNo, productFile, request);
+	public void productDelete(int productNo, String productFile, String productContent, HttpServletResponse response ,HttpServletRequest request) throws Exception {
+		String message = ps.productDelete(productNo, productFile, productContent, request);
 		
 		response.setContentType("text/html; charser=utf-8");
 		PrintWriter out = response.getWriter();
@@ -216,6 +211,19 @@ public class ProductController {
 			break;
 		}
 		return "admin/productList";
+	}
+	
+	
+	
+	
+	
+	
+	
+	//상품 상세 정보
+	@GetMapping("viewTest")
+	public String viewTest(Model model, int productNo) {
+		ps.productView(model, productNo);
+		return "product/viewTest";
 	}
 	
 }

@@ -40,6 +40,10 @@
 	    select * from seeot_member
 	</select>
 	
+	<delete id="member_delete">
+		delete from seeot_member where member_id=#{id} and member_pw=#{pw}
+	</delete>
+	
 	<delete id="delete">
 	    delete from seeot_member where member_id=#{id}
 	</delete>
@@ -56,6 +60,9 @@
 	<update id="change_pw">
 		update seeot_member set member_pw=#{pw} where member_id=#{id}
 	</update>
+	<insert id="kakaoreg">
+		insert into seeot_member (member_id,member_email) values (#{id},#{email})
+	</insert>
 </mapper>
 
 

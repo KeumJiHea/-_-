@@ -8,26 +8,40 @@
 <title>아이디 찾기</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link href="<c:url value='/resources/css/members.css'/>"rel="stylesheet">
 
 </head>
 <body>
 
-<form name="form">
-	<div class="field input_email">
-		<h3>이메일 본인확인</h3>
-			<span class="span">이름</span>
-			<input type="text" class="name" name="name"><br>
-			<span class="span">이메일</span>
-			<input type="text" class="email1" name="email1">@<input type="text" class="email2" name="email2" ><br>
-				<input type="text" disabled class="input_mail_check" style="width: 300px; margin-top: 12px; background-color: white;" maxlength="6" placeholder="인증번호 입력"><br>
-				<input type="button" class="btn_mail_check" style="margin-top: 15px; cursor: pointer; border: 1px solid #888; background-color: white;" value="인증번호 전송">
-				<input type="button" class="btn_mail_check2" style="display:none; margin-top: 15px; border: 1px solid #888; background-color: white; cursor: pointer;" value="인증번호 확인">
-			<div class="mail-message message"></div>
+<div class="members-wrapper id-find">
+	<form name="form">
+		<h3>아이디 찾기 (이메일 본인인증)</h3>
+		<div class="field input_name required">
+			<span>이름</span>
+			<input type="text" class="name" name="name">
+		</div>
+		
+		<div class="field input_email required">
+			<span>이메일</span>
+			<input type="text" class="email1" name="email1">@<input type="text" class="email2" name="email2" >
+			<input type="button" class="btn_mail_check" value="인증번호 전송">
+		</div>
+		
+		<div class="field input_email required">
+			<input type="text" disabled class="input_mail_check" maxlength="6" placeholder="인증번호 입력">
+			<input type="button" class="btn_mail_check2" value="인증번호 확인">
+		</div>
+		
+		<div class="mail-message message"></div>
+		<button type="button" class="button sub_btn" onclick="chk()">아이디 찾기</button><br>
+		<div class="id_find_message"></div>
+	</form>
+	<div class="pw-find-form">
+		<a href="login">로그인</a>
+		<a href="register_form">회원가입</a>
+		<a href="pw_find_form">비밀번호 찾기</a>
 	</div>
-	<br><button type="button" class="sub_btn" onclick="chk()">ID찾기</button><br>
-	<div class="id_find_message"></div>
-</form>
-	<a href="pw_find_form"><button type="button">PW찾기</button></a><a href="login"><button type="button">취소</button></a>
+</div>
 
 <script type="text/javascript">
 	       //이메일 인증번호 확인

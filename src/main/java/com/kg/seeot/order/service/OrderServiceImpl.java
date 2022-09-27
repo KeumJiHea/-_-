@@ -18,6 +18,7 @@ import com.kg.seeot.product.dto.ProductManageDTO;
 import com.kg.seeot.product.dto.ProductOrderDTO;
 import com.kg.seeot.member.service.MemberService;
 import com.kg.seeot.mybatis.order.OrderMapper;
+import com.kg.seeot.mybatis.product.ProductMapper;
 import com.kg.seeot.order.dto.CancelDTO;
 import com.kg.seeot.order.dto.OrderDTO;
 import com.kg.seeot.order.dto.OrderHistoryDTO;
@@ -26,10 +27,12 @@ import com.kg.seeot.order.dto.OrderHistoryDTO;
 public class OrderServiceImpl implements OrderService{
 	@Autowired OrderMapper om;
 	@Autowired OrderService os;
+	@Autowired ProductMapper pm;
 	
 	@Override
 	public void addOrder(OrderDTO dto) {
 		om.addOrder(dto);
+		pm.orderaddmodify(dto.getOrderStack(), dto.getProductNo(), dto.getProductSize(), dto.getProductColor());
 	}
 	
 	@Override
@@ -79,10 +82,20 @@ public class OrderServiceImpl implements OrderService{
 	public void cancel(HttpServletRequest request,String orderNo, String memberId,String reason) {
 		HttpSession session = request.getSession();
 		memberId = (String)session.getAttribute("loginUser");
+		ArrayList<OrderDTO> list = om.getCancelOrder(orderNo);
 		String admin = "admin";
 		if(memberId.equals(admin)) {
 			om.changeStatus_canceled(orderNo);
 			om.changehiStatus_canceled(orderNo);
+			for(int i=0; i<list.size();i++) {
+				int productNo = list.get(i).getProductNo();
+				int productSize = list.get(i).getProductSize();
+				String productColor = list.get(i).getProductColor(); 
+				int orderStack = list.get(i).getOrderStack();
+				pm.ordercancelmodify(orderStack, productNo, productSize, productColor);
+			}
+			
+			om.orderdel(orderNo);
 		}else {
 			System.out.println("orderNo : "+orderNo);
 			System.out.println("memberId : "+memberId);
@@ -92,15 +105,25 @@ public class OrderServiceImpl implements OrderService{
 			map.put("memberId", memberId);
 			map.put("reason", reason);
 			session.setAttribute("cancel", map);
-			om.changeStatus_canceling(orderNo, memberId);	
+			om.changeStatus_canceling(orderNo);	
+			om.changehiStatus_canceling(orderNo);
 			om.addcancel_1(memberId, orderNo, reason);
-			om.addcancel_2(orderNo);
+			//om.addcancel_2(orderNo);
 			
 		}
 		
 		
 	}
 	
+	
+	
+	@Override
+	public void nonCancel(HttpServletRequest request, String orderNo) {
+		HttpSession session = request.getSession();		
+			om.changeStatus_noneCancel(orderNo);
+			om.changehiStatus_noneCancel(orderNo);	
+	}
+
 	@Override
 	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
@@ -108,7 +131,6 @@ public class OrderServiceImpl implements OrderService{
 		model.addAttribute("list",list);
 		HttpSession session = request.getSession();
 		
-		System.out.println("cancel session "+session.getAttribute("cancel"));
 		Map map = (Map) session.getAttribute("cancel");
 		if(map!=null) {
 			String reason = (String) map.get("reason");
@@ -129,26 +151,29 @@ public class OrderServiceImpl implements OrderService{
 			String reason = cdto.getReason();
 			memberId = cdto.getMemberId();
 			orderNo = cdto.getOrderNo();					
-			System.out.println(memberId);
-			System.out.println(orderNo);
-			System.out.println(reason);
 			session.setAttribute("reason", reason);
 		}
 		
 	}
 
 	@Override
-	public void getOrder(String memberId, String orderNo) {
-		System.out.println("memberId : "+memberId);
-		System.out.println("orderNo : "+orderNo);
-		om.getOrder(memberId,orderNo);
+	public void getOrder(Model model,String memberId, String orderNo) {
+		OrderDTO dto = om.getOrder(orderNo);
+		model.addAttribute("dto",dto);
+		
 	}
 
 	@Override
-	public void getOrders(String memberId) {
-		System.out.println("memberId : "+memberId);
-		om.getOrders(memberId);
-		
+	public void getOrders(Model model,String memberId) {
+		ArrayList<OrderDTO> list = om.getOrders(memberId);
+		model.addAttribute("list",list);				
+	}
+	
+	//주문 내역 조회
+	@Override
+	public void getOrderHistorys(Model model,String memberId) {
+		ArrayList<OrderDTO> list = om.getOrderHistorys(memberId);
+		model.addAttribute("orderli",list);				
 	}
 
 	@Override
@@ -162,6 +187,57 @@ public class OrderServiceImpl implements OrderService{
 		om.changeStatus_finish(orderNo);
 		om.changehiStatus_finish(orderNo);
 	}
+
+	@Override
+	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword) {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.selectSearchList(dto,type,keyword);
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> orderNoSorting_ASC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderNoSorting_ASC();
+		return list;
+	}
+	@Override
+	public ArrayList<OrderDTO> orderNoSorting_DESC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderNoSorting_DESC();
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> memberIdSorting_ASC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.memberIdSorting_ASC();
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> memberIdSorting_DESC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.memberIdSorting_DESC();
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> orderPriceSorting_ASC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderPriceSorting_ASC();
+		return list;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> orderPriceSorting_DESC() {
+		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
+		list = om.orderPriceSorting_DESC();
+		return list;
+	}
+	
 	
 	
 	

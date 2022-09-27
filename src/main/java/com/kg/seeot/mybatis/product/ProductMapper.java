@@ -25,8 +25,12 @@ public interface ProductMapper {
 	public int managementDelete(@Param("productNo") int productNo,  @Param("productSize") int productSize, @Param("productColor") String productColor);
 	public ProductManageDTO managementModify_Form(@Param("productNo") int productNo,  @Param("productSize") int productSize, @Param("productColor") String productColor);
 	public int managementModify( @Param("productNo") int productNo, @Param("productStack") int productStack,  @Param("productColor") String productColor,  @Param("productSize") int productSize, @Param("moProductStack") int moProductStack, @Param("moProductColor") String moProductColor, @Param("moProductSize") int moProductSize);
+	public int orderaddmodify(@Param("o")int orderStack, @Param("n") int productNo,  @Param("s") int productSize, @Param("c") String productColor);
+	public int ordercancelmodify(@Param("o")int orderStack, @Param("n") int productNo,  @Param("s") int productSize, @Param("c") String productColor);
+	
 	
 	public int allCount(@Param("productCategorie") int productCategorie, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 	public List<ProductDTO> prolist(@Param("orderBy") String orderBy, @Param("productCategorie") int productCategorie, @Param("start") int start, @Param("end") int end, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 	
+	public List<ProductDTO> searchList(@Param("keyword") String keyword, @Param("productCategorie") int productCategorie, @Param("orderBy") String orderBy, @Param("start") int start, @Param("end") int end, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 }

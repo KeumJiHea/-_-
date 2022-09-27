@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService{
 		MemberDTO dto = mapper.getUser(request.getParameter("id"));
 		if(dto != null) {
 			if(en.matches(request.getParameter("pw"),dto.getPw()) || dto.getPw().equals(request.getParameter("pw"))) {
-				return 0;	
+				return 0;
 			}
 		}
 		return 1;
@@ -62,6 +62,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 	public void delete(String id) {
 		mapper.delete(id);
+	}
+	public int member_delete(MemberDTO dto) {
+		try {
+			return mapper.member_delete(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	public int idCheck(String id) throws Exception{
 		return mapper.idCheck(id);
@@ -140,6 +148,25 @@ public int change_pw(HttpServletRequest request,MemberDTO dto) {
 	}
 	return 0;
 }
+public int kakaoConnectionCheck(Map<String, Object> paramMap){
+	
+	int check = mapper.idCheck("kakao_"+paramMap.get("id"));
+	if( check == 0) {
+		MemberDTO dto = new MemberDTO();
+		dto.setId("kakao_"+paramMap.get("id"));
+		if(paramMap.get("email") != null) {
+			dto.setEmail((String)paramMap.get("email"));
+		}
+
+		try {
+			return mapper.kakaoreg( dto );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	return 0;
+  }
 }
 
 

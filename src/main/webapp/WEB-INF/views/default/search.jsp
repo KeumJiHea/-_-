@@ -7,8 +7,10 @@
 	<div class="searchBar">
 		<p><b>${keyword }</b>에 대한 검색 결과 <span id="listCount"></span></p>
 	</div>
-	<div>
-		색상
+	<div><button onclick="filter()">Filter</button></div>
+	<div id="filter">
+	<hr>
+		Color | 
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
 		<input type="checkbox" name="Color" value="GREEN" onchange="selectSearch()"> GREEN
 		<input type="checkbox" name="Color" value="BLUE" onchange="selectSearch()"> BLUE
@@ -16,7 +18,7 @@
 		<input type="checkbox" name="Color" value="BLACK" onchange="selectSearch()"> BLACK
 		<input type="checkbox" name="Color" value="WHITE" onchange="selectSearch()"> WHITE
 		<hr>
-		가격범위
+		Price | 
 		<input type="checkbox" name="Price" value="PR1" onchange="selectSearch()">1만원이하
 		<input type="checkbox" name="Price" value="PR2" onchange="selectSearch()">1~3만원
 		<input type="checkbox" name="Price" value="PR3" onchange="selectSearch()">3만원~5만원
@@ -24,17 +26,18 @@
 		<input type="checkbox" name="Price" value="PR5" onchange="selectSearch()">10만원이상
 		<hr>
 	</div><br>
-	
+	<div id="order" align="right">
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
 			<option value="rating"> 높은 별점순
-			<option value="review"> 리뷰 많은순
-	</select><br>
+	</select>
+	</div>
+	<br>
 	
-	<div class="searchWrapper"></div>
-	<div class="paging"></div>	
+	<div class="productWrapper"></div>
+
+	<div class="paging" align="center"></div>
 </body>
 <script src="<%=request.getContextPath() %>/resources/js/search.js"></script>
-

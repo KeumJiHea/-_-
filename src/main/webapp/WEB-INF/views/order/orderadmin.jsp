@@ -16,177 +16,12 @@
 	#first{position: fixed; z-index: 10;margin: auto; display:none;
 	 top:30px; left: 0; right: 0; width: 350px; height: 450px; background-color: white;
 	}
-
+	#ordersection :hover {cursor: pointer;}
+	#totalsection :hover {cursor: pointer;}
+	#idsection :hover {cursor: pointer;}
 </style>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-
-	function slideClick(){
-		var form={
-			memberId : $("#tbody th").eq(1).text(),
-			orderNo : $("#tbody th").eq(0).text()
-		}
-		$("#first").slideDown("slow");
-		$("#modal_wrap").show();		
-		$.ajax({
-			url : "cancelchk",
-			type : "POST",
-			contentType : "application/json; charset=utf-8",
-			data : JSON.stringify(form)
-			}).done(function(){
-				$("#memberId").val(form.memberId);
-				$("#orderNo").val(form.orderNo);
-				$("#reason").val('${sessionScope.reason}')
-			}).fail(function(data){
-				alert('실패'+data)
-			});
-		}
-
-	function slide_hide(){	
-		$("#first").hide();
-		$("#modal_wrap").hide();	
-	}
- 	var cnt=1;
-	var j=0;
-	var pricelist = new Array();
- 	$(document).ready(function(){ //9020 중복되는 주문번호 합쳐보기
- 		
-		for(i=0;i<$("#tbody tr").length;i++){
-		var sum = 0;
-			if(i>$("#tbody tr").length){
-				i=$("#tbody tr").length
-			}
-			if($("#no"+i).text()==$("#no"+(i+1)).text()){
-				if(cnt++){
-					j++;
-				}
-					sum += parseInt($("#price"+i).text())					
-					console.log('1sum : '+sum);
-					console.log(typeof sum);				
-					pricelist.push(sum)
-					console.log(pricelist);
-			}			
-			else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
-					if(j!=0){						
-						sum += parseInt($("#price"+i).text())
-						console.log('2sum : '+sum);
-						pricelist.push(sum)
-						console.log(pricelist);
-						var total = pricelist.reduce(function(a,b){ return a+b;},0);
-						console.log('total : '+ total)
-						$("#no"+(i-j)).attr('rowspan',cnt);
-						$("#no"+(i-j)).attr('class','start');	
-						$("#id"+(i-j)).attr('rowspan',cnt);
-						$("#id"+(i-j)).attr('class','start');	
-						$("#status"+(i-j)).attr('rowspan',cnt);
-						$("#status"+(i-j)).attr('class','start');
-						$("#total"+(i-j)).attr('rowspan',cnt);
-						$("#total"+(i-j)).attr('class','start');
-						$("#total"+(i-j)).text(total);						
-					}
-					pricelist = [];
-					
-					if(j==0&&cnt==1&&i!=0){
-						sum += parseInt($("#price"+i).text())
-						console.log('3sum : '+sum);
-						pricelist.push(sum)
-						console.log(pricelist);
-						$("#no"+(i-j)).attr('class','start');
-						$("#id"+(i-j)).attr('class','start');
-						$("#status"+(i-j)).attr('class','start');
-						$("#total"+(i-j)).attr('class','start');
-						$("#total"+(i-j)).text(pricelist[0]);
-						
-					}
-						pricelist = [];
-					cnt=1;
-					if(cnt=1){
-						j=0;
-					}
-				}
-		}		
-	})  
-	
-	$(document).on('click','.delevery',function(){
-		
-			$.ajax({
-				url : "delevery",
-				type : "POST",
-				contentType : "application/json; charset=utf-8",
-				data : {orderNo : $("#tbody th").eq(0).text()}
-				}).done(function(){
-					alert('주문배송시작');
-			    	location.reload();
-				}).fail(function(data){
-					alert('실패'+data)
-				});
-	});
-	$(document).on('click','.endDelevery',function(){
-	
-			$.ajax({
-				url : "enddelevery",
-				type : "POST",
-				contentType : "application/json; charset=utf-8",
-				data : {orderNo : $("#tbody th").eq(0).text()}
-				}).done(function(){
-					alert('주문배송완료');
-			    	location.reload();
-				}).fail(function(data){
-					alert('실패'+data)
-				});
-	});
-	
-	$(document).on('click',".cancelOk",function(){
-   
-		var no = $("#tbody th").eq(0).text();
-		var cost =$("#tbody th").eq(3).text();
-		
-		jQuery.ajax({
-		      "url": "cancelOk", // 예: http://www.myservice.com/payments/cancel
-		      "type": "POST",
-		      "contentType": "application/json",
-		      "data": JSON.stringify({
-		        "merchant_uid": no, // 예: ORD20180131-0000011
-		        "cancel_request_amount": cost, // 환불금액
-		        "reason": $('#reason').val(), // 환불사유
-		        "refund_holder": "운영자", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-		        "refund_bank": "88", // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
-		        "refund_account": "56211105948400", // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-		        "orderNo" : no
-		      }),
-		    }).done(function(result){
-		    	alert('주문취소완료');
-		    	location.reload();
-		    	slide_hide();		    	
-		    }).fail(function(result){
-		    	alert('주문취소실패! \n잠시후 다시 시도 해주세요.')
-		    });	
-		
-		
-						
-	});
- 	
-	$(document).on('click',".cancelNone",function(){
-		var form={
-				memberId : $("#tbody th").eq(1).text(),
-				orderNo : $("#tbody th").eq(0).text()
-			};		
-			$.ajax({
-				url : "delevery",
-				type : "POST",
-				contentType : "application/json; charset=utf-8",
-				data : JSON.stringify(form)
-				}).done(function(){
-					alert('주문배송완료');
-			    	location.reload();	
-				}).fail(function(data){
-					alert('실패'+data)
-				});
-						
-	});
-	
-</script>
 </head>
 <body>
 	<div id="modal_wrap">
@@ -206,9 +41,12 @@
 	</div>
 </div>
 	<h2>현재 접속자 : ${sessionScope.loginUser }</h2>
-	<table border="1">
-		<tr>
-			<td>주문번호</td><td>아이디</td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td>총 주문 금액</td><td>주문상태</td>
+	<form id="searchform">
+		<select name="type"><option value="orderNo">주문번호</option><option value="memberId">아이디</option></select><input type="text" name="keyword"><button type="button" onclick="getSearchList()">검색</button>
+	</form>
+	<table border="1" id="table">
+		<tr>		
+			<td id="ordersection">주문번호<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td id="idsection">아이디<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td id="totalsection">총 주문 금액<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td class="status">주문상태</td>
 		</tr>
 		<tbody id="tbody">
 			<c:forEach var="odto" items="${list }" varStatus="status">				
@@ -230,4 +68,5 @@
 		</tbody>
 	</table>
 </body>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/order/orderAdmin.js"></script>
 </html>

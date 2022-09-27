@@ -185,7 +185,7 @@ button:hover{
 	transform: translateY(-50%);
 }
 .search .field input[type='search'],
-.search .field input[type='button']{
+.search .field input[type='submit']{
 	padding: 10px;
 	outline: none;
 }
@@ -204,14 +204,14 @@ button:hover{
 	transition: 0.35s;
 }
 
-.search .field input[type='button']{
+.search .field input[type='submit']{
 	flex: 1;
 	color: #FFF;
 	background-color: #191919;
 	opacity: 1;
 	cursor: pointer;
 }
-.search .field input[type=button]:hover{
+.search .field input[type=submit]:hover{
 	opacity: 0.9;
 }
 
@@ -261,6 +261,10 @@ button:hover{
 	width: 80px;
 	height: 80px;
 }
+.thumb a img:hover{
+	transition: all 0.1s linear;
+	transform: scale(1.1);
+}
 
 .cartBtn{
 	padding: 10px;
@@ -274,5 +278,9 @@ button:hover{
 	background-color: #c7cbcd;
 }
 .side-menu i{
-	font-size: 20pt;
+	font-size: 1.8rem;
+}
+
+.recentBtn > span{
+	font-size: 0.9rem;
 }

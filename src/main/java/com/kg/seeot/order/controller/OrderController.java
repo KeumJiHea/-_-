@@ -37,11 +37,14 @@ public class OrderController {
 	@PostMapping("ordermain") 
 	public String orderMain(int productNo,Model model, HttpServletRequest req, String productName, String productColor, String productSize , String productStack) {
 		System.out.println("컨트롤러 동작 성공");
+
 		HttpSession session = req.getSession();
 		String memberId = (String)session.getAttribute("loginUser");
 		os.productOrder(model, req, productColor, productSize, productStack);
 		ms.getUser(model, memberId);
-		return "/order/orderMain";
+		return "/order/orderMain.page";
+
+
 	}
 	
 	//들어오는 모든 주문처리
@@ -113,7 +116,6 @@ public class OrderController {
 	@GetMapping("orderadmin")
 	public String orderadmin(Model model,HttpServletRequest request) {
 		model.getAttribute("cdto");
-		System.out.println("cdto : "+model.getAttribute("cdto"));
 		OrderDTO odto = new OrderDTO();
 		os.getAllOrders(request,model);
 		return "/order/orderadmin";
@@ -134,21 +136,49 @@ public class OrderController {
 		os.cancel(request, orderNo, memberId, reason);
 	}
 	
+	@PostMapping(value = "noncancel", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void nonCancel(HttpServletRequest request,@RequestBody Map data) {
+		String orderNo = (String) data.get("orderNo");
+		os.nonCancel(request, orderNo);
+	}
+	
+	
 	@PostMapping(value = "delevery",produces = "application/json; charset=utf-8" )
 	@ResponseBody
-	public void delevery(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
-		memberId = (String) map.get("memberId");
-		orderNo = (String) map.get("orderNo");
+	public void delevery(HttpServletRequest request,Model model,@RequestBody Map map,String orderNo) {
+		orderNo = (String)map.get("orderNo");
 		os.doDelevery(orderNo);
 	}
 	@PostMapping(value = "enddelevery",produces = "application/json; charset=utf-8" )
 	@ResponseBody
-	public void enddelevery(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
-		memberId = (String) map.get("memberId");
+	public void enddelevery(HttpServletRequest request,Model model,@RequestBody Map map,String orderNo) {
 		orderNo = (String) map.get("orderNo");
 		os.endDelevery(orderNo);
 	}
 	
+	@GetMapping("getSearchList")
+	@ResponseBody
+	public ArrayList<OrderDTO> getSearchList(String type,String keyword,Model model) {
+		OrderDTO dto = new OrderDTO();
+		dto.setKeyword(keyword);
+		dto.setType(type);
+		return os.getSearchList(dto,type,keyword);
+	}
+	
+	@PostMapping("sorting")
+	@ResponseBody
+	public ArrayList<OrderDTO> sorting(String sort) {
+		switch(sort) {
+		case "0" : return os.orderNoSorting_DESC();
+		case "1" : return os.orderNoSorting_ASC();
+		case "2" : return os.memberIdSorting_DESC();
+		case "3" : return os.memberIdSorting_ASC();
+		case "4" : return os.orderPriceSorting_DESC();
+		case "5" : return os.orderPriceSorting_ASC();
+		}
+		return null;
+	}
 	
 	//test용
 	@PostMapping("test2")

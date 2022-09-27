@@ -54,11 +54,15 @@
 	</insert>
 	
 	<select id="getOrderHistorys" resultMap="hdto">
-		select * from order_history where memberId=#{memberId}
+		select * from order_history where himember_id=#{memberId}
 	</select>
 	
 	<select id="getOrder" resultMap="order">
-		select * from goods_order where memberId=#{m} and order_no=#{o}
+		select * from goods_order where order_no=#{orderNo}
+	</select>
+	
+	<select id="getCancelOrder" resultMap="order">
+		select * from goods_order where order_no=#{orderNo}
 	</select>
 	
 	<select id="getOrders" resultMap="order">
@@ -70,20 +74,28 @@
 	</select>
 	
 	<insert id="addcancel_1">
-		insert into cancel member_id=#{m}, order_no=#{o} and reason=#{r}
+		insert into cancel values(#{m}, #{o}, #{r})
 	</insert>
 	
-	<delete id="addcancel_2">
+<!-- 	<delete id="addcancel_2">
 	DELETE FROM cancel a WHERE ROWID > (SELECT MIN(ROWID) FROM cancel b WHERE b.#{orderNo} = a.#{orderNo});
+	</delete> -->
+	
+	<delete id="orderdel">
+		delete from goods_order where order_no=#{orderNo}
 	</delete>
 	
 	<select id="getcancel" resultMap="cdto">
 		select * from cancel where member_id=#{m} and order_no=#{o}
 	</select>
 	
+	<!-- 취소거부 -->
+	<update id="changehiStatus_noneCancel">
+		update order_history set hiorder_status=1 where hiorder_status=0 and hiorder_no=#{o}
+	</update>
 	<!-- 취소중 -->
 	<update id="changehiStatus_canceling">
-		update order_history set hiorder_status=0 where himember_id=#{m} and hiorder_status=1 and order_no=#{o}
+		update order_history set hiorder_status=0 where hiorder_status=1 and hiorder_no=#{o}
 	</update>
 	<!-- 취소됨 -->
 	<update id="changehiStatus_canceled">
@@ -98,10 +110,13 @@
 		update order_history set hiorder_status=3 where hiorder_no=#{orderNo} and hiorder_status=2
 	</update>
 	
-	
+	<!-- 취소거부 -->
+	<update id="changeStatus_noneCancel">
+		update goods_order set order_status=1 where order_status=0 and order_no=#{o}
+	</update>
 	<!-- 취소중 -->
 	<update id="changeStatus_canceling">
-		update goods_order set order_status=0 where member_id=#{m} and order_status=1 and order_no=#{o}
+		update goods_order set order_status=0 where order_status=1 and order_no=#{o}
 	</update>
 	<!-- 취소됨 -->
 	<update id="changeStatus_canceled">
@@ -115,5 +130,37 @@
 	<update id="changeStatus_finish">
 		update goods_order set order_status=3 where order_status=2 and order_no=#{orderNo}
 	</update>
+	
+ 	<select id="selectSearchList" resultMap="order">
+		select * from goods_order
+		<choose>
+			<when test="t != null and t.equals('orderNo')">
+				where order_no=#{k} 
+			</when>
+			<when test="t != null and t.equals('memberId')">
+				where member_id=#{k} order by order_date DESC
+			</when>
+		</choose>
+	</select> 
+	
+	<select id="orderNoSorting_ASC" resultMap="order">
+		select * from goods_order order by order_no ASC
+	</select>
+	<select id="orderNoSorting_DESC" resultMap="order">
+		select * from goods_order order by order_no DESC
+	</select>
+	
+	<select id="memberIdSorting_ASC" resultMap="order">
+		select * from goods_order order by member_id ASC, order_no ASC
+	</select>
+	<select id="memberIdSorting_DESC" resultMap="order">
+		select * from goods_order order by member_id DESC, order_no DESC
+	</select>
+	<select id="orderPriceSorting_ASC" resultMap="order">
+		select * from goods_order order by order_price ASC, order_no ASC
+	</select>
+	<select id="orderPriceSorting_DESC" resultMap="order">
+		select * from goods_order order by order_price DESC, order_no DESC
+	</select>
 	
 </mapper>

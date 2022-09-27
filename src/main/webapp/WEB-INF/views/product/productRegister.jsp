@@ -117,7 +117,7 @@
 		
 		<b>상품 설명</b><br>
 		<input type="file" name="productContent" />
-		<!-- <textarea name="productContent" id="productContent"></textarea> -->
+		
 		<!-- <input type="button" value="설명 이미지 추가" onclick="addFile()"><br>
 		<div id="addfile"></div> -->
 		
@@ -125,14 +125,6 @@
 		<button type="button" onclick="chkData()">상품 등록</button>
 		<button type="button" onclick="location.href='productList'">등록 취소</button>
 	</form>
-
-<!-- 	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
-	<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/translations/ko.js"></script>
-	<script type="text/javascript">
-		ClassicEditor.create( document.querySelector( '#productContent' ), {
-	    	language: "ko"
-		});
-	</script> -->
 	
 
 </body>
