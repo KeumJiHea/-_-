@@ -61,12 +61,13 @@ public class HomeController {
 	
 	@PostMapping(value = "searchList", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
-			@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
-//		String orderBy = request.getParameter("orderBy");
-//		int num = Integer.parseInt(request.getParameter("num"));
-//		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-		return mapper.productNameList(keyword);
+	public List<ProductDTO> searchlist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
+			@RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, @RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
+		String orderBy = request.getParameter("orderBy");
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+
+		return mapper.searchList(keyword, productCategorie, orderBy, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	
 	@GetMapping("default/agreement")
