@@ -16,7 +16,9 @@
 	#first{position: fixed; z-index: 10;margin: auto; display:none;
 	 top:30px; left: 0; right: 0; width: 350px; height: 450px; background-color: white;
 	}
-
+	#ordersection :hover {cursor: pointer;}
+	#totalsection :hover {cursor: pointer;}
+	#idsection :hover {cursor: pointer;}
 </style>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -61,20 +63,14 @@
 				if(cnt++){
 					j++;
 				}
-					sum += parseInt($("#price"+i).text())					
-					console.log('1sum : '+sum);
-					console.log(typeof sum);				
-					pricelist.push(sum)
-					console.log(pricelist);
+					sum += parseInt($("#price"+i).text())									
+					pricelist.push(sum)					
 			}			
 			else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
 					if(j!=0){						
 						sum += parseInt($("#price"+i).text())
-						console.log('2sum : '+sum);
 						pricelist.push(sum)
-						console.log(pricelist);
 						var total = pricelist.reduce(function(a,b){ return a+b;},0);
-						console.log('total : '+ total)
 						$("#no"+(i-j)).attr('rowspan',cnt);
 						$("#no"+(i-j)).attr('class','start');	
 						$("#id"+(i-j)).attr('rowspan',cnt);
@@ -89,9 +85,7 @@
 					
 					if(j==0&&cnt==1&&i!=0){
 						sum += parseInt($("#price"+i).text())
-						console.log('3sum : '+sum);
 						pricelist.push(sum)
-						console.log(pricelist);
 						$("#no"+(i-j)).attr('class','start');
 						$("#id"+(i-j)).attr('class','start');
 						$("#status"+(i-j)).attr('class','start');
@@ -109,31 +103,51 @@
 	})  
 	
 	$(document).on('click','.delevery',function(){
-		
+		var checkBtn = $(this);
+		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
+		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
+		var tr = checkBtn.parent().parent();    
+		var th = tr.children(); 
+
+		// td.eq(index)를 통해 값을 가져올 수도 있다.    
+		var no = th.eq(0).text(); 
 			$.ajax({
 				url : "delevery",
 				type : "POST",
 				contentType : "application/json; charset=utf-8",
-				data : {orderNo : $("#tbody th").eq(0).text()}
+				data : JSON.stringify({
+					orderNo : no
+				}),
 				}).done(function(){
 					alert('주문배송시작');
 			    	location.reload();
 				}).fail(function(data){
 					alert('실패'+data)
+					console.log(no)
 				});
 	});
 	$(document).on('click','.endDelevery',function(){
-	
+		var checkBtn = $(this);
+		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
+		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
+		var tr = checkBtn.parent().parent();    
+		var th = tr.children(); 
+
+		// td.eq(index)를 통해 값을 가져올 수도 있다.    
+		var no = th.eq(0).text();
 			$.ajax({
 				url : "enddelevery",
 				type : "POST",
 				contentType : "application/json; charset=utf-8",
-				data : {orderNo : $("#tbody th").eq(0).text()}
+				data : JSON.stringify({
+					orderNo : no
+				}),
 				}).done(function(){
 					alert('주문배송완료');
 			    	location.reload();
 				}).fail(function(data){
 					alert('실패'+data)
+					
 				});
 	});
 	
@@ -186,6 +200,290 @@
 						
 	});
 	
+	function getSearchList(){
+		$.ajax({
+			type: 'GET',
+			url : "getSearchList",
+			data : $("#searchform").serialize(),
+			success : function(result){
+				//테이블 초기화
+				$('#tbody').empty();
+				if(result.length>=1){
+					
+					result.forEach(function(list,index){
+						
+						console.log(list)
+						console.log(list.orderNo)
+						console.log(typeof list)
+						
+						str='<tr>'
+						str+="<th id='no"+index+"'>"+list.orderNo+"</th>"
+						str+="<th id='id"+index+"'>"+list.memberId+"</th>"
+						str+="<td><img width='30px' height='30px' src='"+list.productFile+"'>"+list.productName+" / "+list.productColor+" "+list.productSize+"</td>"
+						str+="<td>"+list.orderStack+"</td>"
+						str+="<td id='price"+index+"'>"+list.productPrice+"</td>"
+						str+="<th id='total"+index+"'>1</th>"
+						str+="<th id='status"+index+"'>"
+						if(list.orderStatus ==1){
+							str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+						}else if(list.orderStatus == 0){
+							str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+						}else if(list.orderStatus == -1){
+							str+="취소완료"
+						}else if(list.orderStatus == 2){
+							str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+						}else if(list.orderStatus == 3){
+							str+="배송완료</th>"
+						}
+						str+="</tr>"
+						$('#tbody').append(str);
+						
+						var plist = new Array();
+						for(i=0;i<$("#tbody tr").length;i++){
+							var sum = 0;
+								if(i>$("#tbody tr").length){
+									i=$("#tbody tr").length
+								}
+								if($("#no"+i).text()==$("#no"+(i+1)).text()){
+									if(cnt++){
+										j++;
+									}
+										sum += parseInt($("#price"+i).text())									
+										plist.push(sum)					
+								}			
+								else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+										if(j!=0){						
+											sum += parseInt($("#price"+i).text())
+											plist.push(sum)
+											var total = plist.reduce(function(a,b){ return a+b;},0);
+											$("#no"+(i-j)).attr('rowspan',cnt);
+											$("#no"+(i-j)).attr('class','start');	
+											$("#id"+(i-j)).attr('rowspan',cnt);
+											$("#id"+(i-j)).attr('class','start');	
+											$("#status"+(i-j)).attr('rowspan',cnt);
+											$("#status"+(i-j)).attr('class','start');
+											$("#total"+(i-j)).attr('rowspan',cnt);
+											$("#total"+(i-j)).attr('class','start');
+											$("#total"+(i-j)).text(total);						
+										}
+										plist = [];
+										
+										if(j==0&&cnt==1&&i!=0){
+											sum += parseInt($("#price"+i).text())
+											plist.push(sum)
+											$("#no"+(i-j)).attr('class','start');
+											$("#id"+(i-j)).attr('class','start');
+											$("#status"+(i-j)).attr('class','start');
+											$("#total"+(i-j)).attr('class','start');
+											$("#total"+(i-j)).text(plist[0]);
+											
+										}
+										plist = [];
+										cnt=1;
+										if(cnt=1){
+											j=0;
+										}
+									}
+							}
+	        		})				 
+				}
+			}
+		})
+	}	
+	
+	
+	$("#ordersection").attr('class','desc');
+ 	$(document).on('click','#ordersection',function(){
+ 		if($("#ordersection").attr('class')=='desc'){
+ 			$.ajax({
+ 				url:'sorting',
+ 				type:"post",
+ 				data:{sort:1},
+ 				success : function(desclist){
+ 					//테이블 초기화
+ 					$('#tbody').empty();
+ 					if(desclist.length>=1){
+ 						
+ 						desclist.forEach(function(desclist,index){
+ 							
+ 							console.log(desclist)
+ 							console.log(desclist.orderNo)
+ 							console.log(typeof desclist)
+ 							
+ 							str='<tr>'
+ 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
+ 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
+ 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+ 							str+="<td>"+desclist.orderStack+"</td>"
+ 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+ 							str+="<th id='total"+index+"'>1</th>"
+ 							str+="<th id='status"+index+"'>"
+ 							if(desclist.orderStatus ==1){
+ 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+ 							}else if(desclist.orderStatus == 0){
+ 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+ 							}else if(desclist.orderStatus == -1){
+ 								str+="취소완료"
+ 							}else if(desclist.orderStatus == 2){
+ 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+ 							}else if(desclist.orderStatus == 3){
+ 								str+="배송완료</th>"
+ 							}
+ 							str+="</tr>"
+ 							$('#tbody').append(str);
+ 							var alist = new Array();
+ 							for(i=0;i<$("#tbody tr").length;i++){
+ 								var sum = 0;
+ 									if(i>$("#tbody tr").length){
+ 										i=$("#tbody tr").length
+ 									}
+ 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+ 										if(cnt++){
+ 											j++;
+ 										}
+ 											sum += parseInt($("#price"+i).text())									
+ 											alist.push(sum)					
+ 									}			
+ 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+ 											if(j!=0){						
+ 												sum += parseInt($("#price"+i).text())
+ 												alist.push(sum)
+ 												var total = alist.reduce(function(a,b){ return a+b;},0);
+ 												$("#no"+(i-j)).attr('rowspan',cnt);
+ 												$("#no"+(i-j)).attr('class','start');	
+ 												$("#no0").attr('class','start');	
+ 												$("#id"+(i-j)).attr('rowspan',cnt);
+ 												$("#id"+(i-j)).attr('class','start');	
+ 												$("#id0").attr('class','start');	
+ 												$("#status"+(i-j)).attr('rowspan',cnt);
+ 												$("#status"+(i-j)).attr('class','start');
+ 												$("#status0").attr('class','start');
+ 												$("#total"+(i-j)).attr('rowspan',cnt);
+ 												$("#total"+(i-j)).attr('class','start');
+ 												$("#total0").attr('class','start');
+ 												$("#total"+(i-j)).text(total);						
+ 											}
+ 											alist = [];
+ 											
+ 											if(j==0&&cnt==1&&i!=0){
+ 												sum += parseInt($("#price"+i).text())
+ 												alist.push(sum)
+ 												$("#no"+(i-j)).attr('class','start');
+ 												$("#id"+(i-j)).attr('class','start');
+ 												$("#status"+(i-j)).attr('class','start');
+ 												$("#total"+(i-j)).attr('class','start');
+ 												$("#total0").attr('class','start');
+ 												$("#total"+(i-j)).text(alist[0]);
+ 												
+ 											}
+ 											alist = [];
+ 											cnt=1;
+ 											if(cnt=1){
+ 												j=0;
+ 											}
+ 										}
+ 								}
+ 						})
+ 					}
+ 							$("#ordersection").attr('class','asc');
+ 				}
+ 		
+ 			})
+
+ 		}else if($("#ordersection").attr('class') !='desc'){
+ 			$.ajax({
+ 				url:'sorting',
+ 				type:"post",
+ 				data:{sort:0},
+ 				success : function(asclist){
+ 					//테이블 초기화
+ 					$('#tbody').empty();
+ 					if(asclist.length>=1){
+ 						
+ 						asclist.forEach(function(asclist,index){
+ 							
+ 							console.log(asclist)
+ 							console.log(asclist.orderNo)
+ 							console.log(typeof asclist)
+ 							
+ 							str='<tr>'
+ 							str+="<th id='no"+index+"'>"+asclist.orderNo+"</th>"
+ 							str+="<th id='id"+index+"'>"+asclist.memberId+"</th>"
+ 							str+="<td><img width='30px' height='30px' src='"+asclist.productFile+"'>"+asclist.productName+" / "+asclist.productColor+" "+asclist.productSize+"</td>"
+ 							str+="<td>"+asclist.orderStack+"</td>"
+ 							str+="<td id='price"+index+"'>"+asclist.productPrice+"</td>"
+ 							str+="<th id='total"+index+"'>1</th>"
+ 							str+="<th id='status"+index+"'>"
+ 							if(asclist.orderStatus ==1){
+ 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
+ 							}else if(asclist.orderStatus == 0){
+ 								str+="취소중<br><button type='button' onclick='slideClick()'>취소 사유</button>"
+ 							}else if(asclist.orderStatus == -1){
+ 								str+="취소완료"
+ 							}else if(asclist.orderStatus == 2){
+ 								str+="배송중<br><button type='button' class='endDelevery'>배송 완료</button>"
+ 							}else if(asclist.orderStatus == 3){
+ 								str+="배송완료</th>"
+ 							}
+ 							str+="</tr>"
+ 							$('#tbody').append(str);
+ 							var blist = new Array();
+ 							for(i=0;i<$("#tbody tr").length;i++){
+ 								var sum = 0;
+ 									if(i>$("#tbody tr").length){
+ 										i=$("#tbody tr").length
+ 									}
+ 									if($("#no"+i).text()==$("#no"+(i+1)).text()){
+ 										if(cnt++){
+ 											j++;
+ 										}
+ 											sum += parseInt($("#price"+i).text())									
+ 											blist.push(sum)					
+ 									}			
+ 									else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+ 											if(j!=0){						
+ 												sum += parseInt($("#price"+i).text())
+ 												blist.push(sum)
+ 												var total = blist.reduce(function(a,b){ return a+b;},0);
+ 												$("#no"+(i-j)).attr('rowspan',cnt);
+ 												$("#no"+(i-j)).attr('class','start');	
+ 												$("#no0").attr('class','start');	
+ 												$("#id"+(i-j)).attr('rowspan',cnt);
+ 												$("#id"+(i-j)).attr('class','start');	
+ 												$("#status"+(i-j)).attr('rowspan',cnt);
+ 												$("#status"+(i-j)).attr('class','start');
+ 												$("#total"+(i-j)).attr('rowspan',cnt);
+ 												$("#total"+(i-j)).attr('class','start');
+ 												$("#total"+(i-j)).text(total);						
+ 											}
+ 											blist = [];
+ 											
+ 											if(j==0&&cnt==1&&i!=0){
+ 												sum += parseInt($("#price"+i).text())
+ 												blist.push(sum)
+ 												$("#no"+(i-j)).attr('class','start');
+ 												$("#id"+(i-j)).attr('class','start');
+ 												$("#status"+(i-j)).attr('class','start');
+ 												$("#total"+(i-j)).attr('class','start');
+ 												$("#total"+(i-j)).text(blist[0]);
+ 												
+ 											}
+ 											blist = [];
+ 											cnt=1;
+ 											if(cnt=1){
+ 												j=0;
+ 											}
+ 										}
+ 								}
+ 						})
+ 					}
+ 					$("#ordersection").attr('class','desc');		
+ 				}
+ 		
+ 			})
+ 		}
+	}) 
+	
 </script>
 </head>
 <body>
@@ -206,9 +504,12 @@
 	</div>
 </div>
 	<h2>현재 접속자 : ${sessionScope.loginUser }</h2>
+	<form id="searchform">
+		<select name="type"><option value="orderNo">주문번호</option><option value="memberId">아이디</option></select><input type="text" name="keyword"><button type="button" onclick="getSearchList()">검색</button>
+	</form>
 	<table border="1">
 		<tr>
-			<td>주문번호</td><td>아이디</td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td>총 주문 금액</td><td>주문상태</td>
+			<td id="ordersection">주문번호<img src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td id="idsection" class="desc">아이디<img src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td id="totalsection" class="desc">총 주문 금액<img src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td class="status">주문상태</td>
 		</tr>
 		<tbody id="tbody">
 			<c:forEach var="odto" items="${list }" varStatus="status">				

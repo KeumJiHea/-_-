@@ -17,7 +17,7 @@ public interface ProductService {
 	public void productNameList(Model model, String productName);
 	public void productNoList(Model model, int productNo);
 	public String productSave(MultipartHttpServletRequest mul, HttpServletRequest request);
-	public String productDelete(int productNo, String productFile, HttpServletRequest request);
+	public String productDelete(int productNo, String productFile, String productContent, HttpServletRequest request);
 	
 	public void productModify_Form(int productNo, Model model);
 	public String productModify(MultipartHttpServletRequest mul, HttpServletRequest request);

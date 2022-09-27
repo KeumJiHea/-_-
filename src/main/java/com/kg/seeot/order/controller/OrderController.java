@@ -113,7 +113,6 @@ public class OrderController {
 	@GetMapping("orderadmin")
 	public String orderadmin(Model model,HttpServletRequest request) {
 		model.getAttribute("cdto");
-		System.out.println("cdto : "+model.getAttribute("cdto"));
 		OrderDTO odto = new OrderDTO();
 		os.getAllOrders(request,model);
 		return "/order/orderadmin";
@@ -136,19 +135,37 @@ public class OrderController {
 	
 	@PostMapping(value = "delevery",produces = "application/json; charset=utf-8" )
 	@ResponseBody
-	public void delevery(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
-		memberId = (String) map.get("memberId");
-		orderNo = (String) map.get("orderNo");
+	public void delevery(HttpServletRequest request,Model model,@RequestBody Map map,String orderNo) {
+		orderNo = (String)map.get("orderNo");
 		os.doDelevery(orderNo);
 	}
 	@PostMapping(value = "enddelevery",produces = "application/json; charset=utf-8" )
 	@ResponseBody
-	public void enddelevery(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
-		memberId = (String) map.get("memberId");
+	public void enddelevery(HttpServletRequest request,Model model,@RequestBody Map map,String orderNo) {
 		orderNo = (String) map.get("orderNo");
 		os.endDelevery(orderNo);
 	}
 	
+	@GetMapping("getSearchList")
+	@ResponseBody
+	public ArrayList<OrderDTO> getSearchList(String type,String keyword,Model model) {
+		OrderDTO dto = new OrderDTO();
+		dto.setKeyword(keyword);
+		dto.setType(type);
+		return os.getSearchList(dto,type,keyword);
+	}
+	
+	@PostMapping("sorting")
+	@ResponseBody
+	public ArrayList<OrderDTO> sorting(String sort) {
+		System.out.println(sort);
+		if(sort.equals("1")) {
+			return os.orderNoSorting_ASC();
+		}else if(sort.equals("0")) {
+			return os.orderNoSorting_DESC();			
+		}
+		return null;
+	}
 	
 	//test용
 	@PostMapping("test2")

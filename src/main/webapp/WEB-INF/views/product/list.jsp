@@ -8,19 +8,44 @@
 
 	<style type="text/css">
 	    .productWrapper {
-	    	width: 1000px;
+	    	width: 1500px;
 	        display: flex;
 	        flex-wrap: wrap;
 	    }
 	    .product {
 	        width: calc( 100% / 4 - 10px );
 	        justify-content: space-between;
-	        background-color: #ddd;
 	        margin: 5px;
+	        text-align: center;
+	        
+	    }
+	    #filter { 
+	    	display: none; height: 100px;
+    	}
+    	
+	    select {
+	    width: 200px;
+	    padding: .8em .5em;
+	    border: 1px solid #999;
+	    font-family: inherit; 
+	    background: url('<%=request.getContextPath() %>/resources/images/arrow.jpg') no-repeat 95% 50%;
+	    border-radius: 0px;
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+	    appearance: none;
+	    }
+	    select::-ms-expand {
+	    	display: none;
+	    }
+	    
+	    img:hover {
+	    	transition: all 0.1s linear;
+	    	transform: scale(1.1);
 	    }
 	</style>
 </head>
 <body onload=productList();>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
@@ -37,9 +62,38 @@
 	
 	var num = 1;
 	var orderBy = 'redate';
+	var pgnum = 1;
 	
 	function pagingNum(pNum) {
 		num = pNum;
+		productList();
+	}
+	
+	function startPagNum(pNum) {
+		pgnum = pNum;
+		num = pNum;
+		productList();
+	}
+	
+	function endPagNum(pNum) {
+		if( parseInt( pNum % 5 ) == 0 ){
+			pgnum = pNum - 4 ;
+		}else {
+			pgnum = parseInt( pNum / 5 ) * 5 + 1;
+		}
+		num = pNum;
+		productList();
+	}
+	
+	function prePagNum() {
+		pgnum = pgnum - 5;
+		num = pgnum;
+		productList();
+	}
+	
+	function nextPagNum() {
+		pgnum = pgnum + 5;
+		num = pgnum;
 		productList();
 	}
 	
@@ -51,11 +105,13 @@
 	
 	
 	function productList() {
-		
-		console.log(num)
-		console.log(orderBy)
-		console.log(chkColor_arr);
-		console.log(chkPrice_arr);
+		console.log("@@@@@@ Check value @@@@@")
+		console.log("num : " + num)
+		console.log("orderBy : " + orderBy)
+		console.log("chkColor_arr : " + chkColor_arr);
+		console.log("chkPrice_arr : " + chkPrice_arr);
+		console.log("chkPrice_arr : " + chkPrice_arr);
+		console.log("pgnum : " + pgnum);
 		
 		$.ajax({
 			url: "allCount?productCategorie=" + productCategorie,
@@ -76,12 +132,42 @@
 				var repeat = parseInt(productCount / pageViewProduct);
 				if( productCount / pageViewProduct != 0) {
 					repeat += 1;
+				};
+				console.log("repeat : " + repeat)
+				
+				if(num == 1) {
+					paging += "<button onclick='javascript:startPagNum(1)' disabled> 처음으로 </button>";
+					paging += "&nbsp; <button onclick='javascript:prePagNum()' disabled> 이전 </button> &nbsp;";
+				}else if(num > 5){
+					paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
+					paging += "&nbsp; <button onclick='javascript:prePagNum()'> 이전 </button> &nbsp;";
+				}else{
+					paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
+					paging += "&nbsp; <button onclick='javascript:prePagNum()' disabled> 이전 </button> &nbsp;";
+				};
+				
+				if( (pgnum+5) <= repeat ) {
+					for(i=pgnum; i<=(pgnum+4); i++) {
+						paging += "&nbsp; <a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+					}
+				}else {
+					for(i=pgnum; i<=repeat; i++) {
+						paging += "&nbsp; <a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+					};
 				}
 				
-				for(i=1; i<=repeat; i++) {
-					paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
-					$(".paging").html(paging);
-				}
+				if(num == repeat){
+					paging += "&nbsp; <button onclick='javascript:nextPagNum()' disabled> 다음 </button> &nbsp;";
+					paging += "<button onclick='javascript:endPagNum(" + repeat + ")' disabled> 끝으로 </button>";
+				}else if( (pgnum + 5) >repeat ) {
+					paging += "&nbsp; <button onclick='javascript:nextPagNum()'  disabled> 다음 </button> &nbsp;";
+					paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
+				}else {
+					paging += "&nbsp; <button onclick='javascript:nextPagNum()'> 다음 </button> &nbsp;";
+					paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
+				};
+				
+				$(".paging").html(paging);
 				
 				 $.ajax({
 					url: "prolist?productCategorie=" + productCategorie,
@@ -104,12 +190,16 @@
 						for(i=0; i<list.length; i++) {
 							html += "<div class='product'>";
 							html += "<a href='${contextPath}/product/productView?productNo=" + list[i].productNo + "'>";
-							html += "<span><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></span><br>";
-							html += "<span><b>" + list[i].productName + "</b></span><br>";
-							html += "<span><b>" + list[i].productPrice + "</b></span></a>";
+							html += "<div style='padding-bottom:0px;'><img width='240px' height='300px' src='${contextPath}/product/download?productFile=" + list[i].productFile  + "'></div><br>";
+							
+							const Price = list[i].productPrice;
+							let productPrice = Price.toLocaleString();
+							
+							html += "<div style='text-align: center; height: 0px; '><b>" + list[i].productName + "</b></div><br>";
+							html += "<div style='text-align: center;'><b>" + productPrice + "</b></div></a>";
 							html += "</div>";
 							$(".productWrapper").html(html);
-						}
+							}
 						}else{
 							html = "<div><b>일치하는 상품이 없습니다.<b></div>";
 							$(".productWrapper").html(html);
@@ -126,7 +216,6 @@
 		
 	}
 	
-	
 	var chkColor_arr = [];
 	var chkPrice_arr = [];
 	function selectSearch() {
@@ -141,14 +230,22 @@
 			var chkPrice = $(this).val();
 			chkPrice_arr.push(chkPrice);
 		})
+		num = 1;
+		pgnum = 1;
 			
 			productList();
 	}
 	
+	function filter() {
+		$('#filter').slideToggle("slow")
+	}
 	</script>
 	
-	<div>
-		색상
+	<hr>
+	<div><button onclick="filter()">Filter</button></div>
+	<div id="filter">
+	<hr>
+		Color | 
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
 		<input type="checkbox" name="Color" value="GREEN" onchange="selectSearch()"> GREEN
 		<input type="checkbox" name="Color" value="BLUE" onchange="selectSearch()"> BLUE
@@ -156,7 +253,7 @@
 		<input type="checkbox" name="Color" value="BLACK" onchange="selectSearch()"> BLACK
 		<input type="checkbox" name="Color" value="WHITE" onchange="selectSearch()"> WHITE
 		<hr>
-		가격범위
+		Price | 
 		<input type="checkbox" name="Price" value="PR1" onchange="selectSearch()">1만원이하
 		<input type="checkbox" name="Price" value="PR2" onchange="selectSearch()">1~3만원
 		<input type="checkbox" name="Price" value="PR3" onchange="selectSearch()">3만원~5만원
@@ -164,23 +261,22 @@
 		<input type="checkbox" name="Price" value="PR5" onchange="selectSearch()">10만원이상
 		<hr>
 	</div><br>
-	
+	<div id="order" align="right">
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
 			<option value="rating"> 높은 별점순
-			<option value="review"> 리뷰 많은순
-	</select><br>
-	
+	</select>
+	</div>
+	<br>
 	
 	<div class="productWrapper">
 		
 	</div>
 
-	<div class="paging">
+	<div class="paging" align="center">
 	
 	</div>
-		
 </body>
 </html>

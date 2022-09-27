@@ -43,7 +43,7 @@ public class MemberController implements SessionName{
 
 	@GetMapping("/login")
 	public String login() { 
-		return "member/login.page"; 
+		return "member/login"; 
 	}
 
 	@PostMapping("/login_check")
@@ -101,7 +101,7 @@ public class MemberController implements SessionName{
 	}
 	@GetMapping("register_form")
 	public String register_form() {
-		return "member/register.page";
+		return "member/register";
 	}
 	@PostMapping("register")
 	public String register(HttpServletRequest request, MemberDTO dto) {
@@ -262,7 +262,6 @@ public class MemberController implements SessionName{
 			return "member/alert";
 	}
 }
-
 
 
 

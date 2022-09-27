@@ -28,4 +28,8 @@ public interface OrderMapper {
 	public void changehiStatus_canceled(String orderNo);//취소됨
 	public void changehiStatus_deliverying(String orderNo);//배송중
 	public void changehiStatus_finish(String orderNo);//배송완
+
+	public ArrayList<OrderDTO> selectSearchList(@Param("d")OrderDTO dto,@Param("t")String type,@Param("k")String keyword);
+	public ArrayList<OrderDTO> orderNoSorting_ASC();
+	public ArrayList<OrderDTO> orderNoSorting_DESC();
 }

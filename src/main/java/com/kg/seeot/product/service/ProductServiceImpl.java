@@ -94,7 +94,7 @@ public class ProductServiceImpl implements ProductService{
 		return  pfs.getMessage(msg, url); //스크립트 생성
 	}
 	
-	public String productDelete(int productNo, String productFile, HttpServletRequest request) {
+	public String productDelete(int productNo, String productFile, String productContent, HttpServletRequest request) {
 		int result = 0;
 		String msg, url;
 		
@@ -102,6 +102,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		if( result == 1) {
 			pfs.deleteImage(productFile);
+			pfs.deleteImage(productContent);
 			msg = "상품이 삭제되었습니다.";
 			url = request.getContextPath() + "/product/productList";
 		} else {
