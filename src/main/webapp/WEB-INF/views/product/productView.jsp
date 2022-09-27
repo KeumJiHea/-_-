@@ -13,7 +13,6 @@
 	 
 	jQuery( document ).ready( function ( $ ) {
 		var isVisible = false;
-
 		$(window).on('scroll',function() {
 		    if (checkVisible($('#changeGuide'))&&!isVisible) {
 		    	$('.pronav').attr("style","position: fixed;");
@@ -97,8 +96,6 @@
 		
 		
 	}
-
-
  	function stackUp(product_id) {
 		var product_id =  $(product_id).attr('class')
 		console.log("@@@@ product_id : " + product_id)
@@ -132,7 +129,6 @@
 		$( '#Price' + product_id).text( productStackPrice );
 	}
 	
-
 	function deleteSelPro(id) {
 		var delId =  $(id).attr('class')
 		console.log(delId)
@@ -174,7 +170,6 @@
 		
 		
 	$.ajax({
-
 		url:"../review/replyData", type:"get",
 		data:{ productNo : "${pdto.productNo}"},
 		dataType :"json", //받아올 데이터 자료형
@@ -215,7 +210,6 @@
 	
 	
 } */
-
 	
 	
 	</script>

@@ -23,7 +23,7 @@ public interface ReviewService {
 	 public void fileProcess(MultipartHttpServletRequest mul , int reviewStar
 			 				,int productNo);
 	
-	 public void delete(int reviewNo);
+	 public void delete(int reviewNo,int productNo,int reviewStar);
 	 public String modify(MultipartHttpServletRequest mul,
 				HttpServletRequest request);
 	 public void modify_form(int reviewNo,Model model);
