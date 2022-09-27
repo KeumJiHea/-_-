@@ -48,11 +48,17 @@ window.onload = function(){
 	var emailList    = "${info.email}";
 	var Email        = emailList.split("@");
 	
-	document.getElementById('phone0').value = Phone[0];
-	document.getElementById('phone1').value = Phone[1];
-	document.getElementById('phone2').value = Phone[2];
-	document.getElementById('email1').value = Email[0];
-	document.getElementById('email2').value = Email[1];
+	if ( 0 != phoneList.length ) {
+		document.getElementById('phone0').value = Phone[0];
+		document.getElementById('phone1').value = Phone[1];
+		document.getElementById('phone2').value = Phone[2];
+	}
+	
+	if ( 0 != emailList.length ) {
+		document.getElementById('email1').value = Email[0];
+		document.getElementById('email2').value = Email[1];
+	}
+	
 }
 </script>
 
@@ -96,6 +102,15 @@ function modiChk(){
 	form.submit();
 	}
 }
+
+function delete_chk(){
+	var form = document.delete_fo;
+	var pw = $('.delete_input_pw').val();
+	
+	form.method = "post";
+	form.action = "<%=request.getContextPath()%>/member/member_delete";
+	form.submit();
+}
 </script> 
 
 <div class="members-wrapper myaccount">
@@ -105,8 +120,8 @@ function modiChk(){
             <li class=""><a href="#orders">주문 내역</a></li>
             <li class=""><a href="#profile">회원 정보</a></li>
             <li class=""><a href="#address">주소 관리</a></li>
-            <li class=""><a href="#coupon">쿠폰 목록</a></li>
-            <li class=""><a href="#point">포인트 적립 내역</a></li>
+            <li class=""><a href="#review">나의 후기</a></li>
+            <li class=""><a href="#delete">회원 탈퇴</a></li>
         </ul>
     </div>
 
@@ -115,12 +130,12 @@ function modiChk(){
         <div class="membership">
             <div class="left">
                 <div class="membership-info">
-                    <strong>${info.id}</strong> 고객님의 멤버십 등급은<br>
-                    <strong>[VIP 회원]</strong> 입니다.
+                    <strong>${info.name}</strong> 고객님 환영합니다<br>
+                    <strong>[VIP 회원]</strong>
                 </div>
                 <div class="membership-contents">
-                    <span>고객님의 총 구매금액은 2,000원입니다.</span>
-                    <a href="">멤버쉽 혜택 안내</a>
+                    <span></span>
+                    <a href="">많은 상품 보러가기</a>
                 </div>
             </div>
             <div class="right">
@@ -183,18 +198,12 @@ function modiChk(){
                         <td>17,000원</td>
                         <td><a href="../review/reviewList?productNo=${dto.productNo}">작성</a></td>
                     </tr>
-                    <tr>
-                        <td>2022.09.03</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="">작성</a></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- 주문 배송 -->
+    <!-- 주문 내역 -->
     <div class="contents orders" id="orders">
         <div class="contents-item">
             <h3 class="item-title">주문 내역</h3>
@@ -213,12 +222,6 @@ function modiChk(){
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
                         <td><a href="review/reviewList">작성</a></td>
-                    </tr>
-                    <tr>
-                        <td>2022.09.03</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -285,8 +288,8 @@ function modiChk(){
                 <div class="field input_addr">
                     <span>기본 주소</span>
                     <div class="address">
-                       ${info.id }<br>
-                       (주문번호)&nbsp;${info.addr1}&nbsp;${info.addr2}&nbsp;${info.addr3}
+                       ${info.name }<br>
+                       ${info.addr1}&nbsp;${info.addr2}&nbsp;${info.addr3}
                     </div>
                 </div>
             </div>
@@ -306,12 +309,21 @@ function modiChk(){
         </form>
     </div>
 
-    <!-- 쿠폰 목록 -->
-    <div class="contents coupon" id="coupon">
+    <!-- 나의 후기 -->
+    <div class="contents review" id="review">
+    	리뷰
     </div>
 
-    <!-- 포인트 적립내역 -->
-    <div class="contents point" id="point">
+    <!-- 회원 탈퇴 -->
+    <div class="contents delete" id="delete">
+    	<div class="field input_pw">
+    		<form name="delete_fo">
+    			<input type="hidden" name="id" value="${info.id}">
+    			<span class="delete_span">비밀번호를 입력해주세요</span>
+    			<input type="password" name="pw" class="delete_input_pw">
+    			<button type="button" class="delete_button" onclick="delete_chk()" style="cursor: pointer;">회원 탈퇴하기</button>
+    		</form>
+    	</div>
     </div>
 
 </div>

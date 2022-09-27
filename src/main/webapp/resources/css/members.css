@@ -296,6 +296,14 @@
     padding-bottom: 10px;
 }
 
+.members-wrapper .field .delete_span {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    padding-bottom: 10px;
+    margin-top: 100px;
+}
+
 .members-wrapper .field.required span::after,
 .members-wrapper.register .agreement .required::after {
     margin: -0.2em 0 0 0.2em;
@@ -340,6 +348,15 @@
     border: 1px solid #31363d;
     padding: 10px;
     margin-left: 10px;
+}
+
+.members-wrapper .field .delete_button {
+    color: #31363d;
+    background-color: #fff;
+    border: 1px solid #31363d;
+    padding: 10px;
+    margin-left: 0px;
+    margin-top: 30px;
 }
 
 .members-wrapper.register .user-login .agreement ul {
@@ -501,6 +518,10 @@
     justify-content: space-between;
 }
 
+.members-wrapper.myaccount .contents .delete .filed .delete_pw .delete_pw {
+	width: 375px;
+}
+
 .members-wrapper.myaccount .contents .contents-item .column {
     width: calc( 100% / 2 - 50px );
     padding: 30px 0;
@@ -559,4 +580,36 @@
     background-color: #fff;
     border: 1px solid #222;
     padding: 5px 10px;
+}
+
+/* id_find */
+.members-wrapper.id-find .field.input_email input.input_mail_check {
+    width: 67%;
+}
+
+.members-wrapper.id-find .field.input_email input.btn_mail_check,
+.members-wrapper.id-find .field.input_email input.btn_mail_check2 {
+	background-color: #fff;
+	border: 1px solid #222;
+	border-radius: 5px;
+	cursor: pointer;
+    margin: 0;
+}
+
+.members-wrapper.id-find .pw-find-form {
+    padding: 20px 0;
+}
+
+.members-wrapper.id-find .pw-find-form a {
+    font-size: 12px;
+}
+
+.members-wrapper.id-find .pw-find-form a::after {
+	content: "|";
+	color: #ddd;
+	padding: 0 10px;
+}
+
+.members-wrapper.id-find .pw-find-form a:last-child::after {
+	display: none;
 }

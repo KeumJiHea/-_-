@@ -15,6 +15,7 @@ public int register( MemberDTO dto );
 public MemberDTO getCookieUser(String cookie);
 public List<MemberDTO> memberlist();
 public void delete(String id);
+public int member_delete(MemberDTO dto);
 public int idCheck(String id);
 public int modify(MemberDTO dto);
 public int edit_addr(MemberDTO dto);
@@ -26,4 +27,5 @@ public String id_find(@Param("name") String name,@Param("email")String email);
 public String pw_find(@Param("id") String id,@Param("email")String email);
 
 public int change_pw(MemberDTO dto);
+public int kakaoreg(MemberDTO dto);
 }
