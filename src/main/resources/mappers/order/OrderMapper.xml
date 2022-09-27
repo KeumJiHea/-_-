@@ -151,16 +151,16 @@
 	</select>
 	
 	<select id="memberIdSorting_ASC" resultMap="order">
-		select * from goods_order order by member_id ASC
+		select * from goods_order order by member_id ASC, order_no ASC
 	</select>
 	<select id="memberIdSorting_DESC" resultMap="order">
-		select * from goods_order order by member_id DESC
+		select * from goods_order order by member_id DESC, order_no DESC
 	</select>
 	<select id="orderPriceSorting_ASC" resultMap="order">
-		select * from goods_order order by order_price ASC
+		select * from goods_order order by order_price ASC, order_no ASC
 	</select>
 	<select id="orderPriceSorting_DESC" resultMap="order">
-		select * from goods_order order by order_price DESC
+		select * from goods_order order by order_price DESC, order_no DESC
 	</select>
 	
 </mapper>

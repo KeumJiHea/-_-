@@ -46,14 +46,20 @@
 						pricelist.push(sum)
 						var total = pricelist.reduce(function(a,b){ return a+b;},0);
 						$("#no"+(i-j)).attr('rowspan',cnt);
-						$("#no"+(i-j)).attr('class','start');	
+	 					$("#no"+(i-j)).attr('class','start');	
+						$("#no0").attr('class','start');	
 						$("#id"+(i-j)).attr('rowspan',cnt);
 						$("#id"+(i-j)).attr('class','start');	
+						$("#id0").attr('class','start');	
 						$("#status"+(i-j)).attr('rowspan',cnt);
 						$("#status"+(i-j)).attr('class','start');
+						$("#status0").attr('class','start');
 						$("#total"+(i-j)).attr('rowspan',cnt);
 						$("#total"+(i-j)).attr('class','start');
+						$("#total0").attr('class','start');
 						$("#total"+(i-j)).text(total);						
+						$("#total0").text(total);	
+						$("#no"+(i-j)).attr('rowspan',cnt);						
 					}
 					pricelist = [];
 					
@@ -61,10 +67,15 @@
 						sum += parseInt($("#price"+i).text())
 						pricelist.push(sum)
 						$("#no"+(i-j)).attr('class','start');
+						//$("#no0").attr('class','start');
 						$("#id"+(i-j)).attr('class','start');
+						$("#id0").attr('class','start');
 						$("#status"+(i-j)).attr('class','start');
+						$("#status0").attr('class','start');
 						$("#total"+(i-j)).attr('class','start');
+						$("#total0").attr('class','start');
 						$("#total"+(i-j)).text(pricelist[0]);
+						$("#total0").text(pricelist[0]);
 						
 					}
 						pricelist = [];
@@ -173,7 +184,7 @@
 				});
 						
 	});
-	
+
 	function getSearchList(){
 		$.ajax({
 			type: 'GET',
@@ -219,6 +230,16 @@
 									}
 										sum += parseInt($("#price"+i).text())									
 										plist.push(sum)					
+								}
+								else if($("#tbody tr").length==1){
+									sum += parseInt($("#price"+i).text())
+									plist.push(sum)
+									var total = plist.reduce(function(a,b){ return a+b;},0);
+									$("#no0").attr('class','start');
+									$("#id0").attr('class','start');
+									$("#status0").attr('class','start');
+									$("#total0").attr('class','start');
+									$("#total0").text(total);
 								}			
 								else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
 										if(j!=0){						
@@ -227,13 +248,18 @@
 											var total = plist.reduce(function(a,b){ return a+b;},0);
 											$("#no"+(i-j)).attr('rowspan',cnt);
 											$("#no"+(i-j)).attr('class','start');	
+											$("#no0").attr('class','start');	
 											$("#id"+(i-j)).attr('rowspan',cnt);
 											$("#id"+(i-j)).attr('class','start');	
+											$("#id0").attr('class','start');	
 											$("#status"+(i-j)).attr('rowspan',cnt);
 											$("#status"+(i-j)).attr('class','start');
+											$("#status0").attr('class','start');
 											$("#total"+(i-j)).attr('rowspan',cnt);
 											$("#total"+(i-j)).attr('class','start');
+											$("#total0").attr('class','start');
 											$("#total"+(i-j)).text(total);						
+											$("#total0").text(total);						
 										}
 										plist = [];
 										
@@ -241,9 +267,13 @@
 											sum += parseInt($("#price"+i).text())
 											plist.push(sum)
 											$("#no"+(i-j)).attr('class','start');
+											$("#no0").attr('class','start');
 											$("#id"+(i-j)).attr('class','start');
+											$("#id0").attr('class','start');
 											$("#status"+(i-j)).attr('class','start');
+											$("#status0").attr('class','start');
 											$("#total"+(i-j)).attr('class','start');
+											$("#total0").attr('class','start');
 											$("#total"+(i-j)).text(plist[0]);
 											
 										}
