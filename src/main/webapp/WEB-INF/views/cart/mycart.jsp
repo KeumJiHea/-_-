@@ -19,7 +19,7 @@
 	<div align="center">
 		<form action="${contextPath}/order/cartorder" method="post">
 			<table id="cartTable" border="1">
-			<thead>
+			<thead> 
 				<tr>
 					<th>전체 선택
 					<c:if test="${cart.size()!=0 }">

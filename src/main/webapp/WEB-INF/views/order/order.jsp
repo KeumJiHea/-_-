@@ -1,14 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/common.css">
 <style type="text/css">
 	#modal_wrap{position: fixed; z-index: 9;margin: auto; display:none;
 	 top:0; left: 0; right: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4)
@@ -17,7 +13,6 @@
 	 top:30px; left: 0; right: 0; width: 350px; height: 450px; background-color: white;
 	}
 </style>
-</head>
 <body>
 <div id="modal_wrap">
 	<div id="first">
@@ -55,4 +50,3 @@ ${sessionScope.loginUser }
 </table>
 </body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/order/orderResult.js"></script>
-</html>

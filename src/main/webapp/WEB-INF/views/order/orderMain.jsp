@@ -1,17 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>주문 페이지</title>
 <!-- jQuery -->
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-</head>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/common.css">
 <body>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	<input type="hidden" id="hipath" value="${contextPath }">
@@ -65,4 +60,3 @@
 	</div>
 </body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/order/orderMain.js"></script>
-</html>
