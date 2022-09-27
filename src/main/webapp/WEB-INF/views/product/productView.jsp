@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -166,7 +167,10 @@
 	  
 	 
 	/*리뷰 불러오기*/
-	/* function rePrint(){
+	/* */
+	
+	/*리뷰 불러오기*/
+	function rePrint(){
 		
 		
 	$.ajax({
@@ -174,7 +178,7 @@
 		data:{ productNo : "${pdto.productNo}"},
 		dataType :"json", //받아올 데이터 자료형
 		success : function( reviewData ){
-			
+			console.log(reviewData)
 			let html = ""
 		for( i=0; i<reviewData.length; i++){
 				let date = new Date( reviewData[i].reviewDate )
@@ -190,8 +194,9 @@
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}
-				
-				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">삭제</a>"+"  &nbsp ";
+				//
+				<c:if test="${sessionScope.loginUser == reviewData[i].memberId}"></c:if>
+				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+"&reviewStar="+reviewData[i].reviewStar+">삭제</a>"+"  &nbsp ";
 				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
 			
 				
@@ -209,13 +214,13 @@
 	})
 	
 	
-} */
+}
 	
 	
 	</script>
 	
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
 	<table border="1">
@@ -241,7 +246,7 @@
 				<c:if test="${pdto.reviewCount != 0}">
 					<fmt:formatNumber value="${pdto.productRating/pdto.reviewCount}" pattern=".00"/>
 					
-				</c:if>
+				</c:if> 
 			</td>
 		</tr>
 		<tr>
