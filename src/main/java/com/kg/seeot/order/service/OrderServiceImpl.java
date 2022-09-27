@@ -115,6 +115,15 @@ public class OrderServiceImpl implements OrderService{
 		
 	}
 	
+	
+	
+	@Override
+	public void nonCancel(HttpServletRequest request, String orderNo) {
+		HttpSession session = request.getSession();		
+			om.changeStatus_noneCancel(orderNo);
+			om.changehiStatus_noneCancel(orderNo);	
+	}
+
 	@Override
 	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
@@ -157,9 +166,14 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void getOrders(Model model,String memberId) {
 		ArrayList<OrderDTO> list = om.getOrders(memberId);
-		model.addAttribute("list",list);
-		
-		
+		model.addAttribute("list",list);				
+	}
+	
+	//주문 내역 조회
+	@Override
+	public void getOrderHistorys(Model model,String memberId) {
+		ArrayList<OrderDTO> list = om.getOrderHistorys(memberId);
+		model.addAttribute("orderli",list);				
 	}
 
 	@Override

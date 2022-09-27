@@ -136,6 +136,14 @@ public class OrderController {
 		os.cancel(request, orderNo, memberId, reason);
 	}
 	
+	@PostMapping(value = "noncancel", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void nonCancel(HttpServletRequest request,@RequestBody Map data) {
+		String orderNo = (String) data.get("orderNo");
+		os.nonCancel(request, orderNo);
+	}
+	
+	
 	@PostMapping(value = "delevery",produces = "application/json; charset=utf-8" )
 	@ResponseBody
 	public void delevery(HttpServletRequest request,Model model,@RequestBody Map map,String orderNo) {
