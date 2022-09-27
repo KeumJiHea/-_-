@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body onload="rePrint()">
-<h4>상품후기 만들면 삭제 예정 페이지</h4> 
+<h4>리뷰</h4> 
 <hr>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -16,7 +16,7 @@
 
 function rePrint(){
 	$.ajax({
-		url:"replyData", type:"get",
+		url:"replyData1", type:"get",
 		
 		dataType :"json",
 		success : function( reviewData ){

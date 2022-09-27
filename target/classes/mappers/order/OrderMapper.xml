@@ -4,19 +4,148 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kg.seeot.mybatis.order.OrderMapper">
 	<resultMap type="com.kg.seeot.order.dto.OrderDTO" id="order">
-		<id property="orderNo" column="order_no"/>
-		<id property="productNo" column="product_no"/>
-		<id property="member_Id" column="member_id"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="productNo" column="product_no"/>
+		<result property="memberId" column="member_id"/>
 		<result property="orderPrice" column="order_price"/>
 		<result property="orderAddr1" column="order_addr1"/>
 		<result property="orderAddr2" column="order_addr2"/>
-		<result property="orderAddr3" column="order_addr3"/>
 		<result property="productName" column="product_name"/>
 		<result property="productFile" column="product_file"/>
 		<result property="orderDate" column="order_date"/>
 		<result property="productPrice" column="product_price"/>
 		<result property="orderStack" column="order_stack"/>
+		<result property="productSize" column="product_size"/>
+		<result property="productColor" column="product_color"/>
+		<result property="orderStatus" column="order_status"/>
 	</resultMap>
 	
+	<resultMap type="com.kg.seeot.order.dto.OrderHistoryDTO" id="hdto">
+		<result property="hiMemberId" column="himember_id"/>
+		<result property="hiOrderNo" column="hiorder_no"/>
+		<result property="hiProductNo" column="hiproduct_no"/>
+		<result property="hiProductName" column="hiproduct_name"/>
+		<result property="hiProductSize" column="hiproduct_size"/>
+		<result property="hiProductColor" column="hiproduct_color"/>
+		<result property="hiProductFile" column="hiproduct_file"/>
+		<result property="hiOrderAddr1" column="hiorder_addr1"/>
+		<result property="hiOrderAddr2" column="hiorder_addr2"/>
+		<result property="hiOrderPrice" column="hiorder_price"/>
+		<result property="hiOrderDate" column="hiorder_date"/>
+		<result property="hiOrderStatus" column="hiorder_status"/>
+		<result property="hiOrderStack" column="hiorder_stack"/>
+		<result property="hiProductPrice" column="hiproduct_price"/>
+	</resultMap>
+	
+	<resultMap type="com.kg.seeot.order.dto.CancelDTO" id="cdto">
+		<result property="memberId" column="member_id"/>
+		<result property="orderNo" column="order_no"/>
+		<result property="reason" column="reason"/>
+	</resultMap>
+	
+ 	<insert id="addOrder">
+		insert into goods_order(order_no,product_no,member_id,order_price,order_addr1,order_addr2,product_name,product_file,product_price,order_stack,product_size,product_color) 
+			values(#{orderNo},#{productNo},#{memberId},#{orderPrice},#{orderAddr1},#{orderAddr2},#{productName},#{productFile},#{productPrice},#{orderStack},#{productSize},#{productColor})
+	</insert> 
+	
+	<insert id="addOrderHistory">
+		insert into order_history(himember_id,hiorder_no,hiproduct_no,hiproduct_name,hiproduct_size,hiproduct_color,hiproduct_file,hiorder_addr1,hiorder_addr2,hiorder_price,hiorder_date,hiorder_status,hiproduct_price,hiorder_stack) 
+			values(#{hiMemberId},#{hiOrderNo},#{hiProductNo},#{hiProductName},#{hiProductSize},#{hiProductColor},#{hiProductFile},#{hiOrderAddr1},#{hiOrderAddr2},#{hiOrderPrice},sysdate,#{hiOrderStatus},#{hiProductPrice},#{hiOrderStack})
+	</insert>
+	
+	<select id="getOrderHistorys" resultMap="hdto">
+		select * from order_history where memberId=#{memberId}
+	</select>
+	
+	<select id="getOrder" resultMap="order">
+		select * from goods_order where memberId=#{m} and order_no=#{o}
+	</select>
+	
+	<select id="getOrders" resultMap="order">
+		select * from goods_order where memberId=#{memberId} order by order_date DESC
+	</select>
+	
+	<select id="getAllOrders" resultMap="order">
+		select * from goods_order order by order_date DESC
+	</select>
+	
+	<insert id="addcancel_1">
+		insert into cancel member_id=#{m}, order_no=#{o} and reason=#{r}
+	</insert>
+	
+	<delete id="addcancel_2">
+	DELETE FROM cancel a WHERE ROWID > (SELECT MIN(ROWID) FROM cancel b WHERE b.#{orderNo} = a.#{orderNo});
+	</delete>
+	
+	<select id="getcancel" resultMap="cdto">
+		select * from cancel where member_id=#{m} and order_no=#{o}
+	</select>
+	
+	<!-- 취소중 -->
+	<update id="changehiStatus_canceling">
+		update order_history set hiorder_status=0 where himember_id=#{m} and hiorder_status=1 and order_no=#{o}
+	</update>
+	<!-- 취소됨 -->
+	<update id="changehiStatus_canceled">
+		update order_history set hiorder_status=-1 where hiorder_status=0 and hiorder_no=#{orderNo}
+	</update>
+	<!-- 배송중 -->
+	<update id="changehiStatus_deliverying">
+		update order_history set hiorder_status=2 where hiorder_no=#{orderNo} and hiorder_status=1
+	</update>
+	<!-- 배송완 -->
+	<update id="changehiStatus_finish">
+		update order_history set hiorder_status=3 where hiorder_no=#{orderNo} and hiorder_status=2
+	</update>
+	
+	
+	<!-- 취소중 -->
+	<update id="changeStatus_canceling">
+		update goods_order set order_status=0 where member_id=#{m} and order_status=1 and order_no=#{o}
+	</update>
+	<!-- 취소됨 -->
+	<update id="changeStatus_canceled">
+		update goods_order set order_status=-1 where order_status=0 and order_no=#{orderNo}
+	</update>
+	<!-- 배송중 -->
+	<update id="changeStatus_deliverying">
+		update goods_order set order_status=2 where order_status=1 and order_no=#{orderNo}
+	</update>
+	<!-- 배송완 -->
+	<update id="changeStatus_finish">
+		update goods_order set order_status=3 where order_status=2 and order_no=#{orderNo}
+	</update>
+	
+ 	<select id="selectSearchList" resultMap="order">
+		select * from goods_order
+		<choose>
+			<when test="t != null and t.equals('orderNo')">
+				where order_no=#{k} 
+			</when>
+			<when test="t != null and t.equals('memberId')">
+				where member_id=#{k} order by order_date DESC
+			</when>
+		</choose>
+	</select> 
+	
+	<select id="orderNoSorting_ASC" resultMap="order">
+		select * from goods_order order by order_no ASC
+	</select>
+	<select id="orderNoSorting_DESC" resultMap="order">
+		select * from goods_order order by order_no DESC
+	</select>
+	
+	<select id="memberIdSorting_ASC" resultMap="order">
+		select * from goods_order order by member_id ASC
+	</select>
+	<select id="memberIdSorting_DESC" resultMap="order">
+		select * from goods_order order by member_id DESC
+	</select>
+	<select id="orderPriceSorting_ASC" resultMap="order">
+		select * from goods_order order by order_price ASC
+	</select>
+	<select id="orderPriceSorting_DESC" resultMap="order">
+		select * from goods_order order by order_price DESC
+	</select>
 	
 </mapper>

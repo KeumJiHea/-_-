@@ -9,20 +9,13 @@
 </head>
 <body>
 
-<!-- 회원가입 alert -->
-<script>
-	var rmsg = "<c:out value='${rmsg}'/>";
-	var rurl = "<c:out value='${rurl}'/>";
-	alert(rmsg);
-	location.href = rurl;
-</script>
 
-<!-- 정보 수정 alert -->
 <script>
 	var msg = "<c:out value='${msg}'/>";
 	var url = "<c:out value='${url}'/>";
 	alert(msg);
 	location.href = url;
 </script>
+
 </body>
 </html>

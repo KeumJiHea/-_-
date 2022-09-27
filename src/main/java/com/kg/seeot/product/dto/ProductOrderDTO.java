@@ -2,8 +2,8 @@ package com.kg.seeot.product.dto;
 
 public class ProductOrderDTO {
 	
-	private int productNo, productStack, productSize, productPrice;
-	private String productColor, productName, productFile;
+	private int productNo, productPrice;
+	private String productColor, productName, productFile,productSize,productStack;
 	
 	public int getProductNo() {
 		return productNo;
@@ -11,16 +11,16 @@ public class ProductOrderDTO {
 	public void setProductNo(int productNo) {
 		this.productNo = productNo;
 	}
-	public int getProductStack() {
+	public String getProductStack() {
 		return productStack;
 	}
-	public void setProductStack(int productStack) {
+	public void setProductStack(String productStack) {
 		this.productStack = productStack;
 	}
-	public int getProductSize() {
+	public String getProductSize() {
 		return productSize;
 	}
-	public void setProductSize(int productSize) {
+	public void setProductSize(String productSize) {
 		this.productSize = productSize;
 	}
 	public int getProductPrice() {

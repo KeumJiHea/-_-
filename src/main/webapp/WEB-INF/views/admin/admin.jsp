@@ -10,6 +10,9 @@
 <b style="font-size: 20px;">관리자 페이지</b><br>
 
 <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a><br>
-<a href="${pageContext.request.contextPath}/member/memberlist">회원 관리</a>
+<a href="${pageContext.request.contextPath}/member/memberlist">회원 관리</a><br>
+<a href="${pageContext.request.contextPath}/order/orderadmin">주문 관리</a><br>
+<a href="${pageContext.request.contextPath}/review/reviewPrint">리뷰</a>
+
 </body>
 </html>
