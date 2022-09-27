@@ -6,13 +6,16 @@
 	
 	<div class="container">
 		<div class="inner">
-			<img src="<%=request.getContextPath() %>/resources/images/slide01.jpg">
+			<img src="<%=request.getContextPath() %>/resources/images/banner/banner01.png">
 		</div>
 		<div class="inner">
-			<img src="<%=request.getContextPath() %>/resources/images/slide02.jpg">
+			<img src="<%=request.getContextPath() %>/resources/images/banner/banner02.png">
 		</div>
 		<div class="inner">
-			<img src="<%=request.getContextPath() %>/resources/images/slide03.jpg">
+			<img src="<%=request.getContextPath() %>/resources/images/banner/banner03.png">
+		</div>
+		<div class="inner">
+			<img src="<%=request.getContextPath() %>/resources/images/banner/banner04.png">
 		</div>
 	</div>
 	<ul class="slide_pagination"></ul>
@@ -26,7 +29,7 @@
 </div>
 <hr class="line">
 <div class="banners">
-	<img class="banner" src="<%=request.getContextPath() %>/resources/images/slide03.jpg">
+	<img class="banner" src="<%=request.getContextPath() %>/resources/images/banner/banner03.png">
 </div>
 
 <div class="item">
@@ -36,7 +39,7 @@
 </div>
 <hr class="line">
 <div class="banners">
-	<img class="banner" src="<%=request.getContextPath() %>/resources/images/slide02.jpg">
+	<img class="banner" src="<%=request.getContextPath() %>/resources/images/banner/banner02.png">
 </div>
 </body>
 <script src="<%=request.getContextPath() %>/resources/js/main.js"></script>

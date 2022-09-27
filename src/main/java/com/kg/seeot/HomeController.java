@@ -45,6 +45,13 @@ public class HomeController {
 		return list;
 	}
 	
+	@GetMapping(value={"getRecent", "/getRecent"})
+	@ResponseBody
+	public ProductDTO getRecent(int productNo) {
+		ProductDTO item = mapper.productView(productNo);
+		return item;
+	}
+	
 	@GetMapping("search")
 	public String search(HttpServletRequest request, Model model){
 		String keyword = request.getParameter("keyword");
@@ -60,6 +67,16 @@ public class HomeController {
 //		int num = Integer.parseInt(request.getParameter("num"));
 //		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
 		return mapper.productNameList(keyword);
+	}
+	
+	@GetMapping("default/agreement")
+	public String agreement() {
+		return "default/agreement.page";
+	}
+	
+	@GetMapping("default/privacy")
+	public String privacy() {
+		return "default/privacy.page";
 	}
 
 }

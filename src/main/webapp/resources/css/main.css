@@ -10,7 +10,7 @@ body{
 	justify-content: center;
 }
 .container {
-	width: 240vw;
+	/* width: 400vw; */
 }
 .inner {
 	width: 80vw;
