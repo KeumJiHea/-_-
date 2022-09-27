@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.logging.LogException;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -89,7 +90,7 @@ public class MemberController implements SessionName{
 		}
 		session.setAttribute(LOGIN, id);
 		session.setMaxInactiveInterval(24*60*60);
-		return "member/successLogin";
+		return "home.page";
 		
 	}
 	@GetMapping("logout")

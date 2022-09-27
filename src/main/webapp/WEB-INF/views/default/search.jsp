@@ -37,4 +37,3 @@
 	<div class="paging"></div>	
 </body>
 <script src="<%=request.getContextPath() %>/resources/js/search.js"></script>
-

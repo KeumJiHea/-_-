@@ -52,7 +52,7 @@ public class HomeController {
 		return item;
 	}
 	
-	@GetMapping("search")
+	@GetMapping("default/search")
 	public String search(HttpServletRequest request, Model model){
 		String keyword = request.getParameter("keyword");
 		model.addAttribute("keyword", keyword);

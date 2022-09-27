@@ -403,4 +403,5 @@
 	
 
 </body>
+<script src="<%=request.getContextPath() %>/resources/js/recentList.js"></script>
 </html>

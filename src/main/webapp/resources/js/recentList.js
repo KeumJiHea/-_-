@@ -1,5 +1,5 @@
 /**
- * 
+ * 최근 본 상품
  */
 $(function(){
 	const url = window.location.search;
