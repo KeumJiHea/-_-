@@ -58,12 +58,7 @@ public class BoardServiceImpl implements BoardService {
 	public String boardWrite(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		BoardDTO dto = new BoardDTO();
 
-		if(mul.getParameter("memberId").equals("")) { //비회원 처리
-			dto.setMemberId("비회원");
-		}else {
-			dto.setMemberId(mul.getParameter("memberId"));
-		}
-		
+		dto.setMemberId(mul.getParameter("memberId"));
 		dto.setMemberName(mul.getParameter("memberName"));
 		dto.setBoardTitle(mul.getParameter("boardTitle"));
 		dto.setBoardContent(mul.getParameter("boardContent"));
@@ -91,10 +86,10 @@ public class BoardServiceImpl implements BoardService {
 	
 		String msg, url;
 		if (result == 1) {
-			msg = "새글이 추가되었습니다!!";
+			msg = "게시글을 등록했습니다.";
 			url = request.getContextPath() + "/board/boardList";
 		} else {
-			msg = "문제가 발생했습니다";
+			msg = "게시글 등록에 실패했습니다.";
 			url = request.getContextPath() + "/board/writeForm";
 		}
 		return bfs.getMessage(msg, url);
@@ -142,10 +137,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		String msg, url;
 		if (result == 1) {
-			msg = "새글이 추가되었습니다!!";
+			msg = "게시글이 수정되었습니다.";
 			url = request.getContextPath() + "/board/boardList";
 		} else {
-			msg = "문제가 발생했습니다";
+			msg = "게시글 수정에 실패했습니다.";
 			url = request.getContextPath() + "/board/modifyForm?boardNo="+boardNo;
 		}
 		return bfs.getMessage(msg, url);

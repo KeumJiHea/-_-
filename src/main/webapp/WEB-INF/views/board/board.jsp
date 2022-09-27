@@ -56,7 +56,7 @@
 		<form class="replyForm">
 			<input type="hidden" name="memberId" id="memberId" value=${loginUser } readonly>
 			<label for="memberName">이름</label>
-			<input type="text" name="memberName" id="memberName" value=${loginUser } readonly>
+			<input type="text" name="memberName" id="memberName" value=${userName } readonly>
 			<br>
 			<textarea name="replyContent" class="replyContent" id="replyContent" placeholder="댓글을 입력해주세요."></textarea>
 			<button type="button" class="addReply" onclick="saveReply()">작성</button>
