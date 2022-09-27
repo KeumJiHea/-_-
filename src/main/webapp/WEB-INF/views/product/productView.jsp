@@ -1,14 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+	.pst {
+		width:25px;
+		height:15px;
+	}
+	#proicon {
+		width:25px;
+		height:25px;
+		margin: -7px 5px;
+	}
+</style>
 </head>
 <body>
 	
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	
 <!-- 	<script type="text/javascript">
 	 
 	jQuery( document ).ready( function ( $ ) {
@@ -36,25 +51,63 @@
 	 });
 	</script> -->
 	<script type="text/javascript">
-	var pc, ps
-	var cnt = 0
+	var pc='', ps='';
+	var cnt = 0;
+	var selColCount = 0, selSizCount = 0;	
 	
 	function colorAdd(productColor) {
 		console.log("선택 색 : " + productColor)
-		pc = productColor
+		
+		if(pc == null || pc == '') {
+			pc = productColor;
+			const PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'white';
+			PCelement.style.color = 'black';
+		}else {
+			PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'black';
+			PCelement.style.color = 'white';
+			pc = productColor;
+			PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'white';
+			PCelement.style.color = 'black';
+		}
+		
+		if(ps != '') {
+			PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'black';
+			PSelement.style.color = 'white';
+			ps = '';
+		}
 	}
+	
+	
 	
 	function sizeAdd(proSize) {
 		console.log("선택 사이즈 : " + proSize)
-		ps = proSize
-		productSelect()
+		if(ps == null || ps == ''){
+			ps = proSize;
+			const PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'white';
+			PSelement.style.color = 'black';
+		}else {
+			PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'black';
+			PSelement.style.color = 'white';
+			ps = proSize;
+			PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'white';
+			PSelement.style.color = 'black';
+		}
+		
+		if(pc != '' & ps != '') {
+			productSelect();
+		}
 	}
 	
  	function productSelect() {
 		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
 		
-		
-		if(pc != '' & ps != '') {
 			$.ajax({
 				url: "proStackGet",
 				type:"get",
@@ -74,26 +127,38 @@
 						if(document.getElementById(data.productColor + data.productSize) == null) {
 							cnt++;
 							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
-									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'>"
+									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'> &nbsp;"
 									+ "<input type='hidden' name='productSize' value='" + data.productSize + "' id='productSize'>"
-								 	+ "<input type='button' value='▲' onClick='stackUp(this)' class='productStack" + cnt + "'>"
+								 	+ "<img src='<c:url value='/resources/images/proup.png'/>'  onClick='stackUp(this)' class='productStack" + cnt + "' id='proicon'>"
 									+ "<input type='hidden' id='MaxproductStack" + cnt + "' value='" + data.productStack + "'>"
-									+ "<input type='input' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
-									+ "<input type='button' value='▼' onClick='stackDown(this)' class ='productStack" + cnt + "'>"
+									+ "<input type='text' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
+									+ "<img src='<c:url value='/resources/images/prodown.png'/>'  onClick='stackDown(this)' class ='productStack" + cnt + "' id='proicon'>"
 									+ "금액 <span id='PriceproductStack" + cnt + "'>" + ${pdto.productPrice} + "</span> 원"
-									+ "<input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
+									+ "&nbsp; <img src='<c:url value='/resources/images/prodelete.png'/>'  onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' id='proicon'></div>");
 						}else {
 							alert('이미 추가되었습니다.');
-						}
+						};
 					}else {
 						alert('상품 재고가 없습니다.');
-					}
+					};
 	
 				}
 			});
+		
+		PSelement = document.getElementById(ps);
+		PSelement.style.backgroundColor = 'black';
+		PSelement.style.color = 'white';
+		ps = '';
+		
+		if(pc == null || pc == '') {
+			pc = '';
+		}else {
+			PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'black';
+			PCelement.style.color = 'white';
+			pc = '';
 		}
-		pc = ''
-		ps = ''
+		
 		
 		
 	}
@@ -216,13 +281,12 @@
 	
 } */
 
+
 	
 	
 	</script>
 	
-	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+	
 	
 	<table border="1">
 		<tr>
