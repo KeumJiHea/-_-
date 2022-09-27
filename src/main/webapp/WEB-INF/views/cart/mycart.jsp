@@ -21,7 +21,12 @@
 			<table id="cartTable" border="1">
 			<thead>
 				<tr>
-					<th>전체 선택<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" checked="checked" onchange="change()" onclick='checkAll()'/></th><th>상품번호</th><th>상품이미지</th><th>상품명</th><th>옵션</th><th>상품가격</th><th>구매수량</th><th></th>
+					<th>전체 선택
+					<c:if test="${cart.size()!=0 }">
+						<br><input type='checkbox' name='orderAllCheck' id="orderAllCheck" checked="checked" onchange="change()" onclick='checkAll()'/>
+					</c:if>
+					</th>
+					<th>상품번호</th><th>상품이미지</th><th>상품명</th><th>옵션</th><th>상품가격</th><th>구매수량</th><th></th>
 				</tr>
 				<c:if test="${cart.size()==0 }">
 					<tr>
