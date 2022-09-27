@@ -13,6 +13,7 @@ import com.kg.seeot.board.dto.ReviewDTO;
 
 public interface ReviewService {
 	public void reviewList(Model model);
+	public void reviewMore(Model model, int productNo);
 	//public String writeSave(MultipartHttpServletRequest mul,
 	//		HttpServletRequest request);
 	public void addReply(Map<String, String>map, String memberId);

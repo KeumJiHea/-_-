@@ -105,10 +105,20 @@
 			form.submit();
 	}
 	
-<<<<<<< HEAD
+
 	/* function productCart() {
 
 	} */
+
+
+	 function productCart() {
+		 form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/cart/addcart'
+			form.submit();
+	}
+
+	
 	
 	/*리뷰 불러오기*/
 	function rePrint(){
@@ -145,7 +155,7 @@
 				html+= "<hr></div>";
 			}
 			
-			html += "<div>"+"페이지"+"</div>";
+			html += "<div>"+"<a href=../review/reviewMore?productNo="+${pdto.productNo}+">리뷰 더보기</a>"+"</div>";
 			
 			
 		
@@ -157,14 +167,6 @@
 	
 	
 }
-=======
-	 function productCart() {
-		 form = document.profo;
-			form.method = "post";
-			form.action = '${pageContext.request.contextPath }/cart/addcart'
-			form.submit();
-	}
->>>>>>> 13e86d2e9e18a0dbb806b1c9c737c737f6058f2d
 	</script>
 	
 	

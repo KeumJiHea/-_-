@@ -19,6 +19,11 @@
 		values(#{memberId}, #{reviewContent} ,#{productNo},#{reviewFile},#{reviewStar})
 	</insert>
 	
+	<select id="reviewMore" resultMap="review">
+		select * from seeot_review where productNo=#{productNo} order by reviewDate desc
+	</select>
+	
+	
 	<select id="getRepList" 
 		resultType="com.kg.seeot.board.dto.ReviewDTO">
 	select * from seeot_review where productNo=#{productNo} order by reviewDate desc

@@ -35,13 +35,13 @@ public class ReviewController {
 		//System.out.println(productNo);
 		return "review/reviewList";
 	}
-	/*
-	@GetMapping("reviewList")
-	public String reviewList(Model model) {
-		rs.reviewList(model);
-		return "review/reviewList";
+	/**/
+	@GetMapping("reviewMore")
+	public String reviewMore(Model model, int productNo) {
+		rs.reviewMore(model,productNo);
+		return "review/reviewMore";
 	}
-	*/
+	
 	@PostMapping("reviewSave")
 	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar
 								, int productNo) {

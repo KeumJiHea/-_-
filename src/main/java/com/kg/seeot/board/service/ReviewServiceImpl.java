@@ -29,6 +29,9 @@ public class ReviewServiceImpl implements ReviewService {
 	public void reviewList(Model model) {
 		model.addAttribute("reviewList", mapper.reviewList());
 	}
+	public void reviewMore(Model model, int productNo) {
+		model.addAttribute("reviewMore", mapper.reviewMore(productNo));
+	}
 
 	public void addReply(Map<String, String> map, String memberId) {
 		map.put("memberId", memberId);

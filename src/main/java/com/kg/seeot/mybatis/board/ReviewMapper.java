@@ -10,6 +10,8 @@ import com.kg.seeot.board.dto.ReviewDTO;
 public interface ReviewMapper {
 	
 	public int addReview(ReviewDTO dto);
+	public List<ReviewDTO> reviewMore(int productNo);
+	
 	public List<ReviewDTO> getRepList(int productNo);
 	public void saveData(ReviewDTO dto );
 	

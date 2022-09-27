@@ -59,9 +59,10 @@ function rePrint(){
 	
 	
 }
+
 </script>
 
-<div id="reply"> </div>
+<div id="reply"> </div> 
 
 
 
