@@ -17,7 +17,7 @@
 	</resultMap>
 	
 	<insert id="addCart_p">
-		insert into cart(product_no, product_size, product_color,order_stack,cartnum) values(#{n},#{s},#{c},#{o},cartnum_seq.nextval)
+		insert into cart(member_id,product_no, product_size, product_color,order_stack,cartnum) values(#{m},#{n},#{s},#{c},#{o},cartnum_seq.nextval)
 	</insert>
 	
 	<update id="addCart_m">
