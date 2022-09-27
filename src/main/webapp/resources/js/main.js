@@ -1,3 +1,5 @@
+
+//배너 관련 변수
 const container = document.querySelector('.container');
 const banners = document.querySelectorAll('.inner');
 
@@ -6,6 +8,8 @@ const rightBtn = document.querySelector('.right-btn');
 
 const bannerLen = banners.length;
 let index = 0;
+
+container.style.width = `${bannerLen * 80}vw`;
 
 //ul 페이지네이션
 const pagination = document.querySelector('.slide_pagination');

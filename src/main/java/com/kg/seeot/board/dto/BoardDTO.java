@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 
 public class BoardDTO {
 	private String memberId, memberName, boardTitle, boardContent, boardDate;
-	private int boardNo, boardHit;
-	private String boardQnAType, boardStatus;
+	private int boardNo, boardHit, replyCount;
+	private String boardQnAType;
 
 //1:1문의 게시판
 	public String getMemberId() {
@@ -66,20 +66,20 @@ public class BoardDTO {
 		this.boardQnAType = boardQnAType;
 	}
 
-	public String getBoardStatus() {
-		return boardStatus;
-	}
-
-	public void setBoardStatus(String boardStatus) {
-		this.boardStatus = boardStatus;
-	}
-
 	public int getBoardHit() {
 		return boardHit;
 	}
 
 	public void setBoardHit(int boardHit) {
 		this.boardHit = boardHit;
+	}
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 
 }

@@ -39,14 +39,14 @@ public class ReviewServiceImpl implements ReviewService {
 		System.out.println("serviceImpl");
 		//System.out.println(productNo);
 		
-		int pageLetter = 5;
+		int pageLetter = 5; 
 		int allCount = mapper.getCount(productNo);
 		
 		//System.out.println(allCount);
 		
 		int repeat = allCount / pageLetter;
 		if( allCount % pageLetter != 0 )
-			repeat += 1;
+			repeat += 1; //네비게이션 수
 		
 		int end = num * pageLetter;
 		int start = end + 1 - pageLetter;
@@ -58,6 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
 		model.addAttribute("repeat", repeat);
 		model.addAttribute("page", mapper.reviewPage(productNo, start, end ));
 		return mapper.reviewPage(productNo, start, end );
+		
 		//return mapper.getRepList( productNo );
 	}
 	
@@ -123,7 +124,9 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	}
 	
-	 public void delete(int reviewNo) {
+	 public void delete(int reviewNo, int productNo,int reviewStar) {
+		
+		mapper.productmodify(productNo, reviewStar);
 		 mapper.delete(reviewNo);
 	 }
 	
@@ -139,8 +142,11 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		
 		ReviewServiceImpl rs = new ReviewServiceImpl();
-		System.out.println("productModify전 reviewNo"+reviewNo);
+		
+		/*System.out.println("productModify전 reviewNo: "+reviewNo);*/
 		rs.productModify(reviewNo);
+		
+		
 		mapper.productCount(productNo, reviewStar);
 		 ReviewDTO dto = new ReviewDTO();
 		 
@@ -236,10 +242,12 @@ public class ReviewServiceImpl implements ReviewService {
 	 }
 	 /**/
 	 public void productModify(int reviewNo) {
-		 System.out.println("productmodify");
+		 System.out.println("product modify");
 		 System.out.println(reviewNo);  //여기까지 출력
 		 
-		 ReviewDTO dto = mapper.contentView(reviewNo);
+		 ReviewDTO dto = new ReviewDTO();
+		 System.out.println("dto호출");
+		 dto = mapper.contentView(reviewNo);
 		 
 		 System.out.println("dto불러오기");
 		 System.out.println(dto.getReviewStar());

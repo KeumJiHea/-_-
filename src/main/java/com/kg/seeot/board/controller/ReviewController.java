@@ -32,7 +32,7 @@ public class ReviewController {
 
 	@GetMapping("reviewList")
 	public String reviewList() {
-		
+		//System.out.println(productNo);
 		return "review/reviewList";
 	}
 	/*
@@ -76,10 +76,10 @@ public class ReviewController {
 	}
 	
 	@GetMapping("delete")
-	public String delete(int reviewNo,int productNo) {
+	public String delete(int reviewNo,int productNo,int reviewStar) {
 		//System.out.println("cotm" +reviewNo);
 		//System.out.println("com" +productNo);
-		rs.delete(reviewNo);
+		rs.delete(reviewNo,productNo, reviewStar);
 		
 		return "redirect:../product/productView?productNo="+productNo;
 	}

@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
 		if(mapper.boardCount() != null) {
 			boardSize = mapper.boardCount();
 		}
-		System.out.println("게시글 수: " + boardSize);
+		//System.out.println("게시글 수: " + boardSize);
 		int pagingCount = boardSize / pageSize; //전체 페이지 수
 		
 		if(boardSize % pageSize != 0) {
@@ -68,7 +68,6 @@ public class BoardServiceImpl implements BoardService {
 		dto.setBoardTitle(mul.getParameter("boardTitle"));
 		dto.setBoardContent(mul.getParameter("boardContent"));
 		dto.setBoardQnAType(mul.getParameter("boardQnAType"));
-		dto.setBoardStatus("미처리");
 		
 		int result = 0;
 		result = mapper.boardWrite(dto);
@@ -81,7 +80,7 @@ public class BoardServiceImpl implements BoardService {
 			List<MultipartFile> fileList = mul.getFiles(itr.next());
 			if(fileList.size()>0) {
 				for(MultipartFile file : fileList) {
-					System.out.println("파일아" + file.getOriginalFilename());
+					//System.out.println("파일아" + file.getOriginalFilename());
 					FileDTO fdto = bfs.saveFile(file);
 					fdto.setBoardNo(dto.getBoardNo());
 					mapper.boardFileWrite(fdto);
@@ -173,16 +172,25 @@ public class BoardServiceImpl implements BoardService {
 		return bfs.getMessage(msg, url);
 	}
 	
+	public void upHit(int boardNo) {
+		mapper.upHit(boardNo);
+	}
+	
 	public void addReply(Map<String, String> map) {
 		mapper.addReply(map);
+		int boardNo = Integer.parseInt(map.get("boardNo"));
+		mapper.replyCount(boardNo);
 	}
 	
 	public ArrayList<ReplyDTO> getReplyList(int boardNo){
 		return mapper.getReplyList(boardNo);
 	}
 	
-	public int deleteReply(int replyNo) {
-		return mapper.deleteReply(replyNo);
+	public int deleteReply(int replyNo, int boardNo) {
+		int result = 0;
+		result = mapper.deleteReply(replyNo);
+		mapper.replyCount(boardNo);
+		return result;
 	}
 	
 	public int modifyReply(int replyNo, String updateContent) {

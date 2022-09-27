@@ -10,7 +10,7 @@ body{
 	justify-content: center;
 }
 .container {
-	width: 240vw;
+	/* width: 400vw; */
 }
 .inner {
 	width: 80vw;
@@ -76,7 +76,10 @@ body{
 	width: 200px;
 	margin: 50px 50px 50px;
 }
-
+.items img:hover{
+	transition: all 0.1s linear;
+	transform: scale(1.1);
+}
 .banners{
 	margin: 80px auto 50px;
 	width: 60vw;
@@ -87,4 +90,16 @@ body{
 .line{
 	width: 60vw;
 	margin: 30px auto 10px;
+}
+
+.searchWrapper {
+	width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.searchList {
+    width: calc( 100% / 4 - 10px );
+    justify-content: space-between;
+    background-color: #ddd;
+    margin: 5px;
 }

@@ -144,6 +144,19 @@ public class MemberController implements SessionName{
 		ms.delete(id);
 		return "redirect:memberlist";
 	}
+	@PostMapping("member_delete")
+	public String member_delete(HttpServletRequest request, MemberDTO dto) {
+		int result = ms.member_delete(dto);
+		
+		if(1 == result) {
+			request.setAttribute("msg","회원 탈퇴되었습니다");
+			request.setAttribute("url","login");
+			return "member/alert";
+		}
+			request.setAttribute("msg","비밀번호를 다시 확인해주세요");
+			request.setAttribute("url","info?id="+request.getParameter("id"));
+			return "member/alert";
+	}
 	
 	@GetMapping("memberIdChk.do")
 	@ResponseBody
@@ -283,6 +296,11 @@ public class MemberController implements SessionName{
 			session.setMaxInactiveInterval(24*60*60);
 			resultMap.put("id", "kakao_" + paramMap.get("id"));
 			resultMap.put("JavaData", "login");
+		}if(kakaoConnectionCheck == 1) {
+			session.setAttribute(LOGIN, paramMap.get("id"));
+			session.setMaxInactiveInterval(24*60*60);
+			resultMap.put("id", "kakao_" + paramMap.get("id"));
+			resultMap.put("JavaData", "newlogin");
 		}
 		
 		response.getWriter().print(gson.toJson(resultMap));

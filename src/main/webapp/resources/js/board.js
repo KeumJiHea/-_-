@@ -14,6 +14,7 @@ for(let i=0; i<document.querySelectorAll('.filebox').length; i++){
 	fileNo++;
 }
 
+//첨부파일 추가 함수
 function addFile(obj){
 	let maxFileCnt = 5; //최대 첨부 가능 파일 개수
 	let attFileCnt = document.querySelectorAll('.filebox').length; //현재 올라간 파일 개수
@@ -56,6 +57,7 @@ function addFile(obj){
 	document.querySelector("input[type=file]").value="";
 }
 
+//파일 유효성 검사
 function validation(obj){
 	if(obj.name.length>100){
 		alert('파일명이 100자 이상인 파일은 제외되었습니다.');
@@ -71,6 +73,7 @@ function validation(obj){
 	}
 }
 
+//첨부파일 삭제
 function deleteFile(num){
 	document.querySelector("#file"+num).remove();
 	
@@ -83,6 +86,7 @@ function deleteFile(num){
 	
 }
 
+//DB와 연결
 function submitForm(){
 	let form = $('#writeForm')[0];
 	let formData = new FormData(form);
@@ -113,6 +117,7 @@ function submitForm(){
 	});
 }
 
+//글 수정
 function modifyForm(){
 	let form = $('#modifyForm')[0];
 	let formData = new FormData(form);

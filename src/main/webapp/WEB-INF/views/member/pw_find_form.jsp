@@ -11,21 +11,35 @@
 <link href="<c:url value='/resources/css/members.css'/>"rel="stylesheet">
 </head>
 <body>
-<form name="form">
-	<div class="field input_email">
-		<h3>이메일 본인확인</h3>
-			<span class="span">아이디</span>
-			<input type="text" class="id" name="id"><br>
-			<span class="span">이메일</span>
-			<input type="text" class="email1" name="email1">@<input type="text" class="email2" name="email2" ><br>
-				<input type="text" disabled class="input_mail_check" style="width: 300px; margin-top: 12px; background-color: white;" maxlength="6" placeholder="인증번호 입력"><br>
-				<input type="button" class="btn_mail_check" style="margin-top: 15px; cursor: pointer; border: 1px solid #888; background-color: white;" value="인증번호 전송">
-				<input type="button" class="btn_mail_check2" style="display:none; margin-top: 15px; border: 1px solid #888; background-color: white; cursor: pointer;" value="인증번호 확인">
-			<div class="mail-message message"></div>
-	</div>
-	<br><button type="button" class="sub_btn" onclick="chk()">PW찾기</button><br>
-	<a href="id_find_form"><button type="button">ID찾기</button></a> <a href="login"><button type="button">취소</button></a>
+
+<div class=" members-wrapper id-find">
+	<form name="form">
+		<h3>비밀번호 찾기 (이메일 본인인증)</h3>
+		<div class="field input_id required">
+			<span>아이디</span>
+			<input type="text" class="id" name="id">
+		</div>
+		
+		<div class="field input_email required">
+			<span>이메일</span>
+			<input type="text" class="email1" name="email1">@<input type="text" class="email2" name="email2" >
+			<input type="button" class="btn_mail_check" value="인증번호 전송">
+		</div>
+		
+		<div class="field input_email required">
+			<input type="text" disabled class="input_mail_check" maxlength="6" placeholder="인증번호 입력">
+			<input type="button" class="btn_mail_check2" value="인증번호 확인">
+		</div>
+		
+		<button type="button" class="button sub_btn" onclick="chk()">비밀번호 찾기</button><br>
+		
+		<div class="pw-find-form">
+			<a href="login">로그인</a>
+			<a href="register_form">회원가입</a>
+			<a href="id_find_form">아이디 찾기</a>
+		</div>
 </form>
+</div>
 <form name="pw_form">
 	<div class="pw_find_message">
 			<input type="hidden" class="id_data" name="id" value="">

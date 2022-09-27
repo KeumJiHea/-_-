@@ -17,6 +17,7 @@ public interface MemberService {
      public void getUser(Model model,String id);
      public void memberlist(Model model);
      public void delete(String id);
+     public int member_delete(MemberDTO dto);
      public int idCheck(String id) throws Exception;
      public int modify(HttpServletRequest request,MemberDTO dto);
      public int edit_addr(HttpServletRequest request,MemberDTO dto);

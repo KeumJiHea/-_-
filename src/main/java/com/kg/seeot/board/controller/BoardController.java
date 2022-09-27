@@ -9,13 +9,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.board.dto.ReplyDTO;
 import com.kg.seeot.board.service.BoardFileService;
 import com.kg.seeot.board.service.BoardService;
-import com.kg.seeot.common.SessionName;
 
 @Controller
 @RequestMapping("board")
@@ -48,6 +44,7 @@ public class BoardController{
 	@GetMapping("board")
 	public String getBoard(int boardNo, Model model) {
 		bs.getBoard(boardNo, model);
+		bs.upHit(boardNo);
 		return "board/board.page";
 	}
 
@@ -115,10 +112,10 @@ public class BoardController{
 		return bs.getReplyList(boardNo);
 	}
 	
-	@PostMapping(value="deleteReply/{replyNo}", produces = "application/json;charset=utf8")
+	@PostMapping(value="deleteReply/{replyNo}/{boardNo}", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public int deleteReply(@PathVariable int replyNo) {
-		int result = bs.deleteReply(replyNo);
+	public int deleteReply(@PathVariable int replyNo, @PathVariable int boardNo) {
+		int result = bs.deleteReply(replyNo, boardNo);
 		return result;
 	}
 	
