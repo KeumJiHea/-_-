@@ -164,7 +164,7 @@ function review(){//리뷰저장
 	<!-- 마이페이지 해당 상품의 상품번호 불러오기 -->
 	<!-- 상품번호 받아와서 연결하기 -->
 	<input type="hidden" id="productNo" value="10001" name="productNo">
-	<textarea class="reviewContent" type="text" id="reviewContent"
+	<textarea class="reviewContent" id="reviewContent"
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>
 				  
 	<b>이미지파일 첨부</b><br>

@@ -123,7 +123,6 @@
 			datatype:"json",
 			success: function(list) {
 				console.log("리스트 갯수 : " + list)
-
 				
 				let paging = "";
 				

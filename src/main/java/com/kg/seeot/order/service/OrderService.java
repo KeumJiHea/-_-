@@ -20,8 +20,8 @@ public interface OrderService {
 								String productSize, String productStack);
 	public void addHiOrder(OrderHistoryDTO hdto); //주문내역추가
 	
-	public void getOrder(String memberId,String orderNo);
-	public void getOrders(String memberId);
+	public void getOrder(Model model,String memberId,String orderNo);
+	public void getOrders(Model model,String memberId);
 	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model);
 	
 	public void cancel(HttpServletRequest request,String orderNo,String memberId,String reason); //주문취소
@@ -32,4 +32,8 @@ public interface OrderService {
 	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword);
 	public ArrayList<OrderDTO> orderNoSorting_ASC();
 	public ArrayList<OrderDTO> orderNoSorting_DESC();
+	public ArrayList<OrderDTO> memberIdSorting_ASC();
+	public ArrayList<OrderDTO> memberIdSorting_DESC();
+	public ArrayList<OrderDTO> orderPriceSorting_ASC();
+	public ArrayList<OrderDTO> orderPriceSorting_DESC();
 }

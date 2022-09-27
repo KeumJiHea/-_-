@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kg.seeot.mybatis.cart.CartMapper;
 import com.kg.seeot.mybatis.product.ProductMapper;
 import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.dto.ProductManageDTO;
@@ -21,6 +23,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	ProductMapper mapper;
+	
+	@Autowired
+	CartMapper cm;
 	
 	@Autowired
 	ProductFileService pfs;
@@ -97,10 +102,12 @@ public class ProductServiceImpl implements ProductService{
 	public String productDelete(int productNo, String productFile, String productContent, HttpServletRequest request) {
 		int result = 0;
 		String msg, url;
-		
+		HttpSession session = request.getSession();
 		result = mapper.productDelete(productNo);
 		
 		if( result == 1) {
+			String memberId = (String) session.getAttribute("loginUser");
+			cm.deleteCartOne(memberId, productNo);
 			pfs.deleteImage(productFile);
 			pfs.deleteImage(productContent);
 			msg = "상품이 삭제되었습니다.";
