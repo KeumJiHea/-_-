@@ -35,8 +35,8 @@
 		
 		<b>남은 재고 수량</b><br>
 		<input type="text" name="moProductStack" id="moProductStack" value="${mdto.productStack }" placeholder="0">
-		<input type=button value="▲" onClick="javascript:this.form.productStack.value++;">
-		<input type=button value="▼" onClick="javascript:this.form.productStack.value--;">
+		<input type=button value="▲" onClick="javascript:this.form.moProductStack.value++;">
+		<input type=button value="▼" onClick="javascript:this.form.moProductStack.value--;">
 		<hr>
 		
 		<b>보유 색상</b><br>

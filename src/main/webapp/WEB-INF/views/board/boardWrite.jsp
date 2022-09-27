@@ -2,10 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 <body>
-	<form method="post" action="${contextPath}/board/writeSave"
-		enctype="multipart/form-data">
-		
+	<form id="writeForm">
 		<input type="text" name="memberId" value="${loginUser }" hidden="hidden"/>
 		<label for="memberName">작성자</label>
 		<input type="text" name="memberName" required/>
@@ -30,8 +29,9 @@
 		<input type="file" name="boardFile" onchange="addFile(this);" multiple />
 		<div class="file-list"></div>
 		<hr>
-		<input type="submit" value="글쓰기" />
+		<input type="button" value="글쓰기" onclick="submitForm()" />
 		<input type=button value="목록보기" onclick="location.href='${contextPath}/board/boardList'">
 	</form>
+	<div id="response" hidden="hidden"></div>
 </body>
 <script src="<%=request.getContextPath() %>/resources/js/board.js"></script>

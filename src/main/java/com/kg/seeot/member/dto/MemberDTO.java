@@ -2,7 +2,7 @@ package com.kg.seeot.member.dto;
 
 public class MemberDTO {
 private String id,pw,name,phone,phone1,phone2,phone3,email,email1,email2,
-               birth,addr1,addr2,addr3,loginCookie;
+               birth,addr1,addr2,addr3,loginCookie,code;
 private int verify;
 
 public String getId() {
@@ -24,15 +24,14 @@ public void setName(String name) {
 	this.name = name;
 }
 public String getPhone() {
-	phone = null == phone ? "" : phone;
-	
-	if ( 0 < phone.length() ) {
+	if( null != phone ) { // 이미 회원가입된 사람
 		return phone;
+	} else if( null == phone && ( null == phone1 || null == phone2 || null == phone3 ) ) { // 신규 가입인데, 폰 정보도 입력하지 않은 사람
+		return "";
 	}
 	
-	if( 0 < phone2.length() && 0 < phone3.length() ) {
-		phone = phone1+"-"+phone2+"-"+phone3;
-	}
+	phone = phone1+"-"+phone2+"-"+phone3;
+	
 	return phone;
 }
 public String getPhone1() {
@@ -54,15 +53,15 @@ public void setPhone3(String phone3) {
 	this.phone3 = phone3;
 }
 public String getEmail() {
-	email = null == email ? "" : email;
-	
-	if ( 0 < email.length() ) {
+
+	if( null != email ) { // 이미 회원가입된 사람
 		return email;
+	} else if( null == email && ( null == email1 || null == email2 ) ) { // 신규 가입인데, 이메일 정보도 입력하지 않은 사람
+		return "";
 	}
+
+	email = email1+"@"+email2;
 	
-	if( 0 < email1.length() && 0 < email2.length() ) {
-		email = email1+"@"+email2;
-	}
 	return email;
 }
 public void setEmail(String email) {
@@ -115,5 +114,8 @@ public int getVerify() {
 }
 public void setVerify(int verify) {
 	this.verify = verify;
+}
+public String getCode() {
+	return code;
 }
 }

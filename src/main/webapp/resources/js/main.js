@@ -1,3 +1,5 @@
+
+//배너 관련 변수
 const container = document.querySelector('.container');
 const banners = document.querySelectorAll('.inner');
 
@@ -6,6 +8,8 @@ const rightBtn = document.querySelector('.right-btn');
 
 const bannerLen = banners.length;
 let index = 0;
+
+container.style.width = `${bannerLen * 80}vw`;
 
 //ul 페이지네이션
 const pagination = document.querySelector('.slide_pagination');
@@ -76,4 +80,53 @@ function stopMove(){
 const outer = document.querySelector('.outer');
 outer.addEventListener('mouseover', stopMove);
 outer.addEventListener('mouseout', move);
+
+
+$(function(){
+	$.ajax({ //전체 상품리스트 불러오는 ajax
+		url: "getProduct",
+		type: "get",
+		dataType: "json",
+		success: function(data){
+			
+			//리스트 별점순 정렬함
+			const productRatingDesc = data.sort((a,b) => b.productRating - a.productRating);
+			console.log("productRatingDesc: ", productRatingDesc);
+			
+			for(i=0;i<3;i++){ //그중 앞의 3개만 가져와서 이미지 추가
+				let product = '';
+				product += '<div class="item">';
+				product += '<a href="product/productView?productNo=';
+				product += productRatingDesc[i].productNo + '">';
+				product += '<img src="http://localhost:8085/seeot/resources/images/' + productRatingDesc[i].productFile + '">';
+				product += '<div class="itemInfo">';
+				product += '<p>' + productRatingDesc[i].productName + '</p>';
+				product += '<p>' + productRatingDesc[i].productPrice + '원</p>';
+				product += '</div>';
+				product += '</a>';
+				product += '</div>';
+				$('.best-items').append($(product));
+			}
+			
+			//리스트 최신순 정렬함
+			const productDateAsc = data.sort((a,b)=>new Date(b.productDate) - new Date(a.productDate));
+			console.log("productDateAsc: ", productDateAsc);
+			
+			for(i=0;i<3;i++){ //그중 앞의 3개만 가져와서 이미지 추가
+				let product = '';
+				product += '<div class="item">';
+				product += '<a href="product/productView?productNo=';
+				product += productDateAsc[i].productNo + '">';
+				product += '<img src="http://localhost:8085/seeot/resources/images/' + productDateAsc[i].productFile + '">';
+				product += '<div class="itemInfo">';
+				product += '<p>' + productDateAsc[i].productName + '</p>';
+				product += '<p>' + productDateAsc[i].productPrice + '원</p>';
+				product += '</div>';
+				product += '</a>';
+				product += '</div>';
+				$('.new-items').append($(product));
+			}
+		}
+	})
+});
 

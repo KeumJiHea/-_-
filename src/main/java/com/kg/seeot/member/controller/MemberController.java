@@ -1,6 +1,8 @@
 package com.kg.seeot.member.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -15,6 +17,9 @@ import org.apache.ibatis.logging.LogException;
 import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -27,7 +32,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UrlPathHelper;
 
 import com.google.gson.Gson;
 import com.kg.seeot.common.SessionName;
@@ -44,7 +51,7 @@ public class MemberController implements SessionName{
 
 	@GetMapping("/login")
 	public String login() { 
-		return "member/login.page"; 
+		return "member/login"; 
 	}
 
 	@PostMapping("/login_check")
@@ -66,13 +73,6 @@ public class MemberController implements SessionName{
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response) {
 
-		if(id.equals("admin")) {
-			session.setAttribute(LOGIN, id);
-			session.setMaxInactiveInterval(24*60*60);
-			return "admin/admin";
-		}
-
-
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
 			Cookie cookie = new Cookie("loginCookie", id);
@@ -89,10 +89,9 @@ public class MemberController implements SessionName{
 			return "admin/admin";
 		}
 		session.setAttribute(LOGIN, id);
-
 		session.setMaxInactiveInterval(24*60*60);
 		return "home.page";
-
+		
 	}
 	@GetMapping("logout")
 	public String logout( HttpSession session,
@@ -110,7 +109,7 @@ public class MemberController implements SessionName{
 	}
 	@GetMapping("register_form")
 	public String register_form() {
-		return "member/register.page";
+		return "member/register";
 	}
 	@PostMapping("register")
 	public String register(HttpServletRequest request, MemberDTO dto) {
@@ -144,6 +143,19 @@ public class MemberController implements SessionName{
 	public String delete(String id) {
 		ms.delete(id);
 		return "redirect:memberlist";
+	}
+	@PostMapping("member_delete")
+	public String member_delete(HttpServletRequest request, MemberDTO dto) {
+		int result = ms.member_delete(dto);
+		
+		if(1 == result) {
+			request.setAttribute("msg","회원 탈퇴되었습니다");
+			request.setAttribute("url","login");
+			return "member/alert";
+		}
+			request.setAttribute("msg","비밀번호를 다시 확인해주세요");
+			request.setAttribute("url","info?id="+request.getParameter("id"));
+			return "member/alert";
 	}
 	
 	@GetMapping("memberIdChk.do")
@@ -270,17 +282,27 @@ public class MemberController implements SessionName{
 			request.setAttribute("url","pw_find_form");
 			return "member/alert";
 	}
+	
+	@RequestMapping( value = "kakaoLoginPro.do", method = RequestMethod.POST )
+	public void kakaoLoginPro(HttpServletResponse response, @RequestParam Map<String, Object> paramMap, HttpSession session) throws SQLException, Exception {
+		System.out.println("paramMap : "+paramMap);
+		
+		Gson gson = new Gson();
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int kakaoConnectionCheck = ms.kakaoConnectionCheck(paramMap);
+		if(kakaoConnectionCheck == 0) {
+			session.setAttribute(LOGIN, paramMap.get("id"));
+			session.setMaxInactiveInterval(24*60*60);
+			resultMap.put("id", "kakao_" + paramMap.get("id"));
+			resultMap.put("JavaData", "login");
+		}if(kakaoConnectionCheck == 1) {
+			session.setAttribute(LOGIN, paramMap.get("id"));
+			session.setMaxInactiveInterval(24*60*60);
+			resultMap.put("id", "kakao_" + paramMap.get("id"));
+			resultMap.put("JavaData", "newlogin");
+		}
+		
+		response.getWriter().print(gson.toJson(resultMap));
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

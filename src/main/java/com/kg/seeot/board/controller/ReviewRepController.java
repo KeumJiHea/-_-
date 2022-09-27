@@ -48,8 +48,6 @@ public class ReviewRepController {
 		
 		return  rs.getRepList1(productNo );
 	}
-	
-	
 
 }
 

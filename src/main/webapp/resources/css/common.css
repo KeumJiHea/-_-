@@ -25,6 +25,14 @@ ul {
     list-style:none;
 }
 
+textarea{
+	font-family: Noto Sans KR;
+}
+
+::placeholder{
+	font-family: Noto Sans KR;
+}
+
 a {
     margin:0;
     padding:0;
@@ -90,7 +98,7 @@ button:hover{
 	display: inline-block;
 }
 .category li a{
-	padding: 21px 20px; 27px;
+	padding: 21px 20px 27px;
 }
 .category li a span{
 	padding: 21px 0 5px;
@@ -177,7 +185,7 @@ button:hover{
 	transform: translateY(-50%);
 }
 .search .field input[type='search'],
-.search .field input[type='button']{
+.search .field input[type='submit']{
 	padding: 10px;
 	outline: none;
 }
@@ -196,14 +204,14 @@ button:hover{
 	transition: 0.35s;
 }
 
-.search .field input[type='button']{
+.search .field input[type='submit']{
 	flex: 1;
 	color: #FFF;
 	background-color: #191919;
 	opacity: 1;
 	cursor: pointer;
 }
-.search .field input[type=button]:hover{
+.search .field input[type=submit]:hover{
 	opacity: 0.9;
 }
 
@@ -233,7 +241,7 @@ button:hover{
 	background-color: #e9eef0;
 	width: 100px;
 	right: 15px;
-	top: 50%;
+	top: 30%;
 	position: fixed;
 	padding: 10px;
 	border: 1px solid gray;
@@ -243,15 +251,22 @@ button:hover{
 .side-menu{
 	text-align: center;
 }
+
 .recentBtn{
 	padding: 10px;
 	border-radius: 1rem;
 }
-.cartBtn{
-	padding: 10px;
-	border-radius: 1rem;
+
+.thumb a img{
+	width: 80px;
+	height: 80px;
 }
-.likeBtn{
+.thumb a img:hover{
+	transition: all 0.1s linear;
+	transform: scale(1.1);
+}
+
+.cartBtn{
 	padding: 10px;
 	border-radius: 1rem;
 }
@@ -259,9 +274,13 @@ button:hover{
 	padding: 10px;
 	border-radius: 1rem;
 }
-.recentBtn:hover, .topBtn:hover, .likeBtn:hover, .cartBtn:hover{
+.topBtn:hover, .cartBtn:hover{
 	background-color: #c7cbcd;
 }
 .side-menu i{
-	font-size: 20pt;
+	font-size: 1.8rem;
+}
+
+.recentBtn > span{
+	font-size: 0.9rem;
 }
