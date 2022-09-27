@@ -35,6 +35,7 @@ public class ReviewRepController {
 		System.out.println(productNo +","+ num);
 		List<ReviewDTO> list = rs.getRepList(model,productNo ,num);
 		
+		
 		return  list;
 	}
 
