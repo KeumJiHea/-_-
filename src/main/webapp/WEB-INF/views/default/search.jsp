@@ -46,4 +46,4 @@
 
 	<div class="paging" align="center"></div>
 </body>
-<script src="<%=request.getContextPath() %>/resources/js/search.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/common/search.js"></script>

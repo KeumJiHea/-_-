@@ -100,4 +100,4 @@
 		</form>
 	</div>
 </div>
-<script src="<%=request.getContextPath() %>/resources/js/header.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/common/header.js"></script>

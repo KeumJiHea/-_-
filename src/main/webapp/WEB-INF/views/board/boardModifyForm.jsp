@@ -65,4 +65,4 @@
 	</form>
 	<div id="response" hidden="hidden"></div>
 </body>
-<script src="<%=request.getContextPath() %>/resources/js/board.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/board/board.js"></script>

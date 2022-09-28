@@ -43,4 +43,4 @@
 	<img class="banner" src="<%=request.getContextPath() %>/resources/images/banner/banner02.png">
 </div>
 </body>
-<script src="<%=request.getContextPath() %>/resources/js/main.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/common/main.js"></script>
