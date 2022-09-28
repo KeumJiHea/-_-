@@ -2,10 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<link rel="stylesheet" href="<c:url value='/resources/css/search.css'/>" >
 
-<body onload=productList();>
+<body>
 	<div class="searchBar">
-		<p><b>${keyword }</b>에 대한 검색 결과 <span id="listCount"></span></p>
+		<c:if test="${keyword != '' }">
+			<p><b>${keyword }</b>에 대한 검색 결과입니다.</p>
+		</c:if>
+		<c:if test="${keyword == '' }">
+			<p>검색어를 다시 입력해주세요.</p>
+		</c:if>
 	</div>
 	<div><button onclick="filter()">Filter</button></div>
 	<div id="filter">
@@ -36,7 +42,7 @@
 	</div>
 	<br>
 	
-	<div class="productWrapper"></div>
+	<div class="searchWrapper"></div>
 
 	<div class="paging" align="center"></div>
 </body>

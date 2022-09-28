@@ -1,0 +1,37 @@
+@charset "UTF-8";
+.searchWrapper {
+	width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.searchList {
+    width: calc( 100% / 4 - 10px );
+    justify-content: space-between;
+    margin: 5px;
+    text-align: center;
+	background-color: white;
+    
+}
+#filter { 
+	display: none; height: 100px;
+}
+
+select {
+width: 200px;
+padding: .8em .5em;
+border: 1px solid #999;
+font-family: inherit; 
+background: url('../images/arrow.jpg') no-repeat 95% 50%;
+appearance: none;
+cursor:pointer;
+}
+
+.searchBar{
+	margin-bottom: 20px;
+	font-size: 1.3em;
+}
+
+img:hover{
+	transition: all 0.1s linear;
+	transform: scale(1.1);
+}

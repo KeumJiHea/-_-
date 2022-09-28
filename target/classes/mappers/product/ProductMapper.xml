@@ -378,7 +378,7 @@
 			<if test="chkColor_arr == null">
 			select B.* from(select rownum rn, A.* from(select * from product 
 				<if test="productCategorie != 0">
-					where A.product_categorie = #{productCategorie}
+					where product_categorie = #{productCategorie}
 						<if test="chkPrice_arr != null">
 								<trim prefix="and (" prefixOverrides="or" suffix=")">
 									<foreach collection="chkPrice_arr" item="chkPrice">
@@ -451,7 +451,7 @@
 		<if test="chkColor_arr != null">
 			select D.* from(select rownum rn, C.* from(select distinct A.* from product A join product_management B on A.product_no = B.product_no
 				<if test="productCategorie != 0">
-					where A.product_categorie = #{productCategorie} 
+					where product_categorie = #{productCategorie} 
 					<if test="chkPrice_arr != null">
 						<trim prefix="and (" prefixOverrides="or" suffix=")">
 							<foreach collection="chkPrice_arr" item="chkPrice">
