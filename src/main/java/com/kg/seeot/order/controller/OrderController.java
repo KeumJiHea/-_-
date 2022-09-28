@@ -114,10 +114,10 @@ public class OrderController {
 	}
 	
 	@GetMapping("orderadmin")
-	public String orderadmin(Model model,HttpServletRequest request) {
+	public String orderadmin(Model model,HttpServletRequest request,@RequestParam(value = "num",required = false, defaultValue = "1") int num) {
 		model.getAttribute("cdto");
 		OrderDTO odto = new OrderDTO();
-		os.getAllOrders(request,model);
+		os.getAllOrders(request,model,num);
 		return "/order/orderadmin";
 	}
 	

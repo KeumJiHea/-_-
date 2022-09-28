@@ -68,6 +68,16 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tr>
+				<td colspan="7">
+					<div align="left">
+						<c:forEach var="num" begin="1" end="${repeat }">
+							<a href="orderadmin?num=${num }">${num } </a>&nbsp
+						</c:forEach>
+					</div>
+				</td>
+			</tr>
+			<tr>
 		</table>
 	</div>
 </body>

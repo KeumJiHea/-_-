@@ -316,13 +316,24 @@
 	 					if(desclist.length>=1){	 						
 	 						desclist.forEach(function(desclist,index){								
 	 							str='<tr>'
-	 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
-	 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
-	 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
-	 							str+="<td>"+desclist.orderStack+"</td>"
-	 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
-	 							str+="<th id='total"+index+"'>1</th>"
-	 							str+="<th id='status"+index+"'>"
+	 							if(index==0){
+	 								str+="<th id='no"+index+"' clss='start'>"+desclist.orderNo+"</th>"
+	 								str+="<th id='id"+index+"' clss='start'>"+desclist.memberId+"</th>"
+	 								str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+		 							str+="<td>"+desclist.orderStack+"</td>"
+		 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+		 							str+="<th id='total"+index+"' clss='start'>1</th>"
+		 							str+="<th id='status"+index+"'>"
+	 							}else{
+	 								str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
+	 								str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
+	 								str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+		 							str+="<td>"+desclist.orderStack+"</td>"
+		 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+		 							str+="<th id='total"+index+"'>1</th>"
+		 							str+="<th id='status"+index+"'>"
+	 							}	 							
+	 							
 	 							if(desclist.orderStatus ==1){
 	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
 	 							}else if(desclist.orderStatus == 0){
@@ -375,8 +386,11 @@
 	 												sum += parseInt($("#price"+i).text())
 	 												alist.push(sum)
 	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#no0").attr('class','start');
 	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
 	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
 	 												$("#total"+(i-j)).attr('class','start');
 	 												$("#total0").attr('class','start');
 	 												$("#total"+(i-j)).text(alist[0]);
@@ -453,10 +467,13 @@
 	 												$("#no0").attr('class','start');	
 	 												$("#id"+(i-j)).attr('rowspan',cnt);
 	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#id0").attr('class','start');	
 	 												$("#status"+(i-j)).attr('rowspan',cnt);
 	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
 	 												$("#total"+(i-j)).attr('rowspan',cnt);
 	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
 	 												$("#total"+(i-j)).text(total);						
 	 												$("#total0").text(total);						
 	 											}
@@ -557,8 +574,11 @@
 	 												sum += parseInt($("#price"+i).text())
 	 												clist.push(sum)
 	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#no0").attr('class','start');
 	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
 	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
 	 												$("#total"+(i-j)).attr('class','start');
 	 												$("#total0").attr('class','start');
 	 												$("#total"+(i-j)).text(clist[0]);

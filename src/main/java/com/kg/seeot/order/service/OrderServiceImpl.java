@@ -125,12 +125,21 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model) {
+	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model,int num) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
-		list =  om.getAllOrders();
-		model.addAttribute("list",list);
 		HttpSession session = request.getSession();
+		int pageLetter = 20;
+		int allCount = om.selectOrderCount();
 		
+		int repeat = allCount / pageLetter;
+		if(allCount%pageLetter !=0) {
+			repeat+=1;
+		}
+		int end = num*pageLetter;
+		int start = end+1-pageLetter;
+		list =  om.getAllOrders(start,end);
+		model.addAttribute("list",list);
+		model.addAttribute("repeat",repeat);
 		Map map = (Map) session.getAttribute("cancel");
 		if(map!=null) {
 			String reason = (String) map.get("reason");
@@ -142,6 +151,7 @@ public class OrderServiceImpl implements OrderService{
 		return list;
 	}
 	
+
 	@Override
 	public void getCancel(HttpServletRequest request,Model model,String memberId, String orderNo) {
 		HttpSession session = request.getSession();
