@@ -14,7 +14,7 @@ public interface ReviewMapper {
 	public void saveData(ReviewDTO dto );
 	
 	public void addReply(Map<String, String> map);
-	public List<ReviewDTO> reviewList();
+	public List<ReviewDTO> reviewList(String memberId);
 	
 	public int getCount(int productNo);	
 	public List<ReviewDTO> reviewPage(@Param("productNo")int productNo,

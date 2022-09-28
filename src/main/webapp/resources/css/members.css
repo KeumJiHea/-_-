@@ -558,6 +558,37 @@
     border-collapse: collapse;
 }
 
+.members-wrapper.myaccount .contents-item .review-table {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr th.product-title {
+    width: 40%;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr th {
+    width: 20%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr td {
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr td a {
+    display: inline-block;
+    color: #222;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #222;
+    padding: 5px 10px;
+}
+
 .members-wrapper.myaccount .contents-item .order-table tr th.product-title {
     width: 40%;
 }

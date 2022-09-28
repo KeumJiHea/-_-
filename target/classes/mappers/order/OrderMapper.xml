@@ -70,7 +70,13 @@
 	</select>
 	
 	<select id="getAllOrders" resultMap="order">
-		select * from goods_order order by order_date DESC
+		select B.* from(select rownum rn, A.* from
+		(select * from goods_order order by order_no desc)A)B where rn between #{s} and #{e}
+	
+	</select>
+	
+	<select id="selectOrderCount" resultType="Integer">
+		select count(*) from goods_order 
 	</select>
 	
 	<insert id="addcancel_1">

@@ -100,7 +100,7 @@ public class OrderController {
 	@GetMapping("order")
 	public String ordersuccess(HttpSession session,Model model,String memberId) {
 		os.orderView(session, model, memberId);
-		return "/order/order";
+		return "/order/order.page";
 	}
 	
 	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
@@ -114,10 +114,10 @@ public class OrderController {
 	}
 	
 	@GetMapping("orderadmin")
-	public String orderadmin(Model model,HttpServletRequest request) {
+	public String orderadmin(Model model,HttpServletRequest request,@RequestParam(value = "num",required = false, defaultValue = "1") int num) {
 		model.getAttribute("cdto");
 		OrderDTO odto = new OrderDTO();
-		os.getAllOrders(request,model);
+		os.getAllOrders(request,model,num);
 		return "/order/orderadmin";
 	}
 	

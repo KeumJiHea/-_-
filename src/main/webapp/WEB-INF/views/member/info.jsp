@@ -130,22 +130,21 @@ function delete_chk(){
         <div class="membership">
             <div class="left">
                 <div class="membership-info">
-                    <strong>${info.name}</strong> 고객님 환영합니다<br>
-                    <strong>[VIP 회원]</strong>
+                    <strong>${info.name}</strong> <br>고객님 환영합니다<br>
                 </div>
                 <div class="membership-contents">
                     <span></span>
-                    <a href="">많은 상품 보러가기</a>
+                    <a href="../home">상품 보러가기</a>
                 </div>
             </div>
             <div class="right">
                 <div class="point">
-                    <div class="icon"><img src="<c:url value='/resources/images/navigation/point.png'/>" width="40px"></div>
+                    <div class="icon"><img src="<c:url value='/resources/images/navigation/inq.png'/>" width="40px"></div>
                     <a href="#" style="color: white;">문의 하기</a>
                 </div>
                 <div class="coupon">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/review.png'/>" width="40px"></div>
-                    <a href="#" style="color: white;">나의 후기</a>
+                    <a href="#review" style="color: white;">나의 후기</a>
                 </div>
             </div>
         </div>
@@ -193,7 +192,7 @@ function delete_chk(){
                 </thead>
                 <tbody>
                     <tr>
-                        <td>2022.09.03</td>
+                        <td>date</td>
                         <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
                         <td>17,000원</td>
                         <td><a href="../review/reviewList?productNo=${dto.productNo}">작성</a></td>
@@ -310,8 +309,30 @@ function delete_chk(){
     </div>
 
     <!-- 나의 후기 -->
-    <div class="contents review" id="review">
-    	리뷰
+    <div class="contents orders" id="review">
+   		<div class="contents-item">
+    	<h3 class="item-title">나의 후기</h3>
+    <table class="order-table">
+                <thead>
+                    <tr>
+                        <th class="date">작성일자</th>
+                        <th class="product-title">상품명</th>
+                        <th class="price">결제금액</th>
+                        <th class="action">후기삭제</th>
+                    </tr>
+                </thead>
+    	<c:forEach var="reviewList" items="${reviewList}">
+                <tbody>
+                    <tr>
+                        <td>${reviewList.reviewDate}</td>
+                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
+                        <td>17,000원</td>
+                        <td><a href="review/reviewList">삭제</a></td>
+                    </tr>
+                </tbody>
+    	</c:forEach>
+    </table>
+    	</div>
     </div>
 
     <!-- 회원 탈퇴 -->

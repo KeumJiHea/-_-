@@ -23,7 +23,7 @@ public interface OrderService {
 	public void getOrderHistorys(Model model,String memberId);
 	public void getOrder(Model model,String memberId,String orderNo);
 	public void getOrders(Model model,String memberId);
-	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model);
+	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model,int num);
 	
 	public void cancel(HttpServletRequest request,String orderNo,String memberId,String reason); //주문취소
 	public void nonCancel(HttpServletRequest request,String orderNo); //주문취소를 취소
