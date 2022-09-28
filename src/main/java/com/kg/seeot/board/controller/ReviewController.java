@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +38,8 @@ public class ReviewController {
 	}
 	/**/
 	@GetMapping("reviewMore")
-	public String reviewMore(Model model, int productNo) {
+	public String reviewMore(Model model,int productNo) {
+		System.out.println(productNo);
 		rs.reviewMore(model,productNo);
 		return "review/reviewMore";
 	}
@@ -66,7 +68,7 @@ public class ReviewController {
 	
 	@GetMapping("download")
 	public void download(String file, HttpServletResponse response) throws Exception {
-		System.out.println("file: "+file );
+		System.out.println("controller file: "+file );
 		response.addHeader("Content-disposition", "attachment; fileName="+file);
 		//Content-disposition : 다운로드 방식임 	  attachment; fileName=  : 다운로드 받는 파일의 이름 지정함
 		File f = new File("c:/spring/image_repo"+"/"+file);

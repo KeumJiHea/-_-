@@ -13,16 +13,18 @@
 <c:forEach var="rdto" items="${reviewMore}">
 
  <div align='left'>
- <b>아이디 : </b> ${rdto.memberId }님  &nbsp
-<b>작성일 : </b>  ${rdto.reviewDate } &nbsp
+ <b>아이디 : </b> ${rdto.memberId }님  &nbsp;
+<b>작성일 : </b>  ${rdto.reviewDate } &nbsp;
 <b>별점 : </b>${rdto.reviewStar } <br>
 <b>내용 : </b> ${rdto.reviewContent }<br>
-reviewNo:  ${rdto.reviewNo }  productNo: ${rdto.productNo} //나중에 지우기<br>
-				<c:if test=" ${rdto.reviewFile } != 'nan' ">
+<!-- reviewNo:  ${rdto.reviewNo }  productNo: ${rdto.productNo} //정보 확인용<br> -->
+				<c:if test="${rdto.reviewFile ne 'nan'}">
 					<div align='right'>
 					<img src="download?file=${rdto.reviewFile }" width="50" height="50" />
 					</div>
-					</c:if>
+				</c:if>
+					
+					
 				
 			
 				<c:if test="${sessionScope.loginUser == reviewData[i].memberId}"></c:if>

@@ -82,7 +82,8 @@ public class ProductController {
 	//상품 상세 정보
 	@GetMapping("productView")
 	public String productView(Model model, int productNo) {
-		ps.productView(model, productNo);
+		ps.productView(model, productNo);	
+
 		return "product/productView.page";
 	}
 	
@@ -114,7 +115,7 @@ public class ProductController {
 	
 	//상품 수정 페이지 연결
 	@GetMapping("productModify_Form")
-	public String productModify_Form(int productNo, Model model) {
+	public String productModify_Form(HttpServletRequest req,int productNo, Model model) {
 		ps.productModify_Form(productNo, model);
 		return "product/productModify_Form.page";
 	}

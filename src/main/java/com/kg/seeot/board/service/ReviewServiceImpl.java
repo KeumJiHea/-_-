@@ -131,6 +131,7 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		mapper.productmodify(productNo, reviewStar);
 		 mapper.delete(reviewNo);
+		
 	 }
 	
 	 public String modify(MultipartHttpServletRequest mul,
@@ -144,10 +145,10 @@ public class ReviewServiceImpl implements ReviewService {
 		int reviewStar = Integer.parseInt(mul.getParameter("reviewStar"));
 		
 		
-		ReviewServiceImpl rs = new ReviewServiceImpl();
+		
 		
 		/*System.out.println("productModify전 reviewNo: "+reviewNo);*/
-		rs.productModify(reviewNo);
+		productModify(reviewNo);
 		
 		
 		mapper.productCount(productNo, reviewStar);
@@ -163,7 +164,7 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		 
 		 if( file.getSize() != 0) {
-			 ReviewDTO fdto = rs.saveFile(file);
+			 ReviewDTO fdto = saveFile(file);
 			 System.out.println("서비스 modify if문 fdto파일"+fdto.getReviewFile());
 			 dto.setReviewFile(fdto.getReviewFile());
 				//rs.saveFile(file);
@@ -188,7 +189,7 @@ public class ReviewServiceImpl implements ReviewService {
 				"/product/productView?productNo="+productNo;
 			}
 		 
-		 return rs.getMessage(msg, url);
+		 return getMessage(msg, url);
 		 
 	 }
 	 
@@ -248,11 +249,12 @@ public class ReviewServiceImpl implements ReviewService {
 		 System.out.println("product modify");
 		 System.out.println(reviewNo);  //여기까지 출력
 		 
-		 ReviewDTO dto = new ReviewDTO();
+		
 		 System.out.println("dto호출");
-		 dto = mapper.contentView(reviewNo);
-		 
+		 /*List<ReviewDTO> list  = mapper.passData(reviewNo);*/
+		 ReviewDTO dto = mapper.contentView(reviewNo);
 		 System.out.println("dto불러오기");
+		/*	*/
 		 System.out.println(dto.getReviewStar());
 		 
 			int modifyStar = dto.getReviewStar();
@@ -264,7 +266,7 @@ public class ReviewServiceImpl implements ReviewService {
 			System.out.println("product 기존 내용 삭제하기");
 			mapper.productmodify(modifyProductNo, modifyStar);
 			System.out.println("product 수정(삭제) 완료");
-		
+	
 			
 			
 	 }
@@ -273,28 +275,5 @@ public class ReviewServiceImpl implements ReviewService {
 
 
 
-//	
-//	public void add(@RequestParam(value="reviewStar") int reviewStar)
-	/*
-	 * public String writeSave(MultipartHttpServletRequest mul, HttpServletRequest
-	 * request) { ReviewDTO dto = new ReviewDTO();
-	 * dto.setMemberId(mul.getParameter("memberId"));
-	 * dto.setReviewContent(mul.getParameter("reviewContent"));
-	 * dto.setReviewStar(mul.getParameter("reviewStar"));
-	 * //dto.setReviewDate(mul.getParameter("reviewDate"));
-	 * dto.setProductNo(mul.getParameter("productNo");
-	 * 
-	 * //dto.setTitle( mul.getParameter("title")); //dto.setContent(
-	 * mul.getParameter("content")); //dto.setId( mul.getParameter("id"));
-	 * 
-	 * MultipartFile file = mul.getFile("reviewFile"); if( file.getSize() != 0) {
-	 * dto.setReviewFile( bfs.saveFile(file) ); }else { dto.setReviewFile("nan"); }
-	 * int result = 0; result = mapper.writeSave( dto );
-	 * 
-	 * String msg, url; if( result == 1) { msg = "새글이 추가되었습니다!!"; url =
-	 * request.getContextPath() +"/board/boardAllList"; }else { msg = "문제가 발생했습니다";
-	 * url = request.getContextPath() + "/board/writeForm"; } return
-	 * bfs.getMessage(msg, url); }
-	 */
 }
 

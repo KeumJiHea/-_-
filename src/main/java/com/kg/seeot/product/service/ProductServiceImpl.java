@@ -121,6 +121,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public void productModify_Form(int productNo, Model model) {
+		
 		model.addAttribute("pdto", mapper.productView(productNo));
 	}
 	

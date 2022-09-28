@@ -57,32 +57,51 @@
           }
       }
   }  
+
+   $(document).on('click','#btn',function(){
+	   console.log($("#modify div input").val())
+	   if($("#histar").val() == ""){
+		   alert('별점을 입력해주세요')
+	   }else{
+	    $("#modify").submit();
+		 
+	   }
+	   	
+	  });
+   $(document).on('click','.star',function(){
+	   $("#histar").attr('value',$(this).val())
+	   console.log($("#histar").attr('value'));
+   })
+	   
    
-  
+   
 </script>
 </head>
 <body>
 modify
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<form action="modify" enctype="multipart/form-data" method="post" name="modify" >
+<form action="modify" enctype="multipart/form-data" method="post" name="modify" id="modify">
 	<input type="hidden" name="reviewNo" value="${rdto.reviewNo }">
 	<input type="hidden" name="productNo" value="${rdto.productNo }">
 	아이디 <input type="text" name="memberId" value="${rdto.memberId }" readonly="readonly"><br>
 	 작성일<input type="text" name="reviewDate" value="${rdto.reviewDate }" readonly="readonly"><br>
 	 
-	  
+	  <input type="hidden" value="${rdto.reviewStar }" name="star">
 	  <fieldset> 
 	<span class="text-bold">별점을 선택해주세요</span>
-		<input type="radio" name="reviewStar" value=1 id="rate1">
+	<div class="stardiv">
+		<input type="radio" name="reviewStar" value=5 id="rate1" class="star">
 		<label for="rate1">★</label>
-		<input type="radio" name="reviewStar" value=2 id="rate2">
+		<input type="radio" name="reviewStar" value=4 id="rate2" class="star">
 		<label for="rate2">★</label>
-		<input type="radio" name="reviewStar" value=3 id="rate3">
+		<input type="radio" name="reviewStar" value=3 id="rate3" class="star">
 		<label for="rate3">★</label>
-		<input type="radio" name="reviewStar" value=4 id="rate4">
+		<input type="radio" name="reviewStar" value=2 id="rate4" class="star">
 		<label for="rate4">★</label>
-		<input type="radio" name="reviewStar" value=5 id="rate5">
+		<input type="radio" name="reviewStar" value=1 id="rate5" class="star">
 		<label for="rate5">★</label>
+		<input type="hidden" id="histar">
+	</div>
 	</fieldset>
 	
 	   내용<input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent"><br>
@@ -92,7 +111,7 @@ modify
 		src="download?file=${rdto.reviewFile}"  >
 		<input type="file" name="reviewFile" onchange="readURL(this)" >
 		
-		<input type="submit" value="수정하기">
+		<input type="button" value="수정하기" id="btn">
 	<input type="button" onclick="history.back()" value="이전으로 돌아가기">
 	
 </form>

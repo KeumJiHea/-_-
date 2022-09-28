@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body onload="rePrint()">
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 	<script type="text/javascript">
@@ -166,16 +166,17 @@
 	   
 	  
 	 
-	/*리뷰 불러오기*/
-	/* */
+	
 	
 	/*리뷰 불러오기*/
 	function rePrint(){
 		
-		
+	starlist = new Array();	
+	
 	$.ajax({
 		url:"../review/replyData", type:"get",
-		data:{ productNo : "${pdto.productNo}"},
+		data:{ productNo : "${pdto.productNo}"
+		},
 		dataType :"json", //받아올 데이터 자료형
 		success : function( reviewData ){
 			console.log(reviewData)
@@ -189,25 +190,27 @@
 				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
+								
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
-				html += "reviewNo: "+reviewData[i].reviewNo; //나중에 지우기
+				//html += "reviewNo: "+reviewData[i].reviewNo; //나중에 지우기
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}
 				//
-				<c:if test="${sessionScope.loginUser == reviewData[i].memberId}"></c:if>
+				<c:if test="${sessionScope.loginUser == reviewData[i].memberId}">
 				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+"&reviewStar="+reviewData[i].reviewStar+">삭제</a>"+"  &nbsp ";
 				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
-			
+			</c:if>
 				
 				html+= "<hr></div>";
+
 			}
 			
-			html += "<div>"+"페이지"+"</div>";
+			html += "<div>"+"<a href=../review/reviewMore?productNo="+${pdto.productNo}+">후기더보기</a>"+"</div>";
 			
 			
 		
-			$("#reply").html( html )
+			$("#reply").html( html );
 			},
 		error: function(){alert("function error")}
 			
