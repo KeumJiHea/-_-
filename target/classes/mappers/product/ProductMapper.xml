@@ -404,9 +404,9 @@
 							</if>
 				</if>
 				<if test="productCategorie == 0">
+					where UPPER(product_name) like UPPER('%' || #{keyword} || '%')
 						<if test="chkPrice_arr != null">
-							where UPPER(product_name) like UPPER('%' || #{keyword} || '%')
-							<trim prefix="where (" prefixOverrides="or" suffix=")">
+							<trim prefix="and (" prefixOverrides="or" suffix=")">
 								<foreach collection="chkPrice_arr" item="chkPrice">
 									<choose>
 										<when test="chkPrice.equals('PR1')">
@@ -480,9 +480,9 @@
 					</foreach>
 				</if>
 				<if test="productCategorie == 0">
+					where UPPER(product_name) like UPPER('%' || #{keyword} || '%')
 					<if test="chkPrice_arr != null">
-						where UPPER(product_name) like UPPER('%' || #{keyword} || '%')
-						<trim prefix="where (" prefixOverrides="or" suffix=")">
+						<trim prefix="and (" prefixOverrides="or" suffix=")">
 							<foreach collection="chkPrice_arr" item="chkPrice">
 								<choose>
 									<when test="chkPrice.equals('PR1')">
@@ -508,7 +508,7 @@
 						</foreach>
 					</if>
 					<if test="chkPrice_arr == null">
-						<foreach collection="chkColor_arr" item="chkColor" open="where B.product_color in (" separator="," close=")">
+						<foreach collection="chkColor_arr" item="chkColor" open="and B.product_color in (" separator="," close=")">
 							#{chkColor}
 						</foreach>
 					</if>

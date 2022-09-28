@@ -90,4 +90,4 @@
 		</form>
 	</div>
 </div>
-
+<script src="<%=request.getContextPath() %>/resources/js/header.js"></script>

@@ -66,7 +66,7 @@ public class HomeController {
 		String orderBy = request.getParameter("orderBy");
 		int num = Integer.parseInt(request.getParameter("num"));
 		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-
+		System.out.println("productCategorie: " + productCategorie);
 		return mapper.searchList(keyword, productCategorie, orderBy, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	

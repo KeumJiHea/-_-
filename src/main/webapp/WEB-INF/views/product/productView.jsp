@@ -21,8 +21,8 @@
 	}
 </style>
 </head>
-<body>
-	
+<body onload="saveRecentList()">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	
 <!-- 	<script type="text/javascript">
 	 
@@ -136,6 +136,8 @@
 									+ "<img src='<c:url value='/resources/images/prodown.png'/>'  onClick='stackDown(this)' class ='productStack" + cnt + "' id='proicon'>"
 									+ "금액 <span id='PriceproductStack" + cnt + "'>" + ${pdto.productPrice} + "</span> 원"
 									+ "&nbsp; <img src='<c:url value='/resources/images/prodelete.png'/>'  onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' id='proicon'></div>");
+							
+							proTotalSelectCount();
 						}else {
 							alert('이미 추가되었습니다.');
 						};
@@ -160,8 +162,6 @@
 			pc = '';
 		}
 		
-		
-		
 	}
  	function stackUp(product_id) {
 		var product_id =  $(product_id).attr('class')
@@ -178,6 +178,7 @@
 		console.log("@@@@ stack : " + stack)
 		$('#' + product_id).val(stack);
 		$( '#Price' + product_id).text( productStackPrice );
+		proTotalSelectCount();
 	}
 	
 	function stackDown(product_id) {
@@ -194,49 +195,73 @@
 		console.log("@@@@ stack : " + stack)
 		$('#' + product_id).val(stack);
 		$( '#Price' + product_id).text( productStackPrice );
+		proTotalSelectCount();
 	}
 	
 	function deleteSelPro(id) {
 		var delId =  $(id).attr('class')
 		console.log(delId)
 		$("div").remove("#"+delId)
-		
+		proTotalSelectCount()
 	}
 	
-	 var loginsession = '${sessionScope.loginUser}';
-	 function productOrder() {
-		if(loginsession =='admin'){
-			alert('관리자는 구매할수없습니다')
-		 }else{
-			 form = document.profo;
-				form.method = "post";
-				form.action = '${pageContext.request.contextPath }/order/ordermain'
-				var name = $('.pst').attr('name');
-				if(name == null){
-					alert('구매 상품을 선택해주세요')
-				}else{
-					form.submit();
+
+
+	function proTotalSelectCount() {
+		var total_stack = 0;
+		var ProductStackTotalPrice = 0;
+		var productPrice = ${pdto.productPrice};
+		if(cnt > 0) {
+			for (var i = 1; i <= cnt ; i++) {
+				var product_stack =  parseInt($('#productStack' + i).val());
+				if (isNaN(product_stack)) { // 값이 없어서 NaN값이 나올 경우
+					product_stack = 0;
+					}
+				total_stack = parseInt(total_stack +  product_stack);
+				var ProductStackTotalPrice = total_stack * productPrice;
+				$( '#ProductStackTotalPrice').text( "총 금액 : " + ProductStackTotalPrice + " 원");
+				if(total_stack == 0) {
+					$( '#ProductStackTotalPrice').text('');
 				}
-			 
-		 }
-	}
-	
-	 function productCart() {
-		if(loginsession =='admin'){
-			alert('관리자는 구매할수없습니다')
-		}else{
-			form = document.profo;
-			form.method = "post";
-			form.action = '${pageContext.request.contextPath }/cart/addcart'
-			var name = $('.pst').attr('name');
-			if(name == null){
-				alert('구매 상품을 선택해주세요')
-			}else{
-				form.submit();
-			}
-			 
+			}	
 		}
 	}
+	
+	
+	var loginsession = '${sessionScope.loginUser}';
+    function productOrder() {
+      if(loginsession =='admin'){
+         alert('관리자는 구매할수없습니다')
+       }else{
+          form = document.profo;
+            form.method = "post";
+            form.action = '${pageContext.request.contextPath }/order/ordermain'
+            var name = $('.pst').attr('name');
+            if(name == null){
+               alert('구매 상품을 선택해주세요')
+            }else{
+               form.submit();
+            }
+          
+       }
+   }
+   
+    function productCart() {
+      if(loginsession =='admin'){
+         alert('관리자는 구매할수없습니다')
+      }else{
+         form = document.profo;
+         form.method = "post";
+         form.action = '${pageContext.request.contextPath }/cart/addcart'
+         var name = $('.pst').attr('name');
+         if(name == null){
+            alert('구매 상품을 선택해주세요')
+         }else{
+            form.submit();
+         }
+          
+      }
+   }
 	
 	
 		
@@ -289,8 +314,12 @@
 	
 	
 } */
+<<<<<<< HEAD
 	
 	
+=======
+
+>>>>>>> 033909ede9c7a3075bfdd449d01d0a30bde8ae39
 	</script>
 	
 	
@@ -326,6 +355,9 @@
 		</tr>
 		<tr>
 			<td colspan="3">
+				<c:if test="${mclist.size() == 0 }">
+					<button style="background-color: white; color: black;">품절</button>
+				</c:if>
 				<c:forEach var="mcdto" items="${mclist }">
 					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }">${mcdto.productColor }</button>
 				</c:forEach>
@@ -336,6 +368,9 @@
 		</tr>
 		<tr>
 			<td colspan="3">
+				<c:if test="${mslist.size() == 0 }">
+					<button style="background-color: white; color: black;">품절</button>
+				</c:if>
 				<c:forEach var="msdto" items="${mslist }">
 					<button onclick="sizeAdd(this.id)" id="${msdto.productSize }">${msdto.productSize }</button>
 				</c:forEach>
@@ -352,6 +387,9 @@
 				</div>
 			</form>
 			</td>
+		</tr>
+		<tr>
+			<td><span id="ProductStackTotalPrice"></span>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="productCart()">장바구니</button></td>

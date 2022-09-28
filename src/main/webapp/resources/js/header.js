@@ -17,16 +17,6 @@ function indicator(e){
 }
 
 /**
- *  TOP버튼 스크립트
- */
-const topBtn = document.querySelector('.topBtn');
-
-topBtn.addEventListener('click', function(){
-	console.log('클릭');
-	window.scrollTo({top: 0, behavior:'smooth'});
-});
-
-/**
  * 서치 모달창 스크립트
  */
 const modalBg = document.querySelector('.modal-bg');
@@ -46,6 +36,7 @@ closeSearch.addEventListener('click', function(){
 modalBg.addEventListener('click', function(){
 	modalSearch.classList.remove('active');
 	modalBg.style.display = 'none';
+
 });
 
 /**
@@ -79,4 +70,7 @@ let html = '';
 
 
 
+
+
+});
 
