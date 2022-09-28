@@ -1,13 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+	.pst {
+		width:25px;
+		height:15px;
+	}
+	#proicon {
+		width:25px;
+		height:25px;
+		margin: -7px 5px;
+	}
+</style>
 </head>
 <body onload="saveRecentList()">
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	
 <!-- 	<script type="text/javascript">
 	 
 	jQuery( document ).ready( function ( $ ) {
@@ -34,25 +50,63 @@
 	 });
 	</script> -->
 	<script type="text/javascript">
-	var pc, ps
-	var cnt = 0
+	var pc='', ps='';
+	var cnt = 0;
+	var selColCount = 0, selSizCount = 0;	
 	
 	function colorAdd(productColor) {
 		console.log("선택 색 : " + productColor)
-		pc = productColor
+		
+		if(pc == null || pc == '') {
+			pc = productColor;
+			const PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'white';
+			PCelement.style.color = 'black';
+		}else {
+			PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'black';
+			PCelement.style.color = 'white';
+			pc = productColor;
+			PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'white';
+			PCelement.style.color = 'black';
+		}
+		
+		if(ps != '') {
+			PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'black';
+			PSelement.style.color = 'white';
+			ps = '';
+		}
 	}
+	
+	
 	
 	function sizeAdd(proSize) {
 		console.log("선택 사이즈 : " + proSize)
-		ps = proSize
-		productSelect()
+		if(ps == null || ps == ''){
+			ps = proSize;
+			const PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'white';
+			PSelement.style.color = 'black';
+		}else {
+			PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'black';
+			PSelement.style.color = 'white';
+			ps = proSize;
+			PSelement = document.getElementById(ps);
+			PSelement.style.backgroundColor = 'white';
+			PSelement.style.color = 'black';
+		}
+		
+		if(pc != '' & ps != '') {
+			productSelect();
+		}
 	}
 	
  	function productSelect() {
 		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
 		
-		
-		if(pc != '' & ps != '') {
 			$.ajax({
 				url: "proStackGet",
 				type:"get",
@@ -72,27 +126,39 @@
 						if(document.getElementById(data.productColor + data.productSize) == null) {
 							cnt++;
 							$("#proOrderAdd").append("<div id='" + data.productColor + data.productSize + "' class='" +  data.productColor + data.productSize + "'>"+ data.productColor + " / " + data.productSize
-									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'>"
+									+ "<input type='hidden' name='productColor' value='" + data.productColor + "' id='productColor'> &nbsp;"
 									+ "<input type='hidden' name='productSize' value='" + data.productSize + "' id='productSize'>"
-								 	+ "<input type='button' value='▲' onClick='stackUp(this)' class='productStack" + cnt + "'>"
+								 	+ "<img src='<c:url value='/resources/images/proup.png'/>'  onClick='stackUp(this)' class='productStack" + cnt + "' id='proicon'>"
 									+ "<input type='hidden' id='MaxproductStack" + cnt + "' value='" + data.productStack + "'>"
-									+ "<input type='input' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
-									+ "<input type='button' value='▼' onClick='stackDown(this)' class ='productStack" + cnt + "'>"
+									+ "<input type='text' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
+									+ "<img src='<c:url value='/resources/images/prodown.png'/>'  onClick='stackDown(this)' class ='productStack" + cnt + "' id='proicon'>"
 									+ "금액 <span id='PriceproductStack" + cnt + "'>" + ${pdto.productPrice} + "</span> 원"
-									+ "<input type='button' onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' value='X'></div>");
+									+ "&nbsp; <img src='<c:url value='/resources/images/prodelete.png'/>'  onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' id='proicon'></div>");
+							
+							proTotalSelectCount();
 						}else {
 							alert('이미 추가되었습니다.');
-						}
+						};
 					}else {
 						alert('상품 재고가 없습니다.');
-					}
+					};
 	
 				}
 			});
-		}
-		pc = ''
-		ps = ''
 		
+		PSelement = document.getElementById(ps);
+		PSelement.style.backgroundColor = 'black';
+		PSelement.style.color = 'white';
+		ps = '';
+		
+		if(pc == null || pc == '') {
+			pc = '';
+		}else {
+			PCelement = document.getElementById(pc);
+			PCelement.style.backgroundColor = 'black';
+			PCelement.style.color = 'white';
+			pc = '';
+		}
 		
 	}
  	function stackUp(product_id) {
@@ -110,6 +176,7 @@
 		console.log("@@@@ stack : " + stack)
 		$('#' + product_id).val(stack);
 		$( '#Price' + product_id).text( productStackPrice );
+		proTotalSelectCount();
 	}
 	
 	function stackDown(product_id) {
@@ -126,39 +193,71 @@
 		console.log("@@@@ stack : " + stack)
 		$('#' + product_id).val(stack);
 		$( '#Price' + product_id).text( productStackPrice );
+		proTotalSelectCount();
 	}
 	
 	function deleteSelPro(id) {
 		var delId =  $(id).attr('class')
 		console.log(delId)
 		$("div").remove("#"+delId)
-		
+		proTotalSelectCount()
 	}
 	
-	
-	 function productOrder() {
-		form = document.profo;
-		form.method = "post";
-		form.action = '${pageContext.request.contextPath }/order/ordermain'
-		var name = $('.pst').attr('name');
-		if(name == null){
-			alert('구매 상품을 선택해주세요')
-		}else{
-			form.submit();
+	function proTotalSelectCount() {
+		var total_stack = 0;
+		var ProductStackTotalPrice = 0;
+		var productPrice = ${pdto.productPrice};
+		if(cnt > 0) {
+			for (var i = 1; i <= cnt ; i++) {
+				var product_stack =  parseInt($('#productStack' + i).val());
+				if (isNaN(product_stack)) { // 값이 없어서 NaN값이 나올 경우
+					product_stack = 0;
+					}
+				total_stack = parseInt(total_stack +  product_stack);
+				var ProductStackTotalPrice = total_stack * productPrice;
+				$( '#ProductStackTotalPrice').text( "총 금액 : " + ProductStackTotalPrice + " 원");
+				if(total_stack == 0) {
+					$( '#ProductStackTotalPrice').text('');
+				}
+			}	
 		}
 	}
 	
-	 function productCart() {
-		form = document.profo;
-		form.method = "post";
-		form.action = '${pageContext.request.contextPath }/cart/addcart'
-		var name = $('.pst').attr('name');
-		if(name == null){
-			alert('구매 상품을 선택해주세요')
-		}else{
-			form.submit();
-		}
-	}
+	
+	var loginsession = '${sessionScope.loginUser}';
+    function productOrder() {
+      if(loginsession =='admin'){
+         alert('관리자는 구매할수없습니다')
+       }else{
+          form = document.profo;
+            form.method = "post";
+            form.action = '${pageContext.request.contextPath }/order/ordermain'
+            var name = $('.pst').attr('name');
+            if(name == null){
+               alert('구매 상품을 선택해주세요')
+            }else{
+               form.submit();
+            }
+          
+       }
+   }
+   
+    function productCart() {
+      if(loginsession =='admin'){
+         alert('관리자는 구매할수없습니다')
+      }else{
+         form = document.profo;
+         form.method = "post";
+         form.action = '${pageContext.request.contextPath }/cart/addcart'
+         var name = $('.pst').attr('name');
+         if(name == null){
+            alert('구매 상품을 선택해주세요')
+         }else{
+            form.submit();
+         }
+          
+      }
+   }
 	
 	
 	   
@@ -209,13 +308,10 @@
 	
 	
 } */
-	
-	
+
 	</script>
 	
-	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+	
 	
 	<table border="1">
 		<tr>
@@ -248,6 +344,9 @@
 		</tr>
 		<tr>
 			<td colspan="3">
+				<c:if test="${mclist.size() == 0 }">
+					<button style="background-color: white; color: black;">품절</button>
+				</c:if>
 				<c:forEach var="mcdto" items="${mclist }">
 					<button onclick="colorAdd(this.id)" id="${mcdto.productColor }">${mcdto.productColor }</button>
 				</c:forEach>
@@ -258,6 +357,9 @@
 		</tr>
 		<tr>
 			<td colspan="3">
+				<c:if test="${mslist.size() == 0 }">
+					<button style="background-color: white; color: black;">품절</button>
+				</c:if>
 				<c:forEach var="msdto" items="${mslist }">
 					<button onclick="sizeAdd(this.id)" id="${msdto.productSize }">${msdto.productSize }</button>
 				</c:forEach>
@@ -274,6 +376,9 @@
 				</div>
 			</form>
 			</td>
+		</tr>
+		<tr>
+			<td><span id="ProductStackTotalPrice"></span>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="productCart()">장바구니</button></td>
