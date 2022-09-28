@@ -170,14 +170,13 @@
 	
 	/*리뷰 불러오기*/
 	function rePrint(){
-		
-	starlist = new Array();	
-	
+
+
 	$.ajax({
 		url:"../review/replyData", type:"get",
 		data:{ productNo : "${pdto.productNo}"
 		},
-		dataType :"json", //받아올 데이터 자료형
+		dataType :"json", 
 		success : function( reviewData ){
 			console.log(reviewData)
 			let html = ""
@@ -192,18 +191,18 @@
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
 								
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
-				//html += "reviewNo: "+reviewData[i].reviewNo; //나중에 지우기
+				//html += "reviewNo: "+reviewData[i].reviewNo; //정보확인용
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}
 				//
-				<c:if test="${sessionScope.loginUser == reviewData[i].memberId}">
+				if ('${sessionScope.loginUser}' ==reviewData[i].memberId) {
 				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+"&reviewStar="+reviewData[i].reviewStar+">삭제</a>"+"  &nbsp ";
 				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
-			</c:if>
+				}
 				
 				html+= "<hr></div>";
-
+	
 			}
 			
 			html += "<div>"+"<a href=../review/reviewMore?productNo="+${pdto.productNo}+">후기더보기</a>"+"</div>";
@@ -211,6 +210,7 @@
 			
 		
 			$("#reply").html( html );
+		
 			},
 		error: function(){alert("function error")}
 			
@@ -363,27 +363,11 @@
 	<div id="proReview">
 	<h2>상품 후기</h2>
 	<hr>
-	<input type="hidden" id="productNo" name="productNo" value="${pdto.productNo }">
-	
-	<!-- 
-	<table border="1">
-		<tr>
-			<td>
-				<div id="review"></div>
-			</td>
-		</tr>
-		<tr>
-		
-		</tr>
-	</table>
-	 -->
+
 	 <div>
-	
-	<div id="reply"></div>
-	
-	
-	
+		<div id="reply"></div>
 	</div>
+	
 	</div><br><br>
 	
 	<div id="changeGuide">

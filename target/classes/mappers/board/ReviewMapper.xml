@@ -60,11 +60,7 @@
 	<select id="contentView" resultMap="review">
 		select * from seeot_review where reviewNo=#{reviewNo}
 	</select>
-	
-	<select id="passData" resultMap="review">
-		select * from seeot_review where reviewNo=#{reviewNo}
-	</select>
-	
+
 	<update id="modify">
 		update seeot_review set reviewContent=#{reviewContent}, reviewFile=#{reviewFile},
 					reviewStar=#{reviewStar} where reviewNo=#{reviewNo}
@@ -79,6 +75,9 @@
 	update product set review_count=review_count-1, product_rating=product_rating-#{modifyStar} where product_no=#{modifyProductNo}
 	</update>
 	
+	<select id="myReview" resultMap="review">
+		 select * from seeot_review where memberId=#{memberId} order by reviewDate desc
+	</select>
 	
 
 </mapper>

@@ -25,10 +25,11 @@ public class ReviewServiceImpl implements ReviewService {
 	@Autowired
 	ReviewMapper mapper;
 
-
+	//리뷰 쓰기
 	public void reviewList(Model model) {
 		model.addAttribute("reviewList", mapper.reviewList());
 	}
+	//리뷰 더보기
 	public void reviewMore(Model model, int productNo) {
 		model.addAttribute("reviewMore", mapper.reviewMore(productNo));
 	}
@@ -37,7 +38,8 @@ public class ReviewServiceImpl implements ReviewService {
 		map.put("memberId", memberId);
 		mapper.addReply(map);
 	}
-
+	
+	
 	public List<ReviewDTO> getRepList(Model model, int productNo , int num){
 		System.out.println("serviceImpl");
 		//System.out.println(productNo);
@@ -73,10 +75,10 @@ public class ReviewServiceImpl implements ReviewService {
 		return mapper.getRepList( productNo );
 	}
 	
-	
+	//리뷰 저장
 	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar 
 									, int productNo) {
-		System.out.println("별점카운트");
+		
 		mapper.productCount(productNo, reviewStar); //별점 카운트
 		
 		/*
@@ -102,7 +104,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 		
 
-		//mapper.productCount(product, reviewstar);
+		
 		/**/
 		if( file.getSize() != 0) { // file.isEmpty() != true (파일이 존재하면)  !file.isEmpty()
 			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss-");
@@ -127,6 +129,7 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	}
 	
+	//리뷰 삭제
 	 public void delete(int reviewNo, int productNo,int reviewStar) {
 		
 		mapper.productmodify(productNo, reviewStar);
@@ -134,6 +137,7 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	 }
 	
+	 //수정 db저장
 	 public String modify(MultipartHttpServletRequest mul,
 				HttpServletRequest request) {
 		
@@ -167,8 +171,8 @@ public class ReviewServiceImpl implements ReviewService {
 			 ReviewDTO fdto = saveFile(file);
 			 System.out.println("서비스 modify if문 fdto파일"+fdto.getReviewFile());
 			 dto.setReviewFile(fdto.getReviewFile());
-				//rs.saveFile(file);
-				//rs.deleteFile();
+				//saveFile(file);
+				//deleteFile(file);
 			}else {
 				dto.setReviewFile(
 						mul.getParameter("reviewFile") );
@@ -193,12 +197,12 @@ public class ReviewServiceImpl implements ReviewService {
 		 
 	 }
 	 
-	 
+	 //수정 페이지 연결
 	 public void modify_form(int reviewNo, Model model) {
 		 model.addAttribute("rdto", mapper.contentView(reviewNo));
 	 }
 	
-	
+	//사진 저장
 	 public ReviewDTO saveFile(MultipartFile file) {
 		 ReviewDTO fdto = new ReviewDTO();
 		 
@@ -231,6 +235,7 @@ public class ReviewServiceImpl implements ReviewService {
 			return fdto;
 	 }
 	 
+	 //저장된 사진 삭제
 	 public void deleteFile(String fName) {
 		 System.out.println("delete file: "+fName);
 		 File dFile = new File("c:/spring/image_repo/"+fName);
@@ -238,23 +243,25 @@ public class ReviewServiceImpl implements ReviewService {
 		 //product 기존 내용 삭제
 	 }
 	 
+	 // 메세지 출력
 	 public String getMessage(String msg, String url) {
 		 String message = "";
 			message += "<script>alert('" + msg + "');";
 			message += "location.href='" + url + "';</script>";
 			return message;
 	 }
-	 /**/
+	 
+	 /*기존에 저장된 db수정*/ 
 	 public void productModify(int reviewNo) {
 		 System.out.println("product modify");
 		 System.out.println(reviewNo);  //여기까지 출력
 		 
 		
 		 System.out.println("dto호출");
-		 /*List<ReviewDTO> list  = mapper.passData(reviewNo);*/
+		
 		 ReviewDTO dto = mapper.contentView(reviewNo);
 		 System.out.println("dto불러오기");
-		/*	*/
+		
 		 System.out.println(dto.getReviewStar());
 		 
 			int modifyStar = dto.getReviewStar();
@@ -272,7 +279,13 @@ public class ReviewServiceImpl implements ReviewService {
 	 }
 	 
 	
-
+	 //나의 리뷰 모아보기 페이지
+	 public void myReview(Model model,String memberId){
+		 model.addAttribute("myReview", mapper.myReview(memberId));
+		 
+		 
+		 
+	 }
 
 
 }

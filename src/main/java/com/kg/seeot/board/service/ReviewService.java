@@ -14,10 +14,9 @@ import com.kg.seeot.board.dto.ReviewDTO;
 public interface ReviewService {
 	public void reviewList(Model model);
 	public void reviewMore(Model model, int productNo);
-	//public String writeSave(MultipartHttpServletRequest mul,
-	//		HttpServletRequest request);
+	
 	public void addReply(Map<String, String>map, String memberId);
-	//public void addReview(ReviewDTO dto);
+
 	public  List<ReviewDTO> getRepList(Model model,int productNo , int num);
 	public  List<ReviewDTO> getRepList1(int productNo);
 	
@@ -32,4 +31,7 @@ public interface ReviewService {
 	 public ReviewDTO saveFile(MultipartFile file);
 	 public String getMessage(String msg, String url);
 	 public void productModify(int reviewNo);
+	 
+	 
+	 public void myReview(Model model,String memberId);
 }

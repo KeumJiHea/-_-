@@ -45,6 +45,7 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+	
    function readURL(input) {
 	   var file = input.files[0] //파일에 대한 정보
 	   console.log(file)
@@ -78,17 +79,17 @@
 </script>
 </head>
 <body>
-modify
+<h2>리뷰 수정</h2>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form action="modify" enctype="multipart/form-data" method="post" name="modify" id="modify">
 	<input type="hidden" name="reviewNo" value="${rdto.reviewNo }">
 	<input type="hidden" name="productNo" value="${rdto.productNo }">
-	아이디 <input type="text" name="memberId" value="${rdto.memberId }" readonly="readonly"><br>
-	 작성일<input type="text" name="reviewDate" value="${rdto.reviewDate }" readonly="readonly"><br>
+	<input type="hidden" name="memberId" value="${rdto.memberId }"><br>
+	<input type="hidden" name="reviewDate" value="${rdto.reviewDate }" ><br>
 	 
-	  <input type="hidden" value="${rdto.reviewStar }" name="star">
+	  <input type="hidden" value="${rdto.reviewStar }" id="star" name="star">
 	  <fieldset> 
-	<span class="text-bold">별점을 선택해주세요</span>
+	
 	<div class="stardiv">
 		<input type="radio" name="reviewStar" value=5 id="rate1" class="star">
 		<label for="rate1">★</label>
@@ -104,7 +105,7 @@ modify
 	</div>
 	</fieldset>
 	
-	   내용<input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent"><br>
+	   <input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent" placeholder="내용"><br>
 	   <input type="hidden" name="reviewFile" value="${rdto.reviewFile }"><br>
 	   
 	   <img width="200px" height="100px" id="preview"

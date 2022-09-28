@@ -36,4 +36,6 @@ public interface ReviewMapper {
 	public void productmodify(@Param("modifyProductNo")int modifyProductNo,
 			@Param("modifyStar") int modifyStar);
 	
+	public List<ReviewDTO> myReview(String memberId);
+	
 }

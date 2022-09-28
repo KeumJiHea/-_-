@@ -40,7 +40,7 @@ public class ReviewRepController {
 
 	}
 
-	
+	//관리자 댓글 가져오기
 	@GetMapping(value = "replyData1", produces="application/json;charset=utf8")
 	public List<ReviewDTO> replyData(//@PathVariable int productNo
 			){
