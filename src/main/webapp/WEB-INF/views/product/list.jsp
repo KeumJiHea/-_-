@@ -127,9 +127,12 @@
 				let paging = "";
 				
 				var pageViewProduct = 12;
+				console.log("@@check pageViewProduct@@" + pageViewProduct)
 				var productCount = list;
+				console.log("@@check productCount@@" + productCount)
 				var repeat = parseInt(productCount / pageViewProduct);
-				if( productCount / pageViewProduct != 0) {
+				console.log("@@check repeat@@" + repeat)
+				if( productCount % pageViewProduct != 0) {
 					repeat += 1;
 				};
 				console.log("repeat : " + repeat)
@@ -181,7 +184,7 @@
 					},
 					datatype:"json",
 					success: function(list) {
-						console.log("리스트 갯수 : " + list.length)
+						console.log("검색 리스트 갯수 : " + list.length)
 						console.log("전체 리스트  :" + list)
 						
 						let html = "";
@@ -240,7 +243,6 @@
 	}
 	</script>
 	
-	<hr>
 	<div><button onclick="filter()">Filter</button></div>
 	<div id="filter">
 	<hr>
