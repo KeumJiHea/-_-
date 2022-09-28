@@ -136,28 +136,38 @@
 		
 	}
 	
-	
+	 var loginsession = '${sessionScope.loginUser}';
 	 function productOrder() {
-		form = document.profo;
-		form.method = "post";
-		form.action = '${pageContext.request.contextPath }/order/ordermain'
-		var name = $('.pst').attr('name');
-		if(name == null){
-			alert('구매 상품을 선택해주세요')
-		}else{
-			form.submit();
-		}
+		if(loginsession =='admin'){
+			alert('관리자는 구매할수없습니다')
+		 }else{
+			 form = document.profo;
+				form.method = "post";
+				form.action = '${pageContext.request.contextPath }/order/ordermain'
+				var name = $('.pst').attr('name');
+				if(name == null){
+					alert('구매 상품을 선택해주세요')
+				}else{
+					form.submit();
+				}
+			 
+		 }
 	}
 	
 	 function productCart() {
-		form = document.profo;
-		form.method = "post";
-		form.action = '${pageContext.request.contextPath }/cart/addcart'
-		var name = $('.pst').attr('name');
-		if(name == null){
-			alert('구매 상품을 선택해주세요')
+		if(loginsession =='admin'){
+			alert('관리자는 구매할수없습니다')
 		}else{
-			form.submit();
+			form = document.profo;
+			form.method = "post";
+			form.action = '${pageContext.request.contextPath }/cart/addcart'
+			var name = $('.pst').attr('name');
+			if(name == null){
+				alert('구매 상품을 선택해주세요')
+			}else{
+				form.submit();
+			}
+			 
 		}
 	}
 	
@@ -293,59 +303,11 @@
 	</div>
 	</div>
 	<hr>
-	<!-- test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br>
-	test <br> -->
 	<c:if test="${ pdto.productContent == 'nan' }">
 		<b>등록된 이미지가 없습니다.</b>
 	</c:if>
 	<c:if test="${ pdto.productContent != 'nan' }">
-		<img src="${contextPath}/product/download?productFile=${pdto.productContent}">
+		<!--  <img src="${contextPath}/product/download?productFile=${pdto.productContent}">-->
 	</c:if>
 	</div><br><br>
 	
