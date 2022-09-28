@@ -45,11 +45,11 @@
 	</select>
 	
 	<select id="managementSize" resultMap="product_management">
-		select distinct product_size from product_management where product_no = #{productNo}
+		select distinct product_size from product_management where product_no = #{productNo} order by product_size asc
 	</select>
 	
 	<select id="managementColor" resultMap="product_management">
-		select distinct product_color from product_management where product_no = #{productNo}
+		select distinct product_color from product_management where product_no = #{productNo} order by product_color asc
 	</select>
 	
 	<select id="productManageView" resultMap="product_management">
