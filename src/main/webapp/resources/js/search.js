@@ -18,9 +18,38 @@ if(keyword == '맨투맨'||keyword == '티셔츠'){
 
 let num = 1;
 let orderBy = 'redate';
+let pgnum = 1;
 
 function pagingNum(pNum) {
 	num = pNum;
+	productList();
+}
+
+function startPagNum(pNum) {
+	pgnum = pNum;
+	num = pNum;
+	productList();
+}
+
+function endPagNum(pNum) {
+	if( parseInt( pNum % 5 ) == 0 ){
+		pgnum = pNum - 4 ;
+	}else {
+		pgnum = parseInt( pNum / 5 ) * 5 + 1;
+	}
+	num = pNum;
+	productList();
+}
+
+function prePagNum() {
+	pgnum = pgnum - 5;
+	num = pgnum;
+	productList();
+}
+
+function nextPagNum() {
+	pgnum = pgnum + 5;
+	num = pgnum;
 	productList();
 }
 
@@ -32,130 +61,105 @@ function listOrder(order) {
 	
 	
 function productList() {
-	if(productCategorie == 0){
-		let pageViewProduct = 12;
-		$.ajax({
-			url: "http://localhost:8085/seeot/searchList?keyword=" + keyword,
-			type: "post",
-			data: {
-				orderBy : orderBy,
-				num : num,
-				pageViewProduct : pageViewProduct,
-				chkColor_arr : chkColor_arr,
-				chkPrice_arr : chkPrice_arr
-			},
-			datatype:"json",
-			success: function(list) {
-				let paging = "";
-				var productCount = list;
-				var repeat = parseInt(productCount / pageViewProduct);
-				if( productCount / pageViewProduct != 0) {
-					repeat += 1;
+	let pageViewProduct = 12;
+	$.ajax({
+		url: "http://localhost:8085/seeot/searchList?keyword=" + keyword,
+		type: "POST",
+		data: {
+			productCategorie : productCategorie,
+			orderBy : orderBy,
+			num : num,
+			pageViewProduct : pageViewProduct,
+			chkColor_arr : chkColor_arr,
+			chkPrice_arr : chkPrice_arr
+		},
+		datatype:"json",
+		success: function(list) {
+			let paging = "";
+			var productCount = list;
+			var repeat = parseInt(productCount / pageViewProduct);
+			if( productCount / pageViewProduct != 0) {
+				repeat += 1;
+			};
+			
+			if(num == 1) {
+				paging += "<button onclick='javascript:startPagNum(1)' disabled> 처음으로 </button>";
+				paging += "&nbsp; <button onclick='javascript:prePagNum()' disabled> 이전 </button> &nbsp;";
+			}else if(num > 5){
+				paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
+				paging += "&nbsp; <button onclick='javascript:prePagNum()'> 이전 </button> &nbsp;";
+			}else{
+				paging += "<button onclick='javascript:startPagNum(1)'> 처음으로 </button>";
+				paging += "&nbsp; <button onclick='javascript:prePagNum()' disabled> 이전 </button> &nbsp;";
+			};
+			
+			if( (pgnum+5) <= repeat ) {
+				for(i=pgnum; i<=(pgnum+4); i++) {
+					paging += "&nbsp; <a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
 				}
-				
-				for(i=1; i<=repeat; i++) {
-					paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
-					$(".paging").html(paging);
-				}
-						
-				let html = "";
-				if(list.length != 0) {
-					for(i=0; i<list.length; i++) {
-						html += "<div class='searchList'>";
-						html += "<a href='http://localhost:8085/seeot/product/productView?productNo=" + list[i].productNo + "'>";
-						html += "<span><img width='240px' height='300px' src='http://localhost:8085/seeot/resources/images/" + list[i].productFile  + "'></span><br>";
-						html += "<span><b>" + list[i].productName + "</b></span><br>";
-						html += "<span><b>" + list[i].productPrice + "</b></span></a>";
-						html += "</div>";
-						$(".searchWrapper").html(html);
-					}
-				}else{
-						html = "<div><b>일치하는 상품이 없습니다.<b></div>";
-						$(".searchWrapper").html(html);
-						paging = ""
-						$(".paging").html(paging);
-					}
-				$("#listCount").html('('+list.length+')');
+			}else {
+				for(i=pgnum; i<=repeat; i++) {
+					paging += "&nbsp; <a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
+				};
 			}
-		})
-	}else{
-		$.ajax({
-			url: "http://localhost:8085/seeot/product/allCount?productCategorie=" + productCategorie,
-			type: "post",
-			data: {
-				chkColor_arr : chkColor_arr,
-				chkPrice_arr : chkPrice_arr
-			},
-			datatype:"json",
-			success: function(list) {
-				let paging = "";
-				
-				var pageViewProduct = 12;
-				var productCount = list;
-				var repeat = parseInt(productCount / pageViewProduct);
-				if( productCount / pageViewProduct != 0) {
-					repeat += 1;
-				}
-				
-				for(i=1; i<=repeat; i++) {
-					paging += "<a href='javascript:void(0);' onclick='javascript:pagingNum(" + [i] + ")'>" + [i] + "</a> &nbsp;"
-					$(".paging").html(paging);
-				}
-				
-				 $.ajax({
-					url: "http://localhost:8085/seeot/product/prolist?productCategorie=" + productCategorie,
-					type: "post",
-					data: {
-						orderBy : orderBy,
-						num : num,
-						pageViewProduct : pageViewProduct,
-						chkColor_arr : chkColor_arr,
-						chkPrice_arr : chkPrice_arr
-						
-					},
-					datatype:"json",
-					success: function(list) {
-						let html = "";
-						if(list.length != 0) {
-						for(i=0; i<list.length; i++) {
-							html += "<div class='product'>";
-							html += "<a href='http://localhost:8085/seeot/product/productView?productNo=" + list[i].productNo + "'>";
-							html += "<span><img width='240px' height='300px' src='http://localhost:8085/seeot/resources/images/" + list[i].productFile  + "'></span><br>";
-							html += "<span><b>" + list[i].productName + "</b></span><br>";
-							html += "<span><b>" + list[i].productPrice + "</b></span></a>";
-							html += "</div>";
-							$(".searchWrapper").html(html);
-						}
-						}else{
-							html = "<div><b>일치하는 상품이 없습니다.<b></div>";
-							$(".searchWrapper").html(html);
-							paging = ""
-							$(".paging").html(paging);
-						}
-						$("#listCount").html('('+list.length+')');
-					}
+			
+			if(num == repeat){
+				paging += "&nbsp; <button onclick='javascript:nextPagNum()' disabled> 다음 </button> &nbsp;";
+				paging += "<button onclick='javascript:endPagNum(" + repeat + ")' disabled> 끝으로 </button>";
+			}else if( (pgnum + 5) >repeat ) {
+				paging += "&nbsp; <button onclick='javascript:nextPagNum()'  disabled> 다음 </button> &nbsp;";
+				paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
+			}else {
+				paging += "&nbsp; <button onclick='javascript:nextPagNum()'> 다음 </button> &nbsp;";
+				paging += "<button onclick='javascript:endPagNum(" + repeat + ")'> 끝으로 </button>";
+			};
+			
+			$(".paging").html(paging);
 					
-				})
-			}
-		})
-	}
+			let html = "";
+			if(list.length != 0) {
+				for(i=0; i<list.length; i++) {
+					html += "<div class='searchList'>";
+					html += "<a href='http://localhost:8085/seeot/product/productView?productNo=" + list[i].productNo + "'>";
+					html += "<span><img width='240px' height='300px' src='http://localhost:8085/seeot/resources/images/" + list[i].productFile  + "'></span><br>";
+					html += "<span><b>" + list[i].productName + "</b></span><br>";
+					html += "<span><b>" + list[i].productPrice + "</b></span></a>";
+					html += "</div>";
+					$(".searchWrapper").html(html);
+				}
+			}else{
+					html = "<div><b>일치하는 상품이 없습니다.<b></div>";
+					$(".searchWrapper").html(html);
+					paging = ""
+					$(".paging").html(paging);
+				}
+			$("#listCount").html('('+list.length+')');
+		}
+	})
 }
 	
 	
-var chkColor_arr = [];
-var chkPrice_arr = [];
+let chkColor_arr = [];
+let chkPrice_arr = [];
+
 function selectSearch() {
 	chkColor_arr = [];
 	$("input[name=Color]:checked").each(function(){
-		var chkColor = $(this).val();
+		let chkColor = $(this).val();
 		chkColor_arr.push(chkColor);
 	})
 	
 	chkPrice_arr = [];
 	$("input[name=Price]:checked").each(function(){
-		var chkPrice = $(this).val();
+		let chkPrice = $(this).val();
 		chkPrice_arr.push(chkPrice);
 	})
-		
-		productList();
+	num = 1;
+	pgnum = 1;
+	
+	productList();
+}
+
+function filter() {
+	$('#filter').slideToggle("slow")
 }

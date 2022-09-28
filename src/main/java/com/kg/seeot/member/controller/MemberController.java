@@ -71,7 +71,7 @@ public class MemberController implements SessionName{
 	@GetMapping("successLogin")
 	public String successLogin(@RequestParam String id,
 			@RequestParam(required = false) String autoLogin,
-			HttpSession session, HttpServletResponse response) {
+			HttpSession session, HttpServletResponse response, Model model) {
 
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
@@ -89,6 +89,8 @@ public class MemberController implements SessionName{
 			return "admin/admin";
 		}
 		session.setAttribute(LOGIN, id);
+		MemberDTO member = ms.getUser(model, id);
+		session.setAttribute(NAME, member.getName());
 		session.setMaxInactiveInterval(24*60*60);
 		return "home.page";
 		
