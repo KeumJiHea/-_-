@@ -55,26 +55,28 @@ recentList = sessionStorage.getItem('recentItem');
 let recent = JSON.parse(recentList).reverse(); //최근 순 정렬
 let html = '';
 
-if(recent != null){
-recent.forEach((item)=>{
-	$.ajax({
-	url: "http://localhost:8085/seeot/getRecent?productNo="+item,
-	type: "GET",
-	dataType: "json",
-	success: function(data){
-		console.log(data);
-		html += '<li><div class="thumb">';
-		html += '<a href="http://localhost:8085/seeot/product/productView?productNo='+data.productNo+'">';
-		html += '<img src="http://localhost:8085/seeot/resources/images/'+data.productFile+'" alt="'+data.productName+'"></a>';
-		html += '</div><div class="desc">';
-		html += '<a href="http://localhost:8085/seeot/product/productView?productNo='+data.productNo+'">';
-		html += '<span>'+data.productName+'</span></a>';
-		html += '</div></li>';
-		$('.recentList>ul').html(html);
-		}
-	})
-})	
-}
+
+	if(recent != null){
+	recent.forEach((item)=>{
+		$.ajax({
+		url: "http://localhost:8085/seeot/getRecent?productNo="+item,
+		type: "GET",
+		dataType: "json",
+		success: function(data){
+			console.log(data);
+			html += '<li><div class="thumb">';
+			html += '<a href="http://localhost:8085/seeot/product/productView?productNo='+data.productNo+'">';
+			html += '<img src="http://localhost:8085/seeot/resources/images/'+data.productFile+'" alt="'+data.productName+'"></a>';
+			html += '</div><div class="desc">';
+			html += '<a href="http://localhost:8085/seeot/product/productView?productNo='+data.productNo+'">';
+			html += '<span>'+data.productName+'</span></a>';
+			html += '</div></li>';
+			$('.recentList>ul').html(html);
+			}
+		})
+	})	
+	}
+
 
 
 

@@ -41,13 +41,14 @@
 	</div>
 </div>
 	<h2>현재 접속자 : ${sessionScope.loginUser }</h2>
+	<a href="#" onclick="history.back()">뒤로가기</a>
 	<div align="center">
 		<form id="searchform">
 			<select name="type"><option value="orderNo">주문번호</option><option value="memberId">아이디</option></select><input type="text" name="keyword"><button type="button" onclick="getSearchList()">검색</button>
 		</form>
 		<table border="1" id="table">
 			<tr>		
-				<td id="ordersection">주문번호<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td id="idsection">아이디<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td id="totalsection">총 주문 금액<img class="sort" src="http://localhost:8085/seeot/images/sortingarrow.png" width="13px;" height=13px;"></td><td class="status">주문상태</td>
+				<td id="ordersection">주문번호<img class="sort" src="http://localhost:8085/seeot/resources/images/sortingarrow.png" width="13px;" height=13px;"></td><td id="idsection">아이디<img class="sort" src="http://localhost:8085/seeot/resources/images/sortingarrow.png" width="13px;" height=13px;"></td><td>주문상품/옵션</td><td>구매수량</td><td>가격</td><td id="totalsection">총 주문 금액<img class="sort" src="http://localhost:8085/seeot/resources/images/sortingarrow.png" width="13px;" height=13px;"></td><td class="status">주문상태</td>
 			</tr>
 			<tbody id="tbody">
 				<c:forEach var="odto" items="${list }" varStatus="status">				

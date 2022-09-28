@@ -42,6 +42,9 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/cart/mycart"/>
+			<mapping path="/order/order"/>
+			<mapping path="/order/orderMain"/>
+			<mapping path="/order/orderadmin"/>
 			<mapping path="/board/boardWrite"/>
 			<beans:ref bean="loginChk"/>
 		</interceptor>
