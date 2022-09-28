@@ -20,4 +20,4 @@
 		<span><b>TOP</b></span>
 	</div>
 </div>
-<script src="<%=request.getContextPath() %>/resources/js/header.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/sideMenu.js"></script>

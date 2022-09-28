@@ -6,8 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	
+<body onload="saveRecentList()">
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 	<script type="text/javascript">
 	 
