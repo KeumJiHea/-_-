@@ -118,7 +118,7 @@ public class OrderController {
 		model.getAttribute("cdto");
 		OrderDTO odto = new OrderDTO();
 		os.getAllOrders(request,model);
-		return "/order/orderadmin";
+		return "/order/orderadmin.admin";
 	}
 	
 	@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")

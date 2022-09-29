@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.underline{
+	background-color: #ffffff;
+}
+#header{
+	background-color: rgb(13,13,13);
+}
+#footer{
+	background-color: rgb(13,13,13);
+}
+
+a, span{
+    color: #ffffff;
+}
