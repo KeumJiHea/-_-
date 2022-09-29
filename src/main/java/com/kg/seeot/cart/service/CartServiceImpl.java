@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class CartServiceImpl implements CartService{
 		System.out.println("productSize : "+productSize);
 		System.out.println("productColor : "+productColor);
 		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
+		HttpSession session = request.getSession();
+		String memberId = (String)session.getAttribute("loginUser");
 		for(int i =0; i<list.size();i++) {
 			System.out.println("list"+i+" : "+list.get(i).getProductColor());
 			System.out.println("list"+i+" : "+list.get(i).getProductSize());
@@ -31,7 +34,7 @@ public class CartServiceImpl implements CartService{
 			productSize = list.get(i).getProductSize();
 			productColor = list.get(i).getProductColor();
 			productStack = list.get(i).getProductStack();
-			cm.addCart_p(productNo,productSize,productColor,productStack);
+			cm.addCart_p(memberId,productNo,productSize,productColor,productStack);
 			cm.addCart_m(productNo,productSize,productColor);
 		}
 		System.out.println("카트 데이터 주입성공");

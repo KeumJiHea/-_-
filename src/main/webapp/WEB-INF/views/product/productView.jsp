@@ -50,6 +50,8 @@
 	 });
 	</script> -->
 	<script type="text/javascript">
+	
+	
 	var pc='', ps='';
 	var cnt = 0;
 	var selColCount = 0, selSizCount = 0;	
@@ -203,6 +205,8 @@
 		proTotalSelectCount()
 	}
 	
+
+
 	function proTotalSelectCount() {
 		var total_stack = 0;
 		var ProductStackTotalPrice = 0;
@@ -260,6 +264,8 @@
    }
 	
 	
+		
+	
 	   
 	  
 	 
@@ -308,7 +314,6 @@
 	
 	
 } */
-
 	</script>
 	
 	
