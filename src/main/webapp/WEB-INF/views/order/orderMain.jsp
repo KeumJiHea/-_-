@@ -6,6 +6,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/common.css">
 <style>
 	th, td{padding: 50px;}
