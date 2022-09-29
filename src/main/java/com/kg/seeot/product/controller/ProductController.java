@@ -191,7 +191,7 @@ public class ProductController {
 	@GetMapping("productList")
 	public String productList(Model model) {
 		ps.allList(model);
-		return "admin/productList";
+		return "admin/productList.admin";
 	}
 	
 	//관리자 페이지 상품 검색

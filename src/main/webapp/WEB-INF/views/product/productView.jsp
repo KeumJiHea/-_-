@@ -21,7 +21,7 @@
 	}
 </style>
 </head>
-<body>
+<body onload="saveRecentList()">
 	<script type="text/javascript">
 	var pc='', ps='';
 	var cnt = 0;
@@ -409,4 +409,5 @@
 	
 
 </body>
+<script src="<%=request.getContextPath() %>/resources/js/sideMenu.js"></script>
 </html>

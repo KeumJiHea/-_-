@@ -92,7 +92,7 @@ public class MemberController implements SessionName{
 			session.setAttribute(LOGIN, id);
 			session.setAttribute(NAME, member.getName());
 			session.setMaxInactiveInterval(24*60*60);
-			return "admin/admin";
+			return "admin/admin.admin";
 		}
 		session.setAttribute(LOGIN, id);
 		session.setAttribute(NAME, member.getName());
@@ -150,7 +150,7 @@ public class MemberController implements SessionName{
 	@GetMapping("memberlist")
 	public String infolist(Model model) {
 		ms.memberlist(model);
-		return "admin/memberlist";
+		return "admin/memberlist.admin";
 	}
 	@GetMapping("delete")
 	public String delete(String id) {
