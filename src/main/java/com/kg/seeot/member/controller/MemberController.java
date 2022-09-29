@@ -144,6 +144,7 @@ public class MemberController implements SessionName{
 		
 		ms.getUser(model,id);
 		rs.reviewList(model,memberId);
+		os.getOrderHistorys(model, memberId);
 		
 		return "member/info";
 	}

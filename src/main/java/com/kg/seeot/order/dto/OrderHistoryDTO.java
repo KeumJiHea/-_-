@@ -1,5 +1,6 @@
 package com.kg.seeot.order.dto;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class OrderHistoryDTO {
@@ -42,9 +43,11 @@ public class OrderHistoryDTO {
 		this.hiOrderAddr2 = hiOrderAddr2;
 	}
 	public String getHiOrderDate() {
+		
 		return hiOrderDate;
 	}
-	public void setHiOrderDate(String hiOrderDate) {
+	public void setHiOrderDate(Timestamp hiOrderDate) {
+		
 		SimpleDateFormat s = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		this.hiOrderDate = s.format(hiOrderDate);
 	}

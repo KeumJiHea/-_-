@@ -192,10 +192,10 @@ function delete_chk(){
                 </thead>
                 <tbody>
                     <tr>
-                        <td>date</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="../review/reviewList?productNo=${dto.productNo}">작성</a></td>
+                        <td>${orderli[0].hiOrderDate}</td>
+                        <td>${orderli[0].hiProductName}</td>
+                        <td>${orderli[0].hiProductPrice}원</td>
+                        <td><a href="../review/reviewList?productNo=${orderli[0].hiProductNo}">작성</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -215,14 +215,16 @@ function delete_chk(){
                         <th class="action">후기작성</th>
                     </tr>
                 </thead>
+                <c:forEach var="orderli" items="${orderli}">
                 <tbody>
                     <tr>
-                        <td>2022.09.03</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="review/reviewList">작성</a></td>
+                        <td>${orderli.hiOrderDate}</td>
+                        <td>${orderli.hiProductName}</td>
+                        <td>${orderli.hiProductPrice}원</td>
+                        <td><a href="review/reviewList">삭제</a></td>
                     </tr>
                 </tbody>
+    	</c:forEach>
             </table>
         </div>
     </div>
