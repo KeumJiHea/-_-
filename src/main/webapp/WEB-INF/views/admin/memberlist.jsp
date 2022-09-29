@@ -6,24 +6,7 @@
 <meta charset="UTF-8">
 <title>회원 관리 페이지</title>
 <style type="text/css">
-.admin-members-title {
-    font-weight: 400;
-    text-align: center;
-    color: #222;
-    padding-bottom: 20px;
-    cursor: pointer;
-}
-.admin-members-input {
-	border : none;
-	font-size : 20px;
-	text-align : left;
-	width: 230px;
-	height: 50px;
-	margin-bottom: 10px;
-}
-.admin-wrapper {
-	text-align: center;
-}
+
 </style>
 </head>
 <body>

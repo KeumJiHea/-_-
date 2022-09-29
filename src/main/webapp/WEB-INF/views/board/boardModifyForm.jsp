@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 <body>
 	<form id="modifyForm">
-		<input type="number" name="boardNo" value=${dto.boardNo } hidden="hidden">
+		<input type="number" name="boardNo" value="${dto.boardNo }" hidden="hidden">
 		<input type="text" name="memberId" value="${dto.memberId }" hidden="hidden"/>
 		
 		<table class="board">

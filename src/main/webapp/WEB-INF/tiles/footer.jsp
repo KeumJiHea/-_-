@@ -4,10 +4,10 @@
 
 <div class="inner_footer">
 	<div class="footer_menu">
-		<a href="${contextPath }/home">Home</a>
-		<a href="#">About</a>
-		<a href="${contextPath }/default/agreement">Agreement</a>
-		<a href="${contextPath }/default/privacy">Privacy Policy</a>
+		<a href="${contextPath }/home">Home |</a>
+		<a href="#">About |</a>
+		<a href="${contextPath }/default/agreement">Agreement |</a>
+		<a href="${contextPath }/default/privacy">Privacy Policy |</a>
 		<a href="#">Guide</a>
 	</div>
 	<div class="footer_address">

@@ -1,6 +1,4 @@
-/**
- * 
- */
+//boardWrite, boardModify
 let fileNo = 0; //파일 고유 넘버
 let filesArr = []; //올라온 파일들의 배열(삭제해도 배열에서는 지워지지 않음)
 				   //fileNo로 인덱스 조회하기 때문
@@ -160,3 +158,25 @@ function modifyForm(){
 		}
 	});
 }
+
+//board
+const modifyBtn = document.querySelector('.modifyBoard');
+const deleteBtn = document.querySelector('.deleteBoard');
+const listBtn = document.querySelector('.list.button');
+
+//수정 버튼 눌렀을 때
+modifyBtn.addEventListener('click', function(){
+	location.href='modifyForm?boardNo='+boardNo;
+})
+
+//삭제 버튼 눌렀을 때
+deleteBtn.addEventListener('click', function(){
+	if(confirm('삭제하시겠습니까?')){
+		location.href='delete?boardNo='+boardNo;
+	};
+})
+
+//목록으로 버튼 눌렀을 때
+listBtn.addEventListener('click', function(){
+	location.href='boardList';
+})

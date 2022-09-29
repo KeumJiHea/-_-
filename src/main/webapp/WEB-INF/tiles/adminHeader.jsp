@@ -5,9 +5,6 @@
 	<div class="login-menu">
 		<ul>
 			<li>
-				<c:if test="${loginUser == null }">
-					<a href="${contextPath }/member/login">LOGIN</a> 
-				</c:if>
 				<c:if test="${loginUser != null }">
 					<a href="${contextPath }/member/logout">LOGOUT</a>
 				</c:if>
