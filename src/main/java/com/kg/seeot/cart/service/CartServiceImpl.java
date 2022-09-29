@@ -20,17 +20,10 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
-		System.out.println("productNo : "+productNo);
-		System.out.println("productStack : "+productStack);
-		System.out.println("productSize : "+productSize);
-		System.out.println("productColor : "+productColor);
 		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
 		HttpSession session = request.getSession();
-		String memberId = (String)session.getAttribute("loginUser");
+		String memberId = (String)session.getAttribute("loginUser");		
 		for(int i =0; i<list.size();i++) {
-			System.out.println("list"+i+" : "+list.get(i).getProductColor());
-			System.out.println("list"+i+" : "+list.get(i).getProductSize());
-			System.out.println("list"+i+" : "+list.get(i).getProductStack());
 			productSize = list.get(i).getProductSize();
 			productColor = list.get(i).getProductColor();
 			productStack = list.get(i).getProductStack();

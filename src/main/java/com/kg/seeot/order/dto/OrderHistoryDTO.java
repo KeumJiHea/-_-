@@ -1,9 +1,10 @@
 package com.kg.seeot.order.dto;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class OrderHistoryDTO {
-	String hiOrderNo,hiMemberId,hiProductName,hiProductColor,hiProductFile,hiOrderAddr1,hiOrderAddr2,hiOrderDate;
+	String hiOrderNo,hiMemberId,hiProductName,hiProductColor,hiProductFile,hiOrderAddr1,hiOrderAddr2,hiOrderDate,type;
 	int hiProductNo,hiProductSize,hiOrderPrice,hiOrderStatus,hiProductPrice,hiOrderStack;
 	public String getHiMemberId() {
 		return hiMemberId;
@@ -44,7 +45,7 @@ public class OrderHistoryDTO {
 	public String getHiOrderDate() {
 		return hiOrderDate;
 	}
-	public void setHiOrderDate(String hiOrderDate) {
+	public void setHiOrderDate(Timestamp hiOrderDate) {
 		SimpleDateFormat s = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		this.hiOrderDate = s.format(hiOrderDate);
 	}
@@ -89,6 +90,12 @@ public class OrderHistoryDTO {
 	}
 	public void setHiOrderStack(int hiOrderStack) {
 		this.hiOrderStack = hiOrderStack;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

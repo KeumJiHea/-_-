@@ -79,6 +79,7 @@
 			</tr>
 			<tr>
 		</table>
+	<input type="hidden" id="hire" value="${sessionScope.reason }">
 	</div>
 </body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/order/orderAdmin.js"></script>

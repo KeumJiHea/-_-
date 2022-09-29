@@ -103,6 +103,14 @@ public class OrderController {
 		return "/order/order.page";
 	}
 	
+	@GetMapping("orderHistory")	
+	public String orderHistory(HttpServletRequest request,Model model,String memberId) {
+		HttpSession session = request.getSession();
+		memberId = (String) session.getAttribute("loginUser");
+		os.getOrderHistorys(model, memberId);		
+		return "/order/orderHistory.page";
+	}
+	
 	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
 	@PostMapping(value = "cancel", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -164,6 +172,15 @@ public class OrderController {
 		dto.setKeyword(keyword);
 		dto.setType(type);
 		return os.getSearchList(dto,type,keyword);
+	}
+	@GetMapping("getStatusList")
+	@ResponseBody
+	public ArrayList<OrderHistoryDTO> getStatusList(HttpServletRequest request,String type,String memberId,Model model) {
+		HttpSession session = request.getSession();
+		memberId = (String) session.getAttribute("loginUser");
+		OrderDTO dto = new OrderDTO();
+		dto.setType(type);
+		return os.getStatusList(dto,type,memberId);
 	}
 	
 	@PostMapping("sorting")

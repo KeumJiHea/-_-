@@ -25,6 +25,10 @@
 		product_file = (select product_file from product where product_no=#{n}) where product_size=#{s} and product_color=#{c} and product_no=#{n}
 	</update>
 	
+	<select id="getSameCart" resultMap="cart">
+		select product_no,product_size,product_color from cart where member_id=#{memberId}
+	</select>
+	
 	<select id="getCart" resultMap="cart">
 		select * from cart where member_id=#{member_id}
 	</select>
@@ -40,4 +44,9 @@
 	<delete id="alldel">
 		delete from cart where member_id=#{memberId}
 	</delete>
+	
+	<delete id="adminDel">
+		delete from cart where product_no=#{productNo}
+	</delete>
+	
 </mapper>

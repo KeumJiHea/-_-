@@ -2,6 +2,7 @@ package com.kg.seeot.cart.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,14 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kg.seeot.cart.dto.CartDTO;
 import com.kg.seeot.cart.service.CartService;
 import com.kg.seeot.common.SessionName;
 import com.kg.seeot.member.service.MemberService;
+import com.kg.seeot.mybatis.cart.CartMapper;
 import com.kg.seeot.product.dto.ProductOrderDTO;
 
 @Controller
 @RequestMapping("cart")
 public class CartController {
+	@Autowired CartMapper cm;
 	@Autowired CartService cs;
 	@Autowired SessionName sn;
 	@Autowired MemberService ms;
@@ -38,12 +42,36 @@ public class CartController {
 	public void addCart(HttpServletRequest request,HttpServletResponse response,int productNo,String productStack,String productSize, String productColor) throws Exception {
 		System.out.println("장바구니 등록 컨트롤러 동작 성공");
 		System.out.println("productStack : "+productStack);
-		cs.addCart(request,productNo,productSize,productColor,productStack);
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<script>alert('장바구니에 추가되었습니다!'); history.go(-1);</script>");
-		out.flush(); 
-		
+		HttpSession session = request.getSession();
+		String memberId = (String)session.getAttribute("loginUser");
+		System.out.println("memberID : "+memberId);
+		ArrayList<CartDTO> clist = cm.getSameCart(memberId);
+		System.out.println("clist.size : "+clist.size());
+		int result = 0;
+		for(int i =0; i<clist.size();i++) {	
+			System.out.println("clist "+i+" getProductNo : "+clist.get(i).getProductNo());
+			System.out.println("clist "+i+" getProductColor : "+clist.get(i).getProductColor());
+			System.out.println("clist "+i+" getProductSize : "+clist.get(i).getProductSize());
+			
+			 if(clist.get(i).getProductNo()==productNo&&clist.get(i).getProductColor().equals(productColor) && clist.get(i).getProductSize()==Integer.parseInt(productSize)) {
+				 result = 1;
+				 response.setContentType("text/html; charset=UTF-8"); PrintWriter out =
+				 response.getWriter();
+				 out.println("<script>alert('이미 장바구니에 추가된 상품입니다!'); history.go(-1);</script>"); out.flush(); 
+			 }else {
+				 result = 0;
+			 }
+			 
+			
+		}
+		if(result ==0) {
+			  cs.addCart(request,productNo,productSize,productColor,productStack);
+			  response.setContentType("text/html; charset=UTF-8"); PrintWriter out =
+			  response.getWriter();
+			  out.println("<script>alert('장바구니에 추가되었습니다!'); history.go(-1);</script>");
+			  out.flush();
+		  }
+		 
 	}
 	
 	// 로그인한 회원id로 장바구니 출력
