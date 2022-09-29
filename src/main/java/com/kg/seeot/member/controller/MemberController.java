@@ -143,7 +143,7 @@ public class MemberController implements SessionName{
 		System.out.println(memberId);
 		
 		ms.getUser(model,id);
-		rs.reviewList(model,memberId);
+		//rs.reviewList(model,memberId);
 		
 		return "member/info";
 	}

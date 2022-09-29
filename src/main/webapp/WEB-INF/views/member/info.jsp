@@ -144,7 +144,7 @@ function delete_chk(){
                 </div>
                 <div class="coupon">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/review.png'/>" width="40px"></div>
-                    <a href="#review" style="color: white;">나의 후기</a>
+                    <a href="../review/myReview?memberId=${info.id }" style="color: white;">나의 후기</a>
                 </div>
             </div>
         </div>

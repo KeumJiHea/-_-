@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,38 +36,40 @@ public class ReviewController {
 		//System.out.println(productNo);
 		return "review/reviewList";
 	}
-	/*
-	@GetMapping("reviewList")
-	public String reviewList(Model model) {
-		rs.reviewList(model);
-		return "review/reviewList";
+	//리뷰 더보기
+	@GetMapping("reviewMore")
+	public String reviewMore(Model model,int productNo) {
+		System.out.println(productNo);
+		rs.reviewMore(model,productNo);
+		return "review/reviewMore";
 	}
-	*/
+	
+	//리뷰 저장
 	@PostMapping("reviewSave")
 	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar
 								, int productNo) {
-		/**/
+		/*
 		System.out.println("reviewcontroller");
 		System.out.println("reviewStar: "+ reviewStar);
 		System.out.println("productNo: "+ productNo);
-		
+		*/
 		rs.fileProcess( mul , reviewStar , productNo );
 		
 		String id = mul.getParameter("memberId"); 
 		return "redirect:../member/info?id="+id;
 	}
 	
-	
+	//관리자 리뷰페이지 연결
 	@GetMapping("reviewPrint")
 	public String reviewPrint() {
 		
 		return "review/reviewPrint";
 	}
 	
-	
+	//이미지 확인용
 	@GetMapping("download")
 	public void download(String file, HttpServletResponse response) throws Exception {
-		System.out.println("file: "+file );
+		System.out.println("controller file: "+file );
 		response.addHeader("Content-disposition", "attachment; fileName="+file);
 		//Content-disposition : 다운로드 방식임 	  attachment; fileName=  : 다운로드 받는 파일의 이름 지정함
 		File f = new File("c:/spring/image_repo"+"/"+file);
@@ -75,6 +78,7 @@ public class ReviewController {
 		in.close();
 	}
 	
+	//리뷰 삭제
 	@GetMapping("delete")
 	public String delete(int reviewNo,int productNo,int reviewStar) {
 		//System.out.println("cotm" +reviewNo);
@@ -84,7 +88,7 @@ public class ReviewController {
 		return "redirect:../product/productView?productNo="+productNo;
 	}
 	
-	
+	//리뷰 수정
 	@PostMapping("modify")
 	public void modify(MultipartHttpServletRequest mul,
 			HttpServletRequest request,
@@ -104,13 +108,22 @@ public class ReviewController {
 	}
 	
 	
-	
+	//리뷰 수정 페이지
 	@GetMapping("modify_form")
 	public String modify_form(Model model, int reviewNo) {
 		rs.modify_form(reviewNo, model);
 		//rs.reviewList(model);
 		return "review/modify_form";
 	}
+	
+	//마이페이지 리뷰
+	@GetMapping("myReview")
+	public String myReview(Model model, String memberId) {
+		System.out.println(memberId);
+		rs.myReview(model, memberId);
+		return "review/myReview";
+	}
+	
 	
 	
 }

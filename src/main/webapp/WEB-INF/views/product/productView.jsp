@@ -21,37 +21,8 @@
 	}
 </style>
 </head>
-<body onload="saveRecentList()">
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	
-<!-- 	<script type="text/javascript">
-	 
-	jQuery( document ).ready( function ( $ ) {
-		var isVisible = false;
-		$(window).on('scroll',function() {
-		    if (checkVisible($('#changeGuide'))&&!isVisible) {
-		    	$('.pronav').attr("style","position: fixed;");
-		        isVisible=true;
-		    }else{
-		    	
-		    }
-		});
-		
-		function checkVisible( elm, eval ) {
-		    eval = eval || "object visible";
-		    var viewportHeight = $(window).height(), // Viewport Height
-		        scrolltop = $(window).scrollTop(), // Scroll Top
-		        y = $(elm).offset().top,
-		        elementHeight = $(elm).height();   
-		    
-		    if (eval == "object visible") return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
-		    if (eval == "above") return ((y < (viewportHeight + scrolltop)));
-		}
-	 });
-	</script> -->
+<body>
 	<script type="text/javascript">
-	
-	
 	var pc='', ps='';
 	var cnt = 0;
 	var selColCount = 0, selSizCount = 0;	
@@ -163,6 +134,8 @@
 		}
 		
 	}
+
+
  	function stackUp(product_id) {
 		var product_id =  $(product_id).attr('class')
 		console.log("@@@@ product_id : " + product_id)
@@ -198,6 +171,7 @@
 		proTotalSelectCount();
 	}
 	
+
 	function deleteSelPro(id) {
 		var delId =  $(id).attr('class')
 		console.log(delId)
@@ -205,8 +179,6 @@
 		proTotalSelectCount()
 	}
 	
-
-
 	function proTotalSelectCount() {
 		var total_stack = 0;
 		var ProductStackTotalPrice = 0;
@@ -264,21 +236,19 @@
    }
 	
 	
-		
-	
 	   
 	  
 	 
-	/*리뷰 불러오기*/
-	/* function rePrint(){
-		
-		
+    /*리뷰 불러오기*/
+	function rePrint(){
+    	
 	$.ajax({
 		url:"../review/replyData", type:"get",
-		data:{ productNo : "${pdto.productNo}"},
-		dataType :"json", //받아올 데이터 자료형
+		data:{ productNo : "${pdto.productNo}"
+		},
+		dataType :"json", 
 		success : function( reviewData ){
-			
+			console.log(reviewData)
 			let html = ""
 		for( i=0; i<reviewData.length; i++){
 				let date = new Date( reviewData[i].reviewDate )
@@ -289,31 +259,37 @@
 				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
+								
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
-				html += "reviewNo: "+reviewData[i].reviewNo; //나중에 지우기
+				//html += "reviewNo: "+reviewData[i].reviewNo; //정보확인용
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}
-				
-				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">삭제</a>"+"  &nbsp ";
+				//
+				if ('${sessionScope.loginUser}' ==reviewData[i].memberId) {
+				html+= "<div>"+"<a href=../review/delete?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+"&reviewStar="+reviewData[i].reviewStar+">삭제</a>"+"  &nbsp ";
 				html+= "<a href=../review/modify_form?reviewNo="+reviewData[i].reviewNo+"&productNo="+reviewData[i].productNo+">수정</a>"+"</div>";
-			
+				}
 				
 				html+= "<hr></div>";
+	
 			}
 			
-			html += "<div>"+"페이지"+"</div>";
+			html += "<div>"+"<a href=../review/reviewMore?productNo="+${pdto.productNo}+">후기더보기</a>"+"</div>";
 			
 			
 		
-			$("#reply").html( html )
+			$("#reply").html( html );
+		
 			},
 		error: function(){alert("function error")}
 			
 	})
+}
+
+
 	
 	
-} */
 	</script>
 	
 	
@@ -407,27 +383,11 @@
 	<div id="proReview">
 	<h2>상품 후기</h2>
 	<hr>
-	<input type="hidden" id="productNo" name="productNo" value="${pdto.productNo }">
-	
-	<!-- 
-	<table border="1">
-		<tr>
-			<td>
-				<div id="review"></div>
-			</td>
-		</tr>
-		<tr>
-		
-		</tr>
-	</table>
-	 -->
+
 	 <div>
-	
-	<div id="reply"></div>
-	
-	
-	
+		<div id="reply"></div>
 	</div>
+	
 	</div><br><br>
 	
 	<div id="changeGuide">
@@ -449,5 +409,4 @@
 	
 
 </body>
-<script src="<%=request.getContextPath() %>/resources/js/recentList.js"></script>
 </html>
