@@ -134,7 +134,7 @@
 									+ "<input type='hidden' id='MaxproductStack" + cnt + "' value='" + data.productStack + "'>"
 									+ "<input type='text' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
 									+ "<img src='<c:url value='/resources/images/prodown.png'/>'  onClick='stackDown(this)' class ='productStack" + cnt + "' id='proicon'>"
-									+ "금액 <span id='PriceproductStack" + cnt + "'>" + ${pdto.productPrice} + "</span> 원"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>" + '${pdto.productPrice}' + "</span> 원"
 									+ "&nbsp; <img src='<c:url value='/resources/images/prodelete.png'/>'  onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' id='proicon'></div>");
 							
 							proTotalSelectCount();
