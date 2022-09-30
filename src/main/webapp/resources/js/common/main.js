@@ -1,5 +1,6 @@
 
 //배너 관련 변수
+const outer = document.querySelector('.outer');
 const container = document.querySelector('.container');
 const banners = document.querySelectorAll('.inner');
 
@@ -59,7 +60,9 @@ leftBtn.addEventListener('click', function(){
 	paginationItems[index].classList.add('active');
 })
 
-// 배너 자동 스크롤링
+// 배너 자동 스크롤링, 마우스 올렸을 때 배너 멈춤
+$(document).ready(move());
+
 function move(){
 	time = setInterval(function(){
 		if(index === bannerLen-1){
@@ -72,16 +75,15 @@ function move(){
 		paginationItems[index].classList.add('active');
 	},3000);
 }
+
 function stopMove(){
 	clearInterval(time);
 }
 
-//마우스 올렸을 때 배너 멈추는 함수
-const outer = document.querySelector('.outer');
 outer.addEventListener('mouseover', stopMove);
 outer.addEventListener('mouseout', move);
 
-
+// Best상품, 최신 상품 가져오는 ajax
 $(function(){
 	$.ajax({ //전체 상품리스트 불러오는 ajax
 		url: "getProduct",

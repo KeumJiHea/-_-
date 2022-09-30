@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.kg.seeot.board.dto.BoardDTO;
 import com.kg.seeot.board.dto.FileDTO;
 import com.kg.seeot.board.dto.ReplyDTO;
+import com.kg.seeot.common.PagingDTO;
 import com.kg.seeot.mybatis.board.BoardMapper;
 
 @Service
@@ -25,29 +26,16 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper mapper;
 	@Autowired
 	BoardFileService bfs;
-
-	public void boardList(Model model, int currentPage) {
-		//페이징 처리
-		int pageSize = 10; //한 페이지에 보이는 게시물 수
-		int boardSize = 0; //전체 게시물 수
-		if(mapper.boardCount() != null) {
-			boardSize = mapper.boardCount();
-		}
-		//System.out.println("게시글 수: " + boardSize);
-		int pagingCount = boardSize / pageSize; //전체 페이지 수
+	
+	public void boardList(Model model, String nowPage, String cntPerPage) {
+		int total = mapper.boardCount();
 		
-		if(boardSize % pageSize != 0) {
-			pagingCount += 1; 
-		}
+		PagingDTO dto = new PagingDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		int start = dto.getStart();
+		int end = dto.getEnd();
 		
-		int endPage = currentPage * pageSize; //가져올 게시글 끝 rn
-		int startPage = endPage + 1 -pageSize; //가져올 게시글 시작 rn
-		
-		model.addAttribute("pagingCount", pagingCount);
-		
-		ArrayList<BoardDTO> boardlist = mapper.boardList(startPage, endPage);
-		model.addAttribute("boardList", boardlist);
-
+		model.addAttribute("paging", dto);
+		model.addAttribute("boardList", mapper.boardList(start, end));
 	}
 
 	public void getBoard(int boardNo, Model model) {

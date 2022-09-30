@@ -76,5 +76,10 @@ public class HomeController {
 	public String privacy() {
 		return "default/privacy.page";
 	}
+	
+	@GetMapping("admin/admin")
+	public String admin() {
+		return "admin/admin.admin";
+	}
 
 }

@@ -6,17 +6,27 @@
 		<ul>
 			<li>
 				<c:if test="${loginUser == null }">
+					<a href="${contextPath }/member/register_form">회원가입 |</a>
+				</c:if>
+				<c:if test="${loginUser != null }">
+					<span>${userName }님 환영합니다.</span>
+				</c:if>
+			</li>
+			<li>
+				<c:if test="${loginUser == null }">
 					<a href="${contextPath }/member/login">LOGIN</a> 
 				</c:if>
 				<c:if test="${loginUser != null }">
 					<a href="${contextPath }/member/logout">LOGOUT</a>
 				</c:if>
 			</li>
+			<c:if test="${loginUser == 'admin' }">
+				<li>
+					<a href="${contextPath }/admin/admin">| 관리자 페이지 </a>
+				</li>
+			</c:if>
 			<li>
-				<a href="${contextPath }/member/register_form">회원가입</a>
-			</li>
-			<li>
-				<a href="${contextPath }/board/boardList">고객문의</a>
+				<a href="${contextPath }/board/boardList">| 고객문의</a>
 			</li>
 		</ul>
 	</div>

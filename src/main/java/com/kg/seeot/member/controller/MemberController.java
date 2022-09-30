@@ -92,12 +92,12 @@ public class MemberController implements SessionName{
 			session.setAttribute(LOGIN, id);
 			session.setAttribute(NAME, member.getName());
 			session.setMaxInactiveInterval(24*60*60);
-			return "admin/admin.admin";
+			return "redirect:memberlist.admin";
 		}
 		session.setAttribute(LOGIN, id);
 		session.setAttribute(NAME, member.getName());
 		session.setMaxInactiveInterval(24*60*60);
-		return "home.page";
+		return "redirect:/home.page";
 		
 	}
 	@GetMapping("logout")

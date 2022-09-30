@@ -34,10 +34,11 @@
 	</div><br>
 	<div id="order" align="right">
 	<select size="1" onchange="listOrder(this.value)">
-			<option value="redate"> 최신순
-			<option value="lprice"> 낮은 가격순
-			<option value="hprice"> 높은 가격순
-			<option value="rating"> 높은 별점순
+			<option value="redate"> 최신 순
+			<option value="oldate"> 오래된 순
+			<option value="lprice"> 낮은 가격 순
+			<option value="hprice"> 높은 가격 순
+			<option value="review"> 리뷰 많은 순
 	</select>
 	</div>
 	<br>
