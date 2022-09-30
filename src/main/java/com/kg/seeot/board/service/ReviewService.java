@@ -37,4 +37,5 @@ public interface ReviewService {
 	 
 	 public String mymodify(MultipartHttpServletRequest mul,
 				HttpServletRequest request);
+	 public int gotoReview(int productNo,String memberId);
 }
