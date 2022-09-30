@@ -26,7 +26,9 @@ import com.kg.seeot.cart.service.CartService;
 import com.kg.seeot.common.SessionName;
 import com.kg.seeot.member.service.MemberService;
 import com.kg.seeot.mybatis.cart.CartMapper;
+import com.kg.seeot.mybatis.product.ProductMapper;
 import com.kg.seeot.product.dto.ProductOrderDTO;
+import com.kg.seeot.product.service.ProductService;
 
 @Controller
 @RequestMapping("cart")
@@ -43,16 +45,20 @@ public class CartController {
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("loginUser");
 		int result = cs.addCart(request,productNo,productSize,productColor,productStack);
-		if(result==1) {
+		if(result<1000) {
 			response.setContentType("text/html; charset=UTF-8"); PrintWriter out;			
 			out = response.getWriter();
 			out.println("<script>alert('이미 장바구니에 추가된 상품이 있습니다!'); history.go(-1);</script>"); out.flush(); 	
-		}else {
+		}else if(result > 1000 && result % 1000 != 0) {
+			response.setContentType("text/html; charset=UTF-8"); PrintWriter out;			
+			out = response.getWriter();
+			out.println("<script>alert('장바구니에 등록되어있는 상품을 제외한 상품이 장바구니에 추가되었습니다.'); history.go(-1);</script>"); out.flush(); 	
+		}else if(result%1000 == 0){
 			response.setContentType("text/html; charset=UTF-8"); PrintWriter out =
 			response.getWriter();
 			out.println("<script>alert('장바구니에 추가되었습니다!'); history.go(-1);</script>");
 			out.flush();			
-		}	 
+		}
 	}
 	
 	// 로그인한 회원id로 장바구니 출력
@@ -67,12 +73,12 @@ public class CartController {
 	
 	// 장바구니 한개삭제
 	@GetMapping("cartdeleteOne")
-	public void deleteOne(String memberId, int productNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void deleteOne(String memberId, int cartNum, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("장바구니 개별삭제 컨트롤러 동작 성공");
 		System.out.println("id : "+memberId);
-		System.out.println("no : "+productNo);
+		System.out.println("no : "+cartNum);
 		
-		int result = cs.deleteOneCart(memberId,productNo);		 
+		int result = cs.deleteOneCart(memberId,cartNum);		 
 	}
 	
 	// 장바구니 선택삭제

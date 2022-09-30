@@ -14,7 +14,7 @@ import com.kg.seeot.product.dto.ProductOrderDTO;
 public interface CartService {
 	public int addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack);
 	public ArrayList<CartDTO> getCart(Model model,String memberId);
-	public int deleteOneCart(String memberId,int productNo);
+	public int deleteOneCart(String memberId,int cartNum);
 	public int deleteChkCart(String memberId, int cartNum);
 	public List<ProductOrderDTO> productOrder(HttpServletRequest req, String productColor, String productSize, String productStack);
 	public void alldel(String memberId);
