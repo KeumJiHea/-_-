@@ -26,17 +26,24 @@ public class CartServiceImpl implements CartService{
 		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("loginUser");
-		ArrayList<CartDTO> clist = cm.getSameCart(memberId);		
+		ArrayList<CartDTO> clist = cm.getSameCart(memberId,productNo);		
 		int result = 0;
 		String[] a = productColor.split(",");
 		String[] b = productSize.split(",");
-		for(int i =0; i<clist.size();i++) {				
-			 if(clist.get(i).getProductNo()==productNo&&clist.get(i).getProductColor().equals(a[i]) && clist.get(i).getProductSize()==Integer.parseInt(b[i])) {
-				 result = 1;
-				return result;
-			 }else {
-				 result = 0;
-			 }			 			
+		System.out.println(clist.size());
+		int size =clist.size();
+		if(size!=0&&a.length==1) {
+			size=1;
+		}
+		for(int i =0; i<size;i++) {
+			for(int j=0; j<size;j++) {
+				 if(clist.get(i).getProductNo()==productNo&&clist.get(j).getProductColor().equals(a[i]) && clist.get(j).getProductSize()==Integer.parseInt(b[i])) {					 
+					 result = 1;
+					return result;
+				 }else {
+					 result = 0;
+				 }
+			}
 		}
 		if(result==0) {
 			for(int i =0; i<list.size();i++) {

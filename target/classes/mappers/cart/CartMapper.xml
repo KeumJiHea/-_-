@@ -26,7 +26,7 @@
 	</update>
 	
 	<select id="getSameCart" resultMap="cart">
-		select product_no,product_size,product_color from cart where member_id=#{memberId}
+		select product_no,product_size,product_color from cart where member_id=#{m} and product_no=#{n}
 	</select>
 	
 	<select id="getCart" resultMap="cart">
