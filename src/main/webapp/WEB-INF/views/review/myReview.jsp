@@ -8,7 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-myReview
+myReview<br>
+<c:if test="${ myReview.size() == 0}">
+작성한 리뷰가 없습니다.<br>
+</c:if >
+<c:if  test="${ myReview.size() != 0}">
 <c:forEach var="rdto" items="${myReview}">
 <b>작성일 : </b>  ${rdto.reviewDate } &nbsp;
 <b>별점 : </b>${rdto.reviewStar } <br>
@@ -28,6 +32,8 @@ myReview
 <hr>
 
 </c:forEach>
+</c:if>
+<input type="button" onclick="history.back()" value="이전으로 돌아가기">
 
 </body>
 </html>

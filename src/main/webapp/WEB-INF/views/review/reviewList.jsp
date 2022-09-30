@@ -175,7 +175,7 @@ function review(){//리뷰저장
 		<br>
 		
      <!-- <div id="addfile"></div> --> 
-	
+	<input type="button" onclick="history.back()" value="이전으로 돌아가기">
 	<input type="submit" value="후기등록">
 
 	
