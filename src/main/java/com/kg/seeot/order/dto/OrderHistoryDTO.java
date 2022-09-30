@@ -47,10 +47,6 @@ public class OrderHistoryDTO {
 		return hiOrderDate;
 	}
 	public void setHiOrderDate(Timestamp hiOrderDate) {
-<<<<<<< HEAD
-=======
-		
->>>>>>> 10d21ec8ac24fbde46d5beedbaae0761087a31a4
 		SimpleDateFormat s = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		this.hiOrderDate = s.format(hiOrderDate);
 	}
