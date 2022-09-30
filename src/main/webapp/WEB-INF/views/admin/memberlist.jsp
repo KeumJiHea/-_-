@@ -17,7 +17,7 @@
 <c:forEach var="member" items="${list}">
 	<label style="font-size: 20px;">아이디 : </label><input type="text" readonly class="admin-members-input" value="${member.id}">
 	<label style="font-size: 20px;">이름 : </label><input type="text" readonly class="admin-members-input" value="${member.name}">
-	<label style="font-size: 20px;">이메일 : </label><input type="text" readonly class="admin-members-input" value="${member.email}"><br><hr style="width: 930px;">
+	<label style="font-size: 20px;">이메일 : </label><input type="text" readonly class="admin-members-input" value="${member.email}"><br><hr style="width: 1100px;">
 </c:forEach>
 <form action="delete">
 <input type="text" name="id"><br>
