@@ -134,7 +134,7 @@
 									+ "<input type='hidden' id='MaxproductStack" + cnt + "' value='" + data.productStack + "'>"
 									+ "<input type='text' name='productStack' id='productStack" + cnt + "' value='1' class='pst' readonly>"
 									+ "<img src='<c:url value='/resources/images/prodown.png'/>'  onClick='stackDown(this)' class ='productStack" + cnt + "' id='proicon'>"
-									+ "금액 <span id='PriceproductStack" + cnt + "'>" + ${pdto.productPrice} + "</span> 원"
+									+ "금액 <span id='PriceproductStack" + cnt + "'>" + '${pdto.productPrice}' + "</span> 원"
 									+ "&nbsp; <img src='<c:url value='/resources/images/prodelete.png'/>'  onclick='deleteSelPro(this)' class='" + data.productColor + data.productSize +"' id='proicon'></div>");
 							
 							proTotalSelectCount();
@@ -320,7 +320,7 @@
 	
 	<table border="1">
 		<tr>
-			<td rowspan="9">
+			<td rowspan="10">
 				<c:if test="${ pdto.productFile == 'nan' }">
 					<b>등록된 이미지가 없습니다.</b>
 				</c:if>
@@ -392,26 +392,18 @@
 	</table>
 	
 	<div id="proContent">
-	<div class="pronav_form" style="display:flex; ">
-	<span>상품 상세 정보</span>
-	<div class="pronav" style="margin-left: 20px;">
-	<a href="#top">최상위로</a>
-	<a href="#proContent">상세정보</a>
-	<a href="#proReview">상품 후기</a>
-	<a href="#changeGuide">배송/교환/환불</a>
-	</div>
-	</div>
+	<h2>상품 상세 정보</h2>
 	<hr>
+	<div>
+
 	<c:if test="${ pdto.productContent == 'nan' }">
 		<b>등록된 이미지가 없습니다.</b>
 	</c:if>
 	<c:if test="${ pdto.productContent != 'nan' }">
 		<!--  <img src="${contextPath}/product/download?productFile=${pdto.productContent}">-->
 	</c:if>
+	</div>
 	</div><br><br>
-	
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 	<div id="proReview">
 	<h2>상품 후기</h2>
@@ -454,12 +446,6 @@
 		</tr>
 	</table>
 	</div>
-	
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 	
 

@@ -248,11 +248,12 @@
 	<hr>
 		Color | 
 		<input type="checkbox" name="Color" value="RED" onchange="selectSearch()"> RED
-		<input type="checkbox" name="Color" value="GREEN" onchange="selectSearch()"> GREEN
-		<input type="checkbox" name="Color" value="BLUE" onchange="selectSearch()"> BLUE
-		<input type="checkbox" name="Color" value="IVORY" onchange="selectSearch()"> IVORY
 		<input type="checkbox" name="Color" value="BLACK" onchange="selectSearch()"> BLACK
+		<input type="checkbox" name="Color" value="BLUE" onchange="selectSearch()"> BLUE
+		<input type="checkbox" name="Color" value="BROWN" onchange="selectSearch()"> BROWN
+		<input type="checkbox" name="Color" value="GRAY" onchange="selectSearch()"> GRAY
 		<input type="checkbox" name="Color" value="WHITE" onchange="selectSearch()"> WHITE
+		<input type="checkbox" name="Color" value="YELLOW" onchange="selectSearch()"> YELLOW
 		<hr>
 		Price | 
 		<input type="checkbox" name="Price" value="PR1" onchange="selectSearch()">1만원이하
@@ -265,6 +266,7 @@
 	<div id="order" align="right">
 	<select size="1" onchange="listOrder(this.value)">
 			<option value="redate"> 최신순
+			<option value="oldate"> 오래된 순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
 			<option value="rating"> 높은 별점순
