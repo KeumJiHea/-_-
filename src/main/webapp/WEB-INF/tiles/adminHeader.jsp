@@ -19,7 +19,7 @@
 	</div>
 	<div class="left_area">
 		<a href="${contextPath }/home">
-		<img class="logo" src="${contextPath }/resources/images/SEEoT_h.png" width="90px" height="50px">
+		<img class="logo" src="${contextPath }/resources/images/SEEoT_white.png" width="90px" height="50px">
 		</a>
 		<div class="underline"></div>
 		<ul class="category">
