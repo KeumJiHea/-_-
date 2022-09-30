@@ -26,8 +26,8 @@ public class ReviewServiceImpl implements ReviewService {
 	ReviewMapper mapper;
 
 	//리뷰 쓰기
-	public void reviewList(Model model) {
-		//model.addAttribute("reviewList", mapper.reviewList());
+	public void reviewList(Model model, String memberId) {
+		model.addAttribute("reviewList", mapper.reviewList(memberId));
 	}
 	//리뷰 더보기
 	public void reviewMore(Model model, int productNo) {

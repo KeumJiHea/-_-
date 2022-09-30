@@ -8,18 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="<c:url value='/resources/css/productView.css'/>" >
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<style type="text/css">
-	.pst {
-		width:25px;
-		height:15px;
-	}
-	#proicon {
-		width:25px;
-		height:25px;
-		margin: -7px 5px;
-	}
-</style>
 </head>
 <body onload="saveRecentList()">
 	<script type="text/javascript">

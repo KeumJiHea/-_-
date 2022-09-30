@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+td th{padding: 50;}
 	#tbody th:not(.start){
 		display: none;
 	}

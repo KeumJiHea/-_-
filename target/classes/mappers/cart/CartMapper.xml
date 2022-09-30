@@ -29,6 +29,10 @@
 		select * from cart where member_id=#{member_id}
 	</select>
 	
+	<select id="getSameCart" resultMap="cart">
+		select product_no,product_size,product_color from cart where member_id=#{memberId}
+	</select>
+	
 	<delete id="deleteCartOne">
 		delete from cart where member_id=#{m} and product_no=#{p}
 	</delete>
@@ -40,4 +44,8 @@
 	<delete id="alldel">
 		delete from cart where member_id=#{memberId}
 	</delete>
+	
+	<delete id="adminDel">
+      delete from cart where product_no=#{productNo}
+   </delete>
 </mapper>
