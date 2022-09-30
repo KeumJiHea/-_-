@@ -38,8 +38,10 @@ public class ReviewController {
 	}
 	//리뷰 더보기
 	@GetMapping("reviewMore")
-	public String reviewMore(Model model,int productNo) {
+	public String reviewMore(HttpServletRequest req,Model model,int productNo) {
 		System.out.println(productNo);
+		HttpSession session = req.getSession();
+		session.setAttribute("rpn", productNo);
 		rs.reviewMore(model,productNo);
 		return "review/reviewMore";
 	}
@@ -48,23 +50,13 @@ public class ReviewController {
 	@PostMapping("reviewSave")
 	public String reviewSave(MultipartHttpServletRequest mul, int reviewStar
 								, int productNo) {
-		/*
-		System.out.println("reviewcontroller");
-		System.out.println("reviewStar: "+ reviewStar);
-		System.out.println("productNo: "+ productNo);
-		*/
 		rs.fileProcess( mul , reviewStar , productNo );
 		
 		String id = mul.getParameter("memberId"); 
 		return "redirect:../member/info?id="+id;
 	}
 	
-	//관리자 리뷰페이지 연결
-	@GetMapping("reviewPrint")
-	public String reviewPrint() {
-		
-		return "review/reviewPrint";
-	}
+	
 	
 	//이미지 확인용
 	@GetMapping("download")
@@ -102,9 +94,6 @@ public class ReviewController {
 		out.print( message );
 		
 		
-		//System.out.println("con num: "+reviewNo + productNo);
-		//rs.modify(reviewNo);
-		//return "redirect:../product/productView?productNo="+productNo;
 	}
 	
 	
@@ -123,6 +112,8 @@ public class ReviewController {
 		rs.myReview(model, memberId);
 		return "review/myReview";
 	}
+	
+	
 	
 	//마이페이지 수정폼
 	@GetMapping("my_modifyform")
@@ -143,12 +134,17 @@ public class ReviewController {
 		String message = rs.mymodify(mul, request);
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
-		out.print( message );
+		out.print( message );	
 		
-		
-		//System.out.println("con num: "+reviewNo + productNo);
-		//rs.modify(reviewNo);
-		//return "redirect:../product/productView?productNo="+productNo;
+	}
+	
+	
+	@GetMapping("writeReveiwchk")
+	public void writeReveiwchk(Model model,HttpServletRequest request,@RequestParam("productNo") String productNo) {
+		HttpSession session = request.getSession();
+		String memberId = (String)session.getAttribute("loginUser");
+		System.out.println("memberId : "+memberId);
+		System.out.println("productNo : "+productNo);
 	}
 	
 }

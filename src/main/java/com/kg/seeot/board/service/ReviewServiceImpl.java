@@ -31,7 +31,10 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	//리뷰 더보기
 	public void reviewMore(Model model, int productNo) {
-		model.addAttribute("reviewMore", mapper.reviewMore(productNo));
+		List<ReviewDTO> list = mapper.reviewMore(productNo);
+		System.out.println("list size : "+list.size());
+		model.addAttribute("productNo", productNo);
+		model.addAttribute("reviewMore", list);
 	}
 
 	public void addReply(Map<String, String> map, String memberId) {
