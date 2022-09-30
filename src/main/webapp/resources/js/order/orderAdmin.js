@@ -1,4 +1,5 @@
 	function slideClick(){
+	var reason = $("#hire").val();
 		var form={
 			memberId : $("#tbody th").eq(1).text(),
 			orderNo : $("#tbody th").eq(0).text()
@@ -13,7 +14,7 @@
 			}).done(function(){
 				$("#memberId").val(form.memberId);
 				$("#orderNo").val(form.orderNo);
-				$("#reason").val('${sessionScope.reason}')
+				$("#reason").val(reason)
 			}).fail(function(data){
 				alert('실패'+data)
 			});

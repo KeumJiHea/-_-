@@ -54,7 +54,7 @@
 	</insert>
 	
 	<select id="getOrderHistorys" resultMap="hdto">
-		select * from order_history where himember_id=#{memberId}
+		select * from order_history where himember_id=#{memberId} order by hiorder_no ASC
 	</select>
 	
 	<select id="getOrder" resultMap="order">
@@ -147,6 +147,10 @@
 				where member_id=#{k} order by order_date DESC
 			</when>
 		</choose>
+	</select> 
+	
+ 	<select id="selectStatusList" resultMap="hdto">
+		select * from order_history where hiorder_status=#{t} and himember_id=#{m} order by hiorder_no ASC
 	</select> 
 	
 	<select id="orderNoSorting_ASC" resultMap="order">

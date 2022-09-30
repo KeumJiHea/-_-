@@ -31,10 +31,10 @@ import com.kg.seeot.product.dto.ProductOrderDTO;
 @Controller
 @RequestMapping("cart")
 public class CartController {
+	@Autowired CartMapper cm;
 	@Autowired CartService cs;
 	@Autowired SessionName sn;
 	@Autowired MemberService ms;
-	@Autowired CartMapper cm;
 	
 	//장바구니 추가
 	@PostMapping(value = "addcart")

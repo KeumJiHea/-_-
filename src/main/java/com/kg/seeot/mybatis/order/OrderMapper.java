@@ -38,6 +38,7 @@ public interface OrderMapper {
 	public void changehiStatus_finish(String orderNo);//배송완
 
 	public ArrayList<OrderDTO> selectSearchList(@Param("d")OrderDTO dto,@Param("t")String type,@Param("k")String keyword);
+	public ArrayList<OrderHistoryDTO> selectStatusList(@Param("d")OrderDTO dto,@Param("t")String type,@Param("m")String memberId);
 	public ArrayList<OrderDTO> orderNoSorting_ASC();
 	public ArrayList<OrderDTO> orderNoSorting_DESC();
 	public ArrayList<OrderDTO> memberIdSorting_ASC();

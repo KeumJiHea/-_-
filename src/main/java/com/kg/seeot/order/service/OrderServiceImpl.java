@@ -201,9 +201,15 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
-		list = om.selectSearchList(dto,type,keyword);
-		
+		list = om.selectSearchList(dto,type,keyword);		
 		return list;
+	}
+	@Override
+	public ArrayList<OrderHistoryDTO> getStatusList(OrderDTO dto,String type,String memberId) {
+		ArrayList<OrderHistoryDTO> hilist = new ArrayList<OrderHistoryDTO>();
+		hilist = om.selectStatusList(dto,type,memberId);		
+		System.out.println(hilist.size());
+		return hilist;
 	}
 
 	@Override

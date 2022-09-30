@@ -32,6 +32,7 @@ public interface OrderService {
 	public void endDelevery(String orderNo);
 	
 	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword);
+	public ArrayList<OrderHistoryDTO> getStatusList(OrderDTO dto, String type, String memberId);
 	public ArrayList<OrderDTO> orderNoSorting_ASC();
 	public ArrayList<OrderDTO> orderNoSorting_DESC();
 	public ArrayList<OrderDTO> memberIdSorting_ASC();

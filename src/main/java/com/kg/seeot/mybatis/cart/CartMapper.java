@@ -13,6 +13,6 @@ public interface CartMapper {
 	public int deleteCartOne(@Param("m") String memberId, @Param("p") int productNo);
 	public int deleteChkCart(@Param("m") String memberId, @Param("c") int cartNum);
 	public void alldel(String memberId);
-	public ArrayList<CartDTO> getSameCart(String memberId);
+	public ArrayList<CartDTO> getSameCart(String memberId);	
 	public int adminDel(int productNo);
 }
