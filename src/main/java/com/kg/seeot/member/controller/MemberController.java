@@ -158,12 +158,13 @@ public class MemberController implements SessionName{
 		return "redirect:memberlist";
 	}
 	@PostMapping("member_delete")
-	public String member_delete(HttpServletRequest request,String id,String pw) {
+	public String member_delete(HttpSession session, HttpServletRequest request,String id,String pw) {
 		int result = ms.member_delete(id,pw);
 		
 		if(1 == result) {
 			request.setAttribute("msg","회원 탈퇴되었습니다");
 			request.setAttribute("url","login");
+			session.invalidate();
 			return "member/alert";
 		}
 			request.setAttribute("msg","비밀번호를 다시 확인해주세요");

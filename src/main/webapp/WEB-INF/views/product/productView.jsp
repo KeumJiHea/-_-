@@ -362,10 +362,6 @@
 	<h2>상품 상세 정보</h2>
 	<hr>
 	<div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 501a136ae0e89b817374141853caefbd6a1e305c
 	<c:if test="${ pdto.productContent == 'nan' }">
 		<b>등록된 이미지가 없습니다.</b>
 	</c:if>
