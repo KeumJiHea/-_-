@@ -17,6 +17,15 @@
 	border-color:rgb(33,33,33, 0.2);
 }
 
+#cntPerPage{
+	float: right;
+	width: 100px;
+	padding: 5px;
+	margin: 10px 0px;
+	border: 1px solid rgb(33,33,33, 0.8);
+	font-family: inherit;
+}
+
 .boardTitle{
     width: 600px;
 	text-align: left;
