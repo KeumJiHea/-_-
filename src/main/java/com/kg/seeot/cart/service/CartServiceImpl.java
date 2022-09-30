@@ -1,9 +1,12 @@
 package com.kg.seeot.cart.service;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +22,32 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public void addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
+	public int addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
 		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
 		HttpSession session = request.getSession();
-		String memberId = (String)session.getAttribute("loginUser");		
-		for(int i =0; i<list.size();i++) {
-			productSize = list.get(i).getProductSize();
-			productColor = list.get(i).getProductColor();
-			productStack = list.get(i).getProductStack();
-			cm.addCart_p(memberId,productNo,productSize,productColor,productStack);
-			cm.addCart_m(productNo,productSize,productColor);
+		String memberId = (String)session.getAttribute("loginUser");
+		ArrayList<CartDTO> clist = cm.getSameCart(memberId);		
+		int result = 0;
+		String[] a = productColor.split(",");
+		String[] b = productSize.split(",");
+		for(int i =0; i<clist.size();i++) {				
+			 if(clist.get(i).getProductNo()==productNo&&clist.get(i).getProductColor().equals(a[i]) && clist.get(i).getProductSize()==Integer.parseInt(b[i])) {
+				 result = 1;
+				return result;
+			 }else {
+				 result = 0;
+			 }			 			
 		}
-		System.out.println("카트 데이터 주입성공");
-		System.out.println("orderstack : "+productStack);
-		
-		
+		if(result==0) {
+			for(int i =0; i<list.size();i++) {
+				productSize = list.get(i).getProductSize();
+				productColor = list.get(i).getProductColor();
+				productStack = list.get(i).getProductStack();
+				cm.addCart_p(memberId,productNo,productSize,productColor,productStack);
+				cm.addCart_m(productNo,productSize,productColor);
+			}	
+		}
+		return result;		
 	}
 
 	@Override
@@ -81,8 +95,7 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void alldel(String memberId) {
-		cm.alldel(memberId);
-		
+		cm.alldel(memberId);		
 	}
 	
 }
