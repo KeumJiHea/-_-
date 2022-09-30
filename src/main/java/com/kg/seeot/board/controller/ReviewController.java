@@ -18,17 +18,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.kg.seeot.board.service.ReviewService;
+import com.kg.seeot.order.dto.OrderHistoryDTO;
+import com.kg.seeot.order.service.OrderServiceImpl;
 
 
 @Controller
 @RequestMapping("review")
 public class ReviewController {
 @Autowired ReviewService rs;
+
 
 
 	@GetMapping("reviewList")
@@ -138,13 +142,26 @@ public class ReviewController {
 		
 	}
 	
-	
-	@GetMapping("writeReveiwchk")
-	public void writeReveiwchk(Model model,HttpServletRequest request,@RequestParam("productNo") String productNo) {
+	//구매자확인 -> 리뷰페이지
+	@GetMapping("writeReviewchk")
+	public void writeReveiwchk(Model model,HttpServletRequest request,HttpServletResponse response,@RequestParam("productNo") int productNo) throws Exception {
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("loginUser");
 		System.out.println("memberId : "+memberId);
 		System.out.println("productNo : "+productNo);
+		
+		int result = rs.gotoReview(productNo,memberId);
+		System.out.println("리뷰컨트롤러"+result);
+		
+		if(result == 1) {
+			response.setContentType("text/html charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.print("<script>alert('리뷰 작성페이지로 이동합니다!'); location.href='http://localhost:8085/seeot/review/reviewList?productNo="+productNo+"'</script>");
+		}else {
+		response.setContentType("text/html charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print("<script>alert('구매하지 않았습니다! 구매한 뒤 리뷰작성 해주세요!'); location.href='http://localhost:8085/seeot/product/productView?productNo="+productNo+"'</script>");
+		}
 	}
 	
 }

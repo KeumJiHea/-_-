@@ -14,10 +14,12 @@ public interface OrderMapper {
 	public OrderDTO getOrder(String orderNo);
 	public ArrayList<OrderDTO> getOrders(String memberId);
 	public ArrayList<OrderDTO> getCancelOrder(String orderNo);
+
 	public ArrayList<OrderDTO> getAllOrders(@Param("s") int start, @Param("e")int end);
 	public ArrayList<OrderDTO> getOrderHistorys(String memberId);
 	public int selectOrderCount();
-	
+	public ArrayList<OrderHistoryDTO> getOrderHistory(String memberId);
+
 	
 	public void addcancel_1(@Param("m") String memberId,@Param("o") String orderNo, @Param("r") String reason);	
 	//public void addcancel_2(String orderNo);	

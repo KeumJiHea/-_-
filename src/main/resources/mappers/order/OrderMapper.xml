@@ -57,6 +57,10 @@
 		select * from order_history where himember_id=#{memberId} order by hiorder_no ASC
 	</select>
 	
+	<select id="getOrderHistory" resultMap="hdto">
+		select hiproduct_no from order_history where himember_id=#{memberId} 
+	</select>
+	
 	<select id="getOrder" resultMap="order">
 		select * from goods_order where order_no=#{orderNo}
 	</select>

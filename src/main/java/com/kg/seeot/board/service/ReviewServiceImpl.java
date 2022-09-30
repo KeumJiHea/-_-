@@ -2,6 +2,7 @@ package com.kg.seeot.board.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -19,11 +20,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kg.seeot.board.dto.ReviewDTO;
 import com.kg.seeot.mybatis.board.ReviewMapper;
+import com.kg.seeot.mybatis.order.OrderMapper;
+import com.kg.seeot.order.dto.OrderHistoryDTO;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 	@Autowired
 	ReviewMapper mapper;
+	@Autowired OrderMapper om;
 
 	//리뷰 쓰기
 	public void reviewList(Model model) {
@@ -352,5 +356,26 @@ public class ReviewServiceImpl implements ReviewService {
 		 return getMessage(msg, url);
 		 
 	 }
+	@Override
+	public int gotoReview(int productNo,String memberId) {
+		int result = 0;
+		ArrayList<OrderHistoryDTO> list = om.getOrderHistory(memberId);
+		
+		for(OrderHistoryDTO dto : list) {
+			if(dto.getHiProductNo()==productNo) {
+				result = 1;
+			}
+		}
+//		for(int i=0; i<list.size();i++) {
+//			if(list.get(i).getHiProductNo()==productNo) {
+//				result = 1;
+//				return result;
+//			}
+//		}
+		System.out.println("리뷰서비스: "+result);
+		return result;
+	}
 
+	 
+	 
 }
