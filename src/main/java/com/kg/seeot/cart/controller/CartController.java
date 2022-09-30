@@ -67,12 +67,12 @@ public class CartController {
 	
 	// 장바구니 한개삭제
 	@GetMapping("cartdeleteOne")
-	public void deleteOne(String memberId, int productNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void deleteOne(String memberId, @RequestParam("cartNum")int cartnum, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("장바구니 개별삭제 컨트롤러 동작 성공");
 		System.out.println("id : "+memberId);
-		System.out.println("no : "+productNo);
+		System.out.println("no : "+cartnum);
 		
-		int result = cs.deleteOneCart(memberId,productNo);		 
+		int result = cs.deleteOneCart(memberId,cartnum);		 
 	}
 	
 	// 장바구니 선택삭제

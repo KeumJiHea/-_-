@@ -62,7 +62,7 @@ th, td{padding: 50px;}
 							<input type="number" min="1" max="10" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.productStack }" placeholder="${cart.productStack }"><br>
 							<span id="goods_total_price${status.index }">${cart.productPrice*cart.productStack }</span>원
 						</th>
-						<th><button type="button" class="deletebtn">삭제</button></th>
+						<th><button type="button" class="deletebtn" id="${cart.cartNum }">삭제</button></th>
 						</tr>
 					</c:forEach>
 				</tbody>

@@ -34,7 +34,7 @@
 	</select>
 	
 	<delete id="deleteCartOne">
-		delete from cart where member_id=#{m} and product_no=#{p}
+		delete from cart where member_id=#{m} and cartnum=#{c}
 	</delete>
 	
 	<delete id="deleteChkCart">

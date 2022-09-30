@@ -37,10 +37,16 @@ public class CartServiceImpl implements CartService{
 		}
 		for(int i =0; i<size;i++) {
 			for(int j=0; j<size;j++) {
-				 if(clist.get(i).getProductNo()==productNo&&clist.get(j).getProductColor().equals(a[i]) && clist.get(j).getProductSize()==Integer.parseInt(b[i])) {					 
+				 if(clist.get(i).getProductNo()==productNo&&
+						 (clist.get(j).getProductColor().equals(a[i]) && 
+						  clist.get(j).getProductSize()==Integer.parseInt(b[i]))) {					 
 					 result = 1;
 					return result;
-				 }else {
+				 }else if((!clist.get(j).getProductColor().equals(a[i]) &&
+						 clist.get(j).getProductSize()==Integer.parseInt(b[i]))
+						 ||						 
+						 (clist.get(j).getProductColor().equals(a[i]) &&
+								 !(clist.get(j).getProductSize()==Integer.parseInt(b[i])))){
 					 result = 0;
 				 }
 			}
@@ -67,8 +73,8 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public int deleteOneCart(String memberId, int productNo) {
-		int result = cm.deleteCartOne(memberId,productNo);
+	public int deleteOneCart(String memberId, int cartnum) {
+		int result = cm.deleteCartOne(memberId,cartnum);
 		return result;
 	}
 

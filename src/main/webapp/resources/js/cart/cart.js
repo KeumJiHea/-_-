@@ -79,11 +79,13 @@ $(document).ready(function() {
 		var tr = checkBtn.parent().parent();    
 		var td = tr.children();   
 		var no = td.eq(1).text();
+		var num = $(this).attr('id');
+		console.log(num);
 		if(confirm(td.eq(3).text()+' 상품을 장바구니에서 삭제 하시겠습니까?')){
 			$.ajax({
-				url: "cartdeleteOne?productNo="+no+"&memberId="+$("#hiid").val(),
+				url: "cartdeleteOne?cartNum="+num+"&memberId="+$("#hiid").val(),
 				type:"get",
-				data: no,
+				data: {cartNum:num},
 				contentType : "application/json; charset=utf-8",
 				success: function(data){
 					alert('삭제 되었습니다!'); 
