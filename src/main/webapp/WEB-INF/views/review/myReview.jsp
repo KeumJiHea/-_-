@@ -21,7 +21,7 @@ myReview
 <div>
 
 	<a href="delete?reviewNo=${rdto.reviewNo }&productNo=${rdto.productNo }&reviewStar=${rdto.reviewStar }">삭제</a> &nbsp 
-	<a href="modify_form?reviewNo=${rdto.reviewNo }&productNo=${rdto.productNo }">수정</a>
+	<a href="my_modifyform?reviewNo=${rdto.reviewNo }&productNo=${rdto.productNo }">수정</a>
 </div>
 
 <a href="../product/productView?productNo=${rdto.productNo}">제품 보러가기</a>

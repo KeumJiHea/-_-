@@ -124,7 +124,32 @@ public class ReviewController {
 		return "review/myReview";
 	}
 	
+	//마이페이지 수정폼
+	@GetMapping("my_modifyform")
+	public String my_modifyform(Model model, int reviewNo) {
+		rs.modify_form(reviewNo, model);
+		//rs.reviewList(model);
+		return "review/my_modifyform";
+	}
 	
+	//마이페이지 수정
+	@PostMapping("mymodify")
+	public void mymodify(MultipartHttpServletRequest mul,
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		System.out.println("controller");
+	
+		
+		String message = rs.mymodify(mul, request);
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print( message );
+		
+		
+		//System.out.println("con num: "+reviewNo + productNo);
+		//rs.modify(reviewNo);
+		//return "redirect:../product/productView?productNo="+productNo;
+	}
 	
 }
 

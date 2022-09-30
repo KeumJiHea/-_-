@@ -26,8 +26,8 @@ public class ReviewServiceImpl implements ReviewService {
 	ReviewMapper mapper;
 
 	//리뷰 쓰기
-	public void reviewList(Model model, String memberId) {
-		model.addAttribute("reviewList", mapper.reviewList(memberId));
+	public void reviewList(Model model) {
+		model.addAttribute("reviewList", mapper.reviewList());
 	}
 	//리뷰 더보기
 	public void reviewMore(Model model, int productNo) {
@@ -263,7 +263,7 @@ public class ReviewServiceImpl implements ReviewService {
 		 System.out.println("dto불러오기");
 		
 		 System.out.println(dto.getReviewStar());
-		 
+		 	
 			int modifyStar = dto.getReviewStar();
 			int modifyProductNo = dto.getProductNo();
 			
@@ -283,9 +283,71 @@ public class ReviewServiceImpl implements ReviewService {
 	 public void myReview(Model model,String memberId){
 		 model.addAttribute("myReview", mapper.myReview(memberId));
 		 
-		 
-		 
 	 }
 
+	 //아이디 불러오기
+	 public String member(int reviewNo) {
+		 ReviewDTO dto =  mapper.contentView(reviewNo);
+		 String memberId = dto.getMemberId();
+		 return memberId;
+	 }
+	 
+	 //마이페이지 수정
+	 public String mymodify(MultipartHttpServletRequest mul,
+				HttpServletRequest request) {
+		
+		System.out.println("sevieceimpl modify");
+		System.out.println(mul.getParameter("reviewFile") );
+		String originFile = mul.getParameter("reviewFile");
+		int reviewNo = Integer.parseInt( mul.getParameter("reviewNo"));
+		int productNo = Integer.parseInt( mul.getParameter("productNo"));
+		int reviewStar = Integer.parseInt(mul.getParameter("reviewStar"));
+		
+		
+		productModify(reviewNo);
+		
+		
+		mapper.productCount(productNo, reviewStar);
+		 ReviewDTO dto = new ReviewDTO();
+		 
+		dto.setReviewNo(reviewNo );
+		dto.setReviewContent( mul.getParameter("reviewContent") );
+		dto.setReviewStar(reviewStar);
+		
+		
+		 MultipartFile file = mul.getFile("reviewFile");
+		 
+		
+		 
+		 if( file.getSize() != 0) {
+			 ReviewDTO fdto = saveFile(file);
+			 System.out.println("서비스 modify if문 fdto파일"+fdto.getReviewFile());
+			 dto.setReviewFile(fdto.getReviewFile());
+				//saveFile(file);
+				//deleteFile(file);
+			}else {
+				dto.setReviewFile(
+						mul.getParameter("reviewFile") );
+			}
+		 
+		int result = 0;
+		result = mapper.modify(dto);
+		 
+		  String msg,url;
+		 String memberId = member(reviewNo);
+		 
+		 if(result == 1) {
+			 msg = "수정완료";
+			 url=request.getContextPath()+
+					 "/review/myReview?memberId="+memberId;
+		 }else {
+				msg = "수정 중 문제 발생!";
+				url = request.getContextPath()+
+				"/review/myReview?memberId="+memberId;
+			}
+		 
+		 return getMessage(msg, url);
+		 
+	 }
 
 }

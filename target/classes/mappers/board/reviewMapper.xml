@@ -45,7 +45,7 @@
 
 
 	<select id="reviewList" resultMap="review">
-		select * from seeot_review where memberId=#{memberId}
+		select * from seeot_review
 	</select>
 
 	<insert id="saveData">

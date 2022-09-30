@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/productView.css'/>" >
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
-<body onload="saveRecentList()">
+<body onload="rePrint()">
 	<script type="text/javascript">
 	var pc='', ps='';
 	var cnt = 0;
@@ -275,6 +275,7 @@
 		error: function(){alert("function error")}
 			
 	})
+	saveRecentList()
 }
 
 

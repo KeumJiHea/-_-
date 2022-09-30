@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.kg.seeot.board.dto.ReviewDTO;
 
 public interface ReviewService {
-	public void reviewList(Model model, String memberId);
+	public void reviewList(Model model);
 	public void reviewMore(Model model, int productNo);
 	
 	public void addReply(Map<String, String>map, String memberId);
@@ -34,4 +34,8 @@ public interface ReviewService {
 	 
 	 
 	 public void myReview(Model model,String memberId);
+
+	 
+	 public String mymodify(MultipartHttpServletRequest mul,
+				HttpServletRequest request);
 }
