@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.kg.seeot.board.dto.ReplyDTO;
 
 public interface BoardService {
-	public void boardList(Model model, int currentPage);
+	public void boardList(Model model, String nowPage, String cntPerPage);
 	public void getBoard(int boardNo, Model model);
 	public String boardWrite(MultipartHttpServletRequest mul, HttpServletRequest request);
 	public String boardModify(MultipartHttpServletRequest mul, HttpServletRequest request);
