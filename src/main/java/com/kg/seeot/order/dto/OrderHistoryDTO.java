@@ -43,6 +43,7 @@ public class OrderHistoryDTO {
 		this.hiOrderAddr2 = hiOrderAddr2;
 	}
 	public String getHiOrderDate() {
+		
 		return hiOrderDate;
 	}
 	public void setHiOrderDate(Timestamp hiOrderDate) {

@@ -140,10 +140,9 @@ public class MemberController implements SessionName{
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("loginUser");
 		
-		System.out.println(memberId);
-		
 		ms.getUser(model,id);
-		//rs.reviewList(model,memberId);
+		rs.myReview(model, memberId);
+		os.getOrderHistorys(model, memberId);
 		
 		return "member/info";
 	}
@@ -159,8 +158,8 @@ public class MemberController implements SessionName{
 		return "redirect:memberlist";
 	}
 	@PostMapping("member_delete")
-	public String member_delete(HttpServletRequest request, MemberDTO dto) {
-		int result = ms.member_delete(dto);
+	public String member_delete(HttpServletRequest request,String id,String pw) {
+		int result = ms.member_delete(id,pw);
 		
 		if(1 == result) {
 			request.setAttribute("msg","회원 탈퇴되었습니다");

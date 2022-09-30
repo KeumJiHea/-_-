@@ -71,7 +71,7 @@ function modiChk(){
 	var form = document.form;
 	var pw = $('.pw_input').val();
 	var pwchk = $('.pw_confirm').val();
-	var pwRegex =  /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+	var pwRegex =  /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[-_!@#$%^&+=]).*$/;
 	var passWordTest = pwRegex.test($('.pw_input').val());
 	
 	if(pw == ""){
@@ -140,7 +140,7 @@ function delete_chk(){
             <div class="right">
                 <div class="point">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/inq.png'/>" width="40px"></div>
-                    <a href="#" style="color: white;">문의 하기</a>
+                    <a href="/seeot/board/boardList" style="color: white;">문의 하기</a>
                 </div>
                 <div class="coupon">
                     <div class="icon"><img src="<c:url value='/resources/images/navigation/review.png'/>" width="40px"></div>
@@ -150,33 +150,7 @@ function delete_chk(){
         </div>
 
         <div class="contents-item columns">
-            <div class="column">
-                <h3 class="item-title">메뉴 바로가기</h3>
-                <div class="menu-wrapper">
-                    <a href="#orders">
-                        <div class="menu">
-                            <div class="icon"><img src="<c:url value='/resources/images/navigation/shipped.png'/>" width="50px"></div>
-                            주문 배송
-                        </div>
-                    </a>
-                    <a href="#profile" class="infotab">
-                        <div class="menu">
-                            <div class="icon"><img src="<c:url value='/resources/images/navigation/profile.png'/>" width="50px"></div>
-                            회원 정보
-                        </div>
-                    </a>
-                    <a href="#address">
-                        <div class="menu">
-                            <div class="icon"><img src="<c:url value='/resources/images/navigation/address.png'/>" width="50px"></div>
-                            주소 관리
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="column">
-                <h3 class="item-title">문의 내역</h3>
-                <div class="message">문의하신 내역이 없습니다.</div>
-            </div>
+            
         </div>
 
         <div class="contents-item">
@@ -191,12 +165,14 @@ function delete_chk(){
                     </tr>
                 </thead>
                 <tbody>
+                <c:if test="${orderli.size() != 0}">
                     <tr>
-                        <td>date</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="../review/reviewList?productNo=${dto.productNo}">작성</a></td>
+                        <td>${orderli[0].hiOrderDate}</td>
+                        <td><strong><a href="../product/productView?productNo=${orderli[0].hiProductNo}" style="border: none;">${orderli[0].hiProductName}</a></strong></td>
+                        <td>${orderli[0].hiProductPrice}원</td>
+                        <td><a href="../review/reviewList?productNo=${orderli[0].hiProductNo}">작성</a></td>
                     </tr>
+                </c:if>    
                 </tbody>
             </table>
         </div>
@@ -212,16 +188,28 @@ function delete_chk(){
                         <th class="date">주문일자</th>
                         <th class="product-title">상품명</th>
                         <th class="price">결제금액</th>
-                        <th class="action">후기작성</th>
+                        <th class="action">주문조회</th>
                     </tr>
                 </thead>
                 <tbody>
+                <c:if test="${orderli.size() != 0 }">
+                <c:forEach var="orderli" items="${orderli}">
                     <tr>
-                        <td>2022.09.03</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="review/reviewList">작성</a></td>
+                        <td>${orderli.hiOrderDate}</td>
+                        <td><strong><a href="../product/productView?productNo=${orderli.hiProductNo}" style="border: none;">${orderli.hiProductName}</a></strong></td>
+                        <td>${orderli.hiProductPrice}원</td>
+                        <td><a href="../order/orderHistory?memberId=${info.id}">조회</a></td>
                     </tr>
+                </c:forEach>
+                </c:if>
+                <c:if test="${orderli.size() == 0 }">
+                <tr>
+                		<td></td>
+                   		<td>주문하신 내역이 존재하지 않습니다.</td>
+                   		<td></td>
+                   		<td></td>
+                </tr>
+                </c:if>
                 </tbody>
             </table>
         </div>
@@ -250,18 +238,8 @@ function delete_chk(){
                     <input type="text" name="phone3" maxlength="4" id="phone2">
                 </div>
                 <div class="field input_email">
-                    <span>이메일</span>
-                    <input type="text" name="email1" placeholder="이메일 주소 입력" id="email1">
-                    @
-                    <input type="text" name="email2" id="email2">
-                    <select name="domain">
-                        <option value="naver.com" selected>naver.com</option>
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="daum.net">daum.net</option>
-                        <option value="nate.com">nate.com</option>
-                        <option value="kakao.com">kakao.com</option>
-                        <option value="1" selected>직접입력</option>
-                    </select>
+                    <input type="hidden" name="email1" placeholder="이메일 주소 입력" id="email1">
+                    <input type="hidden" name="email2" id="email2">
                 </div>
             </div>
             <div class="column">
@@ -316,18 +294,18 @@ function delete_chk(){
                 <thead>
                     <tr>
                         <th class="date">작성일자</th>
-                        <th class="product-title">상품명</th>
-                        <th class="price">결제금액</th>
-                        <th class="action">후기삭제</th>
+                        <th class="product-title">후기내용</th>
+                        <th class="price">리뷰번호</th>
+                        <th class="action">상품보기</th>
                     </tr>
                 </thead>
-    	<c:forEach var="reviewList" items="${reviewList}">
+    	<c:forEach var="myReview" items="${myReview}">
                 <tbody>
                     <tr>
-                        <td>${reviewList.reviewDate}</td>
-                        <td>엑스프리즈마 알파 패디드 크롭탑 썬더네이비</td>
-                        <td>17,000원</td>
-                        <td><a href="review/reviewList">삭제</a></td>
+                        <td>${myReview.reviewDate}</td>
+                        <td><strong><a style="border: none;" href="../review/myReview?memberId=${info.id }">${myReview.reviewContent}</a></strong></td>
+                        <td>${myReview.reviewNo}</td>
+                        <td><a href="../product/productView?productNo=${myReview.productNo}">보기</a></td>
                     </tr>
                 </tbody>
     	</c:forEach>
