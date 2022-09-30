@@ -10,7 +10,7 @@ import com.kg.seeot.board.dto.FileDTO;
 import com.kg.seeot.board.dto.ReplyDTO;
 
 public interface BoardMapper {
-	public ArrayList<BoardDTO> boardList(@Param("start") int startPage,@Param("end") int endPage); //게시글 리스트
+	public ArrayList<BoardDTO> boardList(@Param("start") int start,@Param("end") int end); //게시글 리스트
 	public BoardDTO getBoard(int boardNo); //게시글 하나 가져오기
 	public ArrayList<FileDTO> getBoardFile(int boardNo); //게시글에 따른 파일 가져오기
 	public int boardWrite(BoardDTO dto); //게시글 저장

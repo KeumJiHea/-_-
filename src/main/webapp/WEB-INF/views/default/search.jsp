@@ -46,5 +46,36 @@
 	<div class="searchWrapper"></div>
 
 	<div class="paging" align="center"></div>
+	
+	<div>${list }</div>
+	<div class="page">
+		<!-- 처음으로 -->
+		<c:if test="${paging.nowPage != 1 }">
+			<a href="boardList?nowPage=1&cntPerPage=${paging.cntPerPage}">처음으로</a>
+		</c:if>
+		<!-- 이전으로 -->
+		<c:if test="${paging.startPage != 1 }">
+			<a href="boardList?nowPage=${paging.startPage -1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+		</c:if>
+		<!-- 페이지 숫자들 만들어주는 부분 -->
+		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+			<c:choose>
+				<c:when test="${p == paging.nowPage }">
+					<b>${p }</b>
+				</c:when>
+				<c:when test="${p != paging.nowPage }">
+					<a href="boardList?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		<!-- (다음으로) -->
+		<c:if test="${paging.endPage != paging.lastPage }">
+			<a href="boardList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+		</c:if>
+		<!-- 끝으로 -->
+		<c:if test="${paging.nowPage != paging.lastPage }">
+			<a href="boardList?nowPage=${paging.lastPage }&cntPerPage=${paging.cntPerPage}">끝으로</a>
+		</c:if>
+	</div>
 </body>
 <script src="<%=request.getContextPath() %>/resources/js/common/search.js"></script>
