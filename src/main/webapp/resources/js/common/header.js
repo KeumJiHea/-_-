@@ -3,7 +3,6 @@
  */
 let underline = document.querySelector('.underline');
 let category = document.querySelectorAll('.category > li > a > span');
-console.log(category);
 
 category.forEach((menu) => 
 	menu.addEventListener('mouseover', (e) => indicator(e))

@@ -6,9 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.annotations.Case;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +53,7 @@ public class HomeController {
 	public String search(HttpServletRequest request, Model model){
 		String keyword = request.getParameter("keyword");
 		model.addAttribute("keyword", keyword);
-		return "search.page";
+		return "default/search.page";
 	}
 	
 	@PostMapping(value = "searchList", produces = "application/json;charset=utf8")

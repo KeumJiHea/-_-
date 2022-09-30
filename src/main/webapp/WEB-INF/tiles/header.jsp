@@ -33,17 +33,7 @@
 			</li>
 			<li>
 				<a href="${contextPath }/product/list?productCategorie=1">
-					<span>맨투맨/티셔츠</span>
-				</a>
-			</li>
-			<li>
-				<a href="${contextPath }/product/list?productCategorie=2">
-					<span>원피스</span>
-				</a>
-			</li>
-			<li>
-				<a href="${contextPath }/product/list?productCategorie=3">
-					<span>팬츠</span>
+					<span>티셔츠</span>
 				</a>
 			</li>
 			<li>
@@ -52,8 +42,28 @@
 				</a>
 			</li>
 			<li>
-				<a href="${contextPath }/product/list?productCategorie=1">
-					<span>니트</span>
+				<a href="${contextPath }/product/list?productCategorie=3">
+					<span>가디건</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=4">
+					<span>자켓</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=5">
+					<span>코트</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=6">
+					<span>하의</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=7">
+					<span>신발</span>
 				</a>
 			</li>
 		</ul>
@@ -90,4 +100,4 @@
 		</form>
 	</div>
 </div>
-<script src="<%=request.getContextPath() %>/resources/js/header.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/common/header.js"></script>

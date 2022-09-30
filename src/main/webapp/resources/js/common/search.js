@@ -8,12 +8,20 @@ const params = new URLSearchParams(url);
 let keyword = params.get('keyword');
 let productCategorie = 0;
 
-if(keyword == '맨투맨'||keyword == '티셔츠'){
+if(keyword == '티셔츠'){
 	productCategorie = 1;
-}else if(keyword == '원피스'){
+}else if(keyword == '셔츠'){
 	productCategorie = 2;
-}else if(keyword == '팬츠'||keyword == '바지'){
+}else if(keyword == '가디건'){
 	productCategorie = 3;
+}else if(keyword == '자켓'){
+	productCategorie = 4;
+}else if(keyword == '코트'){
+	productCategorie = 5;
+}else if(keyword == '하의'||keyword == '바지'){
+	productCategorie = 6;
+}else if(keyword == '신발'){
+	productCategorie = 7;
 }
 
 let num = 1;
@@ -58,10 +66,11 @@ function listOrder(order) {
 	num = 1;
 	productList();
 }
-	
-	
+
+let temp = 0;
 function productList() {
 	let pageViewProduct = 12;
+	
 	$.ajax({
 		url: "http://localhost:8085/seeot/searchList?keyword=" + keyword,
 		type: "POST",
@@ -76,8 +85,17 @@ function productList() {
 		datatype:"json",
 		success: function(list) {
 			let paging = "";
-			var productCount = list;
-			var repeat = parseInt(productCount / pageViewProduct);
+			
+			let productCount = list.length;
+			
+			if(num == 1){
+				temp = productCount
+			}else{
+				productCount = temp;
+			}
+			
+			let repeat = parseInt(productCount / pageViewProduct);
+			
 			if( productCount / pageViewProduct != 0) {
 				repeat += 1;
 			};
@@ -121,7 +139,7 @@ function productList() {
 				for(i=0; i<list.length; i++) {
 					html += "<div class='searchList'>";
 					html += "<a href='http://localhost:8085/seeot/product/productView?productNo=" + list[i].productNo + "'>";
-					html += "<span><img width='240px' height='300px' src='http://localhost:8085/seeot/resources/images/" + list[i].productFile  + "'></span><br>";
+					html += "<span><img width='240px' height='300px' src='http://localhost:8085/seeot/product/download?productFile=" + list[i].productFile  + "'></span><br>";
 					html += "<span><b>" + list[i].productName + "</b></span><br>";
 					html += "<span><b>" + list[i].productPrice + "</b></span></a>";
 					html += "</div>";
@@ -133,9 +151,8 @@ function productList() {
 					paging = ""
 					$(".paging").html(paging);
 				}
-			$("#listCount").html('('+list.length+')');
 		}
-	})
+	});
 }
 	
 	
@@ -163,3 +180,5 @@ function selectSearch() {
 function filter() {
 	$('#filter').slideToggle("slow")
 }
+
+window.addEventListener('DOMContentLoaded', productList());

@@ -183,7 +183,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void getOrderHistorys(Model model,String memberId) {
 		ArrayList<OrderDTO> list = om.getOrderHistorys(memberId);
-		model.addAttribute("orderli",list);				
+		model.addAttribute("orderli",list);		
 	}
 
 	@Override

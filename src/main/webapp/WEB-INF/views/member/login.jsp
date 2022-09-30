@@ -62,8 +62,6 @@ console.log(Kakao.isInitialized()); // sdk초기화여부판단
 					}if(data.JavaData == "newlogin"){
 						alert("가입 되었습니다.");
 						location.href = '/seeot/member/successLogin?id=' + data.id;
-					}else{
-						alert("로그인에 실패했습니다.");
 					}
 				},
 				error: function(xhr, status, error){

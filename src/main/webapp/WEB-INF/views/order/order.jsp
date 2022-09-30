@@ -6,6 +6,7 @@
   crossorigin="anonymous"></script>
  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/common.css">
 <style type="text/css">
+
 	#modal_wrap{position: fixed; z-index: 9;margin: auto; display:none;
 	 top:0; left: 0; right: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4)
 	}

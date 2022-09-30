@@ -162,9 +162,9 @@
 	    				   }else{
 	    					   alert("비밀번호를 변경해주세요");
 	    					   $('input[name=id]').attr('value',id);
-	    					   pw1.attr("style","display:inline;");
-	    					   pw2.attr("style","display:inline;");
-	    					   sub.attr("style","display:inline;");
+	    					   pw1.attr("style","display:inline; text-align: center;");
+	    					   pw2.attr("style","display:inline; text-align: center;");
+	    					   sub.attr("style","display:inline; text-align: center;");
 	    				   }
 	    			   },
 	    			   error:function(){

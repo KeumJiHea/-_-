@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,21 +38,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UrlPathHelper;
 
 import com.google.gson.Gson;
+import com.kg.seeot.board.service.ReviewService;
 import com.kg.seeot.common.SessionName;
 import com.kg.seeot.member.dto.MemberDTO;
 import com.kg.seeot.member.service.MemberService;
+import com.kg.seeot.order.service.OrderService;
 
 @Controller
 @RequestMapping("member")
 public class MemberController implements SessionName{	
 	@Autowired MemberService ms;
+	@Autowired OrderService os;
+	@Autowired ReviewService rs;
 	
 	@Autowired 
 	private JavaMailSender mailSender;
 
 	@GetMapping("/login")
 	public String login() { 
-		return "member/login"; 
+		return "member/login.page"; 
 	}
 
 	@PostMapping("/login_check")
@@ -72,7 +77,8 @@ public class MemberController implements SessionName{
 	public String successLogin(@RequestParam String id,
 			@RequestParam(required = false) String autoLogin,
 			HttpSession session, HttpServletResponse response, Model model) {
-
+		MemberDTO member = ms.getUser(model, id);
+		
 		if( autoLogin != null ) {
 			int time = 60*60*24*90;
 			Cookie cookie = new Cookie("loginCookie", id);
@@ -83,13 +89,12 @@ public class MemberController implements SessionName{
 			ms.keepLogin(id, id);
 		}
 		if(id.equals("admin")) {
-			
 			session.setAttribute(LOGIN, id);
+			session.setAttribute(NAME, member.getName());
 			session.setMaxInactiveInterval(24*60*60);
 			return "admin/admin";
 		}
 		session.setAttribute(LOGIN, id);
-		MemberDTO member = ms.getUser(model, id);
 		session.setAttribute(NAME, member.getName());
 		session.setMaxInactiveInterval(24*60*60);
 		return "home.page";
@@ -107,11 +112,11 @@ public class MemberController implements SessionName{
 			ms.keepLogin( (String)session.getAttribute(LOGIN), "nan");
 		}
 		session.invalidate();
-		return "redirect:login";
+		return "redirect:login.page";
 	}
 	@GetMapping("register_form")
 	public String register_form() {
-		return "member/register";
+		return "member/register.page";
 	}
 	@PostMapping("register")
 	public String register(HttpServletRequest request, MemberDTO dto) {
@@ -130,9 +135,16 @@ public class MemberController implements SessionName{
 	}
 	
 	@GetMapping("info")
-	public String info(Model model, String id) {
+	public String info(Model model, String id, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		String memberId = (String)session.getAttribute("loginUser");
+		
+		System.out.println(memberId);
 		
 		ms.getUser(model,id);
+		rs.reviewList(model,memberId);
+		os.getOrderHistorys(model, memberId);
 		
 		return "member/info";
 	}
@@ -143,6 +155,7 @@ public class MemberController implements SessionName{
 	}
 	@GetMapping("delete")
 	public String delete(String id) {
+		System.out.println("삭제");
 		ms.delete(id);
 		return "redirect:memberlist";
 	}

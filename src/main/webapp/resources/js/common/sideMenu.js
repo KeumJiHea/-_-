@@ -40,7 +40,7 @@ function getRecentList(){
 				//console.log(data);
 				html += '<li><div class="thumb">';
 				html += '<a href="http://localhost:8085/seeot/product/productView?productNo='+data.productNo+'">';
-				html += '<img src="http://localhost:8085/seeot/resources/images/'+data.productFile+'" alt="'+data.productName+'"></a>';
+				html += '<img src="http://localhost:8085/seeot/product/download?productFile='+data.productFile+'" alt="'+data.productName+'"></a>';
 				html += '</div><div class="desc">';
 				html += '<a href="http://localhost:8085/seeot/product/productView?productNo='+data.productNo+'">';
 				html += '<span>'+data.productName+'</span></a>';
