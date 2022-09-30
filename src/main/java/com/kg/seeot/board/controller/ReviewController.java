@@ -36,8 +36,10 @@ public class ReviewController {
 
 
 	@GetMapping("reviewList")
-	public String reviewList() {
-		//System.out.println(productNo);
+	public String reviewList(Model model, int productNo) {
+		System.out.println("review productNO: "+productNo);
+		model.addAttribute("productNo", productNo);
+		
 		return "review/reviewList";
 	}
 	//리뷰 더보기

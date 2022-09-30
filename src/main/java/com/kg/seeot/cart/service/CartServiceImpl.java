@@ -22,40 +22,46 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cm;
 
 	@Override
-	public int addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
-		List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
-		HttpSession session = request.getSession();
-		String memberId = (String)session.getAttribute("loginUser");
-		ArrayList<CartDTO> clist = cm.getSameCart(memberId,productNo);		
-		int result = 0;
-		String[] a = productColor.split(",");
-		String[] b = productSize.split(",");
-		System.out.println(clist.size());
-		int size =clist.size();
-		if(size!=0&&a.length==1) {
-			size=1;
-		}
-		for(int i =0; i<size;i++) {
-			for(int j=0; j<size;j++) {
-				 if(clist.get(i).getProductNo()==productNo&&clist.get(j).getProductColor().equals(a[i]) && clist.get(j).getProductSize()==Integer.parseInt(b[i])) {					 
-					 result = 1;
-					return result;
-				 }else {
-					 result = 0;
-				 }
-			}
-		}
-		if(result==0) {
-			for(int i =0; i<list.size();i++) {
-				productSize = list.get(i).getProductSize();
-				productColor = list.get(i).getProductColor();
-				productStack = list.get(i).getProductStack();
-				cm.addCart_p(memberId,productNo,productSize,productColor,productStack);
-				cm.addCart_m(productNo,productSize,productColor);
-			}	
-		}
-		return result;		
-	}
+	   public int addCart(HttpServletRequest request,int productNo,String productSize, String productColor,String productStack) {
+	      List<ProductOrderDTO> list = productOrder(request, productColor, productSize, productStack);
+	      HttpSession session = request.getSession();
+	      String memberId = (String)session.getAttribute("loginUser");
+	      ArrayList<CartDTO> clist = cm.getSameCart(memberId,productNo);      
+	      int result = 0;
+	      String[] a = productColor.split(",");
+	      String[] b = productSize.split(",");
+	      System.out.println(clist.size());
+	      int size =clist.size();
+	      if(size!=0&&a.length==1) {
+	         size=1;
+	      }
+	      for(int i =0; i<size;i++) {
+	         for(int j=0; j<size;j++) {
+	             if(clist.get(i).getProductNo()==productNo&&
+	                   (clist.get(j).getProductColor().equals(a[i]) && 
+	                    clist.get(j).getProductSize()==Integer.parseInt(b[i]))) {                
+	                result = 1;
+	               return result;
+	             }else if((!clist.get(j).getProductColor().equals(a[i]) &&
+	                   clist.get(j).getProductSize()==Integer.parseInt(b[i]))
+	                   ||                   
+	                   (clist.get(j).getProductColor().equals(a[i]) &&
+	                         !(clist.get(j).getProductSize()==Integer.parseInt(b[i])))){
+	                result = 0;
+	             }
+	         }
+	      }
+	      if(result==0) {
+	         for(int i =0; i<list.size();i++) {
+	            productSize = list.get(i).getProductSize();
+	            productColor = list.get(i).getProductColor();
+	            productStack = list.get(i).getProductStack();
+	            cm.addCart_p(memberId,productNo,productSize,productColor,productStack);
+	            cm.addCart_m(productNo,productSize,productColor);
+	         }   
+	      }
+	      return result;      
+	   }
 
 	@Override
 	public ArrayList<CartDTO> getCart(Model model,String memberId) {

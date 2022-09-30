@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="getCart" resultMap="cart">
-		select * from cart where member_id=#{member_id}
+		select * from cart where member_id=#{member_id} order by product_no
 	</select>
 	
 	<delete id="deleteCartOne">
