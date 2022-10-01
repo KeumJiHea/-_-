@@ -6,17 +6,27 @@
 		<ul>
 			<li>
 				<c:if test="${loginUser == null }">
+					<a href="${contextPath }/member/register_form">회원가입 |</a>
+				</c:if>
+				<c:if test="${loginUser != null }">
+					<span>${userName }님 환영합니다.</span>
+				</c:if>
+			</li>
+			<li>
+				<c:if test="${loginUser == null }">
 					<a href="${contextPath }/member/login">LOGIN</a> 
 				</c:if>
 				<c:if test="${loginUser != null }">
 					<a href="${contextPath }/member/logout">LOGOUT</a>
 				</c:if>
 			</li>
+			<c:if test="${loginUser == 'admin' }">
+				<li>
+					<a href="${contextPath }/admin/admin">| 관리자 페이지 </a>
+				</li>
+			</c:if>
 			<li>
-				<a href="${contextPath }/member/register_form">회원가입</a>
-			</li>
-			<li>
-				<a href="${contextPath }/board/boardList">고객문의</a>
+				<a href="${contextPath }/board/boardList">| 고객문의</a>
 			</li>
 		</ul>
 	</div>
@@ -33,17 +43,7 @@
 			</li>
 			<li>
 				<a href="${contextPath }/product/list?productCategorie=1">
-					<span>맨투맨/티셔츠</span>
-				</a>
-			</li>
-			<li>
-				<a href="${contextPath }/product/list?productCategorie=2">
-					<span>원피스</span>
-				</a>
-			</li>
-			<li>
-				<a href="${contextPath }/product/list?productCategorie=3">
-					<span>팬츠</span>
+					<span>티셔츠</span>
 				</a>
 			</li>
 			<li>
@@ -52,8 +52,28 @@
 				</a>
 			</li>
 			<li>
-				<a href="${contextPath }/product/list?productCategorie=1">
-					<span>니트</span>
+				<a href="${contextPath }/product/list?productCategorie=3">
+					<span>가디건</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=4">
+					<span>자켓</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=5">
+					<span>코트</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=6">
+					<span>하의</span>
+				</a>
+			</li>
+			<li>
+				<a href="${contextPath }/product/list?productCategorie=7">
+					<span>신발</span>
 				</a>
 			</li>
 		</ul>
@@ -90,4 +110,4 @@
 		</form>
 	</div>
 </div>
-
+<script src="<%=request.getContextPath() %>/resources/js/common/header.js"></script>

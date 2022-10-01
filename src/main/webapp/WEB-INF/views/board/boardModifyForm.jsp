@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" >
 <body>
 	<form id="modifyForm">
-		<input type="number" name="boardNo" value=${dto.boardNo } hidden="hidden">
+		<input type="number" name="boardNo" value="${dto.boardNo }" hidden="hidden">
 		<input type="text" name="memberId" value="${dto.memberId }" hidden="hidden"/>
 		
 		<table class="board">
@@ -65,4 +65,4 @@
 	</form>
 	<div id="response" hidden="hidden"></div>
 </body>
-<script src="<%=request.getContextPath() %>/resources/js/board.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/board/board.js"></script>

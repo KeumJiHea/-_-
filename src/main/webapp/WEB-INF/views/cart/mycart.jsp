@@ -6,6 +6,9 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/common.css">
+<style>
+th, td{padding: 50px;}
+</style>
 <body>
 	<br><br><br>
 	<input type="hidden" id="hipath" value="${contextPath }">
@@ -56,10 +59,10 @@
 						</th>
 						<th id="price${status.index }">${cart.productPrice }</th>
 						<th>
-							<input type="number" min="1" max="10" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.productStack }" placeholder="${cart.productStack }"><br>
+							<input type="number" min="1" max="${plist[status.index].productStack }" name="productStack" id="productStack${status.index }" onchange="change()" value="${cart.productStack }" placeholder="${cart.productStack }"><br>
 							<span id="goods_total_price${status.index }">${cart.productPrice*cart.productStack }</span>원
 						</th>
-						<th><button type="button" class="deletebtn">삭제</button></th>
+						<th><button type="button" class="deletebtn" id="${cart.cartNum }">삭제</button></th>
 						</tr>
 					</c:forEach>
 				</tbody>

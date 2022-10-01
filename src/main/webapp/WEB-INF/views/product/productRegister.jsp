@@ -5,11 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-	<!-- <style type="text/css">
-		.ck-editor__editable { height: 300px; }
-	</style> -->
-	
 </head>
 <body>
 	
@@ -17,7 +12,6 @@
 	<script type="text/javascript">
 		function readURL(input) {
 			var file = input.files[0] //파일에 대한 정보
-			console.log(file)
 			if (file != '') {
 				var reader = new FileReader();
 				reader.readAsDataURL(file); //파일의 정보를 토대로 파일을 읽고 
@@ -27,18 +21,6 @@
 				}
 			}
 		}
-		
-		/* var cnt=1;
-		function addFile(){
-			$("#addfile").append("<div id='productContent"+cnt+"'><input type='file' name='productContent'>"
-			         +"<input type='button' value='삭제' onclick='delFile()'> </div>")
-			cnt++
-		}
-		
-		function delFile(){
-			cnt--
-			$("#productContent"+cnt).remove()
-		} */
 		
 		function chkData() {
 			if (document.getElementById('productNo').value == "") {
@@ -82,9 +64,13 @@
 		<b>상품 카테고리</b><br>
 		<select size="1" name="productCategorie" id="productCategorie">
 			<option value=""> ----------
-			<option value="1"> 상의
-			<option value="2"> 원피스
-			<option value="3"> 하의
+			<option value="1"> 티셔츠
+			<option value="2"> 셔츠
+			<option value="3"> 가디건
+			<option value="4"> 자켓
+			<option value="5"> 코트
+			<option value="6"> 하의
+			<option value="7"> 신발
 		</select>
 		<hr>
 		
@@ -117,9 +103,6 @@
 		
 		<b>상품 설명</b><br>
 		<input type="file" name="productContent" />
-		
-		<!-- <input type="button" value="설명 이미지 추가" onclick="addFile()"><br>
-		<div id="addfile"></div> -->
 		
 		<hr>
 		<button type="button" onclick="chkData()">상품 등록</button>

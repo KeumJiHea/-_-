@@ -6,14 +6,7 @@ function slide_hide(){
 	$("#first").hide();
 	$("#modal_wrap").hide();	
 }		
-$(document).ready(function(){
-	var rowspan = $("#tbody tr").length;
-	var statustd = $("#statustd0");
-	statustd.attr('rowspan',rowspan);
-	for(i=1;i<$("#tbody tr").length;i++){
-		$("#statustd"+i).remove();
-	}
-})		
+	
 		
 $(document).on('click',".fcancel",function(){
 		

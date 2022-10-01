@@ -38,8 +38,8 @@
 </table>
 <c:if test="${dto.memberId == loginUser}">
 	<div class="board-buttons">
-		<button class="modifyBoard button" onclick="location.href='modifyForm?boardNo=${dto.boardNo}'">수정</button>
-		<button class="deleteBoard button" onclick="location.href='delete?boardNo=${dto.boardNo}'">삭제</button>
+		<button class="modifyBoard button">수정</button>
+		<button class="deleteBoard button">삭제</button>
 	</div>
 </c:if>
 
@@ -54,9 +54,9 @@
 	
 	<c:if test="${loginUser != null }">
 		<form class="replyForm">
-			<input type="hidden" name="memberId" id="memberId" value=${loginUser } readonly>
+			<input type="hidden" name="memberId" id="memberId" value="${loginUser }" readonly>
 			<label for="memberName">이름</label>
-			<input type="text" name="memberName" id="memberName" value=${userName } readonly>
+			<input type="text" name="memberName" id="memberName" value="${userName }" readonly>
 			<br>
 			<textarea name="replyContent" class="replyContent" id="replyContent" placeholder="댓글을 입력해주세요."></textarea>
 			<button type="button" class="addReply" onclick="saveReply()">작성</button>
@@ -65,14 +65,16 @@
 </div>
 <div class="reply-list"></div>
 
-<button class="list button" onclick="location.href='boardList'">목록으로</button>
+<button class="list button">목록으로</button>
 </body>
+<script src="<%=request.getContextPath() %>/resources/js/board/board.js"></script>
 <script>
+const boardNo = ${dto.boardNo};
+
 	function saveReply(){
 		const memberId = "${loginUser}";
 		const memberName = $('#memberName').val();
 		const replyContent = $('#replyContent').val();
-		const boardNo = ${dto.boardNo};
 		
 		$.ajax({
 			type: "POST",
@@ -97,7 +99,7 @@
 	function getReply(){
 		$.ajax({
 			type: "GET",
-			url: "${root}/seeot/board/replyList/"+${dto.boardNo},
+			url: "${root}/seeot/board/replyList/"+boardNo,
 			dataType: "json",
 			success: function(replyList){
 				let html = "";
@@ -154,18 +156,20 @@
 	}
 	
 	function deleteReply(replyNo, boardNo){
- 		$.ajax({
-			type: "POST",
-			url: "${root}/seeot/board/deleteReply/"+replyNo+'/'+boardNo,
-			dataType: "json",
-			success: function(result){
-				if(result==1){
-					alert('댓글이 삭제되었습니다.');
-				}else{
-					alert('댓글을 삭제하지 못했습니다.');
+		if(confirm('삭제하시겠습니까?')){
+	 		$.ajax({
+				type: "POST",
+				url: "${root}/seeot/board/deleteReply/"+replyNo+'/'+boardNo,
+				dataType: "json",
+				success: function(result){
+					if(result==1){
+						alert('댓글이 삭제되었습니다.');
+					}else{
+						alert('댓글을 삭제하지 못했습니다.');
+					}
+					getReply();
 				}
-				getReply();
-			}
-		});
+			});
+		};
 	}
 </script>

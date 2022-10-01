@@ -100,7 +100,15 @@ public class OrderController {
 	@GetMapping("order")
 	public String ordersuccess(HttpSession session,Model model,String memberId) {
 		os.orderView(session, model, memberId);
-		return "/order/order";
+		return "/order/order.page";
+	}
+	
+	@GetMapping("orderHistory")	
+	public String orderHistory(HttpServletRequest request,Model model,String memberId) {
+		HttpSession session = request.getSession();
+		memberId = (String) session.getAttribute("loginUser");
+		os.getOrderHistorys(model, memberId);		
+		return "/order/orderHistory.page";
 	}
 	
 	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
@@ -114,11 +122,11 @@ public class OrderController {
 	}
 	
 	@GetMapping("orderadmin")
-	public String orderadmin(Model model,HttpServletRequest request) {
+	public String orderadmin(Model model,HttpServletRequest request,@RequestParam(value = "num",required = false, defaultValue = "1") int num) {
 		model.getAttribute("cdto");
 		OrderDTO odto = new OrderDTO();
-		os.getAllOrders(request,model);
-		return "/order/orderadmin";
+		os.getAllOrders(request,model,num);
+		return "/order/orderadmin.admin";
 	}
 	
 	@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")
@@ -164,6 +172,15 @@ public class OrderController {
 		dto.setKeyword(keyword);
 		dto.setType(type);
 		return os.getSearchList(dto,type,keyword);
+	}
+	@GetMapping("getStatusList")
+	@ResponseBody
+	public ArrayList<OrderHistoryDTO> getStatusList(HttpServletRequest request,String type,String memberId,Model model) {
+		HttpSession session = request.getSession();
+		memberId = (String) session.getAttribute("loginUser");
+		OrderDTO dto = new OrderDTO();
+		dto.setType(type);
+		return os.getStatusList(dto,type,memberId);
 	}
 	
 	@PostMapping("sorting")

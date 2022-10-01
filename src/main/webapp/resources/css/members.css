@@ -450,11 +450,16 @@
 
 .members-wrapper.myaccount .contents .membership {
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: 60px;
 }
 
 .members-wrapper.myaccount .contents .membership .left {
     width: 40%;
+}
+
+.members-wrapper.myaccount .contents .membership {
+    display: flex;
+    padding-bottom: 60px;
 }
 
 .members-wrapper.myaccount .contents .membership .right {
@@ -499,10 +504,10 @@
 
 .members-wrapper.myaccount .contents .membership .membership-contents a {
     display: inline-block;
-    color: #222;
+    color: #fff;
     text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #222;
+    background-color: #222;
+    border: 1px solid #fff;
     padding: 7px;
 }
 
@@ -516,6 +521,7 @@
 .members-wrapper.myaccount .contents .contents-item.columns {
     display: flex;
     justify-content: space-between;
+    padding-top: 40px;
 }
 
 .members-wrapper.myaccount .contents .delete .filed .delete_pw .delete_pw {
@@ -556,6 +562,37 @@
     font-size: 14px;
     text-align: center;
     border-collapse: collapse;
+}
+
+.members-wrapper.myaccount .contents-item .review-table {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr th.product-title {
+    width: 40%;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr th {
+    width: 20%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr td {
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.members-wrapper.myaccount .contents-item .review-table tr td a {
+    display: inline-block;
+    color: #222;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #222;
+    padding: 5px 10px;
 }
 
 .members-wrapper.myaccount .contents-item .order-table tr th.product-title {

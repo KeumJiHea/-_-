@@ -34,10 +34,13 @@ public class BoardController{
 	BoardService bs;
 	@Autowired
 	BoardFileService bfs;
-
+	
 	@GetMapping("boardList")
-	public String boardList(Model model, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
-		bs.boardList(model, currentPage);
+	public String boardList(Model model,
+			@RequestParam(value="nowPage", required=false, defaultValue="1")String nowPage,
+			@RequestParam(value="cntPerPage", required=false, defaultValue="10")String cntPerPage) {
+		
+		bs.boardList(model, nowPage, cntPerPage);
 		return "board/boardList.page";
 	}
 
