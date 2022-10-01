@@ -18,7 +18,6 @@
 	var selColCount = 0, selSizCount = 0;	
 	
 	function colorAdd(productColor) {
-		console.log("선택 색 : " + productColor)
 		
 		if(pc == null || pc == '') {
 			pc = productColor;
@@ -46,7 +45,6 @@
 	
 	
 	function sizeAdd(proSize) {
-		console.log("선택 사이즈 : " + proSize)
 		if(ps == null || ps == ''){
 			ps = proSize;
 			const PSelement = document.getElementById(ps);
@@ -68,7 +66,6 @@
 	}
 	
  	function productSelect() {
-		console.log('상품 선택 :  productNo : ${pdto.productNo}, pc : ' + pc + ', ps : ' + ps)
 		
 			$.ajax({
 				url: "proStackGet",
@@ -81,10 +78,8 @@
 				datatype:"json",
 				success: function(data) {
 					
-					console.log(data)
 					
 					if(data != '' ) {
-						console.log("상품 선택값 추가" + data.productColor + ", " + data.productSize)
 						
 						if(document.getElementById(data.productColor + data.productSize) == null) {
 							cnt++;
@@ -128,7 +123,6 @@
 
  	function stackUp(product_id) {
 		var product_id =  $(product_id).attr('class')
-		console.log("@@@@ product_id : " + product_id)
 		stack = $("#" + product_id).val();
 		Maxstack = $("#Max" + product_id).val();
 		stack++;
@@ -138,7 +132,6 @@
 		}
 		var productPrice = ${pdto.productPrice};
 		var productStackPrice = stack * productPrice;
-		console.log("@@@@ stack : " + stack)
 		$('#' + product_id).val(stack);
 		$( '#Price' + product_id).text( productStackPrice );
 		proTotalSelectCount();
@@ -146,7 +139,6 @@
 	
 	function stackDown(product_id) {
 		var product_id =  $(product_id).attr('class')
-		console.log("@@@@ product_id : " + product_id)
 		stack = $("#" + product_id).val();
 		stack--;
 		if(stack <= 0) {
@@ -155,7 +147,6 @@
 		}
 		var productPrice = ${pdto.productPrice};
 		var productStackPrice = stack * productPrice;
-		console.log("@@@@ stack : " + stack)
 		$('#' + product_id).val(stack);
 		$( '#Price' + product_id).text( productStackPrice );
 		proTotalSelectCount();
@@ -164,7 +155,6 @@
 
 	function deleteSelPro(id) {
 		var delId =  $(id).attr('class')
-		console.log(delId)
 		$("div").remove("#"+delId)
 		proTotalSelectCount()
 	}
@@ -238,7 +228,6 @@
 		},
 		dataType :"json", 
 		success : function( reviewData ){
-			console.log(reviewData)
 			let html = ""
 		for( i=0; i<reviewData.length; i++){
 				let date = new Date( reviewData[i].reviewDate )
@@ -251,7 +240,6 @@
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
 								
 				html += "<b>내용 : </b>"+reviewData[i].reviewContent;
-				//html += "reviewNo: "+reviewData[i].reviewNo; //정보확인용
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50' /></div>";
 				}

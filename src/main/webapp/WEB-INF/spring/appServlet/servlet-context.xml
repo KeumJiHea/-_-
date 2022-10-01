@@ -41,9 +41,10 @@
 	
 	<interceptors>
 		<interceptor>
+			<mapping path="/cart/addcart"/>
 			<mapping path="/cart/mycart"/>
 			<mapping path="/order/order"/>
-			<mapping path="/order/orderMain"/>
+			<mapping path="/order/ordermain"/>
 			<mapping path="/order/orderHistory"/>
 			<mapping path="/board/boardWrite"/>
 			<mapping path="/board/boardModify"/>

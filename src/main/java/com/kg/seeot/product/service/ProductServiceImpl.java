@@ -193,9 +193,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public void managementModify_Form(int productNo, int productSize, String productColor, Model model) {
-		System.out.println(productNo);
-		System.out.println(productSize);
-		System.out.println(productColor);
 		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
 	}
 	
@@ -236,9 +233,6 @@ public class ProductServiceImpl implements ProductService{
 		
 		int end = num * pageViewProduct;
 		int start = end + 1 - pageViewProduct;
-		System.out.println("start : " +  start);
-		System.out.println("end : " + end);
-		System.out.println("------------------------------------");
 		return mapper.prolist(orderBy, productCategorie, start, end, chkColor_arr, chkPrice_arr);
 	}
 	

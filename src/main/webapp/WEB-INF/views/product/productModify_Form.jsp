@@ -17,7 +17,6 @@
 	<script type="text/javascript">
 		function readURL(input) {
 			var file = input.files[0] //파일에 대한 정보
-			console.log(file)
 			if (file != '') {
 				var reader = new FileReader();
 				reader.readAsDataURL(file); //파일의 정보를 토대로 파일을 읽고 
