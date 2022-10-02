@@ -23,9 +23,9 @@ public interface OrderMapper {
 	
 	public void addcancel_1(@Param("m") String memberId,@Param("o") String orderNo, @Param("r") String reason);	
 	//public void addcancel_2(String orderNo);	
-	public CancelDTO getcancel(@Param("m") String memberId,@Param("o") String orderNo);
+	public ArrayList<CancelDTO> getcancel(@Param("m") String memberId,@Param("o") String orderNo);
 	public void orderdel(String orderNo);
-	
+	public void cancelOkDel(@Param("o") String orderNo,@Param("m") String memberId);
 	
 	public void changeStatus_noneCancel(String orderNo);//취소 취소중
 	public void changeStatus_canceling(String orderNo);//취소중

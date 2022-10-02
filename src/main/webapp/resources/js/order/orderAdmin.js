@@ -1,29 +1,30 @@
-	function slideClick(){
-	var reason = $("#hire").val();
-		var form={
-			memberId : $("#tbody th").eq(1).text(),
-			orderNo : $("#tbody th").eq(0).text()
-		}
-		$("#first").slideDown("slow");
-		$("#modal_wrap").show();		
+	$(document).on('click','.cancelbtn',function(){
+		var cancelbtn = $(this);
+		var m = cancelbtn.parent().parent();
+		var memberId = m.children().eq(1).text();
+		var orderNo = m.children().eq(0).text();
+		var cost = m.children().eq(5).text();
+		var url = "ordercancel?orderNo="+orderNo+"&memberId="+memberId+"&cost="+cost;
+		var name = "test";
+		var option = "width = 400, height = 400, top = 100, left = 200, location = no"
+		
+				
 		$.ajax({
-			url : "cancelchk",
-			type : "POST",
+			url : url,
+			type : "get",
 			contentType : "application/json; charset=utf-8",
-			data : JSON.stringify(form)
+			data : {
+			memberId : memberId,
+			orderNo : orderNo,
+			cost : cost
+			}
 			}).done(function(){
-				$("#memberId").val(form.memberId);
-				$("#orderNo").val(form.orderNo);
-				$("#reason").val(reason)
+				window.open(url,name,option);
 			}).fail(function(data){
 				alert('실패'+data)
 			});
-		}
+		})
 
-	function slide_hide(){	
-		$("#first").hide();
-		$("#modal_wrap").hide();	
-	}
  	var cnt=1;
 	var j=0;
 	var pricelist = new Array();
@@ -137,54 +138,7 @@
 				});
 	});
 	
-	$(document).on('click',".cancelOk",function(){
-   
-		var no = $("#tbody th").eq(0).text();
-		var cost =$("#tbody th").eq(3).text();
-		
-		jQuery.ajax({
-		      "url": "cancelOk", // 예: http://www.myservice.com/payments/cancel
-		      "type": "POST",
-		      "contentType": "application/json",
-		      "data": JSON.stringify({
-		        "merchant_uid": no, // 예: ORD20180131-0000011
-		        "cancel_request_amount": cost, // 환불금액
-		        "reason": $('#reason').val(), // 환불사유
-		        "refund_holder": "운영자", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-		        "refund_bank": "88", // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
-		        "refund_account": "56211105948400", // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-		        "orderNo" : no
-		      }),
-		    }).done(function(result){
-		    	alert('주문취소완료');
-		    	location.reload();
-		    	slide_hide();		    	
-		    }).fail(function(result){
-		    	alert('주문취소실패! \n잠시후 다시 시도 해주세요.')
-		    });	
-		
-		
-						
-	});
- 	
-	$(document).on('click',".cancelNone",function(){
-		var form={
-				memberId : $("#tbody th").eq(1).text(),
-				orderNo : $("#tbody th").eq(0).text()
-			};		
-			$.ajax({
-				url : "noncancel",
-				type : "POST",
-				contentType : "application/json; charset=utf-8",
-				data : JSON.stringify(form)
-				}).done(function(){
-					alert($("#tbody th").eq(0).text()+'주문취소 취소처리 완료');
-			    	location.reload();	
-				}).fail(function(data){
-					alert('실패'+data)
-				});
-						
-	});
+	
 
 	function getSearchList(){
 		$.ajax({

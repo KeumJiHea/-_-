@@ -69,6 +69,10 @@
 		select * from goods_order where order_no=#{orderNo}
 	</select>
 	
+	<delete id="cancelOkDel">
+		delete from cancel where order_no=#{o} and member_id=#{m}
+	</delete>
+	
 	<select id="getOrders" resultMap="order">
 		select * from goods_order where memberId=#{memberId} order by order_date DESC
 	</select>

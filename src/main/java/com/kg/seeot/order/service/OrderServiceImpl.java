@@ -96,6 +96,7 @@ public class OrderServiceImpl implements OrderService{
 			}
 			
 			om.orderdel(orderNo);
+			om.cancelOkDel(orderNo,memberId);
 		}else {
 			System.out.println("orderNo : "+orderNo);
 			System.out.println("memberId : "+memberId);
@@ -153,15 +154,20 @@ public class OrderServiceImpl implements OrderService{
 	
 
 	@Override
-	public void getCancel(HttpServletRequest request,Model model,String memberId, String orderNo) {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("loginUser").equals("admin")) {
+	public void getCancel(HttpServletRequest request,Model model,String memberId, String orderNo,String cost) {
+		HttpSession session = request.getSession();		
+		if(session.getAttribute("loginUser").equals("admin")) {			
+			ArrayList<CancelDTO> list = new ArrayList<CancelDTO>();
+			list = om.getcancel(memberId, orderNo);			
+			String reason = list.get(0).getReason();
+			memberId = list.get(0).getMemberId();
+			orderNo = list.get(0).getOrderNo();
 			CancelDTO cdto = new CancelDTO();
-			cdto = om.getcancel(memberId, orderNo);
-			String reason = cdto.getReason();
-			memberId = cdto.getMemberId();
-			orderNo = cdto.getOrderNo();					
-			session.setAttribute("reason", reason);
+			cdto.setOrderNo(orderNo);
+			cdto.setMemberId(memberId);
+			model.addAttribute("cdto",cdto);
+			model.addAttribute("cost",cost);
+			model.addAttribute("reason", reason);
 		}
 		
 	}
