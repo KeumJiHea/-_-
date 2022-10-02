@@ -1,0 +1,204 @@
+@charset "UTF-8";
+
+.board-list{
+    margin: auto;
+    width: 80vw;
+    text-align: center;
+    border-width: 2px 0 0 0;
+	border-style: solid;
+	border-color:rgb(33,33,33, 0.8);
+	border-collapse: collapse;
+}
+
+.board-list td, .board-list th{
+    padding: 10px 7px;
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color:rgb(33,33,33, 0.2);
+}
+
+#cntPerPage{
+   float: right;
+   width: 100px;
+   padding: 5px;
+   margin: 10px 0px;
+   border: 1px solid rgb(33,33,33, 0.8);
+   font-family: inherit;
+}
+
+.boardTitle{
+    width: 600px;
+	text-align: left;
+}
+
+.boardTitle a{
+	font-size: 1.2rem;
+}
+
+.replyCount{
+	color: rgb(33,33,33,0.6)
+}
+
+.button{
+	margin: 10px;
+	width: 88px;
+	height: 35px;
+}
+.button.write{
+	display: inline-block;
+	float: right;
+}
+
+.paging{
+	text-align: center;
+	padding: 10px;
+}
+.paging a{
+	padding: 5px;
+}
+
+.board{
+	margin: auto;
+    width: 60vw;
+    border-width: 2px 0 2px 0;
+	border-style: solid;
+	border-color:rgb(33,33,33, 0.8);
+	border-collapse: collapse;
+}
+
+.board td{
+	padding: 10px;
+}
+
+.board input{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	width: 90%;
+	padding: 10px;
+}
+
+select.title{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 10px;
+	width: 80%;
+	appearance:none;
+}
+
+textarea.boardContent{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	resize: none;
+	width: 90%;
+	padding: 10px;
+}
+
+.file-list{
+	display: flex;
+	width: 90%;
+}
+.filebox{
+	width: 100px;
+	margin: 5px;
+	overflow: hidden;
+}
+
+.boardContent{
+	height: 200px;
+	border-top: 2px;
+	border-bottom: 2px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.8);
+	vertical-align:baseline;
+	padding: 22px 10px;
+}
+
+td.file{
+	padding: 10px;
+}
+
+.board th{
+	width: 100px;
+	padding: 5px;
+}
+
+.board-buttons{
+	display: flex;
+	justify-content: center;
+	margin: 10px;
+}
+
+.reply-box{
+	margin: auto;
+	width: 60vw;
+}
+
+.reply-list{
+	margin: auto;
+	width: 60vw;
+}
+
+.replyContent{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 8px;
+	resize: none;
+	width: 50vw;
+	height: 100px;
+}
+.replyContent::focus{
+	border-color: rgb(33,33,33,0.8);
+}
+#memberName{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 5px;
+	margin: 10px;
+}
+.addReply{
+	margin: 5px 10px;
+	width: 88px;
+	height: 35px;
+	vertical-align:bottom;
+}
+.modifyReply, .deleteReply, .cancleReply{
+	background-color: white;
+	border: none;
+	color: rgb(33,33,33,0.8);
+	margin:0;
+	padding: 3px;
+}
+
+.button.list{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+}
+.writer{
+	font-weight: bold;
+}
+.content{
+	padding: 8px 0;
+}
+.replyDate{
+	color: rgb(33,33,33,0.5);
+}
+
+.UpdateContent{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 8px;
+	resize: none;
+	width: 40vw;
+	height: 100px;
+	display: block;
+}
+
+

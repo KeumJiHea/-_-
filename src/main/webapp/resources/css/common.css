@@ -1,0 +1,297 @@
+@charset "UTF-8";
+
+/* 기본 HTML5 설정 리셋 */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    background:transparent;
+}
+
+ul {
+    list-style:none;
+}
+
+textarea{
+	font-family: Noto Sans KR;
+}
+
+::placeholder{
+	font-family: Noto Sans KR;
+}
+
+a {
+    margin:0;
+    padding:0;
+    vertical-align:baseline;
+    background:transparent;
+	text-decoration: none;
+	font-family: "Do hyeon", sans-serif;
+	color: rgb(33,33,33);
+}
+
+button{
+	font-family: "Do hyeon", sans-serif;
+	color: #FFF;
+	background-color: rgb(33,33,33);
+	opacity: 1;
+	padding: 5px 10px;;
+	cursor: pointer;
+}
+button:hover{
+	opacity: 0.9;
+}
+button:disabled{
+	opacity: 0.3;
+}
+
+/* 프로젝트 기본 CSS 설정 */
+#wrapper{
+	width: 100%;
+	height: 100%;
+}
+
+/* header CSS */
+#header{       
+	position: fixed;
+	width:100%;
+	height:100px;
+	z-index: 100;
+	background-color: white;
+}
+#header .navbar{
+	display: grid;
+	grid-template-areas:
+	". . login"
+	"left left right";
+	justify-content: space-between;
+	padding: 20px 38px 38px 38px;
+	font-size: 1.2rem;
+}
+
+/* 로그인, 회원가입, 고객지원 */
+.navbar .login-menu{
+	grid-area: login;
+}
+.login-menu li{
+	display: inline-block;
+}
+.login-menu > ul > li > span{
+	font-family: "Do hyeon", sans-serif;
+	color: rgb(33,33,33);
+	vertical-align:baseline;
+	text-decoration: none;
+    padding:0;
+	margin-right: 10px;
+}
+
+/* 로고, 카테고리 */
+.navbar .left_area{
+	grid-area: left;
+	display: flex;
+}
+
+.category li{
+	padding: 5px 0 10px;
+	display: inline-block;
+}
+.category li a{
+	padding: 21px 20px 27px;
+}
+.category li a span{
+	padding: 21px 0 5px;
+}
+/* 카테고리 밑줄 */
+.underline{
+	position: absolute;
+	width: 0;
+	background-color: rgb(33,33,33);
+	height: 4px;
+	transition: 0.2s;
+	border-radius: 1rem;
+}
+
+/* 검색, 장바구니, 마이페이지 */
+.navbar .right_area{
+	display: flex;
+	padding: 10px 0 10px;
+	grid-area: right;
+	justify-content: end;
+}
+.right_area a{
+	padding: 0 5px 0;
+}
+.right_area i{
+	font-size: 20px;
+	padding: 0 5px;
+	cursor: pointer;
+}
+.right_area li{
+	display: inline-block;
+}
+
+/* 검색 모달창 */
+.modal-bg{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vw;
+	background-color: rgba(0,0,0,0.2);
+	display: none;
+	z-index:100;
+}
+.modal-search{
+	background-color: #fff;
+	position: fixed;
+	left: 0;
+	width: 100%;
+	height: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: -300px;
+	transition: 0.35s;
+	z-index:101;
+}
+.modal-search.active{
+	top:0;
+}
+.close-search{
+	position: absolute;
+	right: 200px;
+	top: 20px;
+	color: rgb(33,33,33);
+	font-size: 2em;
+	cursor: pointer;
+}
+.search{
+	width: 500px;
+}
+.search .field{
+	display: flex;
+	position: relative;
+}
+.search .field:before{
+	content: "\f002";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: 1.2em;
+	position: absolute;
+	left: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.search .field input[type='search'],
+.search .field input[type='submit']{
+	padding: 10px;
+	outline: none;
+}
+.search .field input[type='search']{
+	flex: 8;
+	border: none;
+	border-bottom: 2px solid rgb(33,33,33);
+	margin-right: 10px;
+	padding-left: 50px;
+}
+.search .field input[type=search]::placeholder{
+	font-style: italic;
+}
+.search .field input[type=search]:focus::placeholder{
+	opacity: 0;
+	transition: 0.35s;
+}
+
+.search .field input[type='submit']{
+	flex: 1;
+	color: #FFF;
+	background-color: rgb(33,33,33);
+	opacity: 1;
+	cursor: pointer;
+}
+.search .field input[type=submit]:hover{
+	opacity: 0.9;
+}
+
+/* main CSS */
+#main{
+	margin: auto;
+	width:80vw;
+	min-height: 600px;
+	padding-top: 150px;
+	padding-bottom: 100px;
+}
+
+/* footer CSS */
+#footer{
+	width: 100%;
+	height: 200px;     
+	text-align: center;
+	clear:both;
+	background-color: lightgrey;
+}
+.footer_menu ul{
+	display: flex;
+}
+
+/* side menu CSS */
+#side-menu{
+	background-color: #e9eef0;
+	width: 100px;
+	right: 15px;
+	top: 30%;
+	position: fixed;
+	padding: 10px;
+	border: 1px solid gray;
+	border-radius: 1rem;
+	cursor: pointer;
+}
+.side-menu{
+	text-align: center;
+}
+
+.recentBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+
+.thumb a img{
+	width: 80px;
+	height: 80px;
+}
+.thumb a img:hover{
+	transition: all 0.1s linear;
+	transform: scale(1.1);
+}
+
+.cartBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+.topBtn{
+	padding: 10px;
+	border-radius: 1rem;
+}
+.topBtn:hover, .cartBtn:hover{
+	background-color: #c7cbcd;
+}
+.side-menu i{
+	font-size: 1.8rem;
+}
+
+.recentBtn > span{
+	font-size: 0.9rem;
+}
