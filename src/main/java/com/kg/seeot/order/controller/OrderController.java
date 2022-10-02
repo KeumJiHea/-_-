@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kg.seeot.member.service.MemberService;
+import com.kg.seeot.mybatis.order.OrderMapper;
 import com.kg.seeot.order.dto.OrderDTO;
 import com.kg.seeot.order.dto.OrderHistoryDTO;
 import com.kg.seeot.order.service.OrderService;
@@ -129,19 +130,38 @@ public class OrderController {
 		return "/order/orderadmin.admin";
 	}
 	
-	@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")
+	@GetMapping("ordercancel")
+    public String ordercancel(HttpServletRequest request,Model model,@RequestParam("memberId") String memberId,@RequestParam("orderNo")String orderNo,@RequestParam("cost")String cost) {
+        String[] m = memberId.split(",");
+        String[] o = orderNo.split(",");
+        String[] c = cost.split(",");
+        
+            memberId = m[0];
+            orderNo = o[0];
+            cost = c[0];
+            System.out.println(memberId);
+            System.out.println(orderNo);
+            System.out.println(cost);
+        
+        os.getCancel(request, model, memberId, orderNo,cost);
+        
+        return "/order/ordercancel";
+    }
+	
+	/*@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public void cancelchk(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
 		memberId = (String) map.get("memberId");
 		orderNo = (String)map.get("orderNo");		
 		os.getCancel(request, model, memberId, orderNo);
-	}
+	}*/
 	
 	@PostMapping(value = "cancelOk", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public void cancelOk(HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
 		String orderNo = (String) data.get("merchant_uid");
 		os.cancel(request, orderNo, memberId, reason);
+		
 	}
 	
 	@PostMapping(value = "noncancel", produces = "application/json; charset=utf-8")

@@ -27,7 +27,7 @@ public interface OrderService {
 	
 	public void cancel(HttpServletRequest request,String orderNo,String memberId,String reason); //주문취소
 	public void nonCancel(HttpServletRequest request,String orderNo); //주문취소를 취소
-	public void getCancel(HttpServletRequest request,Model model,String memberId,String orderNo);
+	public void getCancel(HttpServletRequest request,Model model,String memberId,String orderNo,String cost);
 	public void doDelevery(String orderNo);
 	public void endDelevery(String orderNo);
 	

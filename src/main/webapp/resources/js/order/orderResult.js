@@ -7,20 +7,69 @@ function slide_hide(){
 	$("#modal_wrap").hide();	
 }		
 	
+	var cnt=1;
+	var j=0;
+	var pricelist = new Array();
+ 	$(document).ready(function(){ //9020 중복되는 주문번호 합쳐보기
+ 		var total = 0;
+		for(i=0;i<$("#tbody tr").length;i++){
+		total+= parseInt($("#cost"+i).text());
+		var sum = 0;
+			if(i>$("#tbody tr").length){
+				i=$("#tbody tr").length
+			}
+			if($("#no"+i).text()==$("#no"+(i+1)).text()){
+				if(cnt++){
+					j++;
+				}
+					sum += parseInt($("#price"+i).text())									
+					pricelist.push(sum)					
+			}			
+			else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+					if(j!=0){						
+						sum += parseInt($("#price"+i).text())
+						pricelist.push(sum)
+						$("#no"+(i-j)).attr('rowspan',$("#tbody tr").length);
+	 					$("#no"+(i-j)).attr('class','start');	
+						$("#no0").attr('class','start');
+						$("#status"+(i-j)).attr('rowspan',$("#tbody tr").length);
+						$("#status"+(i-j)).attr('class','start');
+						$("#status0").attr('class','start');					
+					}
+					pricelist = [];
+					
+					if(j==0&&cnt==1&&i!=0){
+						sum += parseInt($("#price"+i).text())
+						pricelist.push(sum)
+						$("#no"+(i-j)).attr('class','start');
+						$("#no0").attr('class','start');
+						$("#status"+(i-j)).attr('class','start');
+						$("#status0").attr('class','start');
+						
+					}
+						pricelist = [];
+					cnt=1;
+					if(cnt=1){
+						j=0;
+					}
+				}
+		}		
+		$("#total").attr("value",total);
+	})
 		
 $(document).on('click',".fcancel",function(){
 		
 		var str = ""            
 		var tdArr = new Array();    // 배열 선언            
-		var checkBtn = $("#tbody");
+		var cancelBtn = $(".cancel");
 		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
 		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
-		var tr = checkBtn.parent().parent();    
-		var td = tr.children(); 
+		var tr = cancelBtn.parent().parent();    
+		var th = tr.children(); 
 
 		// td.eq(index)를 통해 값을 가져올 수도 있다.    
-		var no = $("#tbody td").eq(0).text();
-		var cost =$("#tbody td").eq(3).text();
+		var no = th.eq(0).text();
+		var cost =$("#total").val();
 		console.log(no)
 		console.log(cost)
 		$("#orderNo").attr('value',no);
@@ -48,3 +97,4 @@ $(document).on('click',".fcancel",function(){
 		    	alert('주문취소신청에 실패하였습니다.\n잠시후 다시 시도 해주세요.')
 		    });					
 	});
+	

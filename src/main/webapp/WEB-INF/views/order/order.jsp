@@ -13,6 +13,9 @@
 	 top:30px; left: 0; right: 0; width: 350px; height: 450px; background-color: white;
 	}
 	th, td{padding: 50px;}
+	#tbody th:not(.start){
+		display: none;
+	}
 </style>
 <body>
 <div id="modal_wrap">
@@ -47,12 +50,13 @@
 		<tbody id="tbody">	
 			<c:forEach begin="0" end="${result-1 }" var="i" varStatus="status">			
 				<tr>
-					<td id="order${status.index }">${order.merchant_uid }</td><td><img width="50px" height="50px" src="${order.gfile[i] }"></td><td>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</td><td>${order.gcost[i] }</td><td>${order.gstack[i] }</td><td id="statustd${status.index }"><span id="status">주문완료</span><br><button type="button" name="cancelBtn" class='cancel' onclick="slideClick()">주문취소</button></td><td>확인</td>
+					<th id="no${status.index }">${order.merchant_uid }</th><td><img width="50px" height="50px" src="${order.gfile[i] }"></td><td>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</td><td><span id="cost${status.index }">${order.gcost[i] }</span></td><td>${order.gstack[i] }</td><th id="status${status.index }"><span id="status">주문 완료</span><br><button type="button" name="cancelBtn" class='cancel' onclick="slideClick()">주문취소</button></th><td>확인</td>
 				</tr>
 			</c:forEach>
 		</tbody>	
 		</c:if>
 	</table>
+	<input type="hidden" id="total">
 </div>
 
 </body>

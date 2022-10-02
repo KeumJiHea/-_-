@@ -120,7 +120,7 @@ function delete_chk(){
             <li class=""><a href="#orders">주문 내역</a></li>
             <li class=""><a href="#profile">회원 정보</a></li>
             <li class=""><a href="#address">주소 관리</a></li>
-            <li class=""><a href="#review">나의 후기</a></li>
+            <li class=""><a href="../review/myReview?memberId=${info.id }">나의 후기</a></li>
             <li class=""><a href="#delete">회원 탈퇴</a></li>
         </ul>
     </div>

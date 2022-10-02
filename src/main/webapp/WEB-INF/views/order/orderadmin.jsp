@@ -62,7 +62,7 @@ td th{padding: 50;}
 						<th id="total${status.index }">1</th>
 						<th id="status${status.index }">
 							<c:if test="${odto.orderStatus == 1}">결제완료<br><button type="button" class="delevery">배송 시작</button></c:if>
-							<c:if test="${odto.orderStatus == 0}">취소중<br><button type="button" onclick="slideClick()">취소 사유</button></c:if>
+							<c:if test="${odto.orderStatus == 0}">취소중<br><button type="button" class="cancelbtn">취소 사유</button></c:if>
 							<c:if test="${odto.orderStatus == -1}">취소완료</c:if>
 							<c:if test="${odto.orderStatus == 2}">배송중<br><button type="button" class="endDelevery">배송 완료</button></c:if>
 							<c:if test="${odto.orderStatus == 3}">배송완료</c:if></th>
