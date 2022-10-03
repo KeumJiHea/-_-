@@ -19,13 +19,13 @@
 				<th>문의 유형</th>
 				<td>
 					<select class="title" name="boardQnAType">
-						<option disabled selected>문의 유형을 선택해주세요.</option>
-						<option value="상품">상품</option>
-						<option value="배송">배송</option>
-						<option value="반품">반품</option>
-						<option value="교환">교환</option>
-						<option value="환불">환불</option>
-						<option value="기타">기타</option>
+						<option disabled>문의 유형을 선택해주세요.</option>
+						<option value="상품" <c:if test="${dto.boardQnAType == '상품' }"> selected </c:if>>상품</option>
+						<option value="배송" <c:if test="${dto.boardQnAType == '배송' }"> selected </c:if>>배송</option>
+						<option value="반품" <c:if test="${dto.boardQnAType == '반품' }"> selected </c:if>>반품</option>
+						<option value="교환" <c:if test="${dto.boardQnAType == '교환' }"> selected </c:if>>교환</option>
+						<option value="환불" <c:if test="${dto.boardQnAType == '환불' }"> selected </c:if>>환불</option>
+						<option value="기타" <c:if test="${dto.boardQnAType == '기타' }"> selected </c:if>>기타</option>
 					</select>
 				</td>
 			</tr>
@@ -65,4 +65,4 @@
 	</form>
 	<div id="response" hidden="hidden"></div>
 </body>
-<script src="<%=request.getContextPath() %>/resources/js/board/board.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/board/boardWrite.js"></script>

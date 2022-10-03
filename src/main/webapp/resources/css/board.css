@@ -116,6 +116,11 @@ textarea.boardContent{
 	padding: 22px 10px;
 }
 
+.boardContent img{
+	max-width: 600px;
+	max-height: 600px;
+}
+
 td.file{
 	padding: 10px;
 }
