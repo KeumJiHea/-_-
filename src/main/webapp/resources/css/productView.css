@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.pst {
+	width:25px;
+	height:15px;
+}
+#proicon {
+	width:25px;
+	height:25px;
+	margin: -7px 5px;
+}

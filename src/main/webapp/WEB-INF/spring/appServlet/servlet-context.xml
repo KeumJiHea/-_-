@@ -19,10 +19,56 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kg.seeot" />
+	<context:component-scan base-package="com.kg.seeot.**" />
 	
+	<!-- Tiles -->
+    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <beans:property name="definitions">
+            <beans:list>
+                <beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>        
+    <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <beans:property name="order" value="1" />
+    </beans:bean>  
 	
+	<beans:bean id="loginChk" class="com.kg.seeot.common.LoginCheckIn"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/cart/addcart"/>
+			<mapping path="/cart/mycart"/>
+			<mapping path="/order/order"/>
+			<mapping path="/order/ordermain"/>
+			<mapping path="/order/orderHistory"/>
+			<mapping path="/board/boardWrite"/>
+			<mapping path="/board/boardModify"/>
+			<mapping path="/board/modifyForm"/>
+			<mapping path="/board/delete"/>
+			<mapping path="/member/info"/>
+			<beans:ref bean="loginChk"/>
+		</interceptor>
+	</interceptors>
+	
+	<beans:bean id="adminLoginChk" class="com.kg.seeot.common.AdminLoginCheckIn"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/order/orderadmin"/>
+			<mapping path="/product/productList"/>
+			<mapping path="/product/managementModify_Form"/>
+			<mapping path="/product/managementRegister_Form"/>
+			<mapping path="/product/managementView"/>
+			<mapping path="/product/productModify_Form"/>
+			<mapping path="/product/productRegister"/>
+			<mapping path="/member/memberlist"/>
+			<beans:ref bean="adminLoginChk"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

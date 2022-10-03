@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.seeot.mybatis.board.ReviewMapper">
+	<resultMap type="com.kg.seeot.board.dto.ReviewDTO"
+		id="review">
+		<id property="memberId" column="memberId" />
+		<result property="reviewNo" column="reviewNo" />
+		<result property="reviewDate" column="reviewDate" />
+		<result property="reviewFile" column="reviewFile" />
+		<result property="reviewStar" column="reviewStar" />
+		<result property="productNo" column="productNo" />
+		<result property="reviewContent" column="reviewContent" />
+	</resultMap>
+
+	<insert id="addReview">
+		insert into seeot_review(memberId, reviewContent, productNo, reviewFile,reviewStar)
+		values(#{memberId}, #{reviewContent} ,#{productNo},#{reviewFile},#{reviewStar})
+	</insert>
+	
+	<select id="reviewMore" resultMap="review">
+		select * from seeot_review where productNo=#{productNo} order by reviewDate desc
+	</select>
+	
+	
+	<select id="getRepList" 
+		resultType="com.kg.seeot.board.dto.ReviewDTO">
+	select * from seeot_review where productNo=#{productNo} order by reviewDate desc
+	</select>
+	
+	<!-- 리뷰 페이징용 상품별 글 수 가져오기 -->
+	<select id="getCount" resultType="Integer">
+	select count(*) from seeot_review where productNo=#{productNo}
+	</select>
+	
+	<select id="reviewPage" resultMap="review">
+	
+	select B.* from
+	(select rownum rn, A.* from
+	(select * from seeot_review where productNo=#{productNo} order by reviewDate desc)A)B
+	where rn between #{s} and #{e}
+	
+	</select>
+
+
+	<select id="reviewList" resultMap="review">
+		select * from seeot_review
+	</select>
+
+	<insert id="saveData">
+		insert into seeot_review(memberId, reviewContent, productNo, reviewFile, reviewStar, reviewNo)
+		 values(#{memberId},#{reviewContent},#{productNo},#{reviewFile},#{reviewStar}, reviewNo.nextval)
+	</insert>
+	
+	<delete id="delete">
+	 delete from seeot_review where reviewNO=#{reviewNo}
+	</delete>
+	
+	<select id="contentView" resultMap="review">
+		select * from seeot_review where reviewNo=#{reviewNo}
+	</select>
+
+	<update id="modify">
+		update seeot_review set reviewContent=#{reviewContent}, reviewFile=#{reviewFile},
+					reviewStar=#{reviewStar} where reviewNo=#{reviewNo}
+	</update>
+	
+	<update id="productCount">
+	update product set review_count=review_count+1,
+	 product_rating=product_rating+#{reviewStar} where product_no=#{productNo}
+	</update>
+	
+	<update id="productmodify">
+	update product set review_count=review_count-1, product_rating=product_rating-#{modifyStar} where product_no=#{modifyProductNo}
+	</update>
+	
+	<select id="myReview" resultMap="review">
+		 select * from seeot_review where memberId=#{memberId} order by reviewDate desc
+	</select>
+	
+
+</mapper>

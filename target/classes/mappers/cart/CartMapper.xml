@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.seeot.mybatis.cart.CartMapper">
+	<resultMap type="com.kg.seeot.cart.dto.CartDTO" id="cart">
+		<id property="memberId" column="member_id"/>
+		<result property="productNo" column="product_no"/>
+		<result property="cartPrice" column="cart_price"/>
+		<result property="productName" column="product_name"/>
+		<result property="productPrice" column="product_price"/>
+		<result property="productFile" column="product_file"/>
+		<result property="productStack" column="order_stack"/>
+		<result property="cartNum" column="cartnum"/>
+		<result property="productSize" column="product_size"/>
+		<result property="productColor" column="product_color"/>
+	</resultMap>
+	
+	<insert id="addCart_p">
+		insert into cart(member_id,product_no, product_size, product_color,order_stack,cartnum) values(#{m},#{n},#{s},#{c},#{o},cartnum_seq.nextval)
+	</insert>
+	
+	<update id="addCart_m">
+		update cart set product_name=(select product_name from product where product_no=#{n}), product_price=(select product_price from product where product_no=#{n}),
+		product_file = (select product_file from product where product_no=#{n}) where product_size=#{s} and product_color=#{c} and product_no=#{n}
+	</update>
+	
+	<select id="getSameCart" resultMap="cart">
+		select * from cart where member_id=#{m} and product_no=#{n} and product_size=#{s} and product_color=#{c}
+	</select>
+	
+	<select id="getCart" resultMap="cart">
+		select * from cart where member_id=#{member_id} order by product_no
+	</select>
+	
+	<delete id="deleteCartOne">
+        delete from cart where member_id=#{m} and cartnum=#{c}
+    </delete>
+	
+	<delete id="deleteChkCart">
+		delete from cart where member_id=#{m} and cartnum=#{c}
+	</delete>
+	
+	<delete id="alldel">
+		delete from cart where member_id=#{memberId}
+	</delete>
+	
+	<delete id="adminDel">
+		delete from cart where product_no=#{productNo}
+	</delete>
+	
+</mapper>
