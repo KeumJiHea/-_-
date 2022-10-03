@@ -55,8 +55,6 @@ public class BoardServiceImpl implements BoardService {
 		int result = 0;
 		result = mapper.boardWrite(dto);
 		
-		System.out.println("boardNo: " + dto.getBoardNo());
-		
 		Iterator<String> itr = mul.getFileNames();
 		
 		while(itr.hasNext()) {
