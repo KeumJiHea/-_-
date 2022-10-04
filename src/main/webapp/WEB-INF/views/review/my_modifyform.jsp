@@ -61,10 +61,12 @@
 
    $(document).on('click','#btn',function(){
 	   console.log($("#modify div input").val())
+	  var leng = $("#modifyContent").val();
+	   
 	   if($("#histar").val() == ""){
 		   alert('별점을 입력해주세요')
 	   }
-	   else if($("#modifyConten").val() == "" || $("#modifyConten").val() == null){
+	   else if(leng.length == 0){
 			   alert('내용을 입력해주세요')
 	   } else{
 	    $("#modify").submit();
