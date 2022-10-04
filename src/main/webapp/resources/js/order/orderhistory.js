@@ -56,6 +56,7 @@ var cnt=1;
 	var pricelist = new Array();
  	$(document).ready(function(){ //9020 중복되는 주문번호 합쳐보기
  		
+ 		if($("#tbody tr").length>1){
 		for(i=0;i<$("#tbody tr").length;i++){
 		var sum = 0;
 			if(i>$("#tbody tr").length){
@@ -95,8 +96,12 @@ var cnt=1;
 					if(cnt=1){
 						j=0;
 					}
+				}					
 				}
-		}		
+			}else if($("#tbody tr").length==1){
+						$("#no0").attr('class','start');							
+						$("#status0").attr('class','start');
+		}
 	})
 	
 	function getSearchList(){

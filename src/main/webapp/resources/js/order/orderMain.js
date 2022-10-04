@@ -1,18 +1,13 @@
 var IMP = window.IMP;
 IMP.init("imp11462084"); // 예: imp00000000 
+var p =0;
 var tp = 0;
-var tplist = new Array();
 $(document).ready(function(){
-	for(i=0;i<$("#maintbody tr").length;i++){
-		tp = parseInt($("#goods_total_price"+i).text());
-		tplist.push(tp);
-		console.log(tplist);
+	for(i=0;i<$("#tbody tr").length;i++){
+		p = parseInt($("#goods_total_price"+i).text());
+		tp+=p;
 	}
-	const result = tplist.reduce(function add(sum, currValue) {
-  return sum + currValue;
-}, 0);
-	$("#total_price").text(result);	
-	
+		$("#total_price").text(tp);	
 })
 
 function order(){
@@ -29,30 +24,23 @@ var total = 0;
 var pricelist = new Array();
 function change(){	
 	var totallist = new Array();
-	if($("#maintbody tr").length>=1){
-	console.log($("#maintbody tr").length);
-		for(i=0;i<$("#maintbody tr").length;i++){
+	if($("#tbody tr").length>=1){
+		for(i=0;i<$("#tbody tr").length;i++){
 			$("#productStack"+i).on("change keyup paste input",function(){
 				$("#productStack"+i).attr("value", $("#productStack"+i).val());
+			});
 		var stack = $("#productStack"+i).val();
-		console.log(stack)
 		var price = $("#price"+i).html();
-		console.log(price)
 		sum =  price*stack;
 		$("#goods_total_price"+i).text(sum);
-		console.log('현재 i : '+i);
-		console.log('현재 i 의 합 : '+sum);
 		
-		pricelist[i] = sum;											
-		console.log('리스트 : '+pricelist)
+		pricelist[i] = sum;
 		
 		total =0;
 		for(j =0; j<pricelist.length;j++){
 			total+=pricelist[j]
 		}
-		console.log('총 가격 : '+total)
 		$("#total_price").text(total);
-			});
 			
 		}
 	}

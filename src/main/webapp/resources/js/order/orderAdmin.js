@@ -45,6 +45,7 @@
 			else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
 					if(j!=0){						
 						sum += parseInt($("#price"+i).text())
+						console.log(sum)
 						pricelist.push(sum)
 						var total = pricelist.reduce(function(a,b){ return a+b;},0);
 						$("#no"+(i-j)).attr('rowspan',cnt);
@@ -59,15 +60,16 @@
 						$("#total"+(i-j)).attr('rowspan',cnt);
 						$("#total"+(i-j)).attr('class','start');
 						$("#total0").attr('class','start');
-						$("#total"+(i-j)).text(total);						
-						$("#total0").text(total);	
+						$("#total"+(i-j)).text(total);
 						$("#no"+(i-j)).attr('rowspan',cnt);						
 					}
 					pricelist = [];
 					
-					if(j==0&&cnt==1&&i!=0){
+					if(j==0&&cnt==1&&i==0){
 						sum += parseInt($("#price"+i).text())
+						console.log(sum)
 						pricelist.push(sum)
+						console.log(pricelist[0]);
 						$("#no"+(i-j)).attr('class','start');
 						//$("#no0").attr('class','start');
 						$("#id"+(i-j)).attr('class','start');
@@ -79,6 +81,20 @@
 						$("#total"+(i-j)).text(pricelist[0]);
 						$("#total0").text(pricelist[0]);
 						
+					}else if(j==0&&cnt==1&&i!=0){
+						sum += parseInt($("#price"+i).text())
+						console.log(sum)
+						pricelist.push(sum)
+						console.log(pricelist);
+						$("#no"+(i-j)).attr('class','start');
+						$("#no0").attr('class','start');
+						$("#id"+(i-j)).attr('class','start');
+						$("#id0").attr('class','start');
+						$("#status"+(i-j)).attr('class','start');
+						$("#status0").attr('class','start');
+						$("#total"+(i-j)).attr('class','start');
+						$("#total0").attr('class','start');
+						$("#total"+(i-j)).text(pricelist[0]);
 					}
 						pricelist = [];
 					cnt=1;

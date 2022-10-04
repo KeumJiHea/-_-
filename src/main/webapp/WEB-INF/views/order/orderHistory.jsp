@@ -71,9 +71,9 @@
 						<c:if test="${dto.hiOrderStatus == 1}"><span id="status">주문완료</span><br>
 						<button type="button" class='cancel'>주문 취소</button>
 						</c:if>
-						<c:if test="${dto.hiOrderStatus == 0}">취소중<br></c:if>
+						<c:if test="${dto.hiOrderStatus == 0}">취소중</c:if>
 						<c:if test="${dto.hiOrderStatus == -1}">취소완료</c:if>
-						<c:if test="${dto.hiOrderStatus == 2}">배송중<br><button type="button" class="endDelevery">배송 완료</button></c:if>
+						<c:if test="${dto.hiOrderStatus == 2}">배송중</c:if>
 						<c:if test="${dto.hiOrderStatus == 3}">배송완료</c:if>
 						</th>
 						<td><a href="<%=request.getContextPath() %>/review/reviewList?productNo=${dto.hiProductNo}">리뷰남기기</a></td>

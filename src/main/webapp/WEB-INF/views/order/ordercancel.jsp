@@ -10,7 +10,6 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-<h1>ordercheck.page</h1>
 	<form>
 		아이디 : <input type="text" name="memberId" id="memberId" value="${cdto.memberId }" readonly="readonly"><br>
 		주문번호 : <input type="text" name="orderNo" id="orderNo" value="${cdto.orderNo }" readonly="readonly"><br>

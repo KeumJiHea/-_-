@@ -237,12 +237,14 @@ public class MemberController implements SessionName{
 	}
 	
 	@RequestMapping(value = "/modify",method = RequestMethod.POST)
-	public String modify(HttpServletRequest request,MemberDTO dto) {
+	public String modify(HttpServletRequest request,MemberDTO dto, HttpSession session) {
 		
 		int result = ms.modify(request,dto);
 		
 		//정보 수정 alert
 		if(1 == result) {
+			
+			session.setAttribute(NAME, dto.getName());
 			request.setAttribute("msg","정보 수정이 완료되었습니다");
 			request.setAttribute("url","info?id="+request.getParameter("id"));
 			return "member/alert";

@@ -43,7 +43,7 @@
 
 </c:forEach>
 </c:if>
-<input type="button" onclick="history.back()" value="이전으로 돌아가기">
+<button type="button" onclick="history.back()">이전으로 돌아가기</button>
  
 <button type="button" onclick="location.href='writeReviewchk?productNo=${productNo}'">리뷰 남기러가기</button>
 
