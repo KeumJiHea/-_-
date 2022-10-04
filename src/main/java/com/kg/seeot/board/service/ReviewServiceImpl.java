@@ -36,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
 	//리뷰 더보기
 	public void reviewMore(Model model, int productNo) {
 		List<ReviewDTO> list = mapper.reviewMore(productNo);
-		System.out.println("list size : "+list.size());
+		
 		model.addAttribute("productNo", productNo);
 		model.addAttribute("reviewMore", list);
 	}
@@ -48,37 +48,26 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	
 	public List<ReviewDTO> getRepList(Model model, int productNo , int num){
-		System.out.println("serviceImpl");
-		//System.out.println(productNo);
 		
 		int pageLetter = 5; 
 		int allCount = mapper.getCount(productNo);
 		
-		//System.out.println(allCount);
-		
 		int repeat = allCount / pageLetter;
 		if( allCount % pageLetter != 0 )
-			repeat += 1; //네비게이션 수
+			repeat += 1;
 		
 		int end = num * pageLetter;
 		int start = end + 1 - pageLetter;
-		/*
-		System.out.println(repeat);
-		System.out.println(start);
-		System.out.println(end);
-		*/
+		
 		model.addAttribute("repeat", repeat);
 		model.addAttribute("page", mapper.reviewPage(productNo, start, end ));
 		return mapper.reviewPage(productNo, start, end );
 		
-		//return mapper.getRepList( productNo );
+		
 	}
 	
-	
+	//관리자용
 	public List<ReviewDTO> getRepList1(int productNo){
-		System.out.println("serviceImpl");
-		//System.out.println(productNo);
-		
 		return mapper.getRepList( productNo );
 	}
 	
@@ -88,13 +77,6 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		mapper.productCount(productNo, reviewStar); //별점 카운트
 		
-		/*
-		System.out.println("reviewcontroller-service");
-		System.out.println(mul.getParameter("memberId"));
-		System.out.println(mul.getParameter("reviewContent"));
-		System.out.println(reviewStar);
-		System.out.println(productNo);
-		*/
 		ReviewDTO dto = new ReviewDTO();
 		dto.setMemberId(mul.getParameter("memberId"));
 		dto.setReviewContent((mul.getParameter("reviewContent")));
@@ -105,31 +87,21 @@ public class ReviewServiceImpl implements ReviewService {
 			while(fileNames.hasNext()) {
 				MultipartFile file = mul.getFile(fileNames.next());
 				
-				//System.out.println(file.getOriginalFilename());
-			
-		//MultipartFile file = mul.getFile("reviewFile"); //꺼내와야함
-
-		
-
-		
-		/**/
-		if( file.getSize() != 0) { // file.isEmpty() != true (파일이 존재하면)  !file.isEmpty()
+		if( file.getSize() != 0) { 
 			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss-");
 			String sysFileName = f.format(new Date());
-			//System.out.println( sysFileName);
 			
 			sysFileName += file.getOriginalFilename();
 			
 			dto.setReviewFile(sysFileName);
 			
-			//System.out.println(sysFileName); 
 			File saveFile = new File("c:/spring/image_repo" +"/"+sysFileName);
 			try {
 				file.transferTo(saveFile);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else {//파일을 선택하지 않은 경우
+		}else {
 			dto.setReviewFile( "nan");
 		}}
 		mapper.saveData( dto );
@@ -148,17 +120,13 @@ public class ReviewServiceImpl implements ReviewService {
 	 public String modify(MultipartHttpServletRequest mul,
 				HttpServletRequest request) {
 		
-		System.out.println("sevieceimpl modify");
-		System.out.println(mul.getParameter("reviewFile") );
-		String originFile = mul.getParameter("reviewFile");
+		
 		int reviewNo = Integer.parseInt( mul.getParameter("reviewNo"));
 		int productNo = Integer.parseInt( mul.getParameter("productNo"));
 		int reviewStar = Integer.parseInt(mul.getParameter("reviewStar"));
 		
 		
 		
-		
-		/*System.out.println("productModify전 reviewNo: "+reviewNo);*/
 		productModify(reviewNo);
 		
 		
@@ -176,10 +144,9 @@ public class ReviewServiceImpl implements ReviewService {
 		 
 		 if( file.getSize() != 0) {
 			 ReviewDTO fdto = saveFile(file);
-			 System.out.println("서비스 modify if문 fdto파일"+fdto.getReviewFile());
+			
 			 dto.setReviewFile(fdto.getReviewFile());
-				//saveFile(file);
-				//deleteFile(file);
+			
 			}else {
 				dto.setReviewFile(
 						mul.getParameter("reviewFile") );
@@ -221,7 +188,7 @@ public class ReviewServiceImpl implements ReviewService {
 			File saveFile = new File("c:/spring/image_repo" + "/" + reviewFileSave);
 			
 			try {
-				file.transferTo(saveFile);// 해당 위치에 파일 저장
+				file.transferTo(saveFile);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -229,25 +196,24 @@ public class ReviewServiceImpl implements ReviewService {
 			String reviewFile = "nan";
 			
 			if(file.getSize() != 0) {
-				System.out.println("saveFile if문 reviewFile: "+reviewFileName);
-				System.out.println("saveFile if문 reviewFileSave: "+reviewFileSave);
+				
 				fdto.setReviewFile(reviewFileSave);
 			 reviewFile = fdto.getReviewFile();
-				//fdto.setFileSaveName(reviewFileSave);
+				
 			}else {
 				fdto.setReviewFile("nan");
 				 reviewFile = fdto.getReviewFile();
-				//fdto.reviewFileSave("NaN");
+				
 			}
 			return fdto;
 	 }
 	 
 	 //저장된 사진 삭제
 	 public void deleteFile(String fName) {
-		 System.out.println("delete file: "+fName);
+		
 		 File dFile = new File("c:/spring/image_repo/"+fName);
 		 dFile.delete();
-		 //product 기존 내용 삭제
+		
 	 }
 	 
 	 // 메세지 출력
@@ -260,28 +226,12 @@ public class ReviewServiceImpl implements ReviewService {
 	 
 	 /*기존에 저장된 db수정*/ 
 	 public void productModify(int reviewNo) {
-		 System.out.println("product modify");
-		 System.out.println(reviewNo);  //여기까지 출력
 		 
-		
-		 System.out.println("dto호출");
-		
 		 ReviewDTO dto = mapper.contentView(reviewNo);
-		 System.out.println("dto불러오기");
-		
-		 System.out.println(dto.getReviewStar());
-		 	
-			int modifyStar = dto.getReviewStar();
+		 	int modifyStar = dto.getReviewStar();
 			int modifyProductNo = dto.getProductNo();
 			
-			System.out.println("modify Star: "+modifyStar);
-			System.out.println("modifyProductNO: "+modifyProductNo);
-			
-			System.out.println("product 기존 내용 삭제하기");
 			mapper.productmodify(modifyProductNo, modifyStar);
-			System.out.println("product 수정(삭제) 완료");
-	
-			
 			
 	 }
 	 
@@ -303,8 +253,7 @@ public class ReviewServiceImpl implements ReviewService {
 	 public String mymodify(MultipartHttpServletRequest mul,
 				HttpServletRequest request) {
 		
-		System.out.println("sevieceimpl modify");
-		System.out.println(mul.getParameter("reviewFile") );
+		
 		String originFile = mul.getParameter("reviewFile");
 		int reviewNo = Integer.parseInt( mul.getParameter("reviewNo"));
 		int productNo = Integer.parseInt( mul.getParameter("productNo"));
@@ -328,10 +277,9 @@ public class ReviewServiceImpl implements ReviewService {
 		 
 		 if( file.getSize() != 0) {
 			 ReviewDTO fdto = saveFile(file);
-			 System.out.println("서비스 modify if문 fdto파일"+fdto.getReviewFile());
+			
 			 dto.setReviewFile(fdto.getReviewFile());
-				//saveFile(file);
-				//deleteFile(file);
+				
 			}else {
 				dto.setReviewFile(
 						mul.getParameter("reviewFile") );
@@ -356,6 +304,8 @@ public class ReviewServiceImpl implements ReviewService {
 		 return getMessage(msg, url);
 		 
 	 }
+	 
+	 //구매자 리뷰
 	@Override
 	public int gotoReview(int productNo,String memberId) {
 		int result = 0;
@@ -366,13 +316,8 @@ public class ReviewServiceImpl implements ReviewService {
 				result = 1;
 			}
 		}
-//		for(int i=0; i<list.size();i++) {
-//			if(list.get(i).getHiProductNo()==productNo) {
-//				result = 1;
-//				return result;
-//			}
-//		}
-		System.out.println("리뷰서비스: "+result);
+
+	
 		return result;
 	}
 

@@ -41,6 +41,12 @@
 	
 	<interceptors>
 		<interceptor>
+			<mapping path="/review/reviewAdd"/>
+			<mapping path="/review/writeReviewchk"/>
+			<mapping path="/review/reviewList"/>
+			<mapping path="/review/my_modifyform"/>
+			<mapping path="/review/modify_form"/>
+			<mapping path="/review/myReview"/>
 			<mapping path="/cart/addcart"/>
 			<mapping path="/cart/mycart"/>
 			<mapping path="/order/order"/>
