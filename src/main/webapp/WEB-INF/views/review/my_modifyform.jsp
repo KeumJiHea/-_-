@@ -63,7 +63,10 @@
 	   console.log($("#modify div input").val())
 	   if($("#histar").val() == ""){
 		   alert('별점을 입력해주세요')
-	   }else{
+	   }
+	   else if($("#modifyConten").val() == "" || $("#modifyConten").val() == null){
+			   alert('내용을 입력해주세요')
+	   } else{
 	    $("#modify").submit();
 		 
 	   }
@@ -105,7 +108,7 @@
 	</div>
 	</fieldset>
 	
-	   <input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent" placeholder="내용"><br>
+	   <input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent" placeholder="내용을 입력해주세요"><br>
 	   <input type="hidden" name="reviewFile" value="${rdto.reviewFile }"><br>
 	   
 	   <img width="200px" height="100px" id="preview"

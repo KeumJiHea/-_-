@@ -63,7 +63,7 @@ public class ReviewController {
 		
 		String id = mul.getParameter("memberId"); 
 		
-		return "redirect:../member/info.page?id="+id;
+		return "redirect:../member/info?id="+id;
 	}
 	
 	
@@ -86,7 +86,7 @@ public class ReviewController {
 		
 		rs.delete(reviewNo,productNo, reviewStar);
 		
-		return "redirect:../product/productView.page?productNo="+productNo;
+		return "redirect:../product/productView?productNo="+productNo;
 	}
 	
 	//리뷰 수정
