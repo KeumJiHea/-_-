@@ -90,7 +90,7 @@ public class ProductController {
 	//상품 등록 페이지 연결
 	@GetMapping("productRegister")
 	public String productRegister() {
-		return "product/productRegister.page";
+		return "product/productRegister.admin";
 	}
 	
 	//상품 등록
@@ -117,7 +117,7 @@ public class ProductController {
 	@GetMapping("productModify_Form")
 	public String productModify_Form(HttpServletRequest req,int productNo, Model model) {
 		ps.productModify_Form(productNo, model);
-		return "product/productModify_Form.page";
+		return "product/productModify_Form.admin";
 	}
 	
 	//상품 수정
@@ -134,13 +134,13 @@ public class ProductController {
 	@GetMapping("managementView")
 	public String managementView(int productNo, Model model) {
 		ps.managementView(productNo, model);
-		return "product/managementView.page";
+		return "product/managementView.admin";
 	}
 	
 	//상품 재고 등록 페이지 연결
 	@GetMapping("managementRegister_Form")
 	public String managementRegister_Form() {
-		return "product/managementRegister_Form.page";
+		return "product/managementRegister_Form.admin";
 	}
 	
 	//상품 재고 신규 등록
@@ -167,7 +167,7 @@ public class ProductController {
 	@GetMapping("managementModify_Form")
 	public String managementModify_Form(@RequestParam(value="productNo") int productNo, @RequestParam(value="productSize") int productSize, @RequestParam(value="productColor") String productColor, Model model) {
 		ps.managementModify_Form(productNo, productSize, productColor, model);
-		return "product/managementModify_Form.page";
+		return "product/managementModify_Form.admin";
 	}
 	
 	//상품 재고 수정
@@ -191,12 +191,13 @@ public class ProductController {
 	@GetMapping("productList")
 	public String productList(Model model) {
 		ps.allList(model);
-		return "admin/productList";
+		return "admin/productList.admin";
 	}
 	
 	//관리자 페이지 상품 검색
 	@PostMapping("searchProduct")
 	public String searchProduct(Model model, @RequestParam(value="search") String search, @RequestParam(value="val") String val) {
+		int productCategorie = 0;
 		switch(search) {
 		case "productNo":
 			int productNo = Integer.parseInt(val);
@@ -207,24 +208,27 @@ public class ProductController {
 			ps.productNameList(model, productName);
 			break;
 		case "productCategorie":
-			int productCategorie = Integer.parseInt(val);
+			if(val.equals("티셔츠")) {
+				productCategorie = 1;
+			}else if(val.equals("셔츠")) {
+				productCategorie = 2;
+			}else if(val.equals("가디건")) {
+				productCategorie = 3;
+			}else if(val.equals("자켓")) {
+				productCategorie = 4;
+			}else if(val.equals("코트")) {
+				productCategorie = 5;
+			}else if(val.equals("하의")) {
+				productCategorie = 6;
+			}else if(val.equals("신발")) {
+				productCategorie = 7;
+			}else {
+				productCategorie = 0;
+			}
 			ps.list(model, productCategorie);
 			break;
 		}
-		return "admin/productList";
-	}
-	
-	
-	
-	
-	
-	
-	
-	//상품 상세 정보
-	@GetMapping("viewTest")
-	public String viewTest(Model model, int productNo) {
-		ps.productView(model, productNo);
-		return "product/viewTest";
+		return "admin/productList.admin";
 	}
 	
 }

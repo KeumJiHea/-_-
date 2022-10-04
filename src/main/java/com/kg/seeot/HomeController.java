@@ -6,9 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.annotations.Case;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,17 +53,18 @@ public class HomeController {
 	public String search(HttpServletRequest request, Model model){
 		String keyword = request.getParameter("keyword");
 		model.addAttribute("keyword", keyword);
-		return "search.page";
+		return "default/search.page";
 	}
 	
 	@PostMapping(value = "searchList", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public List<ProductDTO> prolist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
-			@RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
-//		String orderBy = request.getParameter("orderBy");
-//		int num = Integer.parseInt(request.getParameter("num"));
-//		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-		return mapper.productNameList(keyword);
+	public List<ProductDTO> searchlist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
+			@RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, @RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
+		String orderBy = request.getParameter("orderBy");
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+		System.out.println("productCategorie: " + productCategorie);
+		return mapper.searchList(keyword, productCategorie, orderBy, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	
 	@GetMapping("default/agreement")
@@ -77,6 +75,11 @@ public class HomeController {
 	@GetMapping("default/privacy")
 	public String privacy() {
 		return "default/privacy.page";
+	}
+	
+	@GetMapping("admin/admin")
+	public String admin() {
+		return "admin/admin.admin";
 	}
 
 }

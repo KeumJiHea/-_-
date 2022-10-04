@@ -23,24 +23,24 @@ body{
 /* ul로 페이지네이션 */
 .slide_pagination {
   /* layout */
-  display: flex;
-  gap: 5px;
+	display: flex;
+	gap: 5px;
 
   /* position */
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
 }
 .slide_pagination > li {
   /* 현재 슬라이드가 아닌 것은 투명도 부여 */
-  color: #7fb5ff88;
-  cursor: pointer;
-  font-size: 25px;
+	color: rgb(13,13,13,0.3);
+	cursor: pointer;
+	font-size: 25px;
 }
 .slide_pagination > li.active {
   /* 현재 슬라이드 색상은 투명도 없이 */
-  color: #7fb5ff;
+	color: rgb(246,246,246);
 }
 
 .left-btn{
@@ -49,6 +49,7 @@ body{
 	top: 50%;
 	cursor: pointer;
 	width: 50px;
+	filter: drop-shadow(0px 0px rgb(13,13,13,0.5))
 }
 .right-btn{
 	position: absolute;
@@ -57,6 +58,7 @@ body{
 	right: 0px;
 	cursor: pointer;
 	width: 50px;
+	filter: drop-shadow(0px 0px rgb(13,13,13,0.5))
 }
 
 .item{

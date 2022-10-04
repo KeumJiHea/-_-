@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.kg.seeot.board.dto.BoardDTO;
 import com.kg.seeot.board.dto.FileDTO;
 import com.kg.seeot.board.dto.ReplyDTO;
+import com.kg.seeot.common.PagingDTO;
 import com.kg.seeot.mybatis.board.BoardMapper;
 
 @Service
@@ -25,29 +26,16 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper mapper;
 	@Autowired
 	BoardFileService bfs;
-
-	public void boardList(Model model, int currentPage) {
-		//페이징 처리
-		int pageSize = 10; //한 페이지에 보이는 게시물 수
-		int boardSize = 0; //전체 게시물 수
-		if(mapper.boardCount() != null) {
-			boardSize = mapper.boardCount();
-		}
-		//System.out.println("게시글 수: " + boardSize);
-		int pagingCount = boardSize / pageSize; //전체 페이지 수
+	
+	public void boardList(Model model, String nowPage, String cntPerPage) {
+		int total = mapper.boardCount();
 		
-		if(boardSize % pageSize != 0) {
-			pagingCount += 1; 
-		}
+		PagingDTO dto = new PagingDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		int start = dto.getStart();
+		int end = dto.getEnd();
 		
-		int endPage = currentPage * pageSize; //가져올 게시글 끝 rn
-		int startPage = endPage + 1 -pageSize; //가져올 게시글 시작 rn
-		
-		model.addAttribute("pagingCount", pagingCount);
-		
-		ArrayList<BoardDTO> boardlist = mapper.boardList(startPage, endPage);
-		model.addAttribute("boardList", boardlist);
-
+		model.addAttribute("paging", dto);
+		model.addAttribute("boardList", mapper.boardList(start, end));
 	}
 
 	public void getBoard(int boardNo, Model model) {
@@ -58,12 +46,7 @@ public class BoardServiceImpl implements BoardService {
 	public String boardWrite(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		BoardDTO dto = new BoardDTO();
 
-		if(mul.getParameter("memberId").equals("")) { //비회원 처리
-			dto.setMemberId("비회원");
-		}else {
-			dto.setMemberId(mul.getParameter("memberId"));
-		}
-		
+		dto.setMemberId(mul.getParameter("memberId"));
 		dto.setMemberName(mul.getParameter("memberName"));
 		dto.setBoardTitle(mul.getParameter("boardTitle"));
 		dto.setBoardContent(mul.getParameter("boardContent"));
@@ -71,8 +54,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		int result = 0;
 		result = mapper.boardWrite(dto);
-		
-		System.out.println("boardNo: " + dto.getBoardNo());
 		
 		Iterator<String> itr = mul.getFileNames();
 		
@@ -91,10 +72,10 @@ public class BoardServiceImpl implements BoardService {
 	
 		String msg, url;
 		if (result == 1) {
-			msg = "새글이 추가되었습니다!!";
+			msg = "게시글을 등록했습니다.";
 			url = request.getContextPath() + "/board/boardList";
 		} else {
-			msg = "문제가 발생했습니다";
+			msg = "게시글 등록에 실패했습니다.";
 			url = request.getContextPath() + "/board/writeForm";
 		}
 		return bfs.getMessage(msg, url);
@@ -142,10 +123,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		String msg, url;
 		if (result == 1) {
-			msg = "새글이 추가되었습니다!!";
+			msg = "게시글이 수정되었습니다.";
 			url = request.getContextPath() + "/board/boardList";
 		} else {
-			msg = "문제가 발생했습니다";
+			msg = "게시글 수정에 실패했습니다.";
 			url = request.getContextPath() + "/board/modifyForm?boardNo="+boardNo;
 		}
 		return bfs.getMessage(msg, url);

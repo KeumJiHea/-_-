@@ -161,9 +161,10 @@ function review(){//리뷰저장
 	</fieldset>
 	<div>
 	
-	<!-- 마이페이지 해당 상품의 상품번호 불러오기 -->
-	<!-- 상품번호 받아와서 연결하기 -->
-	<input type="text" id="productNo" value="${reviewList.productNo }" name="productNo">
+
+	
+	<input type="hidden" id="productNo" value="${reviewList.productNo }" name="productNo">
+
 	<textarea class="reviewContent" id="reviewContent"
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>
 				  

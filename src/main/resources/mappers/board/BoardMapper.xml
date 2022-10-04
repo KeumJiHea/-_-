@@ -31,12 +31,12 @@
 		<result property="replyDate" column="REPLY_DATE"/>
 	</resultMap>
 
-	<select id="boardList" resultMap="board">
+ 	<select id="boardList" resultMap="board">
 		SELECT B.* from(
 		SELECT rownum rn, A.* from(
 		SELECT * from seeot_board
 		ORDER BY board_no DESC)A)B
-		WHERE rn between #{startPage} and #{endPage}
+		WHERE rn between #{start} and #{end}
 	</select>
 	
 	<select id="boardCount" resultType="Integer">
@@ -129,20 +129,3 @@
 	</update>
 
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -102,19 +102,18 @@ public class ProductServiceImpl implements ProductService{
 	public String productDelete(int productNo, String productFile, String productContent, HttpServletRequest request) {
 		int result = 0;
 		String msg, url;
-		HttpSession session = request.getSession();
+		
 		result = mapper.productDelete(productNo);
 		
 		if( result == 1) {
-			String memberId = (String) session.getAttribute("loginUser");
-			cm.deleteCartOne(memberId, productNo);
+			cm.adminDel(productNo);
 			pfs.deleteImage(productFile);
 			pfs.deleteImage(productContent);
 			msg = "상품이 삭제되었습니다.";
 			url = request.getContextPath() + "/product/productList";
 		} else {
 			msg = "상품 삭제에 실패하였습니다.";
-			url = request.getContextPath() + "productView?productNo=" + productNo;
+			url = request.getContextPath() + "/product/productList";
 		}
 		
 		return pfs.getMessage(msg, url);
@@ -153,7 +152,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		if(result == 1) { //저장 성공
 			msg = "상품 수정에 성공하였습니다.";
-			url = request.getContextPath() + "/product/productView?productNo=" + dto.getProductNo();
+			url = request.getContextPath() + "/product/productList";
 		}else { //문제 발생
 			msg = "상품 수정에 실패하였습니다.";
 			url = request.getContextPath() + "/product/productModify_Form?productNo=" + dto.getProductNo();
@@ -194,9 +193,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public void managementModify_Form(int productNo, int productSize, String productColor, Model model) {
-		System.out.println(productNo);
-		System.out.println(productSize);
-		System.out.println(productColor);
 		model.addAttribute("mdto", mapper.managementModify_Form(productNo, productSize, productColor));
 	}
 	
@@ -228,27 +224,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public int allCount(int productCategorie, String[] chkColor_arr, String[] chkPrice_arr) {
-		System.out.println("1. all 카테고리 값 : " + productCategorie);
-		System.out.println("1. all 컬러 - chkColor_arr : " + chkColor_arr);
-		System.out.println("1. all 가격 - chkPrice_arr : " + chkPrice_arr);
 		
 		return mapper.allCount(productCategorie, chkColor_arr, chkPrice_arr);
 	}
 	
 	public List<ProductDTO> prolist(String orderBy, int productCategorie, int num, int pageViewProduct, String[] chkColor_arr, String[] chkPrice_arr) {
-		System.out.println("2. list 카테고리 값 : " + productCategorie);
-		System.out.println("2. list 정렬 값 : " + orderBy);
-		System.out.println("2. list 페이징 num 값 : " + num);
-		System.out.println("2. list 보일 상품의 수 : " + pageViewProduct);
-		System.out.println("2. list 컬러 - chkColor_arr : " + chkColor_arr);
-		System.out.println("2. list 가격 - chkPrice_arr : " + chkPrice_arr);
 		
 		
 		int end = num * pageViewProduct;
 		int start = end + 1 - pageViewProduct;
-		System.out.println("start : " +  start);
-		System.out.println("end : " + end);
-		System.out.println("------------------------------------");
 		return mapper.prolist(orderBy, productCategorie, start, end, chkColor_arr, chkPrice_arr);
 	}
 	

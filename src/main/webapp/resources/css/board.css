@@ -17,6 +17,15 @@
 	border-color:rgb(33,33,33, 0.2);
 }
 
+#cntPerPage{
+   float: right;
+   width: 100px;
+   padding: 5px;
+   margin: 10px 0px;
+   border: 1px solid rgb(33,33,33, 0.8);
+   font-family: inherit;
+}
+
 .boardTitle{
     width: 600px;
 	text-align: left;
@@ -57,13 +66,63 @@
 	border-collapse: collapse;
 }
 
+.board td{
+	padding: 10px;
+}
+
+.board input{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	width: 90%;
+	padding: 10px;
+}
+
+select.title{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	padding: 10px;
+	width: 80%;
+	appearance:none;
+}
+
+textarea.boardContent{
+	border: 1px;
+	border-style: solid;
+	border-color: rgb(33,33,33,0.3);
+	resize: none;
+	width: 90%;
+	padding: 10px;
+}
+
+.file-list{
+	display: flex;
+	width: 90%;
+}
+.filebox{
+	width: 100px;
+	margin: 5px;
+	overflow: hidden;
+}
+
 .boardContent{
-	height: 100px;
+	height: 200px;
 	border-top: 2px;
+	border-bottom: 2px;
 	border-style: solid;
 	border-color: rgb(33,33,33,0.8);
 	vertical-align:baseline;
 	padding: 22px 10px;
+}
+
+.boardContent img{
+	max-width: 600px;
+	max-height: 600px;
+}
+
+td.file{
+	padding: 10px;
 }
 
 .board th{
@@ -146,3 +205,5 @@
 	height: 100px;
 	display: block;
 }
+
+

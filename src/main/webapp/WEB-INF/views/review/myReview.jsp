@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-myReview<br>
+	<h2>myReview<br></h2>
 <c:if test="${ myReview.size() == 0}">
 작성한 리뷰가 없습니다.<br>
 </c:if >

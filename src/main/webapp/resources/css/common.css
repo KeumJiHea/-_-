@@ -40,19 +40,22 @@ a {
     background:transparent;
 	text-decoration: none;
 	font-family: "Do hyeon", sans-serif;
-	color: #3e3c3c;
+	color: rgb(33,33,33);
 }
 
 button{
 	font-family: "Do hyeon", sans-serif;
 	color: #FFF;
-	background-color: #191919;
+	background-color: rgb(33,33,33);
 	opacity: 1;
 	padding: 5px 10px;;
 	cursor: pointer;
 }
 button:hover{
 	opacity: 0.9;
+}
+button:disabled{
+	opacity: 0.3;
 }
 
 /* 프로젝트 기본 CSS 설정 */
@@ -86,6 +89,14 @@ button:hover{
 .login-menu li{
 	display: inline-block;
 }
+.login-menu > ul > li > span{
+	font-family: "Do hyeon", sans-serif;
+	color: rgb(33,33,33);
+	vertical-align:baseline;
+	text-decoration: none;
+    padding:0;
+	margin-right: 10px;
+}
 
 /* 로고, 카테고리 */
 .navbar .left_area{
@@ -107,7 +118,7 @@ button:hover{
 .underline{
 	position: absolute;
 	width: 0;
-	background-color: #191919;
+	background-color: rgb(33,33,33);
 	height: 4px;
 	transition: 0.2s;
 	border-radius: 1rem;
@@ -163,7 +174,7 @@ button:hover{
 	position: absolute;
 	right: 200px;
 	top: 20px;
-	color: #191919;
+	color: rgb(33,33,33);
 	font-size: 2em;
 	cursor: pointer;
 }
@@ -192,7 +203,7 @@ button:hover{
 .search .field input[type='search']{
 	flex: 8;
 	border: none;
-	border-bottom: 2px solid #191919;
+	border-bottom: 2px solid rgb(33,33,33);
 	margin-right: 10px;
 	padding-left: 50px;
 }
@@ -207,7 +218,7 @@ button:hover{
 .search .field input[type='submit']{
 	flex: 1;
 	color: #FFF;
-	background-color: #191919;
+	background-color: rgb(33,33,33);
 	opacity: 1;
 	cursor: pointer;
 }

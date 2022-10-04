@@ -54,7 +54,7 @@
 	</insert>
 	
 	<select id="getOrderHistorys" resultMap="hdto">
-		select * from order_history where memberId=#{memberId}
+		select * from order_history where himember_id=#{memberId} order by hiorder_no ASC
 	</select>
 	
 	<select id="getOrderHistory" resultMap="hdto">
@@ -69,12 +69,22 @@
 		select * from goods_order where order_no=#{orderNo}
 	</select>
 	
+	<delete id="cancelOkDel">
+		delete from cancel where order_no=#{o} and member_id=#{m}
+	</delete>
+	
 	<select id="getOrders" resultMap="order">
 		select * from goods_order where memberId=#{memberId} order by order_date DESC
 	</select>
 	
 	<select id="getAllOrders" resultMap="order">
-		select * from goods_order order by order_date DESC
+		select B.* from(select rownum rn, A.* from
+		(select * from goods_order order by order_no desc)A)B where rn between #{s} and #{e}
+	
+	</select>
+	
+	<select id="selectOrderCount" resultType="Integer">
+		select count(*) from goods_order 
 	</select>
 	
 	<insert id="addcancel_1">
@@ -93,6 +103,10 @@
 		select * from cancel where member_id=#{m} and order_no=#{o}
 	</select>
 	
+	<!-- 취소거부 -->
+	<update id="changehiStatus_noneCancel">
+		update order_history set hiorder_status=1 where hiorder_status=0 and hiorder_no=#{o}
+	</update>
 	<!-- 취소중 -->
 	<update id="changehiStatus_canceling">
 		update order_history set hiorder_status=0 where hiorder_status=1 and hiorder_no=#{o}
@@ -110,7 +124,10 @@
 		update order_history set hiorder_status=3 where hiorder_no=#{orderNo} and hiorder_status=2
 	</update>
 	
-	
+	<!-- 취소거부 -->
+	<update id="changeStatus_noneCancel">
+		update goods_order set order_status=1 where order_status=0 and order_no=#{o}
+	</update>
 	<!-- 취소중 -->
 	<update id="changeStatus_canceling">
 		update goods_order set order_status=0 where order_status=1 and order_no=#{o}
@@ -140,6 +157,10 @@
 		</choose>
 	</select> 
 	
+ 	<select id="selectStatusList" resultMap="hdto">
+		select * from order_history where hiorder_status=#{t} and himember_id=#{m} order by hiorder_no ASC
+	</select> 
+	
 	<select id="orderNoSorting_ASC" resultMap="order">
 		select * from goods_order order by order_no ASC
 	</select>
@@ -148,16 +169,16 @@
 	</select>
 	
 	<select id="memberIdSorting_ASC" resultMap="order">
-		select * from goods_order order by member_id ASC
+		select * from goods_order order by member_id ASC, order_no ASC
 	</select>
 	<select id="memberIdSorting_DESC" resultMap="order">
-		select * from goods_order order by member_id DESC
+		select * from goods_order order by member_id DESC, order_no DESC
 	</select>
 	<select id="orderPriceSorting_ASC" resultMap="order">
-		select * from goods_order order by order_price ASC
+		select * from goods_order order by order_price ASC, order_no ASC
 	</select>
 	<select id="orderPriceSorting_DESC" resultMap="order">
-		select * from goods_order order by order_price DESC
+		select * from goods_order order by order_price DESC, order_no DESC
 	</select>
 	
 </mapper>

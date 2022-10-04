@@ -6,24 +6,7 @@
 <meta charset="UTF-8">
 <title>회원 관리 페이지</title>
 <style type="text/css">
-.admin-members-title {
-    font-weight: 400;
-    text-align: center;
-    color: #222;
-    padding-bottom: 20px;
-    cursor: pointer;
-}
-.admin-members-input {
-	border : none;
-	font-size : 20px;
-	text-align : left;
-	width: 230px;
-	height: 50px;
-	margin-bottom: 10px;
-}
-.admin-wrapper {
-	text-align: center;
-}
+
 </style>
 </head>
 <body>
@@ -34,7 +17,7 @@
 <c:forEach var="member" items="${list}">
 	<label style="font-size: 20px;">아이디 : </label><input type="text" readonly class="admin-members-input" value="${member.id}">
 	<label style="font-size: 20px;">이름 : </label><input type="text" readonly class="admin-members-input" value="${member.name}">
-	<label style="font-size: 20px;">이메일 : </label><input type="text" readonly class="admin-members-input" value="${member.email}"><br><hr style="width: 930px;">
+	<label style="font-size: 20px;">이메일 : </label><input type="text" readonly class="admin-members-input" value="${member.email}"><br><hr style="width: 1100px;">
 </c:forEach>
 <form action="delete">
 <input type="text" name="id"><br>

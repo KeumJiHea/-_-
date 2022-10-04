@@ -14,26 +14,33 @@ public interface OrderMapper {
 	public OrderDTO getOrder(String orderNo);
 	public ArrayList<OrderDTO> getOrders(String memberId);
 	public ArrayList<OrderDTO> getCancelOrder(String orderNo);
-	public ArrayList<OrderDTO> getAllOrders();
+
+	public ArrayList<OrderDTO> getAllOrders(@Param("s") int start, @Param("e")int end);
+	public ArrayList<OrderDTO> getOrderHistorys(String memberId);
+	public int selectOrderCount();
 	public ArrayList<OrderHistoryDTO> getOrderHistory(String memberId);
+
 	
 	public void addcancel_1(@Param("m") String memberId,@Param("o") String orderNo, @Param("r") String reason);	
 	//public void addcancel_2(String orderNo);	
-	public CancelDTO getcancel(@Param("m") String memberId,@Param("o") String orderNo);
+	public ArrayList<CancelDTO> getcancel(@Param("m") String memberId,@Param("o") String orderNo);
 	public void orderdel(String orderNo);
+	public void cancelOkDel(@Param("o") String orderNo,@Param("m") String memberId);
 	
-	
+	public void changeStatus_noneCancel(String orderNo);//취소 취소중
 	public void changeStatus_canceling(String orderNo);//취소중
 	public void changeStatus_canceled(String orderNo);//취소됨
 	public void changeStatus_deliverying(String orderNo);//배송중
 	public void changeStatus_finish(String orderNo);//배송완
 	
+	public void changehiStatus_noneCancel(String orderNo);//취소 취소중
 	public void changehiStatus_canceling(String orderNo);//취소중
 	public void changehiStatus_canceled(String orderNo);//취소됨
 	public void changehiStatus_deliverying(String orderNo);//배송중
 	public void changehiStatus_finish(String orderNo);//배송완
 
 	public ArrayList<OrderDTO> selectSearchList(@Param("d")OrderDTO dto,@Param("t")String type,@Param("k")String keyword);
+	public ArrayList<OrderHistoryDTO> selectStatusList(@Param("d")OrderDTO dto,@Param("t")String type,@Param("m")String memberId);
 	public ArrayList<OrderDTO> orderNoSorting_ASC();
 	public ArrayList<OrderDTO> orderNoSorting_DESC();
 	public ArrayList<OrderDTO> memberIdSorting_ASC();

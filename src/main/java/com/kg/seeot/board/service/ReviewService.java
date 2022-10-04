@@ -34,8 +34,10 @@ public interface ReviewService {
 	 
 	 
 	 public void myReview(Model model,String memberId);
+
 	 
 	 public String mymodify(MultipartHttpServletRequest mul,
 				HttpServletRequest request);
+	 
 	 public int gotoReview(int productNo,String memberId);
 }

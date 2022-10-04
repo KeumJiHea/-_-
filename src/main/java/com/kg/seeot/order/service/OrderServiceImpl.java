@@ -96,6 +96,7 @@ public class OrderServiceImpl implements OrderService{
 			}
 			
 			om.orderdel(orderNo);
+			om.cancelOkDel(orderNo,memberId);
 		}else {
 			System.out.println("orderNo : "+orderNo);
 			System.out.println("memberId : "+memberId);
@@ -115,13 +116,31 @@ public class OrderServiceImpl implements OrderService{
 		
 	}
 	
+	
+	
 	@Override
-	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model) {
+	public void nonCancel(HttpServletRequest request, String orderNo) {
+		HttpSession session = request.getSession();		
+			om.changeStatus_noneCancel(orderNo);
+			om.changehiStatus_noneCancel(orderNo);	
+	}
+
+	@Override
+	public ArrayList<OrderDTO> getAllOrders(HttpServletRequest request,Model model,int num) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
-		list =  om.getAllOrders();
-		model.addAttribute("list",list);
 		HttpSession session = request.getSession();
+		int pageLetter = 20;
+		int allCount = om.selectOrderCount();
 		
+		int repeat = allCount / pageLetter;
+		if(allCount%pageLetter !=0) {
+			repeat+=1;
+		}
+		int end = num*pageLetter;
+		int start = end+1-pageLetter;
+		list =  om.getAllOrders(start,end);
+		model.addAttribute("list",list);
+		model.addAttribute("repeat",repeat);
 		Map map = (Map) session.getAttribute("cancel");
 		if(map!=null) {
 			String reason = (String) map.get("reason");
@@ -133,16 +152,22 @@ public class OrderServiceImpl implements OrderService{
 		return list;
 	}
 	
+
 	@Override
-	public void getCancel(HttpServletRequest request,Model model,String memberId, String orderNo) {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("loginUser").equals("admin")) {
+	public void getCancel(HttpServletRequest request,Model model,String memberId, String orderNo,String cost) {
+		HttpSession session = request.getSession();		
+		if(session.getAttribute("loginUser").equals("admin")) {			
+			ArrayList<CancelDTO> list = new ArrayList<CancelDTO>();
+			list = om.getcancel(memberId, orderNo);			
+			String reason = list.get(0).getReason();
+			memberId = list.get(0).getMemberId();
+			orderNo = list.get(0).getOrderNo();
 			CancelDTO cdto = new CancelDTO();
-			cdto = om.getcancel(memberId, orderNo);
-			String reason = cdto.getReason();
-			memberId = cdto.getMemberId();
-			orderNo = cdto.getOrderNo();					
-			session.setAttribute("reason", reason);
+			cdto.setOrderNo(orderNo);
+			cdto.setMemberId(memberId);
+			model.addAttribute("cdto",cdto);
+			model.addAttribute("cost",cost);
+			model.addAttribute("reason", reason);
 		}
 		
 	}
@@ -157,9 +182,14 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void getOrders(Model model,String memberId) {
 		ArrayList<OrderDTO> list = om.getOrders(memberId);
-		model.addAttribute("list",list);
-		
-		
+		model.addAttribute("list",list);				
+	}
+	
+	//주문 내역 조회
+	@Override
+	public void getOrderHistorys(Model model,String memberId) {
+		ArrayList<OrderDTO> list = om.getOrderHistorys(memberId);
+		model.addAttribute("orderli",list);		
 	}
 
 	@Override
@@ -177,9 +207,15 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public ArrayList<OrderDTO> getSearchList(OrderDTO dto,String type,String keyword) {
 		ArrayList<OrderDTO> list = new ArrayList<OrderDTO>();
-		list = om.selectSearchList(dto,type,keyword);
-		
+		list = om.selectSearchList(dto,type,keyword);		
 		return list;
+	}
+	@Override
+	public ArrayList<OrderHistoryDTO> getStatusList(OrderDTO dto,String type,String memberId) {
+		ArrayList<OrderHistoryDTO> hilist = new ArrayList<OrderHistoryDTO>();
+		hilist = om.selectStatusList(dto,type,memberId);		
+		System.out.println(hilist.size());
+		return hilist;
 	}
 
 	@Override
