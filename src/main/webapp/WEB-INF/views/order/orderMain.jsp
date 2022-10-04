@@ -27,7 +27,7 @@
 				<tr>
 					<th>상품번호</th><th>상품이미지</th><th>상품명</th><th>옵션</th><th>상품가격</th><th>구매수량</th>
 				</tr>
-				<tbody id="tbody">
+				<tbody id="maintbody">
 				<c:forEach var="pdto" items="${list }" varStatus="status">
 					<tr>
 						<td id="productnotd${status.index }">${pdto.productNo }</td>
@@ -45,7 +45,7 @@
 						<span id="price${status.index }">${pdto.productPrice }</span>						
 					</td>
 					<td>
-						<input type="number" min="0" max="10" name="productStack" id="productStack${status.index }" placeholder="1" onchange="change()" value="${pdto.productStack }"><br>
+						<input type="text" name="productStack" id="productStack${status.index }" readonly="readonly" value="${pdto.productStack }"><br>
 						<span id="goods_total_price${status.index }">${pdto.productPrice*pdto.productStack }</span>원
 					</td>
 					</tr>

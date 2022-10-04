@@ -76,7 +76,7 @@
 						<c:if test="${dto.hiOrderStatus == 2}">배송중<br><button type="button" class="endDelevery">배송 완료</button></c:if>
 						<c:if test="${dto.hiOrderStatus == 3}">배송완료</c:if>
 						</th>
-						<td>리뷰남기기</td>
+						<td><a href="<%=request.getContextPath() %>/review/reviewList?productNo=${dto.hiProductNo}">리뷰남기기</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>	

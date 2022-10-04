@@ -47,13 +47,13 @@
 <script type="text/javascript">
 	
    function readURL(input) {
-	   var file = input.files[0] //파일에 대한 정보
+	   var file = input.files[0]
 	   console.log(file)
       if (file != '') {
 	      var reader = new FileReader();
-	      reader.readAsDataURL(file); //파일의 정보를 토대로 파일을 읽고 
-	      reader.onload = function (e) { // 파일 로드한 값을 표현한다
-	    	//e : 이벤트 안에 result값이 파일의 정보를 가지고 있다.
+	      reader.readAsDataURL(file); 
+	      reader.onload = function (e) { 
+	    	
 	        $('#preview').attr('src', e.target.result);
           }
       }
@@ -61,9 +61,14 @@
 
    $(document).on('click','#btn',function(){
 	   console.log($("#modify div input").val())
+	   var leng = $("#modifyContent").val();
 	   if($("#histar").val() == ""){
 		   alert('별점을 입력해주세요')
+	   }else if(leng.length == 0){
+			   alert('내용을 입력해주세요')
 	   }else{
+		   
+		   
 	    $("#modify").submit();
 		 
 	   }
@@ -105,7 +110,7 @@
 	</div>
 	</fieldset>
 	
-	   <input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent" placeholder="내용"><br>
+	   <input type="text" name="reviewContent" value="${rdto.reviewContent }" id="modifyContent" placeholder="내용을 입력해주세요"><br>
 	   <input type="hidden" name="reviewFile" value="${rdto.reviewFile }"><br>
 	   
 	   <img width="200px" height="100px" id="preview"

@@ -189,7 +189,7 @@ $(document).on('click','.chkdel',function(){
         pay_method: "card",
         merchant_uid: num,   //주문번호
         name: namelist[0]+'외 '+(namelist.length-1)+'종',
-        amount: 100, // $("#total_price").text()
+        amount: $("#total_price").text(),
         buyer_email: $("#hiemail").val(),
         buyer_name: $("#hiname").val(),
         buyer_tel: $("#hiphone").val(),

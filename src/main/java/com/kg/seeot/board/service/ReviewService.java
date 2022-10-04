@@ -20,12 +20,10 @@ public interface ReviewService {
 	public  List<ReviewDTO> getRepList(Model model,int productNo , int num);
 	public  List<ReviewDTO> getRepList1(int productNo);
 	
-	 public void fileProcess(MultipartHttpServletRequest mul , int reviewStar
-			 				,int productNo);
+	public void fileProcess(MultipartHttpServletRequest mul , int reviewStar ,int productNo);
 	
 	 public void delete(int reviewNo,int productNo,int reviewStar);
-	 public String modify(MultipartHttpServletRequest mul,
-				HttpServletRequest request);
+	 public String modify(MultipartHttpServletRequest mul, HttpServletRequest request);
 	 public void modify_form(int reviewNo,Model model);
 	 
 	 public ReviewDTO saveFile(MultipartFile file);
@@ -35,9 +33,7 @@ public interface ReviewService {
 	 
 	 public void myReview(Model model,String memberId);
 
-	 
-	 public String mymodify(MultipartHttpServletRequest mul,
-				HttpServletRequest request);
+	 public String mymodify(MultipartHttpServletRequest mul,HttpServletRequest request);
 	 
 	 public int gotoReview(int productNo,String memberId);
 }
