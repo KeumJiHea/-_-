@@ -57,38 +57,14 @@ public class HomeController {
 		return "default/search.page";
 	}
 	
-//	@PostMapping(value = "searchList", produces = "application/json;charset=utf8")
-//	@ResponseBody
-//	public List<ProductDTO> searchlist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
-//			@RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, @RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
-//		String orderBy = request.getParameter("orderBy");
-//		int num = Integer.parseInt(request.getParameter("num"));
-//		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-//		return mapper.searchList(keyword, productCategorie, orderBy, num, pageViewProduct, chkColor_arr, chkPrice_arr);
-//	}
-	
 	@PostMapping(value = "searchList", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public List<ProductDTO> searchlist(Model model, HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
+	public List<ProductDTO> searchlist(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="keyword", required = false, defaultValue = "") String keyword, 
 			@RequestParam(value="productCategorie", required = false, defaultValue = "0") int productCategorie, @RequestParam(value="chkColor_arr[]", required = false) String[] chkColor_arr, @RequestParam(value="chkPrice_arr[]", required = false) String[] chkPrice_arr) {
-		
 		String orderBy = request.getParameter("orderBy");
-		int nowPage = Integer.parseInt(request.getParameter("num"));
-		int cntPerPage = Integer.parseInt(request.getParameter("pageViewProduct"));
-		int total = mapper.searchCount(keyword, productCategorie, chkColor_arr, chkPrice_arr);
-		
-		System.out.println(nowPage);
-		System.out.println(cntPerPage);
-		System.out.println(total);
-		
-		PagingDTO dto = new PagingDTO(total, nowPage, cntPerPage);
-		int start = dto.getStart();
-		int end = dto.getEnd();
-		
-		model.addAttribute("paging", dto);
-		model.addAttribute("list", mapper.searchList(keyword, productCategorie, orderBy, start, end, chkColor_arr, chkPrice_arr));
-		
-		return mapper.searchList(keyword, productCategorie, orderBy, start, end, chkColor_arr, chkPrice_arr);
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
+		return mapper.searchList(keyword, productCategorie, orderBy, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	
 	@GetMapping("default/agreement")

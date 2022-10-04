@@ -32,6 +32,5 @@ public interface ProductMapper {
 	public int allCount(@Param("productCategorie") int productCategorie, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 	public List<ProductDTO> prolist(@Param("orderBy") String orderBy, @Param("productCategorie") int productCategorie, @Param("start") int start, @Param("end") int end, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 	
-	public int searchCount(@Param("keyword") String keyword, @Param("productCategorie") int productCategorie, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 	public List<ProductDTO> searchList(@Param("keyword") String keyword, @Param("productCategorie") int productCategorie, @Param("orderBy") String orderBy, @Param("start") int start, @Param("end") int end, @Param("chkColor_arr") String[] chkColor_arr, @Param("chkPrice_arr") String[] chkPrice_arr);
 }
