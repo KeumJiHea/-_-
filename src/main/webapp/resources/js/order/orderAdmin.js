@@ -1,28 +1,30 @@
-	function slideClick(){
-		var form={
-			memberId : $("#tbody th").eq(1).text(),
-			orderNo : $("#tbody th").eq(0).text()
-		}
-		$("#first").slideDown("slow");
-		$("#modal_wrap").show();		
+	$(document).on('click','.cancelbtn',function(){
+		var cancelbtn = $(this);
+		var m = cancelbtn.parent().parent();
+		var memberId = m.children().eq(1).text();
+		var orderNo = m.children().eq(0).text();
+		var cost = m.children().eq(5).text();
+		var url = "ordercancel?orderNo="+orderNo+"&memberId="+memberId+"&cost="+cost;
+		var name = "test";
+		var option = "width = 400, height = 400, top = 100, left = 200, location = no"
+		
+				
 		$.ajax({
-			url : "cancelchk",
-			type : "POST",
+			url : url,
+			type : "get",
 			contentType : "application/json; charset=utf-8",
-			data : JSON.stringify(form)
+			data : {
+			memberId : memberId,
+			orderNo : orderNo,
+			cost : cost
+			}
 			}).done(function(){
-				$("#memberId").val(form.memberId);
-				$("#orderNo").val(form.orderNo);
-				$("#reason").val('${sessionScope.reason}')
+				window.open(url,name,option);
 			}).fail(function(data){
 				alert('실패'+data)
 			});
-		}
+		})
 
-	function slide_hide(){	
-		$("#first").hide();
-		$("#modal_wrap").hide();	
-	}
  	var cnt=1;
 	var j=0;
 	var pricelist = new Array();
@@ -136,54 +138,7 @@
 				});
 	});
 	
-	$(document).on('click',".cancelOk",function(){
-   
-		var no = $("#tbody th").eq(0).text();
-		var cost =$("#tbody th").eq(3).text();
-		
-		jQuery.ajax({
-		      "url": "cancelOk", // 예: http://www.myservice.com/payments/cancel
-		      "type": "POST",
-		      "contentType": "application/json",
-		      "data": JSON.stringify({
-		        "merchant_uid": no, // 예: ORD20180131-0000011
-		        "cancel_request_amount": cost, // 환불금액
-		        "reason": $('#reason').val(), // 환불사유
-		        "refund_holder": "운영자", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-		        "refund_bank": "88", // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
-		        "refund_account": "56211105948400", // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-		        "orderNo" : no
-		      }),
-		    }).done(function(result){
-		    	alert('주문취소완료');
-		    	location.reload();
-		    	slide_hide();		    	
-		    }).fail(function(result){
-		    	alert('주문취소실패! \n잠시후 다시 시도 해주세요.')
-		    });	
-		
-		
-						
-	});
- 	
-	$(document).on('click',".cancelNone",function(){
-		var form={
-				memberId : $("#tbody th").eq(1).text(),
-				orderNo : $("#tbody th").eq(0).text()
-			};		
-			$.ajax({
-				url : "noncancel",
-				type : "POST",
-				contentType : "application/json; charset=utf-8",
-				data : JSON.stringify(form)
-				}).done(function(){
-					alert($("#tbody th").eq(0).text()+'주문취소 취소처리 완료');
-			    	location.reload();	
-				}).fail(function(data){
-					alert('실패'+data)
-				});
-						
-	});
+	
 
 	function getSearchList(){
 		$.ajax({
@@ -316,13 +271,24 @@
 	 					if(desclist.length>=1){	 						
 	 						desclist.forEach(function(desclist,index){								
 	 							str='<tr>'
-	 							str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
-	 							str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
-	 							str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
-	 							str+="<td>"+desclist.orderStack+"</td>"
-	 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
-	 							str+="<th id='total"+index+"'>1</th>"
-	 							str+="<th id='status"+index+"'>"
+	 							if(index==0){
+	 								str+="<th id='no"+index+"' clss='start'>"+desclist.orderNo+"</th>"
+	 								str+="<th id='id"+index+"' clss='start'>"+desclist.memberId+"</th>"
+	 								str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+		 							str+="<td>"+desclist.orderStack+"</td>"
+		 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+		 							str+="<th id='total"+index+"' clss='start'>1</th>"
+		 							str+="<th id='status"+index+"'>"
+	 							}else{
+	 								str+="<th id='no"+index+"'>"+desclist.orderNo+"</th>"
+	 								str+="<th id='id"+index+"'>"+desclist.memberId+"</th>"
+	 								str+="<td><img width='30px' height='30px' src='"+desclist.productFile+"'>"+desclist.productName+" / "+desclist.productColor+" "+desclist.productSize+"</td>"
+		 							str+="<td>"+desclist.orderStack+"</td>"
+		 							str+="<td id='price"+index+"'>"+desclist.productPrice+"</td>"
+		 							str+="<th id='total"+index+"'>1</th>"
+		 							str+="<th id='status"+index+"'>"
+	 							}	 							
+	 							
 	 							if(desclist.orderStatus ==1){
 	 								str+="결제완료<br><button type='button' class='delevery'>배송 시작</button>"
 	 							}else if(desclist.orderStatus == 0){
@@ -375,8 +341,11 @@
 	 												sum += parseInt($("#price"+i).text())
 	 												alist.push(sum)
 	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#no0").attr('class','start');
 	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
 	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
 	 												$("#total"+(i-j)).attr('class','start');
 	 												$("#total0").attr('class','start');
 	 												$("#total"+(i-j)).text(alist[0]);
@@ -453,10 +422,13 @@
 	 												$("#no0").attr('class','start');	
 	 												$("#id"+(i-j)).attr('rowspan',cnt);
 	 												$("#id"+(i-j)).attr('class','start');	
+	 												$("#id0").attr('class','start');	
 	 												$("#status"+(i-j)).attr('rowspan',cnt);
 	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
 	 												$("#total"+(i-j)).attr('rowspan',cnt);
 	 												$("#total"+(i-j)).attr('class','start');
+	 												$("#total0").attr('class','start');
 	 												$("#total"+(i-j)).text(total);						
 	 												$("#total0").text(total);						
 	 											}
@@ -557,8 +529,11 @@
 	 												sum += parseInt($("#price"+i).text())
 	 												clist.push(sum)
 	 												$("#no"+(i-j)).attr('class','start');
+	 												$("#no0").attr('class','start');
 	 												$("#id"+(i-j)).attr('class','start');
+	 												$("#id0").attr('class','start');
 	 												$("#status"+(i-j)).attr('class','start');
+	 												$("#status0").attr('class','start');
 	 												$("#total"+(i-j)).attr('class','start');
 	 												$("#total0").attr('class','start');
 	 												$("#total"+(i-j)).text(clist[0]);

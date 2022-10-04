@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kg.seeot.member.service.MemberService;
+import com.kg.seeot.mybatis.order.OrderMapper;
 import com.kg.seeot.order.dto.OrderDTO;
 import com.kg.seeot.order.dto.OrderHistoryDTO;
 import com.kg.seeot.order.service.OrderService;
@@ -100,7 +101,15 @@ public class OrderController {
 	@GetMapping("order")
 	public String ordersuccess(HttpSession session,Model model,String memberId) {
 		os.orderView(session, model, memberId);
-		return "/order/order";
+		return "/order/order.page";
+	}
+	
+	@GetMapping("orderHistory")	
+	public String orderHistory(HttpServletRequest request,Model model,String memberId) {
+		HttpSession session = request.getSession();
+		memberId = (String) session.getAttribute("loginUser");
+		os.getOrderHistorys(model, memberId);		
+		return "/order/orderHistory.page";
 	}
 	
 	//order페이지에서 주문취소시 취소사유,회원아이디,주문번호 받아오는 페이지
@@ -114,26 +123,45 @@ public class OrderController {
 	}
 	
 	@GetMapping("orderadmin")
-	public String orderadmin(Model model,HttpServletRequest request) {
+	public String orderadmin(Model model,HttpServletRequest request,@RequestParam(value = "num",required = false, defaultValue = "1") int num) {
 		model.getAttribute("cdto");
 		OrderDTO odto = new OrderDTO();
-		os.getAllOrders(request,model);
+		os.getAllOrders(request,model,num);
 		return "/order/orderadmin.admin";
 	}
 	
-	@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")
+	@GetMapping("ordercancel")
+    public String ordercancel(HttpServletRequest request,Model model,@RequestParam("memberId") String memberId,@RequestParam("orderNo")String orderNo,@RequestParam("cost")String cost) {
+        String[] m = memberId.split(",");
+        String[] o = orderNo.split(",");
+        String[] c = cost.split(",");
+        
+            memberId = m[0];
+            orderNo = o[0];
+            cost = c[0];
+            System.out.println(memberId);
+            System.out.println(orderNo);
+            System.out.println(cost);
+        
+        os.getCancel(request, model, memberId, orderNo,cost);
+        
+        return "/order/ordercancel";
+    }
+	
+	/*@PostMapping(value = "cancelchk",produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public void cancelchk(HttpServletRequest request,Model model,@RequestBody Map map,String memberId,String orderNo) {
 		memberId = (String) map.get("memberId");
 		orderNo = (String)map.get("orderNo");		
 		os.getCancel(request, model, memberId, orderNo);
-	}
+	}*/
 	
 	@PostMapping(value = "cancelOk", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public void cancelOk(HttpServletRequest request,@RequestBody Map data,String memberId,String reason) {
 		String orderNo = (String) data.get("merchant_uid");
 		os.cancel(request, orderNo, memberId, reason);
+		
 	}
 	
 	@PostMapping(value = "noncancel", produces = "application/json; charset=utf-8")
@@ -164,6 +192,15 @@ public class OrderController {
 		dto.setKeyword(keyword);
 		dto.setType(type);
 		return os.getSearchList(dto,type,keyword);
+	}
+	@GetMapping("getStatusList")
+	@ResponseBody
+	public ArrayList<OrderHistoryDTO> getStatusList(HttpServletRequest request,String type,String memberId,Model model) {
+		HttpSession session = request.getSession();
+		memberId = (String) session.getAttribute("loginUser");
+		OrderDTO dto = new OrderDTO();
+		dto.setType(type);
+		return os.getStatusList(dto,type,memberId);
 	}
 	
 	@PostMapping("sorting")

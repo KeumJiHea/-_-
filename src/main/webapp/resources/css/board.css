@@ -18,12 +18,12 @@
 }
 
 #cntPerPage{
-	float: right;
-	width: 100px;
-	padding: 5px;
-	margin: 10px 0px;
-	border: 1px solid rgb(33,33,33, 0.8);
-	font-family: inherit;
+   float: right;
+   width: 100px;
+   padding: 5px;
+   margin: 10px 0px;
+   border: 1px solid rgb(33,33,33, 0.8);
+   font-family: inherit;
 }
 
 .boardTitle{
@@ -114,6 +114,11 @@ textarea.boardContent{
 	border-color: rgb(33,33,33,0.8);
 	vertical-align:baseline;
 	padding: 22px 10px;
+}
+
+.boardContent img{
+	max-width: 600px;
+	max-height: 600px;
 }
 
 td.file{

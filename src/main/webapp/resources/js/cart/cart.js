@@ -31,23 +31,19 @@ function change(){
 			pricelist[i] = 0;
 		}else{
 			pricelist[i] = sum;					
-		}						
-		console.log('리스트 : '+pricelist)
+		}
 		
 		total =0;
 		for(i =0; i<pricelist.length;i++){
 			total+=pricelist[i]
 		}
-		console.log('총 가격 : '+total)
 		$("#total_price").text(total);
 	});
 };
 $(document).ready(function(){
-	console.log('tbody길이 : '+$("#tbody tr").length)
 	var first = 0
 	for(i =0; i<$("#tbody tr").length;i++){		
 		first+= parseInt($("#goods_total_price"+i).text());
-		console.log('각 값'+$("#goods_total_price"+i).text())
 	}
 		$("#total_price").text(first);
 })
@@ -80,18 +76,16 @@ $(document).ready(function() {
 		var str = ""            
 		var tdArr = new Array();    // 배열 선언            
 		var checkBtn = $(this);
-		// checkBtn.parent() : checkBtn의 부모는 <td>이다.    
-		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.    
 		var tr = checkBtn.parent().parent();    
-		var td = tr.children(); 
-		// td.eq(index)를 통해 값을 가져올 수도 있다.    
-		var no = td.eq(1).text();    
-		console.log(no);
+		var td = tr.children();   
+		var no = td.eq(1).text();
+		var num = $(this).attr('id');
+		console.log(num);
 		if(confirm(td.eq(3).text()+' 상품을 장바구니에서 삭제 하시겠습니까?')){
 			$.ajax({
-				url: "cartdeleteOne?productNo="+no+"&memberId="+$("#hiid").val(),
+				url: "cartdeleteOne?cartNum="+num+"&memberId="+$("#hiid").val(),
 				type:"get",
-				data: no,
+				data: {cartNum:num},
 				contentType : "application/json; charset=utf-8",
 				success: function(data){
 					alert('삭제 되었습니다!'); 
@@ -107,28 +101,10 @@ $(document).ready(function() {
 });
 	var cartlist = new Array();        
 $(document).on('click','.chkdel',function(){                     
-	    // 체크된 체크박스 값을 가져온다            
-/* 		// checkbox.parent() : checkbox의 부모는 <td>이다.        
-		// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.        
-		var tr = checkbox.parent().parent().eq(i);        
-		var td = tr.children();                       
-		// 체크된 row의 모든 값을 배열에 담는다.        
-		rowData.push(tr.text());                        
-		// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-		        
-		var no = td.eq(1).text();  */     
-		
 		$("input:checkbox[name=orderChkbox]:checked").each(function(i) {
 			var no = $(this).val();
-			console.log(no)
 			cartlist.push(no);
-		});
-/* 		for(i=1; i<=${cart.size()}; i++){	
-				var no = $("input:checkbox[name='orderChkbox']:checked").val()                      
-		// 가져온 값을 배열에 담는다.        
-				
-		} */
-			
+		});			
 		                             
 		if(confirm('선택된 상품을 장바구니에서 삭제하시겠습니까?')){
 			$.ajax({
@@ -198,7 +174,6 @@ $(document).on('click','.chkdel',function(){
 			colorlist.push(pcolor)
 			sizelist.push(psize)
 		}); 
-			console.log(namelist)
 		var rand = ''
 		for (let j = 0; j < 4; j++) {
 			rand += Math.floor(Math.random() * 10)
@@ -258,14 +233,7 @@ $(document).on('click','.chkdel',function(){
   }
 function daumPost(){
     new daum.Postcode({
-        oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-           console.log(data.zonecode) 
-           console.log(data.userSelectedType)           
-           console.log(data.jibunAddress) 
-           console.log(data.roadAddress)
-           
+        oncomplete: function(data) {           
            document.getElementById("postcode").value = data.zonecode
            if(data.userSelectedType== 'R'){
         	   var addr = data.roadAddress

@@ -1,52 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-	<style type="text/css">
-	    .productWrapper {
-	    	width: 1500px;
-	        display: flex;
-	        flex-wrap: wrap;
-	    }
-	    .product {
-	        width: calc( 100% / 4 - 10px );
-	        justify-content: space-between;
-	        margin: 5px;
-	        text-align: center;
-	        
-	    }
-	    #filter { 
-	    	display: none; height: 100px;
-    	}
-    	
-	    select {
-	    width: 200px;
-	    padding: .8em .5em;
-	    border: 1px solid #999;
-	    font-family: inherit; 
-	    background: url('<%=request.getContextPath() %>/resources/images/arrow.jpg') no-repeat 95% 50%;
-	    border-radius: 0px;
-	    -webkit-appearance: none;
-	    -moz-appearance: none;
-	    appearance: none;
-	    }
-	    select::-ms-expand {
-	    	display: none;
-	    }
-	    
-	    img:hover {
-	    	transition: all 0.1s linear;
-	    	transform: scale(1.1);
-	    }
-	</style>
+<link rel="stylesheet" href="<c:url value='/resources/css/productList.css'/>" >
 </head>
 <body onload=productList();>
-	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -105,13 +69,6 @@
 	
 	
 	function productList() {
-		console.log("@@@@@@ Check value @@@@@")
-		console.log("num : " + num)
-		console.log("orderBy : " + orderBy)
-		console.log("chkColor_arr : " + chkColor_arr);
-		console.log("chkPrice_arr : " + chkPrice_arr);
-		console.log("chkPrice_arr : " + chkPrice_arr);
-		console.log("pgnum : " + pgnum);
 		
 		$.ajax({
 			url: "allCount?productCategorie=" + productCategorie,
@@ -122,20 +79,15 @@
 			},
 			datatype:"json",
 			success: function(list) {
-				console.log("리스트 갯수 : " + list)
 				
 				let paging = "";
 				
 				var pageViewProduct = 12;
-				console.log("@@check pageViewProduct@@" + pageViewProduct)
 				var productCount = list;
-				console.log("@@check productCount@@" + productCount)
 				var repeat = parseInt(productCount / pageViewProduct);
-				console.log("@@check repeat@@" + repeat)
 				if( productCount % pageViewProduct != 0) {
 					repeat += 1;
 				};
-				console.log("repeat : " + repeat)
 				
 				if(num == 1) {
 					paging += "<button onclick='javascript:startPagNum(1)' disabled> 처음으로 </button>";
@@ -184,8 +136,6 @@
 					},
 					datatype:"json",
 					success: function(list) {
-						console.log("검색 리스트 갯수 : " + list.length)
-						console.log("전체 리스트  :" + list)
 						
 						let html = "";
 						if(list.length != 0) {
@@ -269,7 +219,7 @@
 			<option value="oldate"> 오래된 순
 			<option value="lprice"> 낮은 가격순
 			<option value="hprice"> 높은 가격순
-			<option value="rating"> 높은 별점순
+			<option value="review"> 리뷰많은 순
 	</select>
 	</div>
 	<br>

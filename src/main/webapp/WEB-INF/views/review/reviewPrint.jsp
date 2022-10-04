@@ -9,6 +9,7 @@
 </head>
 <body onload="rePrint()">
 <h4>리뷰</h4> 
+
 <hr>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -59,11 +60,13 @@ function rePrint(){
 	
 	
 }
+
 </script>
 
-<div id="reply"> </div>
 
+<div id="reply"> </div> 
 
+<input type="button" onclick="history.back()" value="이전으로 돌아가기">
 
 
 </body>

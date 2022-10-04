@@ -8,16 +8,19 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/common.css">
+<style>
+	th, td{padding: 50px;}
+</style>
 <body>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 	<input type="hidden" id="hipath" value="${contextPath }">
-	<input type="hidden" id="hiemail" val="${info.email }">
-	<input type="hidden" id="hiname" val="${info.name }">
-	<input type="hidden" id="hiphone" val="${info.phone }">
+	<input type="hidden" id="hiemail" value="${info.email }">
+	<input type="hidden" id="hiname" value="${info.name }">
+	<input type="hidden" id="hiphone" value="${info.phone }">
 	<input type="hidden" id="hipostcode" value="${info.addr1}">
 	<input type="hidden" id="hiaddr1" value="${info.addr2}">
 	<input type="hidden" id="hiaddr2" value="${info.addr3}">
-	<div>
+	<div align="center">
 		<form action="#" method="post">
 			<input type="hidden" name="productPrice" id ="productPrice" value="${pdto.productPrice }">
 			<table id="orderTable" border="1">				

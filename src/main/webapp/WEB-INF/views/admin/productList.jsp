@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.productNo {
+		color: black;
+	}
+</style>
 </head>
 <body>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 	<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 	
 	<script type="text/javascript">
@@ -55,7 +62,7 @@
 		
 		<c:forEach var="dto" items="${list }">
 			<tr>
-				<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }">${dto.productNo }</a></td>
+				<td><a href="${contextPath}/product/productView?productNo=${dto.productNo }" class="productNo">${dto.productNo }</a></td>
 				<c:if test="${ dto.productFile == 'nan' }">
 					<td><b>등록된 이미지가 없습니다.</b></a></td>
 				</c:if>
@@ -65,7 +72,14 @@
 				<td>${dto.productName }</a></td>
 				<td>${dto.productPrice }</td>
 				<td>${dto.reviewCount }</td>
-				<td>${dto.productRating }</td>
+				<td>
+					<c:if test="${dto.reviewCount == 0}">
+					0.0
+					</c:if>
+					<c:if test="${dto.reviewCount != 0}">
+					<fmt:formatNumber value="${dto.productRating/dto.reviewCount}" pattern=".00"/>
+					</c:if>
+				</td>
 				<td>
 					<button type="button" onclick="location.href='productModify_Form?productNo=${dto.productNo }'" >상품 정보 수정</button><br>
 					<button type="button" onclick="location.href='productDelete?productNo=${dto.productNo }&productFile=${dto.productFile}&productContent=${dto.productContent }'">상품 삭제</button>

@@ -54,6 +54,9 @@ button{
 button:hover{
 	opacity: 0.9;
 }
+button:disabled{
+	opacity: 0.3;
+}
 
 /* 프로젝트 기본 CSS 설정 */
 #wrapper{

@@ -25,7 +25,7 @@
 	
        
 	<select id="allList" resultMap="product">
-		select * from product
+		select * from product order by product_no
 	</select>
 	
 	<select id="list" resultMap="product">
@@ -357,14 +357,14 @@
 					<when test="orderBy.equals('redate')">
 						order by product_date desc
 					</when>
+					<when test="orderBy.equals('oldate')">
+						order by product_date asc
+					</when>
 					<when test="orderBy.equals('hprice')">
 						order by product_price desc, product_date desc
 					</when>
 					<when test="orderBy.equals('lprice')">
 						order by product_price asc, product_date desc
-					</when>
-					<when test="orderBy.equals('rating')">
-						order by product_rating desc, product_date desc
 					</when>
 					<when test="orderBy.equals('review')">
 						order by review_count desc, product_date desc
@@ -517,14 +517,14 @@
 					<when test="orderBy.equals('redate')">
 						order by product_date desc
 					</when>
+					<when test="orderBy.equals('oldate')">
+						order by product_date asc
+					</when>
 					<when test="orderBy.equals('hprice')">
 						order by product_price desc, product_date desc
 					</when>
 					<when test="orderBy.equals('lprice')">
 						order by product_price asc, product_date desc
-					</when>
-					<when test="orderBy.equals('rating')">
-						order by product_rating desc, product_date desc
 					</when>
 					<when test="orderBy.equals('review')">
 						order by review_count desc, product_date desc

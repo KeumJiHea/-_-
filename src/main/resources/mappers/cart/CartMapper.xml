@@ -17,7 +17,7 @@
 	</resultMap>
 	
 	<insert id="addCart_p">
-		insert into cart(product_no, product_size, product_color,order_stack,cartnum) values(#{n},#{s},#{c},#{o},cartnum_seq.nextval)
+		insert into cart(member_id,product_no, product_size, product_color,order_stack,cartnum) values(#{m},#{n},#{s},#{c},#{o},cartnum_seq.nextval)
 	</insert>
 	
 	<update id="addCart_m">
@@ -25,13 +25,17 @@
 		product_file = (select product_file from product where product_no=#{n}) where product_size=#{s} and product_color=#{c} and product_no=#{n}
 	</update>
 	
+	<select id="getSameCart" resultMap="cart">
+		select * from cart where member_id=#{m} and product_no=#{n} and product_size=#{s} and product_color=#{c}
+	</select>
+	
 	<select id="getCart" resultMap="cart">
-		select * from cart where member_id=#{member_id}
+		select * from cart where member_id=#{member_id} order by product_no
 	</select>
 	
 	<delete id="deleteCartOne">
-		delete from cart where member_id=#{m} and product_no=#{p}
-	</delete>
+        delete from cart where member_id=#{m} and cartnum=#{c}
+    </delete>
 	
 	<delete id="deleteChkCart">
 		delete from cart where member_id=#{m} and cartnum=#{c}
@@ -40,4 +44,9 @@
 	<delete id="alldel">
 		delete from cart where member_id=#{memberId}
 	</delete>
+	
+	<delete id="adminDel">
+		delete from cart where product_no=#{productNo}
+	</delete>
+	
 </mapper>

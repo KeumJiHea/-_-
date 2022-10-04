@@ -41,9 +41,34 @@
 	
 	<interceptors>
 		<interceptor>
+			<mapping path="/cart/addcart"/>
 			<mapping path="/cart/mycart"/>
+			<mapping path="/order/order"/>
+			<mapping path="/order/ordermain"/>
+			<mapping path="/order/orderHistory"/>
 			<mapping path="/board/boardWrite"/>
+			<mapping path="/board/boardModify"/>
+			<mapping path="/board/modifyForm"/>
+			<mapping path="/board/delete"/>
+			<mapping path="/member/info"/>
 			<beans:ref bean="loginChk"/>
 		</interceptor>
 	</interceptors>
+	
+	<beans:bean id="adminLoginChk" class="com.kg.seeot.common.AdminLoginCheckIn"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/order/orderadmin"/>
+			<mapping path="/product/productList"/>
+			<mapping path="/product/managementModify_Form"/>
+			<mapping path="/product/managementRegister_Form"/>
+			<mapping path="/product/managementView"/>
+			<mapping path="/product/productModify_Form"/>
+			<mapping path="/product/productRegister"/>
+			<mapping path="/member/memberlist"/>
+			<beans:ref bean="adminLoginChk"/>
+		</interceptor>
+	</interceptors>
+	
 </beans:beans>

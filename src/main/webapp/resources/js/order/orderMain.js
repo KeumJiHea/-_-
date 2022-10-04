@@ -113,7 +113,7 @@ function requestPay() {
     		}
     		 // jQuery로 HTTP 요청
             jQuery.ajax({
-                url: "${contextPath}/order/orderchk", 
+                url: $("#hipath").val()+"/order/orderchk", 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 data: JSON.stringify(form)

@@ -161,9 +161,8 @@ function review(){//리뷰저장
 	</fieldset>
 	<div>
 	
-	<!-- 마이페이지 해당 상품의 상품번호 불러오기 -->
-	<!-- 상품번호 받아와서 연결하기 -->
-	<input type="hidden" id="productNo" value="10002" name="productNo">
+	
+	<input type="text" id="productNo" value="${productNo}" name="productNo">
 	<textarea class="reviewContent" id="reviewContent"
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>
 				  
@@ -175,7 +174,7 @@ function review(){//리뷰저장
 		<br>
 		
      <!-- <div id="addfile"></div> --> 
-	
+	<input type="button" onclick="history.back()" value="이전으로 돌아가기">
 	<input type="submit" value="후기등록">
 
 	

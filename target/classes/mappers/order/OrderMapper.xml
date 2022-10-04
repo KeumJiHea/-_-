@@ -54,7 +54,11 @@
 	</insert>
 	
 	<select id="getOrderHistorys" resultMap="hdto">
-		select * from order_history where himember_id=#{memberId}
+		select * from order_history where himember_id=#{memberId} order by hiorder_no ASC
+	</select>
+	
+	<select id="getOrderHistory" resultMap="hdto">
+		select hiproduct_no from order_history where himember_id=#{memberId} 
 	</select>
 	
 	<select id="getOrder" resultMap="order">
@@ -65,12 +69,22 @@
 		select * from goods_order where order_no=#{orderNo}
 	</select>
 	
+	<delete id="cancelOkDel">
+		delete from cancel where order_no=#{o} and member_id=#{m}
+	</delete>
+	
 	<select id="getOrders" resultMap="order">
 		select * from goods_order where memberId=#{memberId} order by order_date DESC
 	</select>
 	
 	<select id="getAllOrders" resultMap="order">
-		select * from goods_order order by order_date DESC
+		select B.* from(select rownum rn, A.* from
+		(select * from goods_order order by order_no desc)A)B where rn between #{s} and #{e}
+	
+	</select>
+	
+	<select id="selectOrderCount" resultType="Integer">
+		select count(*) from goods_order 
 	</select>
 	
 	<insert id="addcancel_1">
@@ -141,6 +155,10 @@
 				where member_id=#{k} order by order_date DESC
 			</when>
 		</choose>
+	</select> 
+	
+ 	<select id="selectStatusList" resultMap="hdto">
+		select * from order_history where hiorder_status=#{t} and himember_id=#{m} order by hiorder_no ASC
 	</select> 
 	
 	<select id="orderNoSorting_ASC" resultMap="order">

@@ -33,7 +33,7 @@
 		</thead>
 		<c:if test="${boardList.size() == 0 }">
 			<tr>
-				<td colspan="7">게시글 없음</td>
+				<td colspan="7">등록된 게시글이 없어요.</td>
 			</tr>
 		</c:if>
 		

@@ -17,7 +17,6 @@
 	<script type="text/javascript">
 		function readURL(input) {
 			var file = input.files[0] //파일에 대한 정보
-			console.log(file)
 			if (file != '') {
 				var reader = new FileReader();
 				reader.readAsDataURL(file); //파일의 정보를 토대로 파일을 읽고 
@@ -59,9 +58,13 @@
 		<b>상품 카테고리</b><br>
 		<select size="1" name="productCategorie" id="productCategorie">
 			<option value=""> ----------
-			<option value="1"> 상의
-			<option value="2"> 원피스
-			<option value="3"> 하의
+			<option value="1"> 티셔츠
+			<option value="2"> 셔츠
+			<option value="3"> 가디건
+			<option value="4"> 자켓
+			<option value="5"> 코트
+			<option value="6"> 하의
+			<option value="7"> 신발
 		</select>
 		<hr>
 		
