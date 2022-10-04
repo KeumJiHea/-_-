@@ -32,7 +32,7 @@ function rePrint(){
 				wd += (date.getMonth()+1) + "월";
 				wd += date.getDate()+"일";
 				
-				//html += "<b>no: </b>"+reviewData[i].reviewNo+"<br>"+;
+				
 				html += "<div align='left'><b>아이디 : </b>"+reviewData[i].memberId+"님  &nbsp ";
 				html += "<b>작성일 : </b>"+ wd+" &nbsp";
 				html += "<b>별점 : </b>"+reviewData[i].reviewStar+"<br>";
@@ -42,15 +42,15 @@ function rePrint(){
 				if(reviewData[i].reviewFile != 'nan'){
 					html += "<div align='right'><img src='../review/download?file="+ reviewData[i].reviewFile+"' width='50' height='50'alt='이미지가 없습니다.' /></div>";
 				}
-				/*	유저 일치 if문 오류 고치기
-				if(${sessionScope.loginUser} ==  reviewData[i].memberId){}*/
+				
+				if('${sessionScope.loginUser}' ==  reviewData[i].memberId){
 					html+= "<div>"+"<a href=delete?reviewno="+reviewData[i].reviewNo+">삭제</a>"+"</div>"
 					html+= "<div>"+"<a href=modify?>수정</a>"+"</div>"
-				
+				}
 			
 				
 				html+= "<hr></div>";
-				//html += "<div align='left'>"++"</div>"
+				
 		}
 			$("#reply").html( html )
 			},
@@ -63,7 +63,7 @@ function rePrint(){
 
 </script>
 
-
+<!-- 관리자페이지용  -->
 <div id="reply"> </div> 
 
 <input type="button" onclick="history.back()" value="이전으로 돌아가기">

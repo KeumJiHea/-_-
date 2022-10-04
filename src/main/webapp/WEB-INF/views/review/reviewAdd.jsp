@@ -59,7 +59,7 @@ $(function() {
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-        //reader.readAsDataURL(file);
+        
         reader.onload = function (e) {
         $('#View').attr('src', e.target.result);
         }
@@ -67,8 +67,6 @@ function readURL(input) {
     }
 }
 
-
- 
 </script>
  
 
@@ -82,7 +80,7 @@ function readURL(input) {
 </div>
 
  	<form class="mb-3" name="reviewForm" id="reviewForm" 
- 	 action="${contextPath}/review/reviewSave" method="post" enctype="multipart/form-data">
+ 	 action="${contextPath}/review/reviewAddSave" method="post" enctype="multipart/form-data">
  	
 	<c:if test="${sessionScope.loginUser != null}">
 	<input type="hidden" name="memberId" value="${sessionScope.loginUser }"> 	
@@ -116,13 +114,13 @@ function readURL(input) {
 								 name="reviewContent"   placeholder="리뷰작성"></textarea>
 				  
 	<b>이미지파일 첨부</b><br>
-
+	
     <input type='file' id="reviewFile" name="reviewFile"  multiple="multiple"/>
     <img id="View" src="#" width=100 height=100 alt="선택된 이미지가 없습니다" name="file"/>
 
 		<br>
 		
-     
+    
 	<input type="button" onclick="history.back()" value="이전으로 돌아가기">
 	<input type="submit" value="후기등록">
 
