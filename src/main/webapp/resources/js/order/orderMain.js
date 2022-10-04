@@ -1,12 +1,18 @@
 var IMP = window.IMP;
 IMP.init("imp11462084"); // 예: imp00000000 
 var tp = 0;
+var tplist = new Array();
 $(document).ready(function(){
-	for(i=0;i<$("#tbody tr").length;i++){
-		tp = $("#goods_total_price"+i).text();
-		console.log(tp);
-		$("#total_price").text(tp);	
+	for(i=0;i<$("#maintbody tr").length;i++){
+		tp = parseInt($("#goods_total_price"+i).text());
+		tplist.push(tp);
+		console.log(tplist);
 	}
+	const result = tplist.reduce(function add(sum, currValue) {
+  return sum + currValue;
+}, 0);
+	$("#total_price").text(result);	
+	
 })
 
 function order(){
@@ -23,13 +29,15 @@ var total = 0;
 var pricelist = new Array();
 function change(){	
 	var totallist = new Array();
-	if($("#tbody tr").length>=1){
-		for(i=0;i<$("#tbody tr").length;i++){
+	if($("#maintbody tr").length>=1){
+	console.log($("#maintbody tr").length);
+		for(i=0;i<$("#maintbody tr").length;i++){
 			$("#productStack"+i).on("change keyup paste input",function(){
 				$("#productStack"+i).attr("value", $("#productStack"+i).val());
-			});
 		var stack = $("#productStack"+i).val();
+		console.log(stack)
 		var price = $("#price"+i).html();
+		console.log(price)
 		sum =  price*stack;
 		$("#goods_total_price"+i).text(sum);
 		console.log('현재 i : '+i);
@@ -39,11 +47,12 @@ function change(){
 		console.log('리스트 : '+pricelist)
 		
 		total =0;
-		for(i =0; i<pricelist.length;i++){
-			total+=pricelist[i]
+		for(j =0; j<pricelist.length;j++){
+			total+=pricelist[j]
 		}
 		console.log('총 가격 : '+total)
 		$("#total_price").text(total);
+			});
 			
 		}
 	}
@@ -88,7 +97,7 @@ function requestPay() {
         pay_method: "card",
         merchant_uid: num,   //주문번호
         name: namelist[0],
-        amount: 100, //$('#total_price').text(),
+        amount: $('#total_price').text(),
         buyer_email: $("#hiemail").val(),
         buyer_name: $("#hiname").val(),
         buyer_tel: $("#hiphone").val(),

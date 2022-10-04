@@ -39,7 +39,7 @@
 
 	<table border="1" id="ordertable">
 		<tr>
-			<th>주문번호</th><th>이미지</th><th>상품명/옵션</th><th>상품금액</th><th>수량</th><th>주문상태</th><th>확인/리뷰</th>
+			<th>주문번호</th><th>이미지</th><th>상품명/옵션</th><th>상품금액</th><th>수량</th><th>주문상태</th>
 		</tr>
 		<c:if test="${sessionScope.orderdata ==null }">
 			<tr>
@@ -50,7 +50,7 @@
 		<tbody id="tbody">	
 			<c:forEach begin="0" end="${result-1 }" var="i" varStatus="status">			
 				<tr>
-					<th id="no${status.index }">${order.merchant_uid }</th><td><img width="50px" height="50px" src="${order.gfile[i] }"></td><td>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</td><td><span id="cost${status.index }">${order.gcost[i] }</span></td><td>${order.gstack[i] }</td><th id="status${status.index }"><span id="status">주문 완료</span><br><button type="button" name="cancelBtn" class='cancel' onclick="slideClick()">주문취소</button></th><td>확인</td>
+					<th id="no${status.index }">${order.merchant_uid }</th><td><img width="50px" height="50px" src="${order.gfile[i] }"></td><td>${order.glist[i]}<br>옵션 : ${order.gcolor[i] } / ${order.gsize[i] }</td><td><span id="cost${status.index }">${order.gcost[i] }</span></td><td>${order.gstack[i] }</td><th id="status${status.index }"><span id="status">주문 완료</span><br><button type="button" name="cancelBtn" class='cancel' onclick="slideClick()">주문취소</button></th>
 				</tr>
 			</c:forEach>
 		</tbody>	

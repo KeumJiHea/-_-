@@ -40,7 +40,7 @@ public class ReviewController {
 		System.out.println("review productNO: "+productNo);
 		model.addAttribute("productNo", productNo);
 		
-		return "review/reviewList";
+		return "review/reviewList.page";
 	}
 	//리뷰 더보기
 	@GetMapping("reviewMore")
@@ -49,7 +49,7 @@ public class ReviewController {
 		HttpSession session = req.getSession();
 		session.setAttribute("rpn", productNo);
 		rs.reviewMore(model,productNo);
-		return "review/reviewMore";
+		return "review/reviewMore.page";
 	}
 	
 	//리뷰 저장
