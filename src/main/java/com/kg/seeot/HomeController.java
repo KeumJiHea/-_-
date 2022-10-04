@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kg.seeot.common.PagingDTO;
 import com.kg.seeot.mybatis.product.ProductMapper;
 import com.kg.seeot.product.dto.ProductDTO;
 import com.kg.seeot.product.service.ProductService;
@@ -63,7 +64,6 @@ public class HomeController {
 		String orderBy = request.getParameter("orderBy");
 		int num = Integer.parseInt(request.getParameter("num"));
 		int pageViewProduct = Integer.parseInt(request.getParameter("pageViewProduct"));
-		System.out.println("productCategorie: " + productCategorie);
 		return mapper.searchList(keyword, productCategorie, orderBy, num, pageViewProduct, chkColor_arr, chkPrice_arr);
 	}
 	

@@ -42,3 +42,14 @@ modalBg.addEventListener('click', function(){
 	modalSearch.classList.remove('active');
 	modalBg.style.display = 'none';
 });
+
+//키워드 유효성 검사
+function searchConfirm(){
+	let keyword = document.getElementById('keyword').value;
+	if(keyword == ''){
+		alert('검색어를 입력하세요.');
+		return false;
+	}else{
+		return true;
+	}
+}

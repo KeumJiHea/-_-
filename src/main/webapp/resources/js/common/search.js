@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 /* 카테고리 넘버 가져오기 */
 const url = window.location.search;
 const params = new URLSearchParams(url);

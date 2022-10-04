@@ -105,7 +105,6 @@ public class BoardController{
 				produces = "application/json;charset=utf8")
 	@ResponseBody
 	public void reply(@RequestBody Map<String, String> map){
-		System.out.println(map);
 		bs.addReply(map);
 	}
 	
@@ -125,7 +124,6 @@ public class BoardController{
 	@PostMapping(value="modifyReply/{replyNo}/{updateContent}", produces = "application/json;charset=utf8")
 	@ResponseBody
 	public int modifyReply(@PathVariable int replyNo, @PathVariable String updateContent) {
-		System.out.println(replyNo + updateContent);
 		int result = bs.modifyReply(replyNo, updateContent);
 		return result;
 	}

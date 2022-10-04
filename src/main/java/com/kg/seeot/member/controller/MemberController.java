@@ -92,12 +92,12 @@ public class MemberController implements SessionName{
 			session.setAttribute(LOGIN, id);
 			session.setAttribute(NAME, member.getName());
 			session.setMaxInactiveInterval(24*60*60);
-			return "redirect:memberlist.admin";
+			return "redirect:memberlist";
 		}
 		session.setAttribute(LOGIN, id);
 		session.setAttribute(NAME, member.getName());
 		session.setMaxInactiveInterval(24*60*60);
-		return "redirect:/home.page";
+		return "redirect:/home";
 		
 	}
 	@GetMapping("logout")
@@ -112,7 +112,7 @@ public class MemberController implements SessionName{
 			ms.keepLogin( (String)session.getAttribute(LOGIN), "nan");
 		}
 		session.invalidate();
-		return "redirect:login.page";
+		return "redirect:login";
 	}
 	@GetMapping("register_form")
 	public String register_form() {

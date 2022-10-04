@@ -83,7 +83,6 @@ public class BoardServiceImpl implements BoardService {
 	
 	public String boardModify(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		int boardNo = Integer.parseInt(mul.getParameter("boardNo"));
-		System.out.println(boardNo);
 		
 		BoardDTO dto = new BoardDTO();
 		dto.setMemberName(mul.getParameter("memberName"));
@@ -97,7 +96,6 @@ public class BoardServiceImpl implements BoardService {
 		//String 배열로 가져오기 때문에 순회하며 이름 뽑아옴
 		if(deleteImages != null) {
 			for(String image : deleteImages) {
-				System.out.println(image);
 				bfs.deleteImage(image);
 				mapper.deleteImage(image);
 			}
@@ -109,7 +107,6 @@ public class BoardServiceImpl implements BoardService {
 			List<MultipartFile> fileList = mul.getFiles(itr.next());
 			if(fileList.size()>0) {
 				for(MultipartFile file : fileList) {
-					System.out.println("추가 파일: " + file.getOriginalFilename());
 					FileDTO fdto = bfs.saveFile(file);
 					fdto.setBoardNo(dto.getBoardNo());
 					mapper.boardFileWrite(fdto);
