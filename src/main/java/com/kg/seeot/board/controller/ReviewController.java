@@ -36,10 +36,11 @@ public class ReviewController {
 
 
 	@GetMapping("reviewList")
-	public String reviewList() {
-		//System.out.println(productNo);
+	public String reviewList(Model model) {
+		rs.reviewList(model);
 		return "review/reviewList";
 	}
+	
 	//리뷰 더보기
 	@GetMapping("reviewMore")
 	public String reviewMore(HttpServletRequest req,Model model,int productNo) {
@@ -158,9 +159,9 @@ public class ReviewController {
 			PrintWriter out = response.getWriter();
 			out.print("<script>alert('리뷰 작성페이지로 이동합니다!'); location.href='http://localhost:8085/seeot/review/reviewList?productNo="+productNo+"'</script>");
 		}else {
-		response.setContentType("text/html charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.print("<script>alert('구매하지 않았습니다! 구매한 뒤 리뷰작성 해주세요!'); location.href='http://localhost:8085/seeot/product/productView?productNo="+productNo+"'</script>");
+			response.setContentType("text/html charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.print("<script>alert('구매하지 않았습니다! 구매한 뒤 리뷰작성 해주세요!'); location.href='http://localhost:8085/seeot/product/productView?productNo="+productNo+"'</script>");
 		}
 	}
 	

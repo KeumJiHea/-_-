@@ -356,6 +356,8 @@ public class ReviewServiceImpl implements ReviewService {
 		 return getMessage(msg, url);
 		 
 	 }
+	 
+	 //구매자 리뷰
 	@Override
 	public int gotoReview(int productNo,String memberId) {
 		int result = 0;
