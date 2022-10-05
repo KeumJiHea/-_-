@@ -12,48 +12,53 @@ function slide_hide(){
 	var pricelist = new Array();
  	$(document).ready(function(){ //9020 중복되는 주문번호 합쳐보기
  		var total = 0;
-		for(i=0;i<$("#tbody tr").length;i++){
-		total+= parseInt($("#cost"+i).text());
-		var sum = 0;
-			if(i>$("#tbody tr").length){
-				i=$("#tbody tr").length
-			}
-			if($("#no"+i).text()==$("#no"+(i+1)).text()){
-				if(cnt++){
-					j++;
+ 		if($("#tbody tr").length>1){
+			for(i=0;i<$("#tbody tr").length;i++){
+			total+= parseInt($("#cost"+i).text());
+			var sum = 0;
+				if(i>$("#tbody tr").length){
+					i=$("#tbody tr").length
 				}
-					sum += parseInt($("#price"+i).text())									
-					pricelist.push(sum)					
-			}			
-			else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
-					if(j!=0){						
-						sum += parseInt($("#price"+i).text())
-						pricelist.push(sum)
-						$("#no"+(i-j)).attr('rowspan',$("#tbody tr").length);
-	 					$("#no"+(i-j)).attr('class','start');	
-						$("#no0").attr('class','start');
-						$("#status"+(i-j)).attr('rowspan',$("#tbody tr").length);
-						$("#status"+(i-j)).attr('class','start');
-						$("#status0").attr('class','start');					
+				if($("#no"+i).text()==$("#no"+(i+1)).text()){
+					if(cnt++){
+						j++;
 					}
-					pricelist = [];
-					
-					if(j==0&&cnt==1&&i!=0){
-						sum += parseInt($("#price"+i).text())
-						pricelist.push(sum)
-						$("#no"+(i-j)).attr('class','start');
-						$("#no0").attr('class','start');
-						$("#status"+(i-j)).attr('class','start');
-						$("#status0").attr('class','start');
-						
-					}
+						sum += parseInt($("#price"+i).text())									
+						pricelist.push(sum)					
+				}			
+				else if($("#no"+i).text()!=$("#no"+(i+1)).text()){	
+						if(j!=0){						
+							sum += parseInt($("#price"+i).text())
+							pricelist.push(sum)
+							$("#no"+(i-j)).attr('rowspan',$("#tbody tr").length);
+		 					$("#no"+(i-j)).attr('class','start');	
+							$("#no0").attr('class','start');
+							$("#status"+(i-j)).attr('rowspan',$("#tbody tr").length);
+							$("#status"+(i-j)).attr('class','start');
+							$("#status0").attr('class','start');					
+						}
 						pricelist = [];
-					cnt=1;
-					if(cnt=1){
-						j=0;
+						
+						if(j==0&&cnt==1&&i!=0){
+							sum += parseInt($("#price"+i).text())
+							pricelist.push(sum)
+							$("#no"+(i-j)).attr('class','start');
+							$("#no0").attr('class','start');
+							$("#status"+(i-j)).attr('class','start');
+							$("#status0").attr('class','start');
+							
+						}
+							pricelist = [];
+						cnt=1;
+						if(cnt=1){
+							j=0;
+						}
 					}
 				}
-		}		
+			}else if($("#tbody tr").length==1){
+						$("#no0").attr('class','start');							
+						$("#status0").attr('class','start');
+			}		
 		$("#total").attr("value",total);
 	})
 		
